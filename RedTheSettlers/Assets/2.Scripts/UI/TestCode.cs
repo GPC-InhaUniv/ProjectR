@@ -16,6 +16,6 @@ public class TestCode : MonoBehaviour,IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        logManager.TestUserLog(GetType().Name, "잘 됩니까?");
+        logManager.UserDebug(LogColor.Teal, GetType().Name, "잘 됩니까?");
     }
 }
