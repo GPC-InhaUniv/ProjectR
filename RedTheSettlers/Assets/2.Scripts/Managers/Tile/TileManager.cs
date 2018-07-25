@@ -2,11 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum TileType
+{
+    Beef,
+    Iron,
+    Malt,
+    River,
+    Soil,
+    Wood,
+}
+
 public class TileManager : MonoBehaviour {
 
     public static TileManager TileInstance;
     
-    public Tile[,] TileGrid;
+    public GameObject[,] TileGrid;
 
     private void Awake()
     {
@@ -15,7 +25,7 @@ public class TileManager : MonoBehaviour {
 
     void Start ()
     {
-        TileGrid = new Tile[9, 9];
+        TileGrid = new GameObject[9, 9];
 
         CreateTileGrid();
         ShowTile();
@@ -32,8 +42,9 @@ public class TileManager : MonoBehaviour {
                 if(z > - x + 3 && z < - x + 13)
                 {
                     float xCoord = CalculateXcoord(x, z);
-                    float yCoord = CalculateZcoord(z);
-                    TileGrid[x, z] = new Tile((TileType)(Random.Range(0, 7)), ObjectPoolManager.ObjectPoolInstance.TileSets[index], xCoord, yCoord);
+                    float zCoord = CalculateZcoord(z);
+                    TileGrid[x, z] = ObjectPoolManager.ObjectPoolInstance.TileSets[index];
+                    TileGrid[x, z].transform.position = new Vector3(xCoord, Random.Range(10, 80), zCoord); 
                     index++;
                 }
             }
@@ -46,9 +57,9 @@ public class TileManager : MonoBehaviour {
         {
             for (int x = 0; x < 9; x++)
             {
-                if (z > -x + 3 && z < -x + 13)
+                if (z > - x + 3 && z < - x + 13)
                 {
-                    TileGrid[x, z].tileObject.SetActive(true);
+                    TileGrid[x, z].SetActive(true);
                 }
             }
         }
@@ -56,17 +67,16 @@ public class TileManager : MonoBehaviour {
 
     float CalculateXcoord(float x, float z)
     {
-        return (x  + z / 2) * 1.723f;
+        return (x  + z / 2) * 1.74f;
     }
 
     float CalculateZcoord(float z)
     {
-        return z * 3 / 2f;
-    }
+        return z * 3 / 2f + 0.1f;
+    } 
 
     void DropDownTile(Tile tile)
     {
 
     }
-    
 }

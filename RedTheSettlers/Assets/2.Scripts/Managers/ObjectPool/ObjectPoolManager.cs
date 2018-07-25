@@ -7,6 +7,7 @@ public class ObjectPoolManager : MonoBehaviour {
     public static ObjectPoolManager ObjectPoolInstance;
     
     public GameObject[] TileObjects;
+    public GameObject[] CloneSet;
 
     [HideInInspector]
     public GameObject[] TileSets;
@@ -17,7 +18,10 @@ public class ObjectPoolManager : MonoBehaviour {
         TileSets = new GameObject[61];
         for(int i = 0; i < 61; i++)
         {
-            TileSets[i] = Instantiate(TileObjects[Random.Range(0, 6)]);
+            int randomTileIndex = Random.Range(0, 6);
+
+            TileSets[i] = Instantiate(TileObjects[randomTileIndex]);
+            TileSets[i].transform.parent = CloneSet[randomTileIndex].transform;
         }
     }
     
