@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TitleState : InputState
+public class MainTitleState : InputState
 {
 
 }
