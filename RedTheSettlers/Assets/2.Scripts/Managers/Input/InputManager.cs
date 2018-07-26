@@ -26,7 +26,7 @@ public class InputManager : Singleton<InputManager>
 
     void Start ()
     {
-        input = new TitleState();
+        input = new MainTitleState();
     }
 
     /*void InputCurrentState()
@@ -56,7 +56,7 @@ public class InputManager : Singleton<InputManager>
                 ChangeState(new WeatherState());
                 break;
             case InputType.Title:
-                ChangeState(new TitleState());
+                ChangeState(new MainTitleState());
                 break;
         }
     }
