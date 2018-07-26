@@ -66,7 +66,7 @@ public class GameTimer : MonoBehaviour
         {
             if (elapseTime < snoozeTime)
             {
-                elapseTime += GameTimeManager.DeltaTime;
+                elapseTime += GameTimeManager.Instance.DeltaTime;
             }
             else
             {

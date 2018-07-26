@@ -9,8 +9,8 @@ public class GameTimeManager : Singleton<GameTimeManager>
 {
     protected GameTimeManager() { }
 
-    public static float TimeScale;
-    public static float DeltaTime;
+    public float TimeScale;
+    public float DeltaTime;
     private float startTime;
     private float fixedDeltaTime;
 
