@@ -2,34 +2,48 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public struct Resource
+public struct PlayerData
 {
+    public int HealthPoint;
+    public int MagicPoint;
+    
+}
+
+public struct SkillData
+{
+    public string skillName;
+    public int slotNum;
+}
+
+public struct TileData
+{
+
+}
+
+public class GameData
+{
+
+    public const int maxResourceNum = 30;
+    public const int maxItemUpgradeLevel = 3;
+    public const int maxTileUpgradeLevel = 5;
+
+    [Header("UserData")]
     public int CowNum;
     public int WaterNum;
     public int WheatNum;
     public int WoodNum;
     public int IronNum;
     public int SoilNum;
-}
-
-
-
-public class GameData
-{
-    
-    public const int maxHpLevel = 10;
-    public const int maxBulletLevel = 20;
-    public const int maxCritLevel = 20;
-    public const int maxTotalLevel = 50;
-
-    [Header("UserData")]
     public int WeaponLevel;
     public int ArmorLevel;
-    public int HaveTileNum;
     public int BossKillCount;
-    
+    public Tile[] PossessedTiles;
+    public SkillData[] SkillDatas;
+    public PlayerData PlayerStat;
 
     [Header("InGameData")]
     public int TurnCount;
     public int Weather;
+    public int MoveCount;
+
 }
