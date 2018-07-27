@@ -57,7 +57,6 @@ public class LogManager : Singleton<LogManager>/*, IPointerClickHandler*/
         }
     }
 
-    
     void CreateLog(string scriptName, object text)
     {
         folderCheck = new DirectoryInfo("./Log");
@@ -88,7 +87,7 @@ public class LogManager : Singleton<LogManager>/*, IPointerClickHandler*/
     /// <param name="text">기록할 로그 내용 " " 안에 원하는 내용 기입하는 것으로 내용 입력</param>
     public void UserDebug(LogColor logColor, string scriptName, object text)
     {
-        Debug.Log("<color="+logColor+">" + text + "</color>");
+        Debug.Log("<color=" + logColor + ">" + text + "</color>");
         CreateLogCheck(scriptName, text);
     }
 }
