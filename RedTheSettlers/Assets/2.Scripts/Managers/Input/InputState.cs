@@ -10,14 +10,14 @@ public abstract class InputState
 
     }
 
-    public virtual void DragMove()
+    public virtual void DragMove(Vector3 direction)
     {
 
     }
     
     //----------------------PC 용----------------------
 
-    public virtual void MouseDown(Vector3 position)
+    /*public virtual void MouseDown(Vector3 position)
     {
 
     }
@@ -35,9 +35,39 @@ public abstract class InputState
     public virtual void MouseEndDrag()
     {
 
-    }
+    }*/
 
     public virtual void MouseClick()
+    {
+
+    }
+
+    public virtual void DirectionKey()
+    {
+
+    }
+
+    public virtual void BoardBattleButton()
+    {
+
+    }
+
+    public virtual void BoardTurnEndButton()
+    {
+
+    }
+
+    public virtual void BoardTradeButton()
+    {
+
+    }
+
+    public virtual void BoardStatusButton()
+    {
+
+    }
+
+    public virtual void BoardCharacterButton()
     {
 
     }
