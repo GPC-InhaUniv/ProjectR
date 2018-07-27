@@ -5,56 +5,35 @@ using UnityEngine.UI;
 
 public class TitleScript : MonoBehaviour
 {
-
     public Text TitleText;
-   private Color color;
+    private Color color;
     private float alpha;
+    [SerializeField, Range(0,2)]
+    private float speed;
 
-   
-    void Update()
+    private void Start()
     {
-      
         StartCoroutine(FadeInCoroutine());
-         
-        
-
     }
-
-
 
     IEnumerator FadeInCoroutine()
     {
+        float count = 0;
+        while (true)
+        {           
+            alpha = Mathf.Sin(count * Mathf.Deg2Rad);
+            TitleText.color = new Color(TitleText.color.r, TitleText.color.g, TitleText.color.b, alpha);
+            count += Time.deltaTime * 90f * speed ;
 
-
-        while (TitleText.color.a >= 0)
-        {
-
-            int count = 0;
-            while (count < 100)
+            if (count > 180f)
             {
-                alpha += Time.deltaTime / 2;
-                TitleText.color = new Color(TitleText.color.r, TitleText.color.g, TitleText.color.b, alpha);
-                yield return new WaitForSeconds(2f);
-                alpha = 0;
-                TitleText.color = new Color(TitleText.color.r, TitleText.color.g, TitleText.color.b, alpha);
-                yield return null;
-                alpha += Time.deltaTime / 2;
-                TitleText.color = new Color(TitleText.color.r, TitleText.color.g, TitleText.color.b, alpha);
-                yield return new WaitForSeconds(2f);
-                count++;
+                count = 0;
             }
- 
-           
-           
-           
 
+            yield return null;
         }
-        
-
-        
-
     }
 
-    
+
 
 }

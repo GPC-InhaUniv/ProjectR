@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.EventSystems;
 using UnityEngine;
 
 public enum InputType
@@ -24,24 +25,30 @@ public class InputManager : Singleton<InputManager>
         DontDestroyOnLoad(gameObject);
     }
 
-    void Start ()
+    private void Start()
     {
-        input = new MainTitleState();
+        //input = new BoardGameState();
+        TypeState(inputType);
     }
 
-    /*void InputCurrentState()
+    public void InputDrag(Vector3 direction)
     {
-        //input.CurrentState();
-    }*/
+        input.DragMove(direction);
+    }
 
-    void ChangeState(InputState inputState)
+    public void EnterDirectionKey()
+    {
+        input.DirectionKey();
+    }
+
+    private void ChangeState(InputState inputState)
     {
         input = inputState;
     }
 
-    void TypeState(InputType inputType)
+    public void TypeState(InputType inputType)
     {
-        switch(inputType)
+        switch (inputType)
         {
             case InputType.Board:
                 ChangeState(new BoardGameState());

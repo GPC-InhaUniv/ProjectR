@@ -6,8 +6,8 @@ public delegate void TimerCallback();
 /// </summary>
 public class GameTimer : MonoBehaviour
 {
-    float snoozeTime;
-    float elapseTime;
+    private float snoozeTime;
+    private float elapseTime;
 
     public TimerCallback Callback
     {
@@ -21,8 +21,8 @@ public class GameTimer : MonoBehaviour
         }
     }
 
-    bool isCounting = false;
-    bool isRepeat = false;
+    private bool isCounting = false;
+    private bool isRepeat = false;
     private TimerCallback _callback;
 
     /// <summary>
@@ -39,8 +39,16 @@ public class GameTimer : MonoBehaviour
     /// </summary>    
     public void StartTimer()
     {
-        isCounting = true;
-        elapseTime = 0f;
+        if(_callback != null)
+        {
+            isCounting = true;
+            elapseTime = 0f;
+        }
+        else
+        {
+            LogManager.Instance.UserDebug(LogColor.Purple, this.GetType().ToString(), "(test)Callback is null");
+        }
+        
     }
 
     /// <summary>
@@ -66,11 +74,12 @@ public class GameTimer : MonoBehaviour
         {
             if (elapseTime < snoozeTime)
             {
-                elapseTime += GameTimeManager.DeltaTime;
+                elapseTime += GameTimeManager.Instance.DeltaTime;
             }
             else
             {
                 //알람이 울렸다.
+                _callback();
                 if (isRepeat)
                 {
                     StartTimer();
@@ -78,8 +87,8 @@ public class GameTimer : MonoBehaviour
                 else
                 {
                     StopTimer();
+                    GameTimeManager.Instance.PushTimer(this);
                 }
-                _callback();
             }
         }
     }
