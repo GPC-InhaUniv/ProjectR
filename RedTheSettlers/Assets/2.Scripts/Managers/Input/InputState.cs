@@ -3,21 +3,36 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public abstract class InputState : IDragHandler,IPointerClickHandler,IPointerDownHandler,IPointerUpHandler
+public abstract class InputState
 {
+    public virtual void CurrentState()
+    {
+
+    }
+
+    public virtual void DragMove()
+    {
+
+    }
+    
     //----------------------PC 용----------------------
 
-    public virtual void MouseDown()
+    public virtual void MouseDown(Vector3 position)
     {
 
     }
 
-    public virtual void MouseOn()
+    public virtual void MouseUp(Vector3 position)
     {
 
     }
 
-    public virtual void MouseDrag()
+    public virtual void MouseDrag(Vector3 dragPos)
+    {
+
+    }
+
+    public virtual void MouseEndDrag()
     {
 
     }
@@ -29,7 +44,7 @@ public abstract class InputState : IDragHandler,IPointerClickHandler,IPointerDow
 
     //--------------------모바일용--------------------
 
-    public virtual void OnDrag(PointerEventData eventData)
+    /*public virtual void OnDrag(PointerEventData eventData)
     {
 
     }
@@ -47,5 +62,5 @@ public abstract class InputState : IDragHandler,IPointerClickHandler,IPointerDow
     public virtual void OnPointerUp(PointerEventData eventData)
     {
 
-    }
+    }*/
 }
