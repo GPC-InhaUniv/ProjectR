@@ -10,7 +10,7 @@ using UnityEngine;
 /// </summary>
 public enum LogColor
 {
-    Orange,
+    Orange, // 지용
     Olive,
     Green,
     Teal,
@@ -19,6 +19,7 @@ public enum LogColor
     Purple,
     Magenta,
     Brown,
+    Red, // 중요
 }
 
 /// <summary>
