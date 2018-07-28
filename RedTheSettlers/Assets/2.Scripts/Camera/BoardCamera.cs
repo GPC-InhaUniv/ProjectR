@@ -14,8 +14,13 @@ public class BoardCamera : MonoBehaviour {
     float vDistance;
     float hDistance;
 
+    public float dragSpeed = 2;
+    private Vector3 dragOrigin;
+
+
     private void Start()
     {
+
         camera = GetComponent<Camera>();
         zoomIn = 20;
         zoomOut = camera.fieldOfView;
@@ -31,8 +36,28 @@ public class BoardCamera : MonoBehaviour {
         {
             MoveToTarget(Target);
         }
-        //임시_카메라 움직이는 부분
 
+
+
+        //임시_카메라 움직이는 부분
+        MovingCamera();
+    }
+
+
+    void MovingCamera()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            dragOrigin = Input.mousePosition;
+            return;
+        }
+
+        if (!Input.GetMouseButton(0)) return;
+
+        Vector3 pos = Camera.main.ScreenToViewportPoint(dragOrigin - Input.mousePosition);
+        Vector3 move = new Vector3(pos.x * dragSpeed, 0, pos.y * dragSpeed);
+
+        transform.Translate(move, Space.World);
     }
 
     void MoveToTarget(Transform target)

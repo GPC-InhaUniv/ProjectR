@@ -33,11 +33,30 @@ public class BoardGameState : InputState
          dragDirection = Vector3.zero;
      }*/
 
-    public override void MouseClick()
+    public override void BoardBattleButton()
     {
         
     }
 
+    public override void BoardTurnEndButton()
+    {
+
+    }
+
+    public override void BoardTradeButton()
+    {
+
+    }
+
+    public override void BoardStatusButton()
+    {
+
+    }
+
+    public override void BoardCharacterButton()
+    {
+
+    }
     public override void DragMove(Vector3 direction)
     {
         TemporaryGameManager.Instance.CameraMove(direction);
