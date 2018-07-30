@@ -2,17 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BoardCamera : MonoBehaviour {
+public class BoardCamera : MonoBehaviour, ICamera{
     Camera camera;
-    public bool IsZoom;
+    //bool IsZoom;
     float zoomIn;
     float zoomOut;
     float smooth;
 
-    public bool IsTarget;
-    Transform Target;
-    float vDistance;
-    float hDistance;
+    //public bool IsTarget;
+    //Transform Target;
+    //float vDistance;
+    //float hDistance;
 
     public float dragSpeed = 2;
     private Vector3 dragOrigin;
@@ -20,7 +20,6 @@ public class BoardCamera : MonoBehaviour {
 
     private void Start()
     {
-
         camera = GetComponent<Camera>();
         zoomIn = 20;
         zoomOut = camera.fieldOfView;
@@ -29,22 +28,25 @@ public class BoardCamera : MonoBehaviour {
 
     private void Update()
     {
-        ZoomInOut(IsZoom);
+        //ZoomInOut(IsZoom);
         
-        //임시_타겟이 있으면 타겟으로 이동하는 부분
-        if(Target != null)
-        {
-            MoveToTarget(Target);
-        }
-
-
-
         //임시_카메라 움직이는 부분
         MovingCamera();
     }
 
+    public void ZoomInOut(bool isZoom)
+    {
+        if (isZoom)
+        {
+            camera.fieldOfView = Mathf.Lerp(camera.fieldOfView, zoomIn, Time.deltaTime * smooth);
+        }
+        else
+        {
+            camera.fieldOfView = Mathf.Lerp(camera.fieldOfView, zoomOut, Time.deltaTime * smooth);
+        }
+    }
 
-    void MovingCamera()
+    public void MovingCamera()
     {
         if (Input.GetMouseButtonDown(0))
         {
@@ -60,20 +62,17 @@ public class BoardCamera : MonoBehaviour {
         transform.Translate(move, Space.World);
     }
 
-    void MoveToTarget(Transform target)
+    public void TurnOnCamera()
     {
+        Debug.Log("TurnOnCamera");
+        camera.enabled = true;
+    }
 
-    }
-    void ZoomInOut(bool isZoom)
+    public void TurnOffCamera()
     {
-        if (isZoom)
-        {
-            camera.fieldOfView = Mathf.Lerp(camera.fieldOfView,zoomIn,Time.deltaTime*smooth);
-        }
-        else
-        {
-            camera.fieldOfView = Mathf.Lerp(camera.fieldOfView, zoomOut, Time.deltaTime * smooth);
-        }
+        Debug.Log("TurnOffCamera");
+        camera.enabled = false;
     }
-	
+    
+    
 }
