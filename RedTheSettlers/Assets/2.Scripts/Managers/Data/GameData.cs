@@ -17,7 +17,7 @@ public struct SkillData
 
 public struct TileData
 {
-
+    public int 
 }
 
 public class GameData
