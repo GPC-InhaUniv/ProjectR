@@ -54,9 +54,35 @@ public class InputTest : MonoBehaviour
         }
     }
 
-    public void ClickButton()
+    public void BattleButton()
     {
-        LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, "버튼 클릭");
+        //InputManager.Instance.
+        LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, "전투");
+    }
+
+    public void TradeButton()
+    {
+        LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, "거래");
+    }
+
+    public void TurnEndButton()
+    {
+        LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, "턴 종료");
+    }
+
+    public void CharacterStatusButton()
+    {
+        LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, "캐릭터 스테이터스");
+    }
+
+    public void MiniMapButton()
+    {
+        LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, "미니 맵");
+    }
+
+    public void CharacterButton()
+    {
+        LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, "캐릭터");
     }
 
     /*private void ClickDownPosition()

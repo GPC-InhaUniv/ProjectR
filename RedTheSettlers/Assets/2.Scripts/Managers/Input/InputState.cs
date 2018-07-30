@@ -37,11 +37,6 @@ public abstract class InputState
 
     }*/
 
-    public virtual void MouseClick()
-    {
-
-    }
-
     public virtual void DirectionKey()
     {
 
