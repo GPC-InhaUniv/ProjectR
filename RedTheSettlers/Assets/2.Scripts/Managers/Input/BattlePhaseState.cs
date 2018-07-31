@@ -4,5 +4,8 @@ using UnityEngine;
 
 public class BattlePhaseState : InputState
 {
-    
+    public override void DirectionKey(Vector3 direction)
+    {
+        TemporaryGameManager.Instance.PlayerMove(direction);
+    }
 }

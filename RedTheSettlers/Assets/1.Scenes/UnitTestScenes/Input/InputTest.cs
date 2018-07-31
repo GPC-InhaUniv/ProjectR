@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class InputTest : MonoBehaviour
 {
-    RectTransform tradeUI;
+    //RectTransform tradeUI;
 
     private Vector3 firstClickPosition;
     private Vector3 dragPosition;
@@ -14,7 +14,7 @@ public class InputTest : MonoBehaviour
 
     private void Start()
     {
-        tradeUI = GameObject.FindWithTag("Tile").GetComponent<RectTransform>();
+       // tradeUI = GameObject.FindWithTag("Tile").GetComponent<RectTransform>();
     }
 
     private void Update()
@@ -55,7 +55,10 @@ public class InputTest : MonoBehaviour
         }
     }
 
-    public void DragUI()
+
+
+
+    /*public void DragUI()
     {
         tradeUI.position = new Vector3(Input.mousePosition.x, Input.mousePosition.y);
         InputManager.Instance.InputTrade(tradeUI.position);
@@ -65,7 +68,7 @@ public class InputTest : MonoBehaviour
     public void EndDragUI()
     {
         
-    }
+    }*/
 
     /*public void BattleButton()
     {

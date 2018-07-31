@@ -3,21 +3,43 @@ using System.Collections.Generic;
 using UnityEngine.EventSystems;
 using UnityEngine;
 
-public enum InputType
+public enum StateType
 {
-    Title,
-    Board,
+    TitleState,
+    BoardState,
+    BattleState,
+    TradeState,
+    WeatherState,
+}
+
+public enum InputButtonType
+{
+    GameStart,
+    Option,
     Battle,
     Trade,
-    Weather,
+    TurnEnd,
+    CharacterState,
+    MiniMap,
+    Character,
+    Attack,
+    Skill1,
+    Skill2,
+    Skill3,
+    Item1,
+    Item2,
+    Pause,
 }
 
 public class InputManager : Singleton<InputManager>
 {
     private static InputManager inputManager;
+
     private InputState input;
     [SerializeField]
-    private InputType inputType;
+    private StateType stateType;
+    private Vector3 moveDirection;
+    private bool enableInputKey = false;
 
     private void Awake()
     {
@@ -28,7 +50,20 @@ public class InputManager : Singleton<InputManager>
     private void Start()
     {
         //input = new BoardGameState();
-        TypeState(inputType);
+        TypeState(stateType);
+    }
+
+    private void FixedUpdate()
+    {
+        if (enableInputKey)
+        {
+            EnterDirectionKey();
+        }
+    }
+
+    public void InputButton(InputButtonType inputButtonType)
+    {
+        input.TouchOrClickButton(inputButtonType);
     }
 
     public void InputDrag(Vector3 direction)
@@ -43,7 +78,26 @@ public class InputManager : Singleton<InputManager>
 
     public void EnterDirectionKey()
     {
-        input.DirectionKey();
+        if (Input.GetKey(KeyCode.UpArrow))
+        {
+            moveDirection = Vector3.forward;
+            input.DirectionKey(moveDirection);
+        }
+        else if (Input.GetKey(KeyCode.DownArrow))
+        {
+            moveDirection = Vector3.back;
+            input.DirectionKey(moveDirection);
+        }
+        else if (Input.GetKey(KeyCode.LeftArrow))
+        {
+            moveDirection = Vector3.left;
+            input.DirectionKey(moveDirection);
+        }
+        else if (Input.GetKey(KeyCode.RightArrow))
+        {
+            moveDirection = Vector3.right;
+            input.DirectionKey(moveDirection);
+        }
     }
 
     private void ChangeState(InputState inputState)
@@ -51,24 +105,29 @@ public class InputManager : Singleton<InputManager>
         input = inputState;
     }
 
-    public void TypeState(InputType inputType)
+    public void TypeState(StateType stateType)
     {
-        switch (inputType)
+        switch (stateType)
         {
-            case InputType.Board:
+            case StateType.BoardState:
                 ChangeState(new BoardGameState());
+                enableInputKey = true;
                 break;
-            case InputType.Battle:
+            case StateType.BattleState:
                 ChangeState(new BattlePhaseState());
+                enableInputKey = true;
                 break;
-            case InputType.Trade:
+            case StateType.TradeState:
                 ChangeState(new TradeState());
+                enableInputKey = true;
                 break;
-            case InputType.Weather:
+            case StateType.WeatherState:
                 ChangeState(new WeatherState());
+                enableInputKey = true;
                 break;
-            case InputType.Title:
+            case StateType.TitleState:
                 ChangeState(new MainTitleState());
+                enableInputKey = true;
                 break;
         }
     }
