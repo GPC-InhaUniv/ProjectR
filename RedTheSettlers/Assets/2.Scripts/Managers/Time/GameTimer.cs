@@ -60,7 +60,7 @@ public class GameTimer : MonoBehaviour
     }
 
     /// <summary>
-    /// 타이머를 정지시킵니다. 다시 재개할 수 없습니다.
+    /// 타이머를 정지시킵니다. 시간이 초기화됩니다.
     /// </summary>
     public void StopTimer()
     {

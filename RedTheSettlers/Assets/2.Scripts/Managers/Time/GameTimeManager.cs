@@ -64,7 +64,6 @@ public class GameTimeManager : Singleton<GameTimeManager>
     {
         GameTimer timer = TimerStack.Pop();
         timer.gameObject.SetActive(true);
-        Debug.Log("Pop");
         return timer;
     }
     
@@ -78,6 +77,5 @@ public class GameTimeManager : Singleton<GameTimeManager>
         timer.StopTimer();
         TimerStack.Push(timer);
         timer.gameObject.SetActive(false);
-        Debug.Log("Push");
     }
 }
