@@ -5,92 +5,27 @@ using UnityEngine.EventSystems;
 
 public abstract class InputState
 {
-    public virtual void CurrentState()
-    {
+    public virtual void CurrentState() { }
 
-    }
+    public virtual void DragMove(Vector3 direction) { }
 
-    public virtual void DragMove(Vector3 direction)
-    {
+    public virtual void UIMover(Vector3 position) { }
 
-    }
+    public virtual void TouchOrClickButton(InputButtonType inputButtonType) { }
 
-    public virtual void UIMover(Vector3 position)
-    {
+    public virtual void BoardBattleButton() { }
 
-    }
-    
+    public virtual void BoardTurnEndButton() { }
+
+    public virtual void BoardTradeButton() { }
+
+    public virtual void BoardStatusButton() { }
+
+    public virtual void BoardCharacterButton() { }
+
     //----------------------PC 용----------------------
 
-    /*public virtual void MouseDown(Vector3 position)
-    {
+    public virtual void DirectionKey(Vector3 direction) { }
 
-    }
-
-    public virtual void MouseUp(Vector3 position)
-    {
-
-    }
-
-    public virtual void MouseDrag(Vector3 dragPos)
-    {
-
-    }
-
-    public virtual void MouseEndDrag()
-    {
-
-    }*/
-
-    public virtual void DirectionKey()
-    {
-
-    }
-
-    public virtual void BoardBattleButton()
-    {
-
-    }
-
-    public virtual void BoardTurnEndButton()
-    {
-
-    }
-
-    public virtual void BoardTradeButton()
-    {
-
-    }
-
-    public virtual void BoardStatusButton()
-    {
-
-    }
-
-    public virtual void BoardCharacterButton()
-    {
-
-    }
-
-    //--------------------모바일용--------------------
-
-    /*public virtual void OnDrag(PointerEventData eventData)
-    {
-
-    }
-
-    public virtual void OnPointerClick(PointerEventData eventData)
-    {
-
-    }
-
-    public virtual void OnPointerDown(PointerEventData eventData)
-    {
-
-    }
-
-    public virtual void OnPointerUp(PointerEventData eventData)
-    {
-
-    }*/
+    public virtual void BattleAttack() { }
 }
