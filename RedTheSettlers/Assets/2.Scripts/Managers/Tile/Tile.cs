@@ -7,6 +7,9 @@ public class Tile : MonoBehaviour{
     [SerializeField]
     private TileType tileType;
 
+    private int resourceAmount;
+    private bool isConquered;
+
     public struct Coordinate
     {
         public Coordinate(float x, float z)

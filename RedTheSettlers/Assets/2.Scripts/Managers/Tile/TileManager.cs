@@ -44,7 +44,7 @@ public class TileManager : MonoBehaviour {
                     float xCoord = CalculateXcoord(x, z);
                     float zCoord = CalculateZcoord(z);
                     TileGrid[x, z] = ObjectPoolManager.ObjectPoolInstance.TileSets[index];
-                    TileGrid[x, z].transform.position = new Vector3(xCoord, Random.Range(10, 40), zCoord); 
+                    TileGrid[x, z].transform.position = new Vector3(xCoord, Random.Range(5, 10), zCoord); 
                     index++;
                 }
             }
