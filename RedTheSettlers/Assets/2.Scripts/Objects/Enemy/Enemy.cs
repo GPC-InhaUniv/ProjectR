@@ -2,36 +2,48 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum EnemyStateType
+{
+    Idle,
+    Die,
+    Damage,
+    Attack,
+    move,
+}
+
 public class Enemy : MonoBehaviour
 {
     public EnemyState currentState;
-    private EnemyState[] state;
-
-    public const int idle = 0;
-    public const int dead = 1;
-    public const int damage = 2;
-    public const int attack = 3;
-    public const int move = 4;
+    private EnemyState state;
 
     void Start ()
     {
-        concreteState();
+        ChangeStage(EnemyStateType.Idle);
     }
 
-    public void ChangeStage(int statetype)
+    public void ChangeStage(EnemyStateType statetype)
     {
-        currentState = state[statetype];
+        switch (statetype)
+        {
+            case EnemyStateType.Idle:
+                currentState = new Idle();
+                break;
+            case EnemyStateType.Die:
+                currentState = new Die();
+                break;
+            case EnemyStateType.Damage:
+                currentState = new Damage();
+                break;
+            case EnemyStateType.Attack:
+                currentState = new Attack();
+                break;
+            case EnemyStateType.move:
+                currentState = new Move();
+                break;
+            default:
+                break;
+        }
         ReQuest();
-    }
-
-    void concreteState()
-    {
-        state = new EnemyState[5];
-        state[idle] = new Idle();
-        state[dead] = new Die();
-        state[damage] = new Damage();
-        state[attack] = new Attack();
-        state[move] = new Move();
     }
 
     public void ReQuest()
