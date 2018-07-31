@@ -83,7 +83,7 @@ namespace DigitalRuby.PyroParticles
             {
                 foreach (ParticleSystem p in ProjectileDestroyParticleSystemsOnCollision)
                 {
-                    GameObject.Destroy(p, 0.1f);
+                    Destroy(p, 0.1f);
                 }
             }
 
