@@ -36,6 +36,11 @@ public class InputManager : Singleton<InputManager>
         input.DragMove(direction);
     }
 
+    public void InputTrade(Vector3 position)
+    {
+        input.UIMover(position);
+    }
+
     public void EnterDirectionKey()
     {
         input.DirectionKey();

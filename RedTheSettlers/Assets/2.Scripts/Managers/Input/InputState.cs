@@ -14,6 +14,11 @@ public abstract class InputState
     {
 
     }
+
+    public virtual void UIMover(Vector3 position)
+    {
+
+    }
     
     //----------------------PC 용----------------------
 

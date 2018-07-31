@@ -4,15 +4,17 @@ using UnityEngine;
 
 public class InputTest : MonoBehaviour
 {
+    RectTransform tradeUI;
+
     private Vector3 firstClickPosition;
     private Vector3 dragPosition;
     private Vector3 dragDirection;
-    [SerializeField,Range(1,100)]
+    [SerializeField, Range(1, 100)]
     private float moveSpeed;
 
     private void Start()
     {
-
+        tradeUI = GameObject.FindWithTag("Tile").GetComponent<RectTransform>();
     }
 
     private void Update()
@@ -20,20 +22,20 @@ public class InputTest : MonoBehaviour
         MouseMovement();
     }
 
-    private void MouseMovement()
+    public void MouseMovement()
     {
-        if(Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0))
         {
             Ray rayPoint = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit checkCollision;
 
-            if(Physics.Raycast(rayPoint,out checkCollision,Mathf.Infinity))
+            if (Physics.Raycast(rayPoint, out checkCollision, Mathf.Infinity))
             {
                 firstClickPosition = Input.mousePosition;
                 LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, firstClickPosition);
             }
         }
-        else if(Input.GetMouseButton(0))
+        else if (Input.GetMouseButton(0))
         {
             Ray rayPoint = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit checkCollision;
@@ -42,11 +44,10 @@ public class InputTest : MonoBehaviour
             {
                 dragPosition = Input.mousePosition;
                 dragDirection = (dragPosition - firstClickPosition).normalized * moveSpeed * Time.deltaTime;
-                LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, "방향 나와라 : " + dragDirection);
                 InputManager.Instance.InputDrag(dragDirection);
             }
         }
-        else if(!Input.GetMouseButton(0))
+        else if (!Input.GetMouseButton(0))
         {
             dragPosition = Vector3.zero;
             firstClickPosition = Vector3.zero;
@@ -54,7 +55,19 @@ public class InputTest : MonoBehaviour
         }
     }
 
-    public void BattleButton()
+    public void DragUI()
+    {
+        tradeUI.position = new Vector3(Input.mousePosition.x, Input.mousePosition.y);
+        InputManager.Instance.InputTrade(tradeUI.position);
+    }
+
+    // EndDrag시 어떤 작업을 해줄지 구현해주어야 함
+    public void EndDragUI()
+    {
+        
+    }
+
+    /*public void BattleButton()
     {
         //InputManager.Instance.
         LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, "전투");
@@ -85,7 +98,7 @@ public class InputTest : MonoBehaviour
         LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, "캐릭터");
     }
 
-    /*private void ClickDownPosition()
+    private void ClickDownPosition()
     {
         
     }

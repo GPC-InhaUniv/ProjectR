@@ -33,7 +33,7 @@ public class BoardGameState : InputState
          dragDirection = Vector3.zero;
      }*/
 
-    public override void BoardBattleButton()
+    /*public override void BoardBattleButton()
     {
         
     }
@@ -56,7 +56,7 @@ public class BoardGameState : InputState
     public override void BoardCharacterButton()
     {
 
-    }
+    }*/
     public override void DragMove(Vector3 direction)
     {
         TemporaryGameManager.Instance.CameraMove(direction);
