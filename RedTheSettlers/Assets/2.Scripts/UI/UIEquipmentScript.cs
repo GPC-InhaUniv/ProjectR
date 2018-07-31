@@ -14,36 +14,47 @@ public class UIEquipmentScript : MonoBehaviour
     private int playerWeaponLevel = 1;
     private int playerShieldLevel = 1;
 
+    [HideInInspector]
     [Header("Weapon Level Blur Images")]
     [SerializeField]
     private Image[] weaponLevelBlurImages;
+
+    [HideInInspector]
     [Header("Shield Level Blur Images")]
     [SerializeField]
     private Image[] shieldLevelBlurImages;
 
+    [HideInInspector]
     [Header("Weapon Level Buttons")]
     [SerializeField]
     private Button[] weaponLevelButtons;
+
+    [HideInInspector]
     [Header("Shield Level Buttons")]
     [SerializeField]
     private Button[] shieldLevelButtons;
 
+    
     [Header("Temp Resource Counts")]
     [SerializeField]
     private int[] tempResourceCounts;
 
+    [HideInInspector]
     [Header("Weapon Level Text Groups")]
     [SerializeField]
     private GameObject[] weaponLevelTextGroups;
 
+    [HideInInspector]
     [Header("Shield Level Text Groups")]
     [SerializeField]
     private GameObject[] shieldLevelTextGroups;
 
+    [HideInInspector]
     [Header("Weapon Level Texts")]
     [SerializeField]
     private Text[] weaponLevelTexts;
 
+    [HideInInspector]
     [Header("Shield Level Texts")]
     [SerializeField]
     private Text[] shieldLevelTexts;
@@ -117,7 +128,8 @@ public class UIEquipmentScript : MonoBehaviour
 
     public void OnClickedEquipmentButton(int value)
     {
-  
+       
+
         for (int i = 0; i < playerResourceArray.Length + 1; i++)
         {
            
@@ -145,10 +157,11 @@ public class UIEquipmentScript : MonoBehaviour
                 buttonArray[value].interactable = false;
             }
         }
-        
+
         playerResourceArray[0] -= necessaryResourcesArray[value, 0];
         playerResourceArray[1] -= necessaryResourcesArray[value, 1];
         playerResourceArray[2] -= necessaryResourcesArray[value, 2];
+
         //플레이어 레벨저장과 레벨에따른 버튼 선택 막기
         if (resourceTextGroupArray[0].gameObject.activeSelf == false)
         {
