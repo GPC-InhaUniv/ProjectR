@@ -9,7 +9,6 @@ public class DataManager : MonoBehaviour {
     private void Start()
     {
         gameData = new GameData();
-        gameData.WaterNum = 1;
         
     }
 }

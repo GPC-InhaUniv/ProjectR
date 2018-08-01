@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 87aca181203408543942305a65e47c0b
+guid: 8af2259933ccf2e47b0a9493f3516fc4
 timeCreated: 1506572261
 licenseType: Store
 ModelImporter:
@@ -24,7 +24,7 @@ ModelImporter:
     400014: StoneMonster
     400016: //RootNode
     4300000: StoneMonster
-    7400000: Anim_Run
+    7400000: Damage
     9500000: //RootNode
     11100000: //RootNode
     13700000: StoneMonster
@@ -44,7 +44,7 @@ ModelImporter:
     animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
-    animationCompression: 1
+    animationCompression: 3
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
@@ -52,11 +52,11 @@ ModelImporter:
     extraExposedTransformPaths: []
     clipAnimations:
     - serializedVersion: 16
-      name: Anim_Run
-      takeName: Anim_Run
+      name: Damage
+      takeName: Anim_Damage
       firstFrame: 1
-      lastFrame: 30
-      wrapMode: 2
+      lastFrame: 12
+      wrapMode: 0
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
@@ -138,7 +138,7 @@ ModelImporter:
     hasExtraRoot: 1
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
-  animationType: 1
+  animationType: 2
   humanoidOversampling: 1
   additionalBone: 0
   userData: 
