@@ -6,6 +6,6 @@ public class Die : EnemyState
 {
     public override void DoAction(Enemy enemy)
     {
-        
+        enemy.anim.SetTrigger("Dead");
     }
 }
