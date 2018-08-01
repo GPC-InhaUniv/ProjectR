@@ -47,7 +47,7 @@ public class PlayerHoldResourceController : MonoBehaviour
 
     private int computeResourceNum;
 
-    private void ResourceInfo()
+    private void ChangeResource()
     {
         //PlayerCowResource.text = gameData.cowcow.ToString();
         //이런식으로 6종류 자원을 gameData에서 가져와서 텍스트에 넣어줘야 함.
@@ -71,7 +71,7 @@ public class PlayerHoldResourceController : MonoBehaviour
     private void Start()
     {
         cardmaxNum = 50;
-        ResourceInfo();
+        ChangeResource();
         ComputeTotalResource();
     }
 

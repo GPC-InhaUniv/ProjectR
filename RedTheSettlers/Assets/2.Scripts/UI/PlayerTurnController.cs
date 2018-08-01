@@ -4,33 +4,37 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// 작성자 : 강다희
+/// 플레이어의 현재 Turn, move, event를 노출해주는 UI스크립트
+/// </summary>
+
 public class PlayerTurnController : MonoBehaviour
 {
-    /// <summary>
-    /// 작성자 : 강다희
-    /// 플레이어의 현재 Turn을 노출해주는 UI스크립트
-    /// </summary>
-
-    [Header("Player's Current Turn")]
+    [Header("Player's Current Situation")]
     [SerializeField]
     private Text currentTurn;
 
+    [SerializeField]
+    private Text currentMove;
+
+    [SerializeField]
+    private Text currentEventName;
+
+    [SerializeField]
+    private Text currentEventExplain;
+
     private int currentTurnNum;
 
-    private void ResourceInfo()
+    private void ChangePlayerState()
     {
-        //PlayerCowResource.text = gameData.cowcow.ToString();
+        //currentTurn.text = gameData.cowcow.ToString();
         //이런식으로 6종류 자원을 gameData에서 가져와서 텍스트에 넣어줘야 함.
-    }
-
-    private void ChangeCurrentTurn()
-    {
-        currentTurnNum = Int32.Parse(currentTurn.text);
     }
 
     private void Start()
     {
-        ChangeCurrentTurn();
+        ChangePlayerState();
     }
 
     private void Update()
