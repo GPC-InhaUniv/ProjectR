@@ -2,6 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum EnemyType
+{
+    Iron = 0,
+    Soil = 1,
+    Spot = 2,
+    Water = 3,
+    Wheat = 4,
+    Wood = 5,
+}
+
 public enum EnemyStateType
 {
     Idle,
@@ -14,16 +24,32 @@ public enum EnemyStateType
 public class Enemy : MonoBehaviour
 {
     public EnemyState currentState;
-    private EnemyState state;
+    private SkinnedMeshRenderer typeRenderer;
+    public Animator anim;
+    [SerializeField]
+    private Material[] materials;
+    private EnemyAttackArea attackArea;
+    private EnemyHitArea hitArea;
+
+    //Enemy Stats
+    public float CurrentSpeed;
+    public int CurrentHp;
+    public int MaxHp;
 
     void Start ()
     {
-        ChangeStage(EnemyStateType.Idle);
+
+        typeRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
+        anim = GetComponent<Animator>();
+        attackArea = GetComponent<EnemyAttackArea>();
+        hitArea = GetComponent<EnemyHitArea>();
+
+        ChangeStage(EnemyStateType.Attack);
     }
 
-    public void ChangeStage(EnemyStateType statetype)
+    public void ChangeStage(EnemyStateType stateType)
     {
-        switch (statetype)
+        switch (stateType)
         {
             case EnemyStateType.Idle:
                 currentState = new Idle();
@@ -43,12 +69,24 @@ public class Enemy : MonoBehaviour
             default:
                 break;
         }
+        
         ReQuest();
     }
 
-    public void ReQuest()
+    private void ReQuest()
     {
+        Debug.Log("currentState : " + currentState);
         currentState.DoAction(this);
+    }
+
+    public void SetType(EnemyType enemyType)
+    {
+        typeRenderer.material = materials[(int)enemyType];
+    }
+
+    void AttackEnd()
+    {
+        ChangeStage(EnemyStateType.Idle);
     }
 
 }
