@@ -23,5 +23,9 @@ using UnityEngine.SceneManagement;
     {
         throw new System.NotImplementedException();
     }
+    public override State Execute(StageType stageTyp)
+    {
+        throw new System.NotImplementedException();
+    }
 
 }

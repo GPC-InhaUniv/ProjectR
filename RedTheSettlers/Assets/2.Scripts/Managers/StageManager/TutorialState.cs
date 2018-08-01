@@ -22,5 +22,10 @@ class TutorialState : State
     public override void mddd()
     {
         throw new System.NotImplementedException();
+
+    }
+    public override State Execute(StageType stageTyp)
+    {
+        throw new System.NotImplementedException();
     }
 }
