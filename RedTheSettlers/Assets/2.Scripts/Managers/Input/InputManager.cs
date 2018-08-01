@@ -40,6 +40,9 @@ public class InputManager : Singleton<InputManager>
     private StateType stateType;
     private Vector3 moveDirection;
     private bool enableInputKey = false;
+    private float inputDelay = 0.1f;
+    private float maxInputDelay = 0.04f;
+    Queue<KeyCode> inputs = new Queue<KeyCode>();
 
     private void Awake()
     {
@@ -76,28 +79,67 @@ public class InputManager : Singleton<InputManager>
         input.UIMover(position);
     }
 
-    public void EnterDirectionKey()
+    // 쓰레기 코드 대대적 수정 예정
+    private void EnterDirectionKey()
     {
-        if (Input.GetKey(KeyCode.UpArrow))
+        if (Input.GetKeyDown(KeyCode.UpArrow))
         {
+            inputs.Enqueue(KeyCode.UpArrow);
             moveDirection = Vector3.forward;
             input.DirectionKey(moveDirection);
+            transform.TransformDirection(Vector3.forward);
         }
-        else if (Input.GetKey(KeyCode.DownArrow))
+        else if (Input.GetKeyUp(KeyCode.UpArrow))
         {
+            moveDirection = Vector3.zero;
+            input.DirectionKey(moveDirection);
+        }
+        if (Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            inputs.Enqueue(KeyCode.DownArrow);
             moveDirection = Vector3.back;
             input.DirectionKey(moveDirection);
         }
-        else if (Input.GetKey(KeyCode.LeftArrow))
+        else if (Input.GetKeyUp(KeyCode.DownArrow))
         {
+            moveDirection = Vector3.zero;
+            input.DirectionKey(moveDirection);
+        }
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            inputs.Enqueue(KeyCode.LeftArrow);
             moveDirection = Vector3.left;
             input.DirectionKey(moveDirection);
         }
-        else if (Input.GetKey(KeyCode.RightArrow))
+        else if (Input.GetKeyUp(KeyCode.LeftArrow))
         {
+            moveDirection = Vector3.zero;
+            input.DirectionKey(moveDirection);
+        }
+        if (Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            inputs.Enqueue(KeyCode.RightArrow);
             moveDirection = Vector3.right;
             input.DirectionKey(moveDirection);
         }
+        else if(Input.GetKeyUp(KeyCode.RightArrow))
+        {
+            moveDirection = Vector3.zero;
+            input.DirectionKey(moveDirection);
+        }
+        if (inputs.Contains(KeyCode.RightArrow) && inputs.Contains(KeyCode.UpArrow))
+        {
+            LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, inputs.Peek());
+        }
+        else
+        {
+            inputs.Clear();
+        }
+    }
+
+    private void InputTimer()
+    {
+        inputDelay += 0.01f;
     }
 
     private void ChangeState(InputState inputState)
@@ -111,7 +153,7 @@ public class InputManager : Singleton<InputManager>
         {
             case StateType.BoardState:
                 ChangeState(new BoardGameState());
-                enableInputKey = true;
+                enableInputKey = false;
                 break;
             case StateType.BattleState:
                 ChangeState(new BattlePhaseState());
@@ -119,15 +161,15 @@ public class InputManager : Singleton<InputManager>
                 break;
             case StateType.TradeState:
                 ChangeState(new TradeState());
-                enableInputKey = true;
+                enableInputKey = false;
                 break;
             case StateType.WeatherState:
                 ChangeState(new WeatherState());
-                enableInputKey = true;
+                enableInputKey = false;
                 break;
             case StateType.TitleState:
                 ChangeState(new MainTitleState());
-                enableInputKey = true;
+                enableInputKey = false;
                 break;
         }
     }
