@@ -20,48 +20,21 @@ public enum StageType
     LodingStage,
     MainStage,
     TutorialStage,
-    BattleStage,
-    GameOverStage
+    BattleStage
 }
 
 public class StageManager : Singleton<StageManager>
 {
-    public StageType currentStage;
-
     private State currentState;
 
     private void Awake()
     {
-        SceneManager.LoadSceneAsync((int)StageType.TitleStage);
+        currentState = new TitleState();
         DontDestroyOnLoad(gameObject);
     }
-
-    public IEnumerator ChangeStageCoroutine(StageType stageType)
+   
+    public void ChangeState(StageType stageType)
     {
-        if (currentStage == StageType.TitleStage)
-        {
-            SceneManager.LoadSceneAsync((int)stageType);
-            currentStage = stageType;
-        }
-
-      else if (currentStage == StageType.MainStage && currentStage == StageType.BattleStage &&
-               currentStage == StageType.TutorialStage)
-           {
-                AsyncOperation loadPlan = SceneManager.LoadSceneAsync((int)stageType);
-                currentStage = stageType;
-                yield return loadPlan;
-           }
-        else
-        {
-            AsyncOperation loadPlan;
-            if (stageType == StageType.LodingStage)
-            {
-                loadPlan = SceneManager.LoadSceneAsync((int)StageType.LodingStage);
-            }
-            else
-            {
-                loadPlan = SceneManager.LoadSceneAsync((int)StageType.GameOverStage);
-            }
-        }
+        currentState = currentState.Execute(stageType);
     }
 }

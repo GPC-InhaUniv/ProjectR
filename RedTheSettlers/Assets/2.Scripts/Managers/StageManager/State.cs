@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,11 +14,7 @@ using UnityEngine;
 
 abstract class State
 {
-
-    public StageManager StageManager { get; set; }
-
     public abstract void mddd();
     public abstract void Exit();
-
-    
+    public abstract State Execute(StageType stageType);
 }

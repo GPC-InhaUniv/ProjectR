@@ -6,6 +6,7 @@ using UnityEngine.UI;
 /// 작성자 : 강다희
 /// 플레이어의 자원 정보 노출 및
 /// 플레이어 소지 가능 자원 정보 bar 형식으로 노출해주는 UI스크립트.
+/// [중요] UI Controller 스크립트에서 각 상황별로 처리할 예정.
 /// </summary>
 
 public class PlayerHoldResourceController : MonoBehaviour

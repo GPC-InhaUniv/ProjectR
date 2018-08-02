@@ -23,4 +23,8 @@ class MainState : State
     {
         throw new System.NotImplementedException();
     }
+    public override State Execute(StageType stageTyp)
+    {
+        throw new System.NotImplementedException();
+    }
 }

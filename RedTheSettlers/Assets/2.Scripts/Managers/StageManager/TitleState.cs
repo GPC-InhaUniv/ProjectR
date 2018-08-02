@@ -13,6 +13,11 @@ using UnityEngine.SceneManagement;
 
 class TitleState : State
 {
+    public override State Execute(StageType stageType)
+    {
+        return new LodingState();
+    }
+
     public override void Exit()
     {
         throw new System.NotImplementedException();
