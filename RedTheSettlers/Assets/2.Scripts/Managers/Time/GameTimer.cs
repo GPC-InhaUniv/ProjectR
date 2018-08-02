@@ -8,7 +8,9 @@ public class GameTimer : MonoBehaviour
 {
     private float snoozeTime;
     private float elapseTime;
-
+    private bool isCounting = false;
+    private bool isRepeat = false;
+    private TimerCallback _callback;
     public TimerCallback Callback
     {
         get
@@ -20,10 +22,6 @@ public class GameTimer : MonoBehaviour
             _callback = value;
         }
     }
-
-    private bool isCounting = false;
-    private bool isRepeat = false;
-    private TimerCallback _callback;
 
     /// <summary>
     /// 타이머에 시간을 지정합니다. time : 시간, repeat : 반복 호출 여부
@@ -46,7 +44,7 @@ public class GameTimer : MonoBehaviour
         }
         else
         {
-            LogManager.Instance.UserDebug(LogColor.Purple, this.GetType().ToString(), "(test)Callback is null");
+            LogManager.Instance.UserDebug(LogColor.Purple, GetType().ToString(), "(test)Callback is null");
         }
         
     }
