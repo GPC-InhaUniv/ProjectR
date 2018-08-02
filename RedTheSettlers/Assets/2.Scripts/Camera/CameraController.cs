@@ -9,45 +9,55 @@ using UnityEngine;
  * 카메라 안에있는 기능을 실행시키기
 */
 public class CameraController : MonoBehaviour {
-    public GameObject BoardCameraObj;
-    public BoardCamera boardCamera;
+    
+    [SerializeField]
+    GameCamera BoardGameCamera, BattleGameCamera, ActiveCamera;
+    
     private void Start()
     {
-        BoardCameraObj = GameObject.Find("Board Camera");
-        boardCamera = gameObject.GetComponent<BoardCamera>();
+        BoardGameCamera = GameObject.Find("Board Camera").GetComponent<GameCamera>();
+        BattleGameCamera = GameObject.Find("Battle Camera").GetComponent<GameCamera>();
+        ActiveCamera = BoardGameCamera;
 
-
-        GameCamera gameCamera = BoardCameraObj.GetComponent<GameCamera>();
-
-        TestBoardCamera(gameCamera);
-
-        //BoardCameraObj.AddComponent<GameCamera>();
     }
 
-    private void TestBoardCamera(GameCamera gameCamera)
+    private void Update()
     {
-        AbstractCamera abstractCamera = boardCamera;
-        //Debug.Log(new BoardCamera());
-        Debug.Log("테스트보드카메라" + abstractCamera);
-        gameCamera.PutInCamera(abstractCamera);
-        Debug.Log("테스트보드카메라"+gameCamera);
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            Debug.Log("x");
+            SwichingCamera(ActiveCamera);
+        }
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            Debug.Log("c");
+            ZoomIn(ActiveCamera);
+        }
+
+    }
+    private void FixedUpdate()
+    {
+        ActiveCamera.MovingCamera();
     }
 
+    private void ZoomIn(GameCamera activeCamera)
+    {
+        activeCamera.ZoomInCamera();
+    }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    void SwichingCamera(GameCamera Camera)
+    {
+        ActiveCamera.TrunOffCamera();
+        if(Camera == BoardGameCamera)
+        {
+            ActiveCamera = BattleGameCamera;
+        }
+        else
+        {
+            ActiveCamera = BoardGameCamera;
+        }
+        ActiveCamera.TrunOnCamera();
+    }
 
 
 
@@ -98,21 +108,7 @@ public class CameraController : MonoBehaviour {
     //    ActiveCamera.enabled = true;
     //}
 
-    //void SwichingCamera(Camera camera)
-    //{
-    //    Debug.Log("스위칭카메라");
-    //    ActiveCamera.enabled = false;
-    //    if (camera != BoardCamera)
-    //    {
-    //        ActiveCamera = BoardCamera;
-    //        ActiveCamera.enabled = true;
-    //    }
-    //    else
-    //    {
-    //        ActiveCamera = BattleCamera;
-    //        ActiveCamera.enabled = true;
-    //    }
-    //}
+
 
     //IEnumerator CameraTransition()
     //{
