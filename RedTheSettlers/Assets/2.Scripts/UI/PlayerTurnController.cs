@@ -30,99 +30,112 @@ public class PlayerTurnController : MonoBehaviour
 
     private int currentTurnNum;
 
-    private string whatEvent;
+    private int whatEvent;
 
-    //좋은 이벤트
-    private string eventRainy;
-
-    private string eventHarvest;
-    private string eventBreed;
-    private string eventSpiritFestival;
-    private string eventVein;
-    private string eventGoodSoil;
-
-    //나쁜 이벤트
-    private string eventDrought;
-
-    private string eventGrasshopper;
-    private string eventEpidemic;
-    private string eventForestFire;
-    private string eventLandslide;
-    private string eventHeavyRain;
-
-    private void ChangePlayerState()
+    private void ChangeWheatherEvent()
     {
-        whatEvent = eventRainy;
+        whatEvent = 0; //Test
+                       //currentTurn.text = gameData.cowcow.ToString();
+                       //이런식으로 현재 이벤트 정보, Move 정보를 가져옴.
 
-        //currentTurn.text = gameData.cowcow.ToString();
-        //이런식으로 현재 Turn 정보, 이벤트 정보, Move 정보를 가져옴.
+        switch (whatEvent) //gameData
+        {
+            case 0:
+                {
+                    currentEventName.text = "현재 날씨는 맑습니다";
+                    currentEventExplain.text = "";
+                }
+                break;
 
-        //[중요] 지금은 if문으로 써놓고, 다음에 EventType의 switch 문으로 변경하겠습니다.
-        if (whatEvent == eventRainy)
-        {
-            currentEventName.text = "비가 내립니다";
-            currentEventExplain.text = "물 자원을 +1개 획득합니다.";
-        }
-        if (whatEvent == eventHarvest)
-        {
-            currentEventName.text = "풍년 입니다";
-            currentEventExplain.text = "밀 자원을 +1개 획득합니다.";
-        }
-        if (whatEvent == eventBreed)
-        {
-            currentEventName.text = "사랑이 넘쳐납니다";
-            currentEventExplain.text = "소 자원을 +1개 획득합니다";
-        }
-        if (whatEvent == eventSpiritFestival)
-        {
-            currentEventName.text = "정령의 축제가 열렸습니다";
-            currentEventExplain.text = "나무 자원을 +1개 획득합니다.";
-        }
-        if (whatEvent == eventVein)
-        {
-            currentEventName.text = "광맥을 발견했습니다";
-            currentEventExplain.text = "철 자원을 +1 개 획득합니다.";
-        }
-        if (whatEvent == eventGoodSoil)
-        {
-            currentEventName.text = "좋은 토질을 발견했습니다";
-            currentEventExplain.text = "흙 자원을 +1 개 획득합니다.";
-        }
-        if (whatEvent == eventDrought)
-        {
-            currentEventName.text = "더위로 물이 말랐습니다";
-            currentEventExplain.text = "물 자원을 -1 개 획득합니다.";
-        }
-        if (whatEvent == eventGrasshopper)
-        {
-            currentEventName.text = "배고픈 메뚜기떼가 나타났습니다";
-            currentEventExplain.text = "밀 자원을 -1 개 획득합니다.";
-        }
-        if (whatEvent == eventEpidemic)
-        {
-            currentEventName.text = "소들이 병들었습니다";
-            currentEventExplain.text = "물 자원을 -1 개 획득합니다.";
-        }
-        if (whatEvent == eventForestFire)
-        {
-            currentEventName.text = "산불이 났습니다";
-            currentEventExplain.text = "나무 자원을 -1 개 획득합니다.";
-        }
-        if (whatEvent == eventLandslide)
-        {
-            currentEventName.text = "광산이 무너졌습니다";
-            currentEventExplain.text = "철 자원을 -1 개 획득합니다.";
-        }
-        if (whatEvent == eventHeavyRain)
-        {
-            currentEventName.text = "폭우가 내립니다";
-            currentEventExplain.text = "흙 자원을 -1 개 획득합니다.";
+            case 1:
+                {
+                    currentEventName.text = "비가 내립니다";
+                    currentEventExplain.text = "물 자원을 +1개 획득합니다.";
+                }
+                break;
+
+            case 2:
+                {
+                    currentEventName.text = "풍년 입니다";
+                    currentEventExplain.text = "밀 자원을 +1개 획득합니다.";
+                }
+                break;
+
+            case 3:
+                {
+                    currentEventName.text = "사랑이 넘쳐납니다";
+                    currentEventExplain.text = "소 자원을 +1개 획득합니다";
+                }
+                break;
+
+            case 4:
+                {
+                    currentEventName.text = "정령의 축제가 열렸습니다";
+                    currentEventExplain.text = "나무 자원을 +1개 획득합니다.";
+                }
+                break;
+
+            case 5:
+                {
+                    currentEventName.text = "광맥을 발견했습니다";
+                    currentEventExplain.text = "철 자원을 +1 개 획득합니다.";
+                }
+                break;
+
+            case 6:
+                {
+                    currentEventName.text = "좋은 토질을 발견했습니다";
+                    currentEventExplain.text = "흙 자원을 +1 개 획득합니다.";
+                }
+                break;
+
+            case 7:
+                {
+                    currentEventName.text = "더위로 물이 말랐습니다";
+                    currentEventExplain.text = "물 자원을 -1 개 획득합니다.";
+                }
+                break;
+
+            case 8:
+                {
+                    currentEventName.text = "배고픈 메뚜기떼가 나타났습니다";
+                    currentEventExplain.text = "밀 자원을 -1 개 획득합니다.";
+                }
+                break;
+
+            case 9:
+                {
+                    currentEventName.text = "소들이 병들었습니다";
+                    currentEventExplain.text = "물 자원을 -1 개 획득합니다.";
+                }
+                break;
+
+            case 10:
+                {
+                    currentEventName.text = "산불이 났습니다";
+                    currentEventExplain.text = "나무 자원을 -1 개 획득합니다.";
+                }
+                break;
+
+            case 11:
+                {
+                    currentEventName.text = "광산이 무너졌습니다";
+                    currentEventExplain.text = "철 자원을 -1 개 획득합니다.";
+                }
+                break;
+
+            case 12:
+                {
+                    currentEventName.text = "폭우가 내립니다";
+                    currentEventExplain.text = "흙 자원을 -1 개 획득합니다.";
+                }
+                break;
         }
     }
 
     private void Start()
     {
-        ChangePlayerState();
+        ChangeWheatherEvent();
     }
 
     private void Update()
