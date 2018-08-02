@@ -23,8 +23,21 @@ class MainState : State
     {
         throw new System.NotImplementedException();
     }
-    public override State Execute(StageType stageTyp)
+
+    public override State Execute(StageType stageType)
     {
-        throw new System.NotImplementedException();
+        switch (stageType)
+        {
+            case StageType.TutorialStage:
+                SceneManager.LoadSceneAsync((int)stageType);
+                return new TutorialState();
+
+            case StageType.BattleStage:
+                SceneManager.LoadSceneAsync((int)stageType);
+                return new BattleState();
+
+            default:
+                return null;
+        }
     }
 }
