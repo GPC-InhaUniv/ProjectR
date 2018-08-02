@@ -11,6 +11,7 @@ public abstract class InputState
 
     public virtual void UIMover(Vector3 position) { }
 
+    // UI 쪽에서 입력해주면
     public virtual void TouchOrClickButton(InputButtonType inputButtonType) { }
 
     public virtual void BoardBattleButton() { }

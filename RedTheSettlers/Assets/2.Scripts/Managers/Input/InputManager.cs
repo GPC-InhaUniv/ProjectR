@@ -5,9 +5,9 @@ using UnityEngine;
 
 public enum StateType
 {
-    TitleState,
-    BoardState,
-    BattleState,
+    TitleStage,
+    MainStage,
+    BattleStage,
     TradeState,
     WeatherState,
 }
@@ -34,15 +34,11 @@ public enum InputButtonType
 public class InputManager : Singleton<InputManager>
 {
     private static InputManager inputManager;
-
     private InputState input;
+
     [SerializeField]
     private StateType stateType;
-    private Vector3 moveDirection;
     private bool enableInputKey = false;
-    private float inputDelay = 0.1f;
-    private float maxInputDelay = 0.04f;
-    Queue<KeyCode> inputs = new Queue<KeyCode>();
 
     private void Awake()
     {
@@ -52,7 +48,7 @@ public class InputManager : Singleton<InputManager>
 
     private void Start()
     {
-        //input = new BoardGameState();
+        //input = new MainTitleState();
         TypeState(stateType);
     }
 
@@ -74,72 +70,43 @@ public class InputManager : Singleton<InputManager>
         input.DragMove(direction);
     }
 
+    // 아직 Trade 쪽에 무엇을 전달해야 할지 정해지지 않아
+    // 임의로 매개변수 지정
     public void InputTrade(Vector3 position)
     {
         input.UIMover(position);
     }
 
-    // 쓰레기 코드 대대적 수정 예정
     private void EnterDirectionKey()
     {
-        if (Input.GetKeyDown(KeyCode.UpArrow))
+        Vector3 moveDirection = Vector3.zero;
+
+        if (Input.GetKey(KeyCode.UpArrow))
         {
-            inputs.Enqueue(KeyCode.UpArrow);
-            moveDirection = Vector3.forward;
-            input.DirectionKey(moveDirection);
-            transform.TransformDirection(Vector3.forward);
+            moveDirection += Vector3.forward;
         }
-        else if (Input.GetKeyUp(KeyCode.UpArrow))
+        else if (Input.GetKey(KeyCode.DownArrow))
         {
-            moveDirection = Vector3.zero;
-            input.DirectionKey(moveDirection);
+            moveDirection += Vector3.back;
         }
-        if (Input.GetKeyDown(KeyCode.DownArrow))
+        if (Input.GetKey(KeyCode.LeftArrow))
         {
-            inputs.Enqueue(KeyCode.DownArrow);
-            moveDirection = Vector3.back;
-            input.DirectionKey(moveDirection);
+            moveDirection += Vector3.left;
         }
-        else if (Input.GetKeyUp(KeyCode.DownArrow))
+        else if (Input.GetKey(KeyCode.RightArrow))
         {
-            moveDirection = Vector3.zero;
-            input.DirectionKey(moveDirection);
+            moveDirection += Vector3.right;
         }
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
-        {
-            inputs.Enqueue(KeyCode.LeftArrow);
-            moveDirection = Vector3.left;
-            input.DirectionKey(moveDirection);
-        }
-        else if (Input.GetKeyUp(KeyCode.LeftArrow))
-        {
-            moveDirection = Vector3.zero;
-            input.DirectionKey(moveDirection);
-        }
-        if (Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            inputs.Enqueue(KeyCode.RightArrow);
-            moveDirection = Vector3.right;
-            input.DirectionKey(moveDirection);
-        }
-        else if(Input.GetKeyUp(KeyCode.RightArrow))
-        {
-            moveDirection = Vector3.zero;
-            input.DirectionKey(moveDirection);
-        }
-        if (inputs.Contains(KeyCode.RightArrow) && inputs.Contains(KeyCode.UpArrow))
-        {
-            LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, inputs.Peek());
-        }
-        else
-        {
-            inputs.Clear();
-        }
+
+        input.DirectionKey(moveDirection);
     }
 
-    private void InputTimer()
+    private void InteractionKey()
     {
-        inputDelay += 0.01f;
+        if(Input.GetKey(KeyCode.Z))
+        {
+            input.BattleAttack();
+        }
     }
 
     private void ChangeState(InputState inputState)
@@ -151,11 +118,11 @@ public class InputManager : Singleton<InputManager>
     {
         switch (stateType)
         {
-            case StateType.BoardState:
+            case StateType.MainStage:
                 ChangeState(new BoardGameState());
                 enableInputKey = false;
                 break;
-            case StateType.BattleState:
+            case StateType.BattleStage:
                 ChangeState(new BattlePhaseState());
                 enableInputKey = true;
                 break;
@@ -167,7 +134,7 @@ public class InputManager : Singleton<InputManager>
                 ChangeState(new WeatherState());
                 enableInputKey = false;
                 break;
-            case StateType.TitleState:
+            case StateType.TitleStage:
                 ChangeState(new MainTitleState());
                 enableInputKey = false;
                 break;

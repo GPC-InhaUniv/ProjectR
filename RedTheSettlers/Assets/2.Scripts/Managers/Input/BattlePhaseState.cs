@@ -6,11 +6,12 @@ public class BattlePhaseState : InputState
 {
     public override void DirectionKey(Vector3 direction)
     {
-        TemporaryGameManager.Instance.moveDirection = direction;
+        //GameManager.Instance.PlayerBattle.MoveTo(direction);
+        TemporaryGameManager.Instance.PlayerMove(direction);
     }
 
     public override void BattleAttack()
     {
-        
+        LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, "공격");
     }
 }
