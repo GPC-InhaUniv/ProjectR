@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Attack : EnemyState
+/// <summary>
+/// 추가 공격(구상 중)
+/// </summary>
+public class AttackPattern2 : Attack
 {
     public override void DoAction(Enemy enemy)
     {
-        enemy.anim.SetTrigger("Attack");
-    }//하이하이하이하이 : by 김하정
+        base.DoAction(enemy);
+    }
 }

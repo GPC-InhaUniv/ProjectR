@@ -7,5 +7,6 @@ public class Idle : EnemyState
     public override void DoAction(Enemy enemy)
     {
         Debug.Log("Idle");
+        enemy.anim.SetFloat("Speed", Vector3.Distance(enemy.destinationPoint, enemy.currentPoint));
     }
 }
