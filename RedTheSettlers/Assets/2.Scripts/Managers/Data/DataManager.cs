@@ -2,13 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DataManager : MonoBehaviour {
-    GameData gameData;
+public class DataManager : Singleton<DataManager>
+{
 
+    public GameData GameData;
+    public GameDataLoader GameDataLoader;
 
-    private void Start()
+    // Use this for initialization
+    void Awake()
     {
-        gameData = new GameData();
-        
+        GameData = new GameData();
+
+
     }
+
+
+
 }

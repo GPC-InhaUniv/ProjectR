@@ -18,8 +18,7 @@ public class PlayerBattle : MonoBehaviour {
     private int mp;
     private float moveSpeed = 2.0f;
     
-
-    public IEnumerator MoveTo(Vector3 targetPosition)
+    public IEnumerator MoveToTargetPostion(Vector3 targetPosition)
     {
         Quaternion targetAngle = Quaternion.LookRotation(targetPosition - transform.position);
 
@@ -28,6 +27,24 @@ public class PlayerBattle : MonoBehaviour {
         {
             transform.rotation = Quaternion.Lerp(transform.rotation, targetAngle, 0.2f);
             transform.position = Vector3.Lerp(transform.position, targetPosition, moveSpeed * Time.deltaTime);
+
+            yield return null;
+        }
+    }
+
+    public IEnumerator MoveToDirection(Vector3 Direction)
+    {
+        Quaternion targetAngle = Quaternion.LookRotation(Direction);
+
+        int frameCount = 0;
+
+        while (frameCount < 30)
+        {
+            transform.rotation = Quaternion.Lerp(transform.rotation, targetAngle, 0.2f);
+
+            transform.position += Direction * moveSpeed * Time.deltaTime;
+
+            frameCount++;
 
             yield return null;
         }
