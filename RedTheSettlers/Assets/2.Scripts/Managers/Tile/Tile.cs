@@ -6,6 +6,10 @@ public class Tile : MonoBehaviour{
 
     [SerializeField]
     private TileType tileType;
+    public bool isPossessed;
+    public int owner;
+
+    public GameObject[] PossessedArea;
 
     private int resourceAmount;
     private bool isConquered;

@@ -2,41 +2,91 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum EnemyType
+{
+    Iron = 0,
+    Soil = 1,
+    Spot = 2,
+    Water = 3,
+    Wheat = 4,
+    Wood = 5,
+}
+
+public enum EnemyStateType
+{
+    Idle,
+    Die,
+    Damage,
+    Attack,
+    move,
+}
+
 public class Enemy : MonoBehaviour
 {
     public EnemyState currentState;
-    private EnemyState[] state;
+    private SkinnedMeshRenderer typeRenderer;
+    public Animator anim;
+    [SerializeField]
+    private Material[] materials;
+    private EnemyAttackArea attackArea;
+    private EnemyHitArea hitArea;
 
-    public const int idle = 0;
-    public const int dead = 1;
-    public const int damage = 2;
-    public const int attack = 3;
-    public const int move = 4;
+    //Enemy Stats
+    public float CurrentSpeed;
+    public int CurrentHp;
+    public int MaxHp;
 
     void Start ()
     {
-        concreteState();
+
+        typeRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
+        anim = GetComponent<Animator>();
+        attackArea = GetComponent<EnemyAttackArea>();
+        hitArea = GetComponent<EnemyHitArea>();
+
+        ChangeStage(EnemyStateType.Attack);
     }
 
-    public void ChangeStage(int statetype)
+    public void ChangeStage(EnemyStateType stateType)
     {
-        currentState = state[statetype];
+        switch (stateType)
+        {
+            case EnemyStateType.Idle:
+                currentState = new Idle();
+                break;
+            case EnemyStateType.Die:
+                currentState = new Die();
+                break;
+            case EnemyStateType.Damage:
+                currentState = new Damage();
+                break;
+            case EnemyStateType.Attack:
+                currentState = new Attack();
+                break;
+            case EnemyStateType.move:
+                currentState = new Move();
+                break;
+            default:
+                break;
+        }
+        
         ReQuest();
     }
 
-    void concreteState()
+    private void ReQuest()
     {
-        state = new EnemyState[5];
-        state[idle] = new Idle();
-        state[dead] = new Die();
-        state[damage] = new Damage();
-        state[attack] = new Attack();
-        state[move] = new Move();
+        Debug.Log("currentState : " + currentState);
+        currentState.DoAction(this);
     }
 
-    public void ReQuest()
+    public void SetType(EnemyType enemyType)
     {
-        currentState.DoAction(this);
+        typeRenderer.material = materials[(int)enemyType];
+    }
+
+    void AttackEnd()
+    {
+        ChangeStage(EnemyStateType.Idle);
     }
 
 }

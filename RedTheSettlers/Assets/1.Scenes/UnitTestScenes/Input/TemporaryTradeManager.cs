@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class TemporaryTradeManager : Singleton<TemporaryTradeManager>
 {
-    TemporaryTradeManager tempTradeManager;
+    private static TemporaryTradeManager tempTradeManager;
 
-    private void Start()
+    private void Awake()
     {
         tempTradeManager = this;
+        DontDestroyOnLoad(gameObject);
     }
 
     public void Trade(Vector3 position)

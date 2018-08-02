@@ -6,6 +6,6 @@ public class Idle : EnemyState
 {
     public override void DoAction(Enemy enemy)
     {
-        
+        Debug.Log("Idle");
     }
 }
