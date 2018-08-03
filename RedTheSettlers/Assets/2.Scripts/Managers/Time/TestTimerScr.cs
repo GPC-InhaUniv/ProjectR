@@ -26,7 +26,7 @@ public class TestTimerScr : MonoBehaviour {
     {
         //Debug.Log("callback execute");
         skill_2_Timer = GameTimeManager.Instance.PopTimer();
-        skill_2_Timer.SetTimer(0f, false);
+        skill_2_Timer.SetTimer(1f, false);
         skill_2_Timer.Callback = new TimerCallback(callback);
         skill_2_Timer.StartTimer();
     }
