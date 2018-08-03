@@ -16,16 +16,24 @@ using UnityEngine.SceneManagement;
 {
     public override void Exit()
     {
-        throw new System.NotImplementedException();
+        
     }
 
     public override void mddd() //임시
     {
         throw new System.NotImplementedException();
     }
-    public override State Execute(StageType stageTyp)
+
+    public override State Execute(StageType stageType)
     {
-        throw new System.NotImplementedException();
+        switch (stageType)
+        {
+            case StageType.MainStage:
+                SceneManager.LoadSceneAsync((int)stageType);
+                return new MainState();
+            default:
+                return null;
+        }
     }
 
 }

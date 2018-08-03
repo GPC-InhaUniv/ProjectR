@@ -4,14 +4,23 @@ using UnityEngine;
 
 public class EnemyAttackArea : MonoBehaviour
 {
+    private Enemy enemy;
+    public Collider AttackCollider;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    private void Start()
+    {
+        enemy = GetComponentInParent<Enemy>();
+        AttackCollider = GetComponent<Collider>();
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Player")
+        {
+            //플레이어에게 타격을 준다.
+            
+        }
+
+
+    }
 }

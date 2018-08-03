@@ -8,7 +8,7 @@ public class TemporaryGameManager : Singleton<TemporaryGameManager>
     private Transform transformCamera;
     //private new Transform Player;
     private new Rigidbody Player;
-    public Vector3 moveDirection;
+    //public Vector3 moveDirection;
 
     private void Awake()
     {
@@ -23,10 +23,10 @@ public class TemporaryGameManager : Singleton<TemporaryGameManager>
 
     }
 
-    private void FixedUpdate()
+    /*private void FixedUpdate()
     {
         PlayerMove(moveDirection);
-    }
+    }*/
 
     public void CameraMove(Vector3 direction)
     {
@@ -43,7 +43,7 @@ public class TemporaryGameManager : Singleton<TemporaryGameManager>
     public void PlayerMove(Vector3 direction)
     {
         //Player.transform.Translate(direction * 10 * Time.deltaTime);
-        Player.velocity = direction * 50 * Time.deltaTime;
-        LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, "움직이고 있는가? " + moveDirection);
+        Player.MovePosition(Player.position + (direction * 10) * Time.deltaTime);
+        LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, "움직이고 있는가? " + direction);
     }
 }

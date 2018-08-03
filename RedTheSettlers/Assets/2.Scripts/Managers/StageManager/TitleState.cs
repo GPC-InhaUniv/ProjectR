@@ -15,7 +15,14 @@ class TitleState : State
 {
     public override State Execute(StageType stageType)
     {
-        return new LodingState();
+        switch (stageType)
+        {
+            case StageType.LodingStage:
+                SceneManager.LoadSceneAsync((int)stageType);
+                return new LodingState();
+            default:
+                return null;
+        }
     }
 
     public override void Exit()
@@ -27,6 +34,4 @@ class TitleState : State
     {
         throw new System.NotImplementedException();
     }
-
-    
 }

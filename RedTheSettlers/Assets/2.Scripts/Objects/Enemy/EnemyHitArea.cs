@@ -2,15 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyHitArea : MonoBehaviour {
+public class EnemyHitArea : MonoBehaviour
+{
+    Enemy enemy;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    private void Start()
+    {
+        enemy = GetComponentInParent<Enemy>();
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.tag == "PlayerAttack")
+        {
+
+        }
+        Debug.Log("EnemyHitArea.OnTriggerEnter");
+        enemy.StartDamage(0);
+    }
 }
