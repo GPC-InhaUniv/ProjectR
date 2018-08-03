@@ -4,7 +4,7 @@ using UnityEngine;
 
 
 [System.Serializable]
-public struct PlayerData
+public struct StatData
 {
     public int HealthPoint;
     public int MagicPoint;
@@ -48,40 +48,42 @@ public struct InGameData
     public int BossKillCount;
 }
 
+
 [System.Serializable]
-public struct AssetBundleData
+public class PlayerData
 {
-    public Hash128 Player;
-    public Hash128 Skill;
-    public Hash128 Enemey;
-    public Hash128 FirstBoss;
-    public Hash128 SecondBoss;
-    public Hash128 ThirdBoss;
-    public Hash128 UI;
-    public Hash128 Tile;
-
-}
-
-
-public class GameData
-{
-
-    public const int maxResourceNum = 30;
-    public const int maxItemUpgradeLevel = 3;
-    public const int maxTileUpgradeLevel = 5;
-
-    public string PlayerPassword;
-    public PlayerData PlayerData;
+    public StatData StatData;
     public List<SkillData> SkillList;
     public List<TileData> TileList;
     public ResourceData ResourceData;
     public InGameData InGameData;
 
-    public GameData()
+    public PlayerData()
     {
         SkillList = new List<SkillData>();
         TileList = new List<TileData>();
     }
+}
 
+[System.Serializable]
+public class GameData
+{
+    public const int maxResourceNum = 30;
+    public const int maxItemUpgradeLevel = 3;
+    public const int maxTileUpgradeLevel = 5;
+
+    public string UserId;
+    public string UserPassword;
+    public PlayerData[] PlayerData;
+
+    public GameData(int numberOfPlayer)
+    {
+        PlayerData = new PlayerData[numberOfPlayer];
+
+        for(int i =0; i < PlayerData.Length; i ++)
+        {
+            PlayerData[i] = new PlayerData();
+        }
+    }
 
 }
