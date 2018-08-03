@@ -26,7 +26,7 @@ Assets/Firebase/Editor/FirebaseAuth_v1.0.1_manifest.txt
 Assets/Firebase/Editor/FirebaseAuth_v1.1.0_manifest.txt
 Assets/Firebase/Editor/FirebaseAuth_v1.1.1_manifest.txt
 Assets/Firebase/Editor/FirebaseAuth_v1.1.2_manifest.txt
-Assets/Firebase/Editor/FirebaseAuth_v5.2.0_manifest.txt
+Assets/Firebase/Editor/FirebaseAuth.txt
 Assets/Firebase/Editor/generate_xml_from_google_services_json.exe
 Assets/Firebase/Editor/generate_xml_from_google_services_json.py
 Assets/Firebase/Plugins/Firebase.App.dll
@@ -50,7 +50,7 @@ Assets/PlayServicesResolver/Editor/Google.IOSResolver_v1.2.79.0.dll
 Assets/PlayServicesResolver/Editor/Google.JarResolver_v1.2.79.0.dll
 Assets/PlayServicesResolver/Editor/Google.VersionHandler.dll
 Assets/PlayServicesResolver/Editor/Google.VersionHandlerImpl_v1.2.79.0.dll
-Assets/PlayServicesResolver/Editor/play-services-resolver_v1.2.79.0.txt
+Assets/PlayServicesResolver/Editor/play-services-resolver.txt
 Assets/Plugins/Android/Firebase/AndroidManifest.xml
 Assets/Plugins/Android/Firebase/project.properties
 Assets/Plugins/iOS/Firebase/libFirebaseCppApp.a
