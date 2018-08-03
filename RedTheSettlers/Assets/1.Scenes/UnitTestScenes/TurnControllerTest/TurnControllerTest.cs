@@ -4,10 +4,39 @@ using UnityEngine;
 
 namespace RedTheSettlers
 {
+    public enum GameState
+    {
+        //TurnController,
+        EventController,
+        ItemController,
+        Player1, 
+        Player2,
+        Player3,
+        Player4,
+    }
+
     namespace UnitTest
     {
-        public class TurnControllerTest : MonoBehaviour
+        interface IInformable
         {
+            void SetObserver(ObserverSets observer);
+            void NotifyObserver();
+        }
+
+        public class TurnControllerTest : MonoBehaviour, IInformable
+        {
+            GameState state = GameState.EventController;
+            private ObserverSets observer;
+
+            public void SetObserver(ObserverSets observer)
+            {
+                this.observer = observer;
+            }
+
+            public void NotifyObserver()
+            {
+                observer.SendState(state); // 상태 변경을 전달?
+            }
             
         }
     }

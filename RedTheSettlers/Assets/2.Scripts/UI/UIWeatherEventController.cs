@@ -12,7 +12,7 @@ using UnityEngine.UI;
 /// [중요] UI Manager 스크립트에서 각 상황에 맞게 처리 할 예정
 /// </summary>
 
-public class UIWheatherEventController : MonoBehaviour
+public class UIWeatherEventController : MonoBehaviour
 {
     [Header("Player's Current Situation")]
     [SerializeField]
@@ -31,7 +31,7 @@ public class UIWheatherEventController : MonoBehaviour
 
     private int whatEvent;
 
-    private void ChangeWheatherEvent()
+    private void ChangeWeatherEvent()
     {
         whatEvent = 0; //Test
                        //currentTurn.text = gameData.cowcow.ToString();
@@ -134,7 +134,7 @@ public class UIWheatherEventController : MonoBehaviour
 
     private void Start()
     {
-        ChangeWheatherEvent();
+        ChangeWeatherEvent();
     }
 
     private void Update()
