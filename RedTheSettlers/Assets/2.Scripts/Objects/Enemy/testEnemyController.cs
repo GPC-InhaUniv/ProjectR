@@ -4,7 +4,7 @@ using UnityEngine;
 
 /// <summary>
 /// **********************************************
-/// enemy 동작 테스트를 위한 테스트옹 소스입니다.
+/// enemy 이동 테스트를 위한 테스트옹 소스입니다.
 /// **********************************************
 /// </summary>
 public class testEnemyController : MonoBehaviour

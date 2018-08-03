@@ -12,4 +12,15 @@ public class EnemyAttackArea : MonoBehaviour
         enemy = GetComponentInParent<Enemy>();
         AttackCollider = GetComponent<Collider>();
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Player")
+        {
+            //플레이어에게 타격을 준다.
+            
+        }
+
+
+    }
 }

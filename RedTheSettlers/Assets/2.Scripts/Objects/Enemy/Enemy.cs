@@ -49,7 +49,13 @@ public class Enemy : MonoBehaviour
     public float MoveSpeed;
     public int CurrentHp;
     public int MaxHp;
+    public float TimeToReturn = 3.0f;
 
+    //timers
+    public GameTimer DeadTimer;
+    public GameTimer Pattern1Timer;
+    public GameTimer Pattern2Timer;
+    
     //test
     [SerializeField]
     testEnemyController testEnemyController;
@@ -68,12 +74,7 @@ public class Enemy : MonoBehaviour
     private void Update()
     {
         currentPoint = transform.position;
-
-        if (Vector3.Distance(destinationPoint, currentPoint) <= 1.0f && currentState.ToString() == EnemyStateType.Move.ToString())
-        {
-            rigidbodyComponent.velocity = Vector3.zero;
-            ChangeStage(EnemyStateType.Idle);
-        }
+        StopMovement();
     }
 
     public void ChangeStage(EnemyStateType stateType)
@@ -124,5 +125,49 @@ public class Enemy : MonoBehaviour
     {
         ChangeStage(EnemyStateType.Idle);
         attackArea.AttackCollider.enabled = false;
+    }
+
+    public void StartDamage(int damage)
+    {
+        ChangeStage(EnemyStateType.Damage);
+        CurrentHp -= damage;
+        CheckHp();
+        rigidbodyComponent.velocity = Vector3.zero;
+    }
+
+    private void EndDamage()
+    {
+        ChangeStage(EnemyStateType.Idle);
+    }
+
+    public void EndDead()
+    {
+        //자기 자신을 풀로 반환한다.
+        Debug.Log("enemy return to pool");
+
+        //타이머 참조를 끊는다.
+        DeadTimer = null;
+    }
+
+    private void CheckHp()
+    {
+        if (CurrentHp <= 0 && currentState.ToString() != EnemyStateType.Die.ToString())
+        {
+            ChangeStage(EnemyStateType.Die);
+        }
+
+        if (CurrentHp > MaxHp)
+        {
+            CurrentHp = MaxHp;
+        }
+    }
+
+    private void StopMovement()
+    {
+        if (Vector3.Distance(destinationPoint, currentPoint) <= 1.0f && currentState.ToString() == EnemyStateType.Move.ToString())
+        {
+            rigidbodyComponent.velocity = Vector3.zero;
+            ChangeStage(EnemyStateType.Idle);
+        }
     }
 }
