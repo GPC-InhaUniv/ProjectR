@@ -15,6 +15,5 @@ using UnityEngine;
 abstract class State
 {
     public abstract State Execute(StageType stageType);
-    public abstract void mddd();
-    public abstract void Exit();
+   
 }

@@ -37,6 +37,4 @@ public class StageManager : Singleton<StageManager>
     {
         currentState = currentState.Execute(stageType);
     }
-
-    
 }

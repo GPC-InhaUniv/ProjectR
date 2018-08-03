@@ -14,16 +14,7 @@ using UnityEngine.SceneManagement;
 
  class BattleState : State
 {
-    public override void Exit()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public override void mddd()
-    {
-        throw new System.NotImplementedException();
-    }
-
+    
     public override State Execute(StageType stageType)
     {
         switch (stageType)

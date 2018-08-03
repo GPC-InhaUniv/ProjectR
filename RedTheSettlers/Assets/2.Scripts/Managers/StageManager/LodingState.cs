@@ -14,15 +14,7 @@ using UnityEngine.SceneManagement;
 
  class LodingState : State
 {
-    public override void Exit()
-    {
-        
-    }
-
-    public override void mddd() //임시
-    {
-        throw new System.NotImplementedException();
-    }
+  
 
     public override State Execute(StageType stageType)
     {
