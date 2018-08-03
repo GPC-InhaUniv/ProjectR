@@ -15,9 +15,12 @@ public class EnemyHitArea : MonoBehaviour
     {
         if(other.tag == "PlayerAttack")
         {
-
+            enemy.ChangeStage(EnemyStateType.Damage);
         }
-        Debug.Log("EnemyHitArea.OnTriggerEnter");
-        enemy.StartDamage(0);
+        else if(other.tag == "Wall")
+        {
+            enemy.rigidbodyComponent.velocity = Vector3.zero;
+            enemy.ChangeStage(EnemyStateType.Idle);
+        }
     }
 }

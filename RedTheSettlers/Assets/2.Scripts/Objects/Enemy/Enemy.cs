@@ -14,12 +14,12 @@ public enum EnemyType
 
 public enum EnemyStateType
 {
-    Idle,
-    Die,
-    Damage,
-    Attack1,
-    Attack2,
-    Move,
+    Idle = 0,
+    Die = 1,
+    Damage = 2,
+    Attack1 = 3,
+    Attack2 = 4,
+    Move = 5,
 }
 
 /// <summary>
@@ -27,37 +27,36 @@ public enum EnemyStateType
 /// </summary>
 public class Enemy : MonoBehaviour
 {
+    public EnemyState currentState;   
     [SerializeField]
     private Material[] materials;
 
-    public EnemyState currentState;
-    private SkinnedMeshRenderer typeRenderer;
+    [Header("Compoenets")]
     public Animator anim;
-
-    //collider
+    private SkinnedMeshRenderer typeRenderer;
     private EnemyAttackArea attackArea;
     private EnemyHitArea hitArea;
     private Collider AttackColliderComponent;
     private Collider HitColliderComponent;
     public Rigidbody rigidbodyComponent;
 
-    //move
+    [Header("Moving Points")]
     public Vector3 destinationPoint;
     public Vector3 currentPoint;
 
-    //Enemy Status
+    [Header("Status")]
     public float MoveSpeed;
     public int CurrentHp;
     public int MaxHp;
     public float TimeToReturn = 3.0f;
+    public float Power;
 
-    //timers
+    [Header("Timers")]
     public GameTimer DeadTimer;
     public GameTimer Pattern1Timer;
     public GameTimer Pattern2Timer;
     
-    //test
-    [SerializeField]
+    [SerializeField, Header("test srcript")]
     testEnemyController testEnemyController;
  
     void Start ()
@@ -106,6 +105,11 @@ public class Enemy : MonoBehaviour
         ReQuest();
     }
 
+    public void ChangeStage(int stateType)
+    {
+        ChangeStage((EnemyStateType)stateType);
+    }
+
     private void ReQuest()
     {
         currentState.DoAction(this);
@@ -127,12 +131,15 @@ public class Enemy : MonoBehaviour
         attackArea.AttackCollider.enabled = false;
     }
 
+    //피격 처리를 담당하는 메서드
     public void StartDamage(int damage)
     {
-        ChangeStage(EnemyStateType.Damage);
-        CurrentHp -= damage;
-        CheckHp();
-        rigidbodyComponent.velocity = Vector3.zero;
+        if(currentState.ToString() == EnemyStateType.Damage.ToString())
+        {
+            rigidbodyComponent.velocity = Vector3.zero;
+            CurrentHp -= damage;
+            CheckHp();
+        }
     }
 
     private void EndDamage()
@@ -142,11 +149,10 @@ public class Enemy : MonoBehaviour
 
     public void EndDead()
     {
+        DeadTimer = null;
+        //추가 될 내용
         //자기 자신을 풀로 반환한다.
         Debug.Log("enemy return to pool");
-
-        //타이머 참조를 끊는다.
-        DeadTimer = null;
     }
 
     private void CheckHp()
