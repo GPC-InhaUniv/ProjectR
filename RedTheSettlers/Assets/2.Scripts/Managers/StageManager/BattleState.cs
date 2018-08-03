@@ -23,8 +23,16 @@ using UnityEngine.SceneManagement;
     {
         throw new System.NotImplementedException();
     }
-    public override State Execute(StageType stageTyp)
+
+    public override State Execute(StageType stageType)
     {
-        throw new System.NotImplementedException();
+        switch (stageType)
+        {
+            case StageType.MainStage:
+                SceneManager.LoadSceneAsync((int)stageType);
+                return new MainState();
+            default:
+                return null;
+        }
     }
 }

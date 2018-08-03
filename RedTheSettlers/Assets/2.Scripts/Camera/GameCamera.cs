@@ -4,32 +4,50 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-class GameCamera : MonoBehaviour
+public class GameCamera : MonoBehaviour
 {
     [SerializeField]
-    AbstractCamera abstractCamera;
+    AbstractCamera abstractCamera = null;
+    //BoardCamera boardCamera;
+    string cameraName;
     private void Start()
     {
+        cameraName = gameObject.name;
+        if(cameraName == "Board Camera")
+        {
+            abstractCamera = gameObject.AddComponent<BoardCamera>();
+        }
+        else
+        {
+            abstractCamera = gameObject.AddComponent<BattleCamera>();
+        }
         
     }
-    //int CameraCount
-    //{
-    //    get
-    //    {
-    //        if(abstractCamera != null)
-    //        {
-    //            return abstractCamera.CameraModuleCount;
-    //        }
-    //        return -1;
-    //    }
-    //}
-    public void PutInCamera(AbstractCamera abstractCamera)
-    {
-        Debug.Log("게임카메라 풋인카메라"+abstractCamera);
-        this.abstractCamera = abstractCamera;
-    }
-    void TrunOnCamera()
+    
+
+
+
+    public void TrunOnCamera()
     {
         abstractCamera.TurnOn();
     }
+    public void TrunOffCamera()
+    {
+        abstractCamera.TurnOff();
+    }
+    public void MovingCamera()
+    {
+        abstractCamera.MovingCamera();
+    }
+    public void ZoomInCamera()
+    {
+        abstractCamera.ZoomIn();
+    }
+    public void ZoomOutCamera()
+    {
+        abstractCamera.ZoomOut();
+    }
+    
+
+
 }

@@ -2,15 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyHitArea : MonoBehaviour {
+public class EnemyHitArea : MonoBehaviour
+{
+    Enemy enemy;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    private void Start()
+    {
+        enemy = GetComponentInParent<Enemy>();
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.tag == "PlayerAttack")
+        {
+            enemy.ChangeStage(EnemyStateType.Damage);
+        }
+        else if(other.tag == "Wall")
+        {
+            enemy.rigidbodyComponent.velocity = Vector3.zero;
+            enemy.ChangeStage(EnemyStateType.Idle);
+        }
+    }
 }

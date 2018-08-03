@@ -2,11 +2,13 @@
 
 public delegate void TimerCallback();
 /// <summary>
-/// 타이머 클래스
+/// 타이머 클래스, 콜백을 지정 해줘야 합니다.
 /// </summary>
 public class GameTimer : MonoBehaviour
-{
+{   
+    [SerializeField]
     private float snoozeTime;
+    [SerializeField]
     private float elapseTime;
     private bool isCounting = false;
     private bool isRepeat = false;
