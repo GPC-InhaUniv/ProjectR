@@ -44,6 +44,5 @@ public class TemporaryGameManager : Singleton<TemporaryGameManager>
     {
         //Player.transform.Translate(direction * 10 * Time.deltaTime);
         Player.MovePosition(Player.position + (direction * 10) * Time.deltaTime);
-        LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, "움직이고 있는가? " + direction);
     }
 }
