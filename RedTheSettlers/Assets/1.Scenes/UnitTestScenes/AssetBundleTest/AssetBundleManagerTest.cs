@@ -192,7 +192,7 @@ namespace RedTheSettlers
                 LogManager.Instance.UserDebug(LogColor.Orange, "AssetBundleManager", "다운로드 완료" + " " + request.downloadedBytes + "Bytes");
 
                 fs = new FileStream(assetBundleDirectory + assetBundleName, System.IO.FileMode.Open);
-                fs.Read()
+                //fs.Read()
                 
                 //string newManifest = null;
                 //byte[] bytes = request.downloadHandler.data;
