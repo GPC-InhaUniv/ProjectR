@@ -2,50 +2,36 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BoardCamera : MonoBehaviour {
-    Camera camera;
-    public bool IsZoom;
+public class BoardCamera : AbstractCamera{
+    //추상적 개념에 정의된 인터페이스를 확장한다
+    
     float zoomIn;
     float zoomOut;
     float smooth;
 
-    public bool IsTarget;
-    Transform Target;
+    //public bool IsTarget;
+    //Transform Target;
+    
+    private void Start()
+    {
+        GetCamera();
+        Debug.Log("보드카메라 들어옴");
+        zoomIn = 20;
+        zoomOut = camera.fieldOfView;
+        smooth = 5;
+    }
+    
+    
+
     float vDistance;
     float hDistance;
 
     public float dragSpeed = 2;
     private Vector3 dragOrigin;
 
-
-    private void Start()
+    public override void MovingCamera()
     {
-
-        camera = GetComponent<Camera>();
-        zoomIn = 20;
-        zoomOut = camera.fieldOfView;
-        smooth = 5;
-    }
-
-    private void Update()
-    {
-        ZoomInOut(IsZoom);
-        
-        //임시_타겟이 있으면 타겟으로 이동하는 부분
-        if(Target != null)
-        {
-            MoveToTarget(Target);
-        }
-
-
-
-        //임시_카메라 움직이는 부분
-        MovingCamera();
-    }
-
-
-    void MovingCamera()
-    {
+        Debug.Log("보드카메라 무빙카메라()");
         if (Input.GetMouseButtonDown(0))
         {
             dragOrigin = Input.mousePosition;
@@ -60,20 +46,13 @@ public class BoardCamera : MonoBehaviour {
         transform.Translate(move, Space.World);
     }
 
-    void MoveToTarget(Transform target)
+    public override void ZoomIn()
     {
+        camera.fieldOfView = Mathf.Lerp(camera.fieldOfView, zoomIn, Time.deltaTime * smooth);
+    }
 
-    }
-    void ZoomInOut(bool isZoom)
+    public override void ZoomOut()
     {
-        if (isZoom)
-        {
-            camera.fieldOfView = Mathf.Lerp(camera.fieldOfView,zoomIn,Time.deltaTime*smooth);
-        }
-        else
-        {
-            camera.fieldOfView = Mathf.Lerp(camera.fieldOfView, zoomOut, Time.deltaTime * smooth);
-        }
+        camera.fieldOfView = Mathf.Lerp(camera.fieldOfView, zoomOut, Time.deltaTime * smooth);
     }
-	
 }

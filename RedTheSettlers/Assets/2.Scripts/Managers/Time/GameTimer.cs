@@ -2,13 +2,17 @@
 
 public delegate void TimerCallback();
 /// <summary>
-/// 타이머 클래스
+/// 타이머 클래스, 콜백을 지정 해줘야 합니다.
 /// </summary>
 public class GameTimer : MonoBehaviour
-{
+{   
+    [SerializeField]
     private float snoozeTime;
+    [SerializeField]
     private float elapseTime;
-
+    private bool isCounting = false;
+    private bool isRepeat = false;
+    private TimerCallback _callback;
     public TimerCallback Callback
     {
         get
@@ -20,10 +24,6 @@ public class GameTimer : MonoBehaviour
             _callback = value;
         }
     }
-
-    private bool isCounting = false;
-    private bool isRepeat = false;
-    private TimerCallback _callback;
 
     /// <summary>
     /// 타이머에 시간을 지정합니다. time : 시간, repeat : 반복 호출 여부
@@ -46,7 +46,7 @@ public class GameTimer : MonoBehaviour
         }
         else
         {
-            LogManager.Instance.UserDebug(LogColor.Purple, this.GetType().ToString(), "(test)Callback is null");
+            LogManager.Instance.UserDebug(LogColor.Purple, GetType().ToString(), "(test)Callback is null");
         }
         
     }
@@ -60,7 +60,7 @@ public class GameTimer : MonoBehaviour
     }
 
     /// <summary>
-    /// 타이머를 정지시킵니다. 다시 재개할 수 없습니다.
+    /// 타이머를 정지시킵니다. 시간이 초기화됩니다.
     /// </summary>
     public void StopTimer()
     {

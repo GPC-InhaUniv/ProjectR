@@ -2,14 +2,35 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DataManager : MonoBehaviour {
-    GameData gameData;
+[System.Serializable]
+public struct AssetBundleData
+{
+    public Hash128 Player;
+    public Hash128 Skill;
+    public Hash128 Enemey;
+    public Hash128 FirstBoss;
+    public Hash128 SecondBoss;
+    public Hash128 ThirdBoss;
+    public Hash128 UI;
+    public Hash128 Tile;
 
+}
 
-    private void Start()
+public class DataManager : Singleton<DataManager>
+{
+    public GameData GameData;
+    public GameDataLoader GameDataLoader;
+    // Use this for initialization
+    void Awake()
     {
-        gameData = new GameData();
-        gameData.WaterNum = 1;
-        
+        GameData = new GameData(4);
+
+        string json = JsonUtility.ToJson(GameData);
+        Debug.Log(json);
     }
+
+    
+
+
+
 }

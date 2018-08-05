@@ -43,8 +43,9 @@ public class TileManager : MonoBehaviour {
                 {
                     float xCoord = CalculateXcoord(x, z);
                     float zCoord = CalculateZcoord(z);
-                    TileGrid[x, z] = ObjectPoolManager.ObjectPoolInstance.TileSets[index];
-                    TileGrid[x, z].transform.position = new Vector3(xCoord, Random.Range(10, 40), zCoord); 
+                    TileGrid[x, z] = ObjectPoolManager.ObjectPoolInstance.TileSets[index].gameObject;
+                    TileGrid[x, z].transform.position = new Vector3(xCoord, 0.5f, zCoord);
+                    TileGrid[x, z].GetComponent<BoardTile>().coordinate = new Coordinate(x, z);
                     index++;
                 }
             }
@@ -74,9 +75,5 @@ public class TileManager : MonoBehaviour {
     {
         return z * 3 / 2f + 0.1f;
     } 
-
-    void DropDownTile(Tile tile)
-    {
-
-    }
+ 
 }

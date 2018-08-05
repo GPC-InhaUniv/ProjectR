@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+
 /// <summary>
 /// 담당자 : 이재환
 /// 수정시 간략 설명과 수정 날짜 
@@ -11,18 +12,24 @@ using UnityEngine.SceneManagement;
 /// }
 /// </summary>
 
-public class MainState : State
+class MainState : State
 {
+   
 
-    // Use this for initialization
-    void Start()
+    public override State Execute(StageType stageType)
     {
+        switch (stageType)
+        {
+            case StageType.TutorialStage:
+                SceneManager.LoadSceneAsync((int)stageType);
+                return new TutorialState();
 
-    }
+            case StageType.BattleStage:
+                SceneManager.LoadSceneAsync((int)stageType);
+                return new BattleState();
 
-    // Update is called once per frame
-    void Update()
-    {
-
+            default:
+                return null;
+        }
     }
 }
