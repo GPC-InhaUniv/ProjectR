@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
-public class TitleScript : MonoBehaviour
+/// <summary>
+/// 작성자 : 김하정
+/// </summary>
+public class UITitleScript : MonoBehaviour
 {
     public Text TitleText;
     private Color color;
