@@ -56,7 +56,7 @@ public class InputTest : MonoBehaviour
 
     public void BattleButton()
     {
-        //InputManager.Instance.
+        InputManager.Instance
         LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, "전투");
     }
 

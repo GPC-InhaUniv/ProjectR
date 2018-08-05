@@ -41,10 +41,26 @@ public class InputManager : Singleton<InputManager>
         input.DirectionKey();
     }
 
+    public void BattlePhase()
+    {
+
+    }
+
+    public void Trade()
+    {
+
+    }
+
+    public void TurnEnd()
+    {
+
+    }
+
     private void ChangeState(InputState inputState)
     {
         input = inputState;
     }
+
 
     public void TypeState(InputType inputType)
     {
