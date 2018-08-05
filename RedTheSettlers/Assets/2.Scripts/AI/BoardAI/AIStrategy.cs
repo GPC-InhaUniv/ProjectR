@@ -28,8 +28,9 @@ public class AIStrategy : MonoBehaviour {
             }
             else
             {
-                targetBoardTile = (targetBoardTile.tileWeight < comparerTile.tileWeight) ? targetBoardTile : comparerTile;
+                targetBoardTile = (targetBoardTile.tileWeight <= comparerTile.tileWeight) ? targetBoardTile : comparerTile;
             }
+            
         }
 
         return targetBoardTile;
