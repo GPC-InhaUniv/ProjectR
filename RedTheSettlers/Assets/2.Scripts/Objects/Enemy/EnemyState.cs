@@ -1,10 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public abstract class EnemyState
+﻿namespace RedTheSettlers
 {
-    protected Enemy enemy;
+    namespace System
+    {
+        public abstract class EnemyState
+        {
+            protected Enemy enemy;
 
-    public abstract void DoAction(Enemy enemy);
+            public abstract void DoAction(Enemy enemy);
+        }
+    }
 }

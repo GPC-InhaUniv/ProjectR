@@ -1,26 +1,30 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class EnemyHitArea : MonoBehaviour
+namespace RedTheSettlers
 {
-    Enemy enemy;
-
-    private void Start()
+    namespace System
     {
-        enemy = GetComponentInParent<Enemy>();
-    }
+        public class EnemyHitArea : MonoBehaviour
+        {
+            Enemy enemy;
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if(other.tag == "PlayerAttack")
-        {
-            enemy.ChangeStage(EnemyStateType.Damage);
-        }
-        else if(other.tag == "Wall")
-        {
-            enemy.rigidbodyComponent.velocity = Vector3.zero;
-            enemy.ChangeStage(EnemyStateType.Idle);
+            private void Start()
+            {
+                enemy = GetComponentInParent<Enemy>();
+            }
+
+            private void OnTriggerEnter(Collider other)
+            {
+                if (other.tag == "PlayerAttack")
+                {
+                    enemy.ChangeStage(EnemyStateType.Damage);
+                }
+                else if (other.tag == "Wall")
+                {
+                    enemy.rigidbodyComponent.velocity = Vector3.zero;
+                    enemy.ChangeStage(EnemyStateType.Idle);
+                }
+            }
         }
     }
 }

@@ -1,7 +1,13 @@
-﻿public class Attack : EnemyState
+﻿namespace RedTheSettlers
 {
-    public override void DoAction(Enemy enemy)
+    namespace System
     {
-        enemy.anim.SetTrigger("Attack");
-    }//하이하이하이하이 : by 김하정
+        public class Attack : EnemyState
+        {
+            public override void DoAction(Enemy enemy)
+            {
+                enemy.anim.SetTrigger("Attack");
+            }
+        }
+    }
 }

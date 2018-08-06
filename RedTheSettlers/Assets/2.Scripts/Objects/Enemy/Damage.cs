@@ -1,11 +1,15 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class Damage : EnemyState
+namespace RedTheSettlers
 {
-    public override void DoAction(Enemy enemy)
+    namespace System
     {
-        enemy.anim.SetTrigger("Damage");
+        public class Damage : EnemyState
+        {
+            public override void DoAction(Enemy enemy)
+            {
+                enemy.anim.SetTrigger("Damage");
+            }
+        }
     }
 }

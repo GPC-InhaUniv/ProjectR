@@ -1,28 +1,33 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using RedTheSettlers.System;
 using UnityEngine;
 
-/// <summary>
-/// **********************************************
-/// enemy 이동 테스트를 위한 테스트옹 소스입니다.
-/// **********************************************
-/// </summary>
-public class testEnemyController : MonoBehaviour
+namespace RedTheSettlers
 {
-    [SerializeField]
-    Enemy enemy;
-
-    void Update()
+    namespace UnitTest
     {
-        if (Input.GetMouseButtonUp(0))
+        /// <summary>
+        /// **********************************************
+        /// enemy 이동 테스트를 위한 테스트옹 소스입니다.
+        /// **********************************************
+        /// </summary>
+        public class testEnemyController : MonoBehaviour
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hitInfo;
-            if (Physics.Raycast(ray, out hitInfo, 100f))
+            [SerializeField]
+            Enemy enemy;
+
+            void Update()
             {
-                Debug.Log("hit point : " + hitInfo.point);
-                enemy.destinationPoint = new Vector3(hitInfo.point.x, 0, hitInfo.point.z);
-                enemy.ChangeStage(EnemyStateType.Move);
+                if (Input.GetMouseButtonUp(0))
+                {
+                    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                    RaycastHit hitInfo;
+                    if (Physics.Raycast(ray, out hitInfo, 100f))
+                    {
+                        Debug.Log("hit point : " + hitInfo.point);
+                        enemy.destinationPoint = new Vector3(hitInfo.point.x, 0, hitInfo.point.z);
+                        enemy.ChangeStage(EnemyStateType.Move);
+                    }
+                }
             }
         }
     }

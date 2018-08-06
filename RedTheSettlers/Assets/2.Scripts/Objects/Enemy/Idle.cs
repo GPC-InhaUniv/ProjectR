@@ -1,11 +1,16 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class Idle : EnemyState
+namespace RedTheSettlers
 {
-    public override void DoAction(Enemy enemy)
+    namespace System
     {
-        enemy.anim.SetFloat("Speed", Vector3.Distance(enemy.destinationPoint, enemy.currentPoint));
+
+        public class Idle : EnemyState
+        {
+            public override void DoAction(Enemy enemy)
+            {
+                enemy.anim.SetFloat("Speed", Vector3.Distance(enemy.destinationPoint, enemy.currentPoint));
+            }
+        }
     }
 }
