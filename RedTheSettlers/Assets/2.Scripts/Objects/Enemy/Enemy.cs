@@ -30,6 +30,7 @@ public class Enemy : MonoBehaviour
     public EnemyState currentState;   
     [SerializeField]
     private Material[] materials;
+    //EnemyBattleAI battleAI;
 
     [Header("Compoenets")]
     public Animator anim;
