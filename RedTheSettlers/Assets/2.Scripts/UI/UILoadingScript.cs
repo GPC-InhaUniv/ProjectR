@@ -5,32 +5,39 @@ using UnityEngine.UI;
 /// <summary>
 /// 작성자 : 김하정
 /// </summary>
-public class UILoadingScript : MonoBehaviour {
-
-    [SerializeField]
-    private GameObject loadingObject;
-
-    [SerializeField]
-    private Text loadingText;
-    private int speed = 150;
-    private string[] loadingArray = new string[] { ".", "..", "..." };
-    private int count = 0;
-
-    void Update()
+namespace RedTheSettlers
+{
+    namespace UI
     {
-        loadingObject.gameObject.transform.Rotate(Vector3.right * Time.deltaTime * speed);
-        DotMethod();
-    }
-    void DotMethod()
-    {
-        if (count < 120)
+        public class UILoadingScript : MonoBehaviour
         {
-            loadingText.text = "Loading" + loadingArray[(int)Mathf.Floor(count / 40)];
-            count++;
+
+            [SerializeField]
+            private GameObject loadingObject;
+
+            [SerializeField]
+            private Text loadingText;
+            private int speed = 150;
+            private string[] loadingArray = new string[] { ".", "..", "..." };
+            private int count = 0;
+
+            void Update()
+            {
+                loadingObject.gameObject.transform.Rotate(Vector3.right * Time.deltaTime * speed);
+                DotMethod();
+            }
+            void DotMethod()
+            {
+                if (count < 120)
+                {
+                    loadingText.text = "Loading" + loadingArray[(int)Mathf.Floor(count / 40)];
+                    count++;
+                }
+                else
+                    count = 0;
+
+            }
+
         }
-        else
-            count = 0;
-
     }
-
 }

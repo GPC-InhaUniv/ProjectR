@@ -5,37 +5,43 @@ using UnityEngine.UI;
 /// <summary>
 /// 작성자 : 김하정
 /// </summary>
-public class UITitleScript : MonoBehaviour
+namespace RedTheSettlers
 {
-    public Text TitleText;
-    private Color color;
-    private float alpha;
-    [SerializeField, Range(0,2)]
-    private float speed;
-
-    private void Start()
+    namespace UI
     {
-        StartCoroutine(FadeInCoroutine());
-    }
+        public class UITitleScript : MonoBehaviour
+        {
+            public Text TitleText;
+            private Color color;
+            private float alpha;
+            [SerializeField, Range(0, 2)]
+            private float speed;
 
-    IEnumerator FadeInCoroutine()
-    {
-        float count = 0;
-        while (true)
-        {           
-            alpha = Mathf.Sin(count * Mathf.Deg2Rad);
-            TitleText.color = new Color(TitleText.color.r, TitleText.color.g, TitleText.color.b, alpha);
-            count += Time.deltaTime * 90f * speed ;
-
-            if (count > 180f)
+            private void Start()
             {
-                count = 0;
+                StartCoroutine(FadeInCoroutine());
             }
 
-            yield return null;
+            IEnumerator FadeInCoroutine()
+            {
+                float count = 0;
+                while (true)
+                {
+                    alpha = Mathf.Sin(count * Mathf.Deg2Rad);
+                    TitleText.color = new Color(TitleText.color.r, TitleText.color.g, TitleText.color.b, alpha);
+                    count += Time.deltaTime * 90f * speed;
+
+                    if (count > 180f)
+                    {
+                        count = 0;
+                    }
+
+                    yield return null;
+                }
+            }
+
+
+
         }
     }
-
-
-
 }
