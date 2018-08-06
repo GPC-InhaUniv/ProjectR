@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public struct Coordinate
 {
     public Coordinate(int x, int z)
@@ -15,8 +16,7 @@ public struct Coordinate
 }
 
 public class Tile : MonoBehaviour{
-
-    [SerializeField]
+    
     public TileType tileType;
     public Coordinate coordinate;
     

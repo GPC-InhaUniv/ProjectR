@@ -25,7 +25,7 @@ public class BoardAI : MonoBehaviour {
     {
         if (possessedTiles.Count <= 0)
         {
-            possessedTiles.Add(TileManager.TileInstance.TileGrid[4, 4].GetComponent<BoardTile>());
+            PossessTile(TileManager.TileInstance.TileGrid[4, 4].GetComponent<BoardTile>());
         }
 
         BoardTile targetTile = null;

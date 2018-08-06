@@ -31,113 +31,129 @@ public enum InputButtonType
     Pause,
 }
 
-public class InputManager : Singleton<InputManager>
+/// <summary>
+/// 담당자 : 박상원
+/// 화면 또는 아이콘 드래그, 이동 방향 전달, UI 버튼 입력시
+/// 해당 UI 버튼 해야 하는 일을 받아서 전달
+/// </summary>
+namespace RedTheSettlers
 {
-    private static InputManager inputManager;
-    private InputState input;
-
-    [SerializeField]
-    private StateType stateType;
-    private bool enableInputKey = false;
-
-    private void Awake()
+    public class InputManager : Singleton<InputManager>
     {
-        inputManager = this;
-        DontDestroyOnLoad(gameObject);
-    }
+        private static InputManager inputManager;
+        private InputState input;
 
-    private void Start()
-    {
-        //input = new MainTitleState();
-        TypeState(stateType);
-    }
+        [SerializeField]
+        private StateType stateType;
+        private bool enableInputKey = false;
 
-    private void FixedUpdate()
-    {
-        if (enableInputKey)
+        private void Awake()
         {
-            EnterDirectionKey();
-        }
-    }
-
-    public void InputButton(InputButtonType inputButtonType)
-    {
-        input.TouchOrClickButton(inputButtonType);
-    }
-
-    public void InputDrag(Vector3 direction)
-    {
-        input.DragMove(direction);
-    }
-
-    // 아직 Trade 쪽에 무엇을 전달해야 할지 정해지지 않아
-    // 임의로 매개변수 지정
-    public void InputTrade(Vector3 position)
-    {
-        input.UIMover(position);
-    }
-
-    private void EnterDirectionKey()
-    {
-        Vector3 moveDirection = Vector3.zero;
-
-        if (Input.GetKey(KeyCode.UpArrow))
-        {
-            moveDirection += Vector3.forward;
-        }
-        else if (Input.GetKey(KeyCode.DownArrow))
-        {
-            moveDirection += Vector3.back;
-        }
-        if (Input.GetKey(KeyCode.LeftArrow))
-        {
-            moveDirection += Vector3.left;
-        }
-        else if (Input.GetKey(KeyCode.RightArrow))
-        {
-            moveDirection += Vector3.right;
+            inputManager = this;
+            DontDestroyOnLoad(gameObject);
         }
 
-        input.DirectionKey(moveDirection);
-    }
-
-    private void InteractionKey()
-    {
-        if(Input.GetKey(KeyCode.Z))
+        private void Start()
         {
-            input.BattleAttack();
+            //input = new MainTitleState();
+            TypeState(stateType);
         }
-    }
 
-    private void ChangeState(InputState inputState)
-    {
-        input = inputState;
-    }
-
-    public void TypeState(StateType stateType)
-    {
-        switch (stateType)
+        private void FixedUpdate()
         {
-            case StateType.MainStage:
-                ChangeState(new BoardGameState());
-                enableInputKey = false;
-                break;
-            case StateType.BattleStage:
-                ChangeState(new BattlePhaseState());
-                enableInputKey = true;
-                break;
-            case StateType.TradeState:
-                ChangeState(new TradeState());
-                enableInputKey = false;
-                break;
-            case StateType.WeatherState:
-                ChangeState(new WeatherState());
-                enableInputKey = false;
-                break;
-            case StateType.TitleStage:
-                ChangeState(new MainTitleState());
-                enableInputKey = false;
-                break;
+            if (enableInputKey)
+            {
+                EnterDirectionKey();
+            }
+        }
+
+        public void InputButton(InputButtonType inputButtonType)
+        {
+            input.TouchOrClickButton(inputButtonType);
+        }
+
+        public void InputDrag(Vector3 direction)
+        {
+            input.DragMove(direction);
+        }
+
+        public void OnBeginDrag()
+        {
+            input.OnBeginDragUI();
+        }
+
+        public void OnDrag()
+        {
+            input.OnDragUI();
+        }
+
+        public void EndDrag()
+        {
+            input.EndDragUI();
+        }
+
+        private void EnterDirectionKey()
+        {
+            Vector3 moveDirection = Vector3.zero;
+
+            if (Input.GetKey(KeyCode.UpArrow))
+            {
+                moveDirection += Vector3.forward;
+            }
+            else if (Input.GetKey(KeyCode.DownArrow))
+            {
+                moveDirection += Vector3.back;
+            }
+            if (Input.GetKey(KeyCode.LeftArrow))
+            {
+                moveDirection += Vector3.left;
+            }
+            else if (Input.GetKey(KeyCode.RightArrow))
+            {
+                moveDirection += Vector3.right;
+            }
+
+            input.DirectionKey(moveDirection);
+        }
+
+        private void InteractionKey()
+        {
+            if (Input.GetKey(KeyCode.Z))
+            {
+                input.BattleAttack();
+            }
+        }
+
+        private void ChangeState(InputState inputState)
+        {
+            input = inputState;
+        }
+
+        public void TypeState(StateType stateType)
+        {
+            switch (stateType)
+            {
+                case StateType.MainStage:
+                    ChangeState(new BoardGameState());
+                    enableInputKey = false;
+                    break;
+                case StateType.BattleStage:
+                    ChangeState(new BattlePhaseState());
+                    enableInputKey = true;
+                    break;
+                case StateType.TradeState:
+                    ChangeState(new TradeState());
+                    enableInputKey = false;
+                    break;
+                case StateType.WeatherState:
+                    ChangeState(new WeatherState());
+                    enableInputKey = false;
+                    break;
+                case StateType.TitleStage:
+                    ChangeState(new MainTitleState());
+                    enableInputKey = false;
+                    break;
+            }
         }
     }
 }

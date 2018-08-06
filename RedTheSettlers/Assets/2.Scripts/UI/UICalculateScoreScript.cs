@@ -2,24 +2,32 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+/// <summary>
+/// 작성자 : 김하정
+/// </summary>
 public class UICalculateScoreScript : MonoBehaviour
 {
 
-    private int tempScore = 0;
+    private int tempScore;
 
     [Header("Player Cards Text")]
     [SerializeField]
-    private Text[] firstPlayerCardsText;
+    private Text[] playersCowCardText = new Text[4];
     [SerializeField]
-    private Text[] secondPlayerCardsText;
+    private Text[] playersWaterCardText = new Text[4];
     [SerializeField]
-    private Text[] thirdPlayerCardsText;
+    private Text[] playersWheatCardtText = new Text[4];
     [SerializeField]
-    private Text[] forthPlayerCardsText;
+    private Text[] playersWoodCardText = new Text[4];
+    [SerializeField]
+    private Text[] playerIronCardText = new Text[4];
+    [SerializeField]
+    private Text[] playerSoilCardText = new Text[4];
+
     [Header("Player Weight Score")]
     [SerializeField]
-    private Text[] cardsWeighttScoreText;
+    private Text[] cardsWeighttScoreText = new Text[12];
+
     [Header("Player Equipments Text")]
     [SerializeField]
     private Text[] firstPlayerEquipmentsText = new Text[2];
@@ -31,48 +39,52 @@ public class UICalculateScoreScript : MonoBehaviour
     private Text[] forthPlayerEquipmentsText = new Text[2];
 
 
-
     //Initial Weight Score Text
     private int tempCardWeightScore = 3000;
     private int tempEquipmentWeightScore = 5000;
     private int tempTendAndMonsterWeightScore = 7000;
 
-     
-    [Header("Card Score Num Max")]
-    [SerializeField]
-    private int[] firstPlayerCardsNumMax = new int[6];
-    [SerializeField]
-    private int[] secondPlayerCardsNumMax = new int[6];
-    [SerializeField]
-    private int[] thirdPlayerCardsNumMax = new int[6];
-    [SerializeField]
-    private int[] forthPlayerCardsNumMax = new int[6];
+    private GameData gameData;
 
-    [Header("Equipment Score Num Max")]
-    [SerializeField]
-    private int[] firstPlayerEquipmentNumMax = new int[2];
-    [SerializeField]
-    private int[] secondPlayerEquipmentNumMax = new int[2];
-    [SerializeField]
-    private int[] thirdPlayerEquipmentNumMax = new int[2];
-    [SerializeField]
-    private int[] forthPlayerEquipmentNumMax = new int[2];
+    private void Awake()
+    {
+        gameData = new GameData(4);
+        gameData.PlayerData[0].ResourceData.CowNum = 1;
+        gameData.PlayerData[1].ResourceData.CowNum = 2;
+        gameData.PlayerData[2].ResourceData.CowNum = 3;
+        gameData.PlayerData[3].ResourceData.CowNum = 4;
 
-    [Header("Tent And Monster Score Num Max")]
-    [SerializeField]
-    private int[] firstPlayerTMNumMax = new int[2];
-    [SerializeField]
-    private int[] secondPlayerTMNumMax = new int[2];
-    [SerializeField]
-    private int[] thirdPlayerTMNumMax = new int[2];
-    [SerializeField]
-    private int[] forthPlayerTMNumMax = new int[2];
+        gameData.PlayerData[0].ResourceData.WaterNum = 10;
+        gameData.PlayerData[1].ResourceData.WaterNum = 20;
+        gameData.PlayerData[2].ResourceData.WaterNum = 30;
+        gameData.PlayerData[3].ResourceData.WaterNum = 40;
+
+        gameData.PlayerData[0].ResourceData.WheatNum = 5;
+        gameData.PlayerData[1].ResourceData.WheatNum = 6;
+        gameData.PlayerData[2].ResourceData.WheatNum = 7;
+        gameData.PlayerData[3].ResourceData.WheatNum = 8;
+
+        gameData.PlayerData[0].ResourceData.WoodNum = 50;
+        gameData.PlayerData[1].ResourceData.WoodNum = 60;
+        gameData.PlayerData[2].ResourceData.WoodNum = 70;
+        gameData.PlayerData[3].ResourceData.WoodNum = 80;
+
+        gameData.PlayerData[0].ResourceData.IronNum = 12;
+        gameData.PlayerData[1].ResourceData.IronNum = 21;
+        gameData.PlayerData[2].ResourceData.IronNum = 31;
+        gameData.PlayerData[3].ResourceData.IronNum = 41;
+
+        gameData.PlayerData[0].ResourceData.SoilNum = 15;
+        gameData.PlayerData[1].ResourceData.SoilNum = 25;
+        gameData.PlayerData[2].ResourceData.SoilNum = 53;
+        gameData.PlayerData[3].ResourceData.SoilNum = 45;
+    }
 
 
-    // Use this for initialization
     void Start()
     {
-         
+        tempScore = 0;
+
         //가중치 점수 넣어주기
         for (int i = 0; i < cardsWeighttScoreText.Length; i++)
         {
@@ -83,7 +95,6 @@ public class UICalculateScoreScript : MonoBehaviour
             else if (i % 3 == 1)
             {
                 cardsWeighttScoreText[i].text = tempEquipmentWeightScore.ToString();
-
             }
             else
             {
@@ -91,82 +102,99 @@ public class UICalculateScoreScript : MonoBehaviour
             }
         }
 
-
-        //플레이어 카드 개수 받아오기
-        //ChangePlaerScore();
-
-    }
-
-
-    //자원 최대값 받아서 저장
-    //void ChangePlaerScore()
-    //{
-    //    for (int i = 0; i < firstPlayerCardsText.Length; i++)
-    //    {
-    //        firstPlayerCardsNumMax[i] = 0;
-    //        secondPlayerCardsNumMax[i] = 0;
-    //        thirdPlayerCardsNumMax[i] = 0;
-    //        forthPlayerCardsNumMax[i] = 0;
-    //    }
-    //}
-
-    private void ChangeCardScores()
-    {
-        tempScore++;
-        for (int i = 0; i < firstPlayerCardsText.Length; i++)
-        {
-            if (int.Parse(firstPlayerCardsText[i].text) < firstPlayerCardsNumMax[i])
-            {
-                firstPlayerCardsText[i].text = string.Format("{0:D2}", tempScore);
-            }
-            if (int.Parse(secondPlayerCardsText[i].text) < secondPlayerCardsNumMax[i])
-            {
-                secondPlayerCardsText[i].text = string.Format("{0:D2}", tempScore);
-            }
-            if (int.Parse(thirdPlayerCardsText[i].text) < thirdPlayerCardsNumMax[i])
-            {
-                thirdPlayerCardsText[i].text = string.Format("{0:D2}", tempScore);
-            }
-            if (int.Parse(forthPlayerCardsText[i].text) < forthPlayerCardsNumMax[i])
-            {
-                forthPlayerCardsText[i].text = string.Format("{0:D2}", tempScore);
-            }
-             
-        }
-    }
-
-    private void ChangeEquipmentScores()
-    {
-        tempScore++;
-        for (int i = 0; i < firstPlayerEquipmentsText.Length; i++)
-        {
-            if (int.Parse(firstPlayerEquipmentsText[i].text) < firstPlayerEquipmentNumMax[i])
-            {
-                firstPlayerEquipmentsText[i].text = string.Format("{0:D2}", tempScore);
-            }
-            if (int.Parse(secondPlayerEquipmentsText[i].text) < secondPlayerEquipmentNumMax[i])
-            {
-                secondPlayerEquipmentsText[i].text = string.Format("{0:D2}", tempScore);
-            }
-            if (int.Parse(thirdPlayerEquipmentsText[i].text) < thirdPlayerEquipmentNumMax[i])
-            {
-                thirdPlayerEquipmentsText[i].text = string.Format("{0:D2}", tempScore);
-            }
-            if (int.Parse(forthPlayerEquipmentsText[i].text) < forthPlayerEquipmentNumMax[i])
-            {
-                forthPlayerEquipmentsText[i].text = string.Format("{0:D2}", tempScore);
-            }
-        }
-    }
-
-    private void ChangeTentAndMonsterScores()
-    {
-
+        StartCoroutine(ChangeTest());
     }
 
     void Update()
     {
-        ChangeCardScores();
-        ChangeEquipmentScores();
+        //ChangeCardScore();
     }
+
+
+
+    IEnumerator ChangeTest()
+    {
+        for (int i = 0; i < playersCowCardText.Length; i++)
+        {
+            tempScore = 0;
+            while (tempScore < 100)
+            {
+                tempScore++;
+                if (int.Parse(playersCowCardText[i].text) < gameData.PlayerData[i].ResourceData.CowNum)
+                {
+                    playersCowCardText[i].text = string.Format("{0:D2}", tempScore);
+                }
+
+                if (int.Parse(playersWaterCardText[i].text) < gameData.PlayerData[i].ResourceData.WaterNum)
+                {
+                    playersWaterCardText[i].text = string.Format("{0:D2}", tempScore);
+                }
+
+                if (int.Parse(playersWheatCardtText[i].text) < gameData.PlayerData[i].ResourceData.WheatNum)
+                {
+                    playersWheatCardtText[i].text = string.Format("{0:D2}", tempScore);
+                }
+
+                if (int.Parse(playersWoodCardText[i].text) < gameData.PlayerData[i].ResourceData.WoodNum)
+                {
+                    playersWoodCardText[i].text = string.Format("{0:D2}", tempScore);
+                }
+
+                if (int.Parse(playerIronCardText[i].text) < gameData.PlayerData[i].ResourceData.IronNum)
+                {
+                    playerIronCardText[i].text = string.Format("{0:D2}", tempScore);
+                }
+
+                if (int.Parse(playerSoilCardText[i].text) < gameData.PlayerData[i].ResourceData.SoilNum)
+                {
+                    playerSoilCardText[i].text = string.Format("{0:D2}", tempScore);
+                }
+                yield return new WaitForSeconds(0.05f);
+            }
+        }
+        yield return null;
+    }
+
+
+
+    //private void ChangeCardScore()
+    //{
+    //    for (int i = 0; i < playersCowCardText.Length; i++)
+    //    {
+    //        tempScore++;
+    //        if (int.Parse(playersCowCardText[i].text) < gameData.PlayerData[i].ResourceData.CowNum)
+    //        {
+    //            playersCowCardText[i].text = string.Format("{0:D2}", tempScore);
+    //        }
+
+    //        if (int.Parse(playersWaterCardText[i].text) < gameData.PlayerData[i].ResourceData.WaterNum)
+    //        {
+    //            playersWaterCardText[i].text = string.Format("{0:D2}", tempScore);
+    //        }
+
+    //        if (int.Parse(playersWheatCardtText[i].text) < gameData.PlayerData[i].ResourceData.WheatNum)
+    //        {
+    //            playersWheatCardtText[i].text = string.Format("{0:D2}", tempScore);
+    //        }
+
+    //        if (int.Parse(playersWoodCardText[i].text) < gameData.PlayerData[i].ResourceData.WoodNum)
+    //        {
+    //            playersWoodCardText[i].text = string.Format("{0:D2}", tempScore);
+    //        }
+
+    //        if (int.Parse(playerIronCardText[i].text) < gameData.PlayerData[i].ResourceData.IronNum)
+    //        {
+    //            playerIronCardText[i].text = string.Format("{0:D2}", tempScore);
+    //        }
+
+    //        if (int.Parse(playerSoilCardText[i].text) < gameData.PlayerData[i].ResourceData.SoilNum)
+    //        {
+    //            playerSoilCardText[i].text = string.Format("{0:D2}", tempScore);
+    //        }
+
+
+    //    }
+    //}
+
+  
 }

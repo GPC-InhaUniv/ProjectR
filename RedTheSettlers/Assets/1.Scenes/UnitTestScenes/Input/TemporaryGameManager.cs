@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using RedTheSettlers;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -15,7 +16,7 @@ public class TemporaryGameManager : Singleton<TemporaryGameManager>
         temporaryGameManager = this;
         transformCamera = GameObject.FindWithTag("MainCamera").GetComponent<Transform>();
         //Player = GameObject.FindWithTag("Player").GetComponent<Transform>();
-        Player = GameObject.FindWithTag("Player").GetComponent<Rigidbody>();
+        //Player = GameObject.FindWithTag("Player").GetComponent<Rigidbody>();
         DontDestroyOnLoad(gameObject);
     }
     private void Start()
@@ -42,7 +43,6 @@ public class TemporaryGameManager : Singleton<TemporaryGameManager>
 
     public void PlayerMove(Vector3 direction)
     {
-        //Player.transform.Translate(direction * 10 * Time.deltaTime);
-        Player.MovePosition(Player.position + (direction * 10) * Time.deltaTime);
+        //Player.MovePosition(Player.position + (direction * 10) * Time.deltaTime);
     }
 }

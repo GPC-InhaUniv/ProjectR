@@ -2,16 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BattlePhaseState : InputState
+namespace RedTheSettlers
 {
-    public override void DirectionKey(Vector3 direction)
+    public class BattlePhaseState : InputState
     {
-        //GameManager.Instance.PlayerBattle.MoveTo(direction);
-        TemporaryGameManager.Instance.PlayerMove(direction);
-    }
+        public override void DirectionKey(Vector3 direction)
+        {
+            //GameManager.Instance.PlayerBattle.MoveTo(direction);
+            TemporaryGameManager.Instance.PlayerMove(direction);
+        }
 
-    public override void BattleAttack()
-    {
-        LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, "공격");
+        public override void BattleAttack()
+        {
+            LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, "공격");
+        }
     }
 }
