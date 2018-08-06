@@ -22,19 +22,25 @@ public enum StageType
     TutorialStage,
     BattleStage
 }
-
-public class StageManager : Singleton<StageManager>
+namespace RedTheSettlers
 {
-    private State currentState;
 
-    private void Awake()
+    public class StageManager : Singleton<StageManager>
     {
-        currentState = new TitleState();
-        DontDestroyOnLoad(gameObject);
+        private static StageManager stageManager;
+        private State currentState;
+
+        private void Awake()
+        {
+            stageManager = this;
+            currentState = new TitleState();
+            DontDestroyOnLoad(gameObject);
+        }
+
+        public void ChangeState(StageType stageType)
+        {
+            currentState = currentState.Execute(stageType);
+        }
     }
-   
-    public void ChangeState(StageType stageType)
-    {
-        currentState = currentState.Execute(stageType);
-    }
+
 }

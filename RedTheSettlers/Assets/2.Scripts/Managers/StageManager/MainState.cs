@@ -11,25 +11,28 @@ using UnityEngine.SceneManagement;
 ///     
 /// }
 /// </summary>
-
-class MainState : State
+namespace RedTheSettlers
 {
-   
-
-    public override State Execute(StageType stageType)
+    class MainState : State
     {
-        switch (stageType)
+
+
+        public override State Execute(StageType stageType)
         {
-            case StageType.TutorialStage:
-                SceneManager.LoadSceneAsync((int)stageType);
-                return new TutorialState();
+            switch (stageType)
+            {
+                case StageType.TutorialStage:
+                    SceneManager.LoadSceneAsync((int)stageType);
+                    return new TutorialState();
 
-            case StageType.BattleStage:
-                SceneManager.LoadSceneAsync((int)stageType);
-                return new BattleState();
+                case StageType.BattleStage:
+                    SceneManager.LoadSceneAsync((int)stageType);
+                    return new BattleState();
 
-            default:
-                return null;
+                default:
+                    return null;
+            }
         }
     }
 }
+
