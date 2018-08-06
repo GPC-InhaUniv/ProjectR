@@ -18,6 +18,15 @@ public struct Coordinate
 public class Tile : MonoBehaviour{
     
     public TileType tileType;
+    [HideInInspector]
     public Coordinate coordinate;
-    
+    public GameObject[] TileBorder = new GameObject[6];
+
+    private void Start()
+    {
+        for(int i = 0; i < 6; i++)
+        {
+            TileBorder[i] = transform.GetChild(i).gameObject;
+        }
+    }
 }
