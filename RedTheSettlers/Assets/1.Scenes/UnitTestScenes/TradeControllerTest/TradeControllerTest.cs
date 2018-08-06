@@ -121,7 +121,7 @@ namespace RedTheSettlers
 
             public void RequestAgain(Player respondPlayer)
             {
-                throw new System.NotImplementedException();
+               
             }
         }
 
