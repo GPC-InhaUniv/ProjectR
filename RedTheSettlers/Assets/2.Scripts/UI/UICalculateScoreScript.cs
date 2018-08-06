@@ -116,6 +116,7 @@ public class UICalculateScoreScript : MonoBehaviour
     {
         for (int i = 0; i < playersCowCardText.Length; i++)
         {
+            tempScore = 0;
             while (tempScore < 100)
             {
                 tempScore++;
@@ -149,9 +150,7 @@ public class UICalculateScoreScript : MonoBehaviour
                     playerSoilCardText[i].text = string.Format("{0:D2}", tempScore);
                 }
                 yield return new WaitForSeconds(0.05f);
-
             }
-
         }
         yield return null;
     }
