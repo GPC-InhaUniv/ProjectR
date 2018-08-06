@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.Networking;
 using System.IO;
 using System.Text;
+using System.Net;
+using System;
 
 namespace RedTheSettlers
 {
@@ -30,8 +32,10 @@ namespace RedTheSettlers
         public class AssetBundleManagerTest : Singleton<AssetBundleManagerTest>
         {
             private Hash128 hash; // DataManager에서 버전 정보를 가져옴. 웹에서 새로 받은 Manifest의 hash와 비교하여 버전 체크. 다르면 해당 번들을 다운.
+            private const int HashCodeLine = 6; //6번째 ReadLine에 Manifest의 Hash코드 라인을 읽게 된다.
             private const string assetBundleDirectory = "Assets/0.AssetBundles/";
             private Dictionary<int, string> WebPaths = new Dictionary<int, string>();
+            private Dictionary<int, string> WebManifest = new Dictionary<int, string>();
             private Dictionary<int, AssetBundle> Bundles = new Dictionary<int, AssetBundle>();
 
             private void Start()
@@ -51,6 +55,9 @@ namespace RedTheSettlers
                 WebPaths.Add((int)AssetBundleNumbers.UI, "");
                 WebPaths.Add((int)AssetBundleNumbers.canvas, "https://drive.google.com/uc?authuser=0&id=1AHBIgStWfP28ODXGaY3pxU2OslSTsl3Q&export=download");
                 WebPaths.Add((int)AssetBundleNumbers.objects, "https://drive.google.com/uc?authuser=0&id=189GqP1ULCgaZDLq-x9VCrH3eCDOv9qpJ&export=download");
+
+                WebManifest.Add((int)AssetBundleNumbers.objects, "https://drive.google.com/uc?authuser=0&id=1qWeskKwcwEyh330RmR36GV4TReFJlIui&export=download");
+                WebManifest.Add((int)AssetBundleNumbers.canvas, "https://drive.google.com/uc?authuser=0&id=174Bgh4SsX7koF9PVDNFWjYlUpS4ihPjE&export=download");
             }
 
             private void AddBundles(AssetBundleNumbers num , AssetBundle bundle)
@@ -60,14 +67,6 @@ namespace RedTheSettlers
                     Bundles.Add((int)num, bundle);
                 }
             }
-
-
-
-
-
-
-
-
 
             /// <summary>
             /// 정해진 웹주소에서 에셋번들을 다운 받는다. 
@@ -87,7 +86,6 @@ namespace RedTheSettlers
             {
                 StartCoroutine(SaveAssetBundleOnDisk(AssetBundleNumbers.objects));
             }
-
             /// <summary>
             /// 로컬 드라이브에서 에셋번들을 불러온다.
             /// 실사용시에는 매개변수에 AssetBundleNumbers를 받아 구분한다.
@@ -113,6 +111,17 @@ namespace RedTheSettlers
                 if (!WebPaths.TryGetValue((int)key, out bundleName))
                 {
                     LogManager.Instance.UserDebug(LogColor.Orange, "AssetBundleManager", "Dictionary에 존재하지 않는 번들입니다.");
+                    return null;
+                }
+                return bundleName;
+            }
+
+            private string GetManifestPath(AssetBundleNumbers key)
+            {
+                string bundleName = string.Empty;
+                if (!WebManifest.TryGetValue((int)key, out bundleName))
+                {
+                    LogManager.Instance.UserDebug(LogColor.Orange, "AssetBundleManager", "Dictionary에 존재하지 않는 메니페스트 파일입니다.");
                     return null;
                 }
                 return bundleName;
@@ -163,6 +172,16 @@ namespace RedTheSettlers
                 //Hash128 newHash = manifest.GetAssetBundleHash(assetBundleName);
             }
 
+            public void CheckObjects()
+            {
+                StartCoroutine(CheckAssetBundleVersion(AssetBundleNumbers.objects));
+            }
+
+            public void CheckCanvas()
+            {
+                StartCoroutine(CheckAssetBundleVersion(AssetBundleNumbers.canvas));
+            }
+
             /// <summary>
             /// 현재 에셋번들이 최신버전인지 체크한다. 
             /// - 추후 구현 예정 -
@@ -170,7 +189,9 @@ namespace RedTheSettlers
             public IEnumerator CheckAssetBundleVersion(AssetBundleNumbers number)
             {
                 string assetBundleName = GetAssetBundleName(number) + ".manifest";
-                string uri = GetAssetBundlePath(number);
+                string uri = GetManifestPath(number);
+
+                Debug.Log(uri);
 
                 UnityWebRequest request = UnityWebRequest.Get(uri);
                 yield return request.Send();
@@ -191,59 +212,30 @@ namespace RedTheSettlers
 
                 LogManager.Instance.UserDebug(LogColor.Orange, "AssetBundleManager", "다운로드 완료" + " " + request.downloadedBytes + "Bytes");
 
-                string newManifest = null;
+                /////////////////////////////////////////////////////////////
 
+                string newManifest = string.Empty;
+                //string nowManifest = string.Empty; // DataManager에서 받아옴
+                string tempHash = "e8e649b24e98b76009451b3b64b5e42e";
 
-                fs = new FileStream(assetBundleDirectory + assetBundleName, System.IO.FileMode.Open);
-                BinaryReader br = new BinaryReader(fs);
-                br.ReadString();
-                br.Close(); fs.Close();
-                Debug.Log(newManifest);
-
-
-                /////////
 
                 fs = new FileStream(assetBundleDirectory + assetBundleName, System.IO.FileMode.Open);
                 StreamReader sr = new StreamReader(fs);
 
-                // 6번째에 Hash코드 라인을 읽게 된다.
-                for (int i = 0; i <= 5 ; i++)
-                    if(i == 5)
-                        newManifest = sr.ReadLine();
-
+                
+                for (int i = 0; i < HashCodeLine; i++)
+                {
+                    newManifest = sr.ReadLine();
+                    Debug.Log(i + ": " + newManifest);
+                }
                 sr.Close(); fs.Close();
 
+                string[] split = newManifest.Split(' ');
+                newManifest = split[split.Length - 1];
                 Debug.Log(newManifest);
 
-                //byte[] bytes = request.downloadHandler.data;
-                //newManifest += Encoding.Default.GetString(bytes);
-
-                //string[] splitText = new string[2];
-                //splitText[0] = "Hash: ";
-                //splitText[1] = "  TypeTreeHash:";
-
-                //newManifest = newManifest.Substring(newManifest.IndexOf(splitText[0], newManifest.IndexOf(splitText[1])));
-
-                //Hash128 newhash = Hash128.Parse(newManifest);
-                //Debug.Log(newhash);
-                ////Hash128 newHash;
-                //AssetBundleManifest manifest = bundle.LoadAsset<AssetBundleManifest>("AssetBundleManifest");
-                //Hash128 newHash = manifest.GetAssetBundleHash(assetBundleName);
-
-                //Debug.Log(newHash);
-
-                //AssetBundle bundle = DownloadHandlerAssetBundle.GetContent(request);
-                //AddBundles(number, bundle);
-
-                //AssetBundleManifest manifest = bundle.LoadAsset<AssetBundleManifest>("AssetBundleManifest");
-                //Hash128 newHash = manifest.GetAssetBundleHash(assetBundleName);
-
-                ////DataManager.hash[player].equalr(newhash);
-                //if(DataManager.hash[0].Equals(newHash))
-                //{
-                //    return true;
-                //}
-                //return false;
+                if (newManifest.CompareTo(tempHash) == 0) Debug.Log("같은 파일");
+                else Debug.Log("다른 파일. 에셋번들 다운로드");
             }
 
             public void CloneObjects()
