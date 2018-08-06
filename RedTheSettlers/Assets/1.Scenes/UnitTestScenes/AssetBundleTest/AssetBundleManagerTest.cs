@@ -53,7 +53,7 @@ namespace RedTheSettlers
                 WebPaths.Add((int)AssetBundleNumbers.objects, "https://drive.google.com/uc?authuser=0&id=189GqP1ULCgaZDLq-x9VCrH3eCDOv9qpJ&export=download");
             }
 
-            private void AddBundles(AssetBundleNumbers num ,AssetBundle bundle)
+            private void AddBundles(AssetBundleNumbers num , AssetBundle bundle)
             {
                 if(!Bundles.ContainsKey((int)num))
                 {
@@ -191,10 +191,30 @@ namespace RedTheSettlers
 
                 LogManager.Instance.UserDebug(LogColor.Orange, "AssetBundleManager", "다운로드 완료" + " " + request.downloadedBytes + "Bytes");
 
+                string newManifest = null;
+
+
                 fs = new FileStream(assetBundleDirectory + assetBundleName, System.IO.FileMode.Open);
-                //fs.Read()
-                
-                //string newManifest = null;
+                BinaryReader br = new BinaryReader(fs);
+                br.ReadString();
+                br.Close(); fs.Close();
+                Debug.Log(newManifest);
+
+
+                /////////
+
+                fs = new FileStream(assetBundleDirectory + assetBundleName, System.IO.FileMode.Open);
+                StreamReader sr = new StreamReader(fs);
+
+                // 6번째에 Hash코드 라인을 읽게 된다.
+                for (int i = 0; i <= 5 ; i++)
+                    if(i == 5)
+                        newManifest = sr.ReadLine();
+
+                sr.Close(); fs.Close();
+
+                Debug.Log(newManifest);
+
                 //byte[] bytes = request.downloadHandler.data;
                 //newManifest += Encoding.Default.GetString(bytes);
 
