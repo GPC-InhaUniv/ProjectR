@@ -5,12 +5,12 @@ using UnityEngine;
 public class BoardAI : MonoBehaviour {
 
     private List<BoardTile> possessedTiles;
-    private AIStrategy myStrategy;
+    private IAIStrategy myStrategy;
     private Dictionary<TileType, int> resource;
 
     private void Start()
     {
-        myStrategy = gameObject.AddComponent<AIStrategy>();
+        myStrategy = gameObject.AddComponent<SoftStrategy>();
         possessedTiles = new List<BoardTile>();
         resource = new Dictionary<TileType, int>();
         resource.Add(TileType.Beef, 1);
@@ -56,5 +56,21 @@ public class BoardAI : MonoBehaviour {
         resource[boardTile.tileType]++;
 
         transform.position = new Vector3(boardTile.transform.position.x, transform.position.y, boardTile.transform.position.z);
+
+        int[] coordX = { 1, 0, -1, -1, 0, 1 };
+        int[] coordZ = { 0, 1, 1, 0, -1, -1 };
+
+        for (int i = 0; i < 6; i++)
+        {
+            if(TileManager.TileInstance.TileGrid[boardTile.coordinate.x + coordX[i], boardTile.coordinate.z + coordZ[i]].GetComponent<BoardTile>().isPossessed == true)
+            {
+                boardTile.TileBorder[i].SetActive(false);
+                TileManager.TileInstance.TileGrid[boardTile.coordinate.x + coordX[i], boardTile.coordinate.z + coordZ[i]].GetComponent<BoardTile>().TileBorder[(i + 3) % 6].SetActive(false);
+            }
+            else
+            {
+                boardTile.TileBorder[i].SetActive(true);
+            }
+        }
     }
 }

@@ -2,15 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HardStrategy : AIStrategy{
+public class HardStrategy : IAIStrategy{
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    public BoardTile CalculateTileWeight(BoardTile boardTile, Dictionary<TileType, int> resource)
+    {
+        throw new System.NotImplementedException();
+    }
+    
 }
