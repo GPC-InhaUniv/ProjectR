@@ -3,36 +3,39 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class BoardGameState : InputState
+namespace RedTheSettlers
 {
-    private Vector3 firstClick;
-    private Vector3 mouseDrag;
-    private Vector3 dragDirection;
-    [Range(1, 100)]
-    public float moveSpeed;
-
-    public override void TouchOrClickButton(InputButtonType inputButtonType)
+    public class BoardGameState : InputState
     {
-        switch(inputButtonType)
+        private Vector3 firstClick;
+        private Vector3 mouseDrag;
+        private Vector3 dragDirection;
+        [Range(1, 100)]
+        public float moveSpeed;
+
+        public override void TouchOrClickButton(InputButtonType inputButtonType)
         {
-            case InputButtonType.Battle:
-                break;
-            case InputButtonType.Trade:
-                break;
-            case InputButtonType.TurnEnd:
-                break;
-            case InputButtonType.CharacterState:
-                break;
-            case InputButtonType.MiniMap:
-                break;
-            case InputButtonType.Character:
-                break;
+            switch (inputButtonType)
+            {
+                case InputButtonType.Battle:
+                    break;
+                case InputButtonType.Trade:
+                    break;
+                case InputButtonType.TurnEnd:
+                    break;
+                case InputButtonType.CharacterState:
+                    break;
+                case InputButtonType.MiniMap:
+                    break;
+                case InputButtonType.Character:
+                    break;
+            }
         }
-    }
 
-    public override void DragMove(Vector3 direction)
-    {
-        TemporaryGameManager.Instance.CameraMove(direction);
-        LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, "넘어왔나");
+        public override void DragMove(Vector3 direction)
+        {
+            TemporaryGameManager.Instance.CameraMove(direction);
+            LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, "넘어왔나");
+        }
     }
 }

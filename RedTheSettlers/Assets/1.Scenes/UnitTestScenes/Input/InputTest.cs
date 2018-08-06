@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using RedTheSettlers;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -70,9 +71,8 @@ public class InputTest : MonoBehaviour
         
     }*/
 
-    /*public void BattleButton()
+    public void BattleButton()
     {
-        InputManager.Instance
         LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, "전투");
     }
 
@@ -114,5 +114,5 @@ public class InputTest : MonoBehaviour
     private void DragPosition()
     {
 
-    }*/
+    }
 }

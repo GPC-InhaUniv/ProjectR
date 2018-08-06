@@ -3,30 +3,30 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public abstract class InputState
+namespace RedTheSettlers
 {
-    public virtual void CurrentState() { }
+    public abstract class InputState
+    {
+        public virtual void CurrentState() { }
 
-    public virtual void DragMove(Vector3 direction) { }
+        public virtual void DragMove(Vector3 direction) { }
 
-    public virtual void UIMover(Vector3 position) { }
+        //----------------------UI 드래그----------------------
 
-    // UI 쪽에서 입력해주면
-    public virtual void TouchOrClickButton(InputButtonType inputButtonType) { }
+        public virtual void OnBeginDragUI() { }
 
-    public virtual void BoardBattleButton() { }
+        public virtual void OnDragUI() { }
 
-    public virtual void BoardTurnEndButton() { }
+        public virtual void EndDragUI() { }
 
-    public virtual void BoardTradeButton() { }
+        //----------------------UI 터치 & 클릭----------------------
 
-    public virtual void BoardStatusButton() { }
+        public virtual void TouchOrClickButton(InputButtonType inputButtonType) { }
 
-    public virtual void BoardCharacterButton() { }
+        //----------------------PC 용 Battle Phase----------------------
 
-    //----------------------PC 용----------------------
+        public virtual void DirectionKey(Vector3 direction) { }
 
-    public virtual void DirectionKey(Vector3 direction) { }
-
-    public virtual void BattleAttack() { }
+        public virtual void BattleAttack() { }
+    }
 }
