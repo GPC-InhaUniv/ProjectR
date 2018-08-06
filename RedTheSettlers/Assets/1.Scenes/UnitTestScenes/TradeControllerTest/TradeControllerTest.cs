@@ -9,31 +9,58 @@ namespace RedTheSettlers
         abstract public class Player
         {
             private IMediatable mediator;
-            public PlayerData playerData;
-            
+            public ResourceData tradeData;
+            public GameObject tradePanel;
+
             public Player(IMediatable mediator)
             {
                 this.mediator = mediator;
             }
 
-            public void ShowTradePanel()
+            /// <summary>
+            /// 거래 패널을 보여준다. 사용자가 거래 조건을 설정하면 패널을 종료하고 해당 자원 정보를 구조체로 만들어서 전달한다.
+            /// </summary>
+            public ResourceData ShowTradePanel()
             {
-                
+                tradePanel.SetActive(true);
+                // TradePanel에서 거래 내용 조작
+                // 조작이 끝나고 거래를 요청하면 
+
+                // 아래 코드는 정상적으로 동작하지 않을것으로 예상됨. 나중에 다른 메소드로 분리할것
+                ResourceData sendData = GetTradeData();
+                tradePanel.SetActive(false);
+                return sendData;
             }
 
-            public void RequestTrade(Player requestPlayer, PlayerData tradeItem)
+            /// <summary>
+            /// UI에서 해줘야하는 작업. 임시로 만듬
+            /// 교환할 자원 정보를 구조체로 만들어서 전달
+            /// </summary>
+            public ResourceData GetTradeData()
             {
-                mediator.RequestTrade(requestPlayer);
+                ResourceData sendData = new ResourceData
+                {
+                    CowNum = 1,
+                    WaterNum = -2
+                };
+                return sendData;
             }
 
-            public void Accept(Player respondPlayer)
+            /// <summary>
+            /// 다른 플레이어들에게 자원 거래를 요청한다.
+            /// </summary>
+            /// <param name="requestPlayer">거래를 요청한 플레이어</param>
+            /// <param name="tradeData">요구하는 자원 거래 정보</param>
+            public void RequestTrade(Player requestPlayer, ResourceData tradeData)
             {
-
+                ResourceData sendData = ShowTradePanel();
+                mediator.RequestTrade(requestPlayer, tradeData);
             }
 
-            public void Deny(Player respondPlayer)
+            public void SendTrade(Player requestPlayer, ResourceData tradeData)
             {
-
+                tradePanel.SetActive(true);
+                // tradeData를 풀어 UI에서 정보 보여주기
             }
 
             public void RequestAgain(Player respondPlayer)
@@ -55,11 +82,9 @@ namespace RedTheSettlers
         public interface IMediatable
         {
             void RegisterPlayer(Player player);
-            void RequestTrade(Player requestPlayer);
-            void Accept(Player  respondPlayer);
-            void Deny(Player respondPlayer);
+            void RequestTrade(Player requestPlayer, ResourceData tradeData);
             void RequestAgain(Player respondPlayer);
-            void ShowTradePanel(Player requestPlayer);
+            //void ShowTradePanel(Player requestPlayer);
         }
 
         // Constructor Mediator
@@ -80,33 +105,18 @@ namespace RedTheSettlers
                 //RegisterPlayer(ai3);
             }
 
-            public void ShowTradePanel(Player requestPlayer)
-            {
-
-            }
-
             public void RegisterPlayer(Player player)
             {
                 playerList.Add(player);   
             }
 
-            public void RequestTrade(Player requestPlayer)
+            public void RequestTrade(Player requestPlayer, ResourceData tradeData)
             {
                 for (int i = 0; i < playerList.Count; i++)
                 {
-                    if (playerList[i] != requestPlayer)
-                        ;//playerList[i].
+                    if (playerList[i] == requestPlayer) continue;
+                    playerList[i].SendTrade(requestPlayer, tradeData);
                 }
-            }
-
-            public void Accept(Player respondPlayer)
-            {
-                throw new System.NotImplementedException();
-            }
-
-            public void Deny(Player respondPlayer)
-            {
-                throw new System.NotImplementedException();
             }
 
             public void RequestAgain(Player respondPlayer)
