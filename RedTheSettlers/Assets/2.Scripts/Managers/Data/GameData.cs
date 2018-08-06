@@ -49,6 +49,9 @@ public struct InGameData
 }
 
 
+/// <summary>
+/// 작성자 : 박준명
+/// </summary>
 [System.Serializable]
 public class PlayerData
 {
@@ -65,6 +68,9 @@ public class PlayerData
     }
 }
 
+/// <summary>
+/// 작성자 : 박준명
+/// </summary>
 [System.Serializable]
 public class GameData
 {
@@ -80,10 +86,11 @@ public class GameData
     {
         PlayerData = new PlayerData[numberOfPlayer];
 
-        for(int i =0; i < PlayerData.Length; i ++)
+        for (int i = 0; i < PlayerData.Length; i++)
         {
             PlayerData[i] = new PlayerData();
         }
     }
 
 }
+
