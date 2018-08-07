@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// 게임의 시간을 관리하는 기반 클래스
+/// 담당자 : 최대원
+/// </summary>
 namespace RedTheSettlers
 {
     namespace System
     {
-        /// <summary>
-        /// 게임의 시간을 관리하는 기반 클래스
-        /// </summary>
         public class GameTimeManager : Singleton<GameTimeManager>
         {
             protected GameTimeManager() { }
