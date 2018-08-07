@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
+/// <summary>
+/// 담당자 : 박상원
+/// 거래 화면 입력 부분
+/// </summary>
 namespace RedTheSettlers
 {
     public class TradeState : InputState

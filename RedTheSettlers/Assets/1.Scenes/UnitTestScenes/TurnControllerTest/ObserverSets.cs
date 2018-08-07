@@ -8,7 +8,7 @@ namespace RedTheSettlers
     {
         public class ObserverSets : MonoBehaviour
         {
-            public GameManager gm;
+            public GameManagerTest gm;
             public TurnControllerTest turn;
 
 

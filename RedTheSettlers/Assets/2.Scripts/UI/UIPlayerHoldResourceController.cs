@@ -15,11 +15,11 @@ namespace RedTheSettlers
     {
         public class UIPlayerHoldResourceController : MonoBehaviour
         {
-            [Header("Player's Total Resource")] //플레이어가 갖고 있는 자원 개수를 더한 값
+            [Header("Player's Total Resource")]
             [SerializeField]
             private Text PlayerTotalResource;
 
-            [Header("Player's Resource")] //플레이어의 자원
+            [Header("Player's Resource")]
             [SerializeField]
             private Text PlayerCowResource;
 
@@ -38,7 +38,7 @@ namespace RedTheSettlers
             [SerializeField]
             private Text PlayerSoilResource;
 
-            [Header("Total Bar")] //플레이어의 total 자원을 더한 값을 bar 형식으로 보여줌
+            [Header("Total Bar")]
             [SerializeField]
             private Slider totalResourceBar;
 
@@ -62,7 +62,7 @@ namespace RedTheSettlers
                 //이런식으로 6종류 자원을 gameData에서 가져와서 텍스트에 넣어줘야 함.
             }
 
-            private void ComputeTotalResource() //플레이어가 갖고 있는 자원 개수를 모두 더하고, bar 형식으로 출력함
+            private void ComputeTotalResource()
             {
                 cowCardNum = Int32.Parse(PlayerCowResource.text);
                 waterCardNum = Int32.Parse(PlayerWaterResource.text);
