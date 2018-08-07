@@ -3,44 +3,43 @@ using System.Collections.Generic;
 using UnityEngine.EventSystems;
 using UnityEngine;
 
-public enum StateType
-{
-    TitleStage,
-    MainStage,
-    BattleStage,
-    TradeState,
-    WeatherState,
-}
-
-public enum InputButtonType
-{
-    GameStart,
-    Option,
-    Battle,
-    Trade,
-    TurnEnd,
-    CharacterState,
-    MiniMap,
-    Character,
-    Attack,
-    Skill1,
-    Skill2,
-    Skill3,
-    Item1,
-    Item2,
-    Pause,
-}
-
 /// <summary>
 /// 담당자 : 박상원
 /// 화면 또는 아이콘 드래그, 이동 방향 전달, UI 버튼 입력시
 /// 해당 UI 버튼 해야 하는 일을 받아서 전달
 /// </summary>
-namespace RedTheSettlers
+namespace RedTheSettlers.InputManager
 {
+    public enum StateType
+    {
+        TitleStage,
+        MainStage,
+        BattleStage,
+        TradeState,
+        WeatherState,
+    }
+
+    public enum InputButtonType
+    {
+        GameStart,
+        Option,
+        Battle,
+        Trade,
+        TurnEnd,
+        CharacterState,
+        MiniMap,
+        Character,
+        Attack,
+        Skill1,
+        Skill2,
+        Skill3,
+        Item1,
+        Item2,
+        Pause,
+    }
+
     public class InputManager : Singleton<InputManager>
     {
-        private static InputManager inputManager;
         private InputState input;
 
         [SerializeField]
@@ -49,7 +48,6 @@ namespace RedTheSettlers
 
         private void Awake()
         {
-            inputManager = this;
             DontDestroyOnLoad(gameObject);
         }
 

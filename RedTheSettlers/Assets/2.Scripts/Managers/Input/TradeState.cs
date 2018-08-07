@@ -2,55 +2,54 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 /// <summary>
 /// 담당자 : 박상원
 /// 거래 화면 입력 부분
 /// </summary>
-namespace RedTheSettlers
+public class TradeState : InputState
 {
-    public class TradeState : InputState
+    private static GameObject[] beingDragged;
+    private GameObject targetUI;
+    private Sprite EmptySlot;
+
+    private Transform startParent;
+    private Vector3 startPosition;
+    private Vector3 clickPoint;
+    private float firstDirection;
+    private float currentDirection;
+
+    public override void OnBeginDragUI()
     {
-        private static GameObject[] beingDragged;
-        private GameObject targetUI;
-        private Sprite EmptySlot;
-
-        private Transform startParent;
-        private Vector3 startPosition;
-        private Vector3 clickPoint;
-        private float firstDirection;
-        private float currentDirection;
-
-        public override void OnBeginDragUI()
+        clickPoint = Input.mousePosition;
+        beingDragged = GameObject.FindGameObjectsWithTag("SkillIcon");
+        firstDirection = Vector3.Distance(clickPoint, beingDragged[0].transform.position);
+        foreach (GameObject gameObject in beingDragged)
         {
-            clickPoint = Input.mousePosition;
-            beingDragged = GameObject.FindGameObjectsWithTag("SkillIcon");
-            firstDirection = Vector3.Distance(clickPoint, beingDragged[0].transform.position);
-            foreach (GameObject gameObject in beingDragged)
+            currentDirection = Vector3.Distance(clickPoint, gameObject.transform.position);
+            if (currentDirection <= firstDirection)
             {
-                currentDirection = Vector3.Distance(clickPoint, gameObject.transform.position);
-                if (currentDirection <= firstDirection)
-                {
-                    targetUI = gameObject;
-                    firstDirection = currentDirection;
-                }
+                targetUI = gameObject;
+                firstDirection = currentDirection;
+                gameObject.GetComponent<Image>();
             }
-            startPosition = targetUI.transform.position;
-            startParent = targetUI.transform.parent;
         }
+        startPosition = targetUI.transform.position;
+        startParent = targetUI.transform.parent;
+    }
 
-        public override void OnDragUI()
-        {
-            targetUI.transform.position = Input.mousePosition;
-        }
+    public override void OnDragUI()
+    {
+        targetUI.transform.position = Input.mousePosition;
+    }
 
-        public override void EndDragUI()
+    public override void EndDragUI()
+    {
+        if (targetUI.transform.parent != startParent)
         {
-            if (targetUI.transform.parent != startParent)
-            {
-                targetUI.transform.position = startPosition;
-            }
-            targetUI = null;
+            targetUI.transform.position = startPosition;
         }
+        targetUI = null;
     }
 }

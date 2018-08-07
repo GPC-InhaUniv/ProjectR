@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using RedTheSettlers.LogManager;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,19 +8,16 @@ using UnityEngine;
 /// State 패턴 구현부
 /// Battle 씬 유저 캐릭터 이동 및 공격 등
 /// </summary>
-namespace RedTheSettlers
+public class BattlePhaseState : InputState
 {
-    public class BattlePhaseState : InputState
+    public override void DirectionKey(Vector3 direction)
     {
-        public override void DirectionKey(Vector3 direction)
-        {
-            //GameManager.Instance.PlayerBattle.MoveTo(direction);
-            TemporaryGameManager.Instance.PlayerMove(direction);
-        }
+        //GameManager.Instance.PlayerBattle.MoveTo(direction);
+        TemporaryGameManager.Instance.PlayerMove(direction);
+    }
 
-        public override void BattleAttack()
-        {
-            LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, "공격");
-        }
+    public override void BattleAttack()
+    {
+        LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, "공격");
     }
 }
