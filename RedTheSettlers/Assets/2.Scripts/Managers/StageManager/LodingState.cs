@@ -11,12 +11,11 @@ using UnityEngine.SceneManagement;
 ///     
 /// }
 /// </summary>
+
 namespace RedTheSettlers
 {
     class LodingState : State
     {
-
-
         public override State Execute(StageType stageType)
         {
             switch (stageType)
@@ -28,7 +27,6 @@ namespace RedTheSettlers
                     return null;
             }
         }
-
     }
 }
 

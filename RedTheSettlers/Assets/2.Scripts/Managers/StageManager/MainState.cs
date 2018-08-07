@@ -11,12 +11,11 @@ using UnityEngine.SceneManagement;
 ///     
 /// }
 /// </summary>
+
 namespace RedTheSettlers
 {
     class MainState : State
     {
-
-
         public override State Execute(StageType stageType)
         {
             switch (stageType)
