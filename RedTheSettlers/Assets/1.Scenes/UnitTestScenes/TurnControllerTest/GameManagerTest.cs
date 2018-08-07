@@ -2,25 +2,31 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace RedTheSettlers
+namespace RedTheSettlers.UnitTest
 {
-    namespace UnitTest
+    interface ITrunObservable
     {
-        public class GameManagerTest : MonoBehaviour
+        void SetObserver(ObserverSets observer);
+        void NotifyObserver();
+    }
+
+    public class GameManagerTest : MonoBehaviour, ITrunObservable
+    {
+        TurnControllerTest turnCtrl = new TurnControllerTest();
+
+        public void GameUpdate()
         {
-            TurnControllerTest turnCtrl;
-            ObserverSets observer;
+            turnCtrl.AcceptTestMethod();
+        }
 
-            private void Start()
-            {
-                turnCtrl.SetObserver(observer);
+        public void SetObserver(ObserverSets observer)
+        {
+            //this.observer = observer;
+        }
 
-            }
-
-            public void GameUpdate()
-            {
-
-            }
+        public void NotifyObserver()
+        {
+            //observer.SendState(state); // 상태 변경을 전달?
         }
     }
 }
