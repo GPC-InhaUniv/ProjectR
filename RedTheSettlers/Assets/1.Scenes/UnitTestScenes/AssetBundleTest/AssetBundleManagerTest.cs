@@ -150,7 +150,7 @@ namespace RedTheSettlers
                     LogManager.Instance.UserDebug(LogColor.Orange, "AssetBundleManager", "해당 폴더가 이미 존재합니다.");
                 }
 
-                FileStream fs = new FileStream(assetBundleDirectory + assetBundleName, System.IO.FileMode.Create); // Create는 있으면 덮어씀, CreateNew는 새로 생성;
+                FileStream fs = new FileStream(assetBundleDirectory + assetBundleName, FileMode.Create); // Create는 있으면 덮어씀, CreateNew는 새로 생성;
                 fs.Write(request.downloadHandler.data, 0, (int)request.downloadedBytes);
                 fs.Close();
 
@@ -167,9 +167,6 @@ namespace RedTheSettlers
 
                 AssetBundle bundle = DownloadHandlerAssetBundle.GetContent(request);
                 AddBundles(number, bundle);
-
-                //AssetBundleManifest manifest = bundle.LoadAsset<AssetBundleManifest>("AssetBundleManifest");
-                //Hash128 newHash = manifest.GetAssetBundleHash(assetBundleName);
             }
 
             public void CheckObjects()
@@ -184,7 +181,6 @@ namespace RedTheSettlers
 
             /// <summary>
             /// 현재 에셋번들이 최신버전인지 체크한다. 
-            /// - 추후 구현 예정 -
             /// </summary>
             public IEnumerator CheckAssetBundleVersion(AssetBundleNumbers number)
             {
@@ -206,7 +202,7 @@ namespace RedTheSettlers
                     LogManager.Instance.UserDebug(LogColor.Orange, "AssetBundleManager", "해당 폴더가 이미 존재합니다.");
                 }
 
-                FileStream fs = new FileStream(assetBundleDirectory + assetBundleName, System.IO.FileMode.Create); // Create는 있으면 덮어씀, CreateNew는 새로 생성;
+                FileStream fs = new FileStream(assetBundleDirectory + assetBundleName, FileMode.Create); // Create는 있으면 덮어씀, CreateNew는 새로 생성;
                 fs.Write(request.downloadHandler.data, 0, (int)request.downloadedBytes);
                 fs.Close();
 
@@ -219,7 +215,7 @@ namespace RedTheSettlers
                 string tempHash = "e8e649b24e98b76009451b3b64b5e42e";
 
 
-                fs = new FileStream(assetBundleDirectory + assetBundleName, System.IO.FileMode.Open);
+                fs = new FileStream(assetBundleDirectory + assetBundleName, FileMode.Open);
                 StreamReader sr = new StreamReader(fs);
 
                 
