@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+
 /// <summary>
 /// 담당자 : 이재환
 /// 수정시 간략 설명과 수정 날짜 
@@ -10,6 +11,7 @@ using UnityEngine.SceneManagement;
 ///     
 /// }
 /// </summary>
+
 namespace RedTheSettlers
 {
     class TitleState : State

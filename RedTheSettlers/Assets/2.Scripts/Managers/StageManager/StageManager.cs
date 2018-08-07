@@ -22,6 +22,7 @@ public enum StageType
     TutorialStage,
     BattleStage
 }
+
 namespace RedTheSettlers
 {
 

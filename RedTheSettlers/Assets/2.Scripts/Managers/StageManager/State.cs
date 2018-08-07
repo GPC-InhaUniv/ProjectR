@@ -17,6 +17,5 @@ namespace RedTheSettlers
     abstract class State
     {
         public abstract State Execute(StageType stageType);
-
     }
 }

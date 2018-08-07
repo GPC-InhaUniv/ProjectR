@@ -6,7 +6,7 @@ namespace RedTheSettlers
 {
     namespace UnitTest
     {
-        public class GameManager : MonoBehaviour
+        public class GameManagerTest : MonoBehaviour
         {
             TurnControllerTest turnCtrl;
             ObserverSets observer;
