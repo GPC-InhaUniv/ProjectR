@@ -5,6 +5,7 @@ using UnityEngine;
 public delegate void TimerCallback();
 /// <summary>
 /// 타이머 클래스, 콜백을 지정 해줘야 합니다.
+/// 담당자 : 최대원
 /// </summary>
 public class GameTimer : MonoBehaviour
 {   

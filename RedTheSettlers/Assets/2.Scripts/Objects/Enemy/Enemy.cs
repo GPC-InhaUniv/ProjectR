@@ -3,6 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// 몬스터 클래스
+/// 담당자 : 최대원
+/// </summary>
 namespace RedTheSettlers
 {
     namespace System
@@ -27,9 +31,6 @@ namespace RedTheSettlers
             Move = 5,
         }
 
-        /// <summary>
-        /// 몬스터 클래스
-        /// </summary>
         public class Enemy : MonoBehaviour
         {
             public EnemyState currentState;
