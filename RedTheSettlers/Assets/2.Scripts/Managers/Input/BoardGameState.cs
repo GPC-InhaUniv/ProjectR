@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
+/// <summary>
+/// 담당자 박상원
+/// State 패턴 구현부
+/// Board Game 부분 버튼 기능 및 카메라 이동
+/// </summary>
 namespace RedTheSettlers
 {
     public class BoardGameState : InputState

@@ -36,18 +36,18 @@ namespace RedTheSettlers
         private FileInfo debugLog;
         private DirectoryInfo folderCheck;
 
-        private string filename;
+        private string fileName;
         private string className;
         private string logText;
 
         private void Awake()
         {
-            filename = "Log-" + DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss") + ".txt";
+            fileName = "Log-" + DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss") + ".txt";
             logManager = this;
             DontDestroyOnLoad(gameObject);
         }
 
-        void CreateLogCheck(string scriptName, object text)
+        private void CreateLogCheck(string scriptName, object text)
         {
             if (folderCheck == null)
             {
@@ -59,11 +59,11 @@ namespace RedTheSettlers
             }
         }
 
-        void CreateLog(string scriptName, object text)
+        private void CreateLog(string scriptName, object text)
         {
             folderCheck = new DirectoryInfo("./Log");
             folderCheck.Create();
-            debugLog = new FileInfo("./log/" + filename);
+            debugLog = new FileInfo("./log/" + fileName);
 
             if (!debugLog.Exists)
             {
@@ -72,13 +72,13 @@ namespace RedTheSettlers
             }
 
             logText = DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss") + " [" + scriptName + "] " + "Log : " + text;
-            File.AppendAllText("./log/" + filename, logText + "\n");
+            File.AppendAllText("./log/" + fileName, logText + "\n");
         }
 
-        void WriteLog(string scriptName, object text)
+        private void WriteLog(string scriptName, object text)
         {
             logText = DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss") + " [" + scriptName + "] " + "Log : " + text;
-            File.AppendAllText("./log/" + filename, logText + "\n");
+            File.AppendAllText("./log/" + fileName, logText + "\n");
         }
 
         /// <summary>
