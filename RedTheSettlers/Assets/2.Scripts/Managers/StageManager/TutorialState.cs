@@ -11,12 +11,11 @@ using UnityEngine.SceneManagement;
 ///     
 /// }
 /// </summary>
+
 namespace RedTheSettlers
 {
     class TutorialState : State
     {
-
-
         public override State Execute(StageType stageType)
         {
             switch (stageType)
@@ -29,5 +28,4 @@ namespace RedTheSettlers
             }
         }
     }
-
 }
