@@ -1,20 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using RedTheSettlers.System;
 
-namespace RedTheSettlers
+/// <summary>
+/// 기본 공격
+/// </summary>
+public class AttackPattern1 : Attack
 {
-    namespace System
+    public override void DoAction(Enemy enemy)
     {
-        /// <summary>
-        /// 기본 공격
-        /// </summary>
-        public class AttackPattern1 : Attack
-        {
-            public override void DoAction(Enemy enemy)
-            {
-                base.DoAction(enemy);
-            }
-        }
+        base.DoAction(enemy);
     }
 }

@@ -34,8 +34,8 @@ namespace RedTheSettlers
         public class Enemy : MonoBehaviour
         {
             public EnemyState currentState;
-            [SerializeField]
             private Material[] materials;
+            public GameObject FireBall;
             //EnemyBattleAI battleAI;
 
             [Header("Compoenets")]
@@ -46,6 +46,7 @@ namespace RedTheSettlers
             private Collider AttackColliderComponent;
             private Collider HitColliderComponent;
             public Rigidbody rigidbodyComponent;
+            public GameObject TargetObject;
 
             [Header("Moving Points")]
             public Vector3 destinationPoint;
@@ -57,14 +58,18 @@ namespace RedTheSettlers
             public int MaxHp;
             public float TimeToReturn = 3.0f;
             public float Power;
+            public float FireBallSpeed;
 
             [Header("Timers")]
             public GameTimer DeadTimer;
             public GameTimer Pattern1Timer;
             public GameTimer Pattern2Timer;
+            public GameTimer FireBallLifeTimer;
 
-            [SerializeField, Header("test srcript")]
+            [SerializeField, Header("test fields")]
             testEnemyController testEnemyController;
+            public EnemyFireBall tempFireBallPool;
+            public EnemyFireBall FireBallPrefab;
 
             void Start()
             {
@@ -75,6 +80,23 @@ namespace RedTheSettlers
                 rigidbodyComponent = GetComponent<Rigidbody>();
 
                 ChangeStage(EnemyStateType.Idle);
+
+                //test
+                tempFireBallPool = Instantiate(FireBallPrefab);
+                tempFireBallPool.gameObject.SetActive(false);
+            }
+
+            //fireball test용 pool method
+            public EnemyFireBall PopFireBall()
+            {
+                tempFireBallPool.gameObject.SetActive(true);
+                return tempFireBallPool;
+            }
+
+            //fireball test용 pool method2
+            public void PushFireBall()
+            {
+                tempFireBallPool.gameObject.SetActive(false);
             }
 
             private void Update()
@@ -136,6 +158,11 @@ namespace RedTheSettlers
             {
                 ChangeStage(EnemyStateType.Idle);
                 attackArea.AttackCollider.enabled = false;
+            }
+
+            public void StartAttack2()
+            {
+                ChangeStage(EnemyStateType.Attack2);
             }
 
             //피격 처리를 담당하는 메서드
