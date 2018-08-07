@@ -31,7 +31,7 @@ namespace RedTheSettlers
                 moveText.text = currentMove.ToString();
 
                 //currentTurn.text = gameData.cowcow.ToString();
-                //이런식으로 현재 Move 정보를 가져옴.
+                //이런식으로 현재 Move 정보를 gameData에서 가져와서 텍스트에 넣어줘야 함.
             }
 
             private void Start()
