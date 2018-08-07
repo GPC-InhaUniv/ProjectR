@@ -16,6 +16,8 @@ public abstract class InputState
 
     public virtual void EndDragUI() { }
 
+    public virtual void OnDropUI() { }
+
     //----------------------UI 터치 & 클릭----------------------
 
     public virtual void TouchOrClickButton(InputButtonType inputButtonType) { }

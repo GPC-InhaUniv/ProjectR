@@ -12,11 +12,11 @@ namespace RedTheSettlers.InputManager
 {
     public enum StateType
     {
-        TitleStage,
-        MainStage,
-        BattleStage,
-        TradeState,
-        WeatherState,
+        TitleStageState,
+        MainStageState,
+        BattleStageState,
+        TradeInMainStageState,
+        WeatherInMainStageState,
     }
 
     public enum InputButtonType
@@ -131,24 +131,24 @@ namespace RedTheSettlers.InputManager
         {
             switch (stateType)
             {
-                case StateType.MainStage:
-                    ChangeState(new BoardGameState());
+                case StateType.MainStageState:
+                    ChangeState(new MainStageState());
                     enableInputKey = false;
                     break;
-                case StateType.BattleStage:
-                    ChangeState(new BattlePhaseState());
+                case StateType.BattleStageState:
+                    ChangeState(new BattleStageState());
                     enableInputKey = true;
                     break;
-                case StateType.TradeState:
-                    ChangeState(new TradeState());
+                case StateType.TradeInMainStageState:
+                    ChangeState(new TradeInMainStageState());
                     enableInputKey = false;
                     break;
-                case StateType.WeatherState:
-                    ChangeState(new WeatherState());
+                case StateType.WeatherInMainStageState:
+                    ChangeState(new WeatherInMainStageState());
                     enableInputKey = false;
                     break;
-                case StateType.TitleStage:
-                    ChangeState(new MainTitleState());
+                case StateType.TitleStageState:
+                    ChangeState(new TitleStageState());
                     enableInputKey = false;
                     break;
             }

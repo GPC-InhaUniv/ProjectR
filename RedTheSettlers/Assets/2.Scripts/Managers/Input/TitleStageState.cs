@@ -4,9 +4,12 @@ using UnityEngine;
 
 /// <summary>
 /// 담당자 : 박상원
-/// 날씨 선택 화면 인풋 담당
+/// 메인 타이틀 화면 인풋 담당 구현부
 /// </summary>
-public class WeatherState : InputState
+namespace RedTheSettlers
 {
+    public class TitleStageState : InputState
+    {
 
+    }
 }

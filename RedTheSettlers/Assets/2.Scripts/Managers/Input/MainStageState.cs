@@ -10,7 +10,7 @@ using UnityEngine.EventSystems;
 /// State 패턴 구현부
 /// Board Game 부분 버튼 기능 및 카메라 이동
 /// </summary>
-public class BoardGameState : InputState
+public class MainStageState : InputState
 {
     private Vector3 firstClick;
     private Vector3 mouseDrag;

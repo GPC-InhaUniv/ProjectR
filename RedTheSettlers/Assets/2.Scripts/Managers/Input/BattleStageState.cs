@@ -8,7 +8,7 @@ using UnityEngine;
 /// State 패턴 구현부
 /// Battle 씬 유저 캐릭터 이동 및 공격 등
 /// </summary>
-public class BattlePhaseState : InputState
+public class BattleStageState : InputState
 {
     public override void DirectionKey(Vector3 direction)
     {

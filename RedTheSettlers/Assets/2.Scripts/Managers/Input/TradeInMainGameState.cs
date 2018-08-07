@@ -8,11 +8,11 @@ using UnityEngine.UI;
 /// 담당자 : 박상원
 /// 거래 화면 입력 부분
 /// </summary>
-public class TradeState : InputState
+public class TradeInMainStageState : InputState
 {
     private static GameObject[] beingDragged;
+    private static GameObject[] Slot;
     private GameObject targetUI;
-    private Sprite EmptySlot;
 
     private Transform startParent;
     private Vector3 startPosition;
@@ -51,5 +51,10 @@ public class TradeState : InputState
             targetUI.transform.position = startPosition;
         }
         targetUI = null;
+    }
+
+    public override void OnDropUI()
+    {
+        Slot = GameObject.FindGameObjectsWithTag("Slot");
     }
 }
