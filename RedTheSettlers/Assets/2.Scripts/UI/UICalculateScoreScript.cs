@@ -78,83 +78,83 @@ namespace RedTheSettlers
 
             private GameData gameData;
 
-            private void Awake()
-            {
-                gameData = new GameData(4);
+            //private void Awake()
+            //{
+            //    gameData = new GameData(4);
 
-                //>>Resource<<
-                gameData.PlayerData[0].ResourceData.CowNum = 1;
-                gameData.PlayerData[1].ResourceData.CowNum = 2;
-                gameData.PlayerData[2].ResourceData.CowNum = 3;
-                gameData.PlayerData[3].ResourceData.CowNum = 4;
+            //    //>>Resource<<
+            //    gameData.PlayerData[0].ResourceData.CowNum = 1;
+            //    gameData.PlayerData[1].ResourceData.CowNum = 2;
+            //    gameData.PlayerData[2].ResourceData.CowNum = 3;
+            //    gameData.PlayerData[3].ResourceData.CowNum = 4;
 
-                gameData.PlayerData[0].ResourceData.WaterNum = 5;
-                gameData.PlayerData[1].ResourceData.WaterNum = 15;
-                gameData.PlayerData[2].ResourceData.WaterNum = 20;
-                gameData.PlayerData[3].ResourceData.WaterNum = 25;
+            //    gameData.PlayerData[0].ResourceData.WaterNum = 5;
+            //    gameData.PlayerData[1].ResourceData.WaterNum = 15;
+            //    gameData.PlayerData[2].ResourceData.WaterNum = 20;
+            //    gameData.PlayerData[3].ResourceData.WaterNum = 25;
 
-                gameData.PlayerData[0].ResourceData.WheatNum = 5;
-                gameData.PlayerData[1].ResourceData.WheatNum = 6;
-                gameData.PlayerData[2].ResourceData.WheatNum = 7;
-                gameData.PlayerData[3].ResourceData.WheatNum = 8;
+            //    gameData.PlayerData[0].ResourceData.WheatNum = 5;
+            //    gameData.PlayerData[1].ResourceData.WheatNum = 6;
+            //    gameData.PlayerData[2].ResourceData.WheatNum = 7;
+            //    gameData.PlayerData[3].ResourceData.WheatNum = 8;
 
-                gameData.PlayerData[0].ResourceData.WoodNum = 2;
-                gameData.PlayerData[1].ResourceData.WoodNum = 4;
-                gameData.PlayerData[2].ResourceData.WoodNum = 6;
-                gameData.PlayerData[3].ResourceData.WoodNum = 8;
+            //    gameData.PlayerData[0].ResourceData.WoodNum = 2;
+            //    gameData.PlayerData[1].ResourceData.WoodNum = 4;
+            //    gameData.PlayerData[2].ResourceData.WoodNum = 6;
+            //    gameData.PlayerData[3].ResourceData.WoodNum = 8;
 
-                gameData.PlayerData[0].ResourceData.IronNum = 4;
-                gameData.PlayerData[1].ResourceData.IronNum = 8;
-                gameData.PlayerData[2].ResourceData.IronNum = 12;
-                gameData.PlayerData[3].ResourceData.IronNum = 16;
+            //    gameData.PlayerData[0].ResourceData.IronNum = 4;
+            //    gameData.PlayerData[1].ResourceData.IronNum = 8;
+            //    gameData.PlayerData[2].ResourceData.IronNum = 12;
+            //    gameData.PlayerData[3].ResourceData.IronNum = 16;
 
-                gameData.PlayerData[0].ResourceData.SoilNum = 3;
-                gameData.PlayerData[1].ResourceData.SoilNum = 6;
-                gameData.PlayerData[2].ResourceData.SoilNum = 9;
-                gameData.PlayerData[3].ResourceData.SoilNum = 12;
-                //<<
+            //    gameData.PlayerData[0].ResourceData.SoilNum = 3;
+            //    gameData.PlayerData[1].ResourceData.SoilNum = 6;
+            //    gameData.PlayerData[2].ResourceData.SoilNum = 9;
+            //    gameData.PlayerData[3].ResourceData.SoilNum = 12;
+            //    //<<
 
-                //>>Equipement
-                gameData.PlayerData[0].StatData.WeaponLevel = 2;
-                gameData.PlayerData[1].StatData.WeaponLevel = 1;
-                gameData.PlayerData[2].StatData.WeaponLevel = 3;
-                gameData.PlayerData[3].StatData.WeaponLevel = 2;
+            //    //>>Equipement
+            //    gameData.PlayerData[0].StatData.WeaponLevel = 2;
+            //    gameData.PlayerData[1].StatData.WeaponLevel = 1;
+            //    gameData.PlayerData[2].StatData.WeaponLevel = 3;
+            //    gameData.PlayerData[3].StatData.WeaponLevel = 2;
 
-                gameData.PlayerData[0].StatData.ArmorLevel = 1;
-                gameData.PlayerData[1].StatData.ArmorLevel = 3;
-                gameData.PlayerData[2].StatData.ArmorLevel = 2;
-                gameData.PlayerData[3].StatData.ArmorLevel = 3;
-                //<<
-
-
-                // >>Player Tents Count And Kill Monsters Count
-
-                TileData tileData;
-                tileData.LocationX = 8;
-                tileData.LocationY = 21;
-                tileData.TileLevel = 2;
-                tileData.TileType = TileType.Wood;
-
-                TileData tileData2;
-                tileData2.LocationX = 8;
-                tileData2.LocationY = 21;
-                tileData2.TileLevel = 2;
-                tileData2.TileType = TileType.Wood;
-
-                gameData.PlayerData[0].TileList.Add(tileData);
-                gameData.PlayerData[0].TileList.Add(tileData2);
-                gameData.PlayerData[1].TileList.Add(tileData);
-                gameData.PlayerData[2].TileList.Add(tileData);
-                gameData.PlayerData[3].TileList.Add(tileData);
-
-                gameData.PlayerData[0].InGameData.BossKillCount = 3;
-                gameData.PlayerData[1].InGameData.BossKillCount = 5;
-                gameData.PlayerData[2].InGameData.BossKillCount = 7;
-                gameData.PlayerData[3].InGameData.BossKillCount = 9;
-                //<<
+            //    gameData.PlayerData[0].StatData.ArmorLevel = 1;
+            //    gameData.PlayerData[1].StatData.ArmorLevel = 3;
+            //    gameData.PlayerData[2].StatData.ArmorLevel = 2;
+            //    gameData.PlayerData[3].StatData.ArmorLevel = 3;
+            //    //<<
 
 
-            }
+            //    // >>Player Tents Count And Kill Monsters Count
+
+            //    TileData tileData;
+            //    tileData.LocationX = 8;
+            //    tileData.LocationY = 21;
+            //    tileData.TileLevel = 2;
+            //    tileData.TileType = TileType.Wood;
+
+            //    TileData tileData2;
+            //    tileData2.LocationX = 8;
+            //    tileData2.LocationY = 21;
+            //    tileData2.TileLevel = 2;
+            //    tileData2.TileType = TileType.Wood;
+
+            //    gameData.PlayerData[0].TileList.Add(tileData);
+            //    gameData.PlayerData[0].TileList.Add(tileData2);
+            //    gameData.PlayerData[1].TileList.Add(tileData);
+            //    gameData.PlayerData[2].TileList.Add(tileData);
+            //    gameData.PlayerData[3].TileList.Add(tileData);
+
+            //    gameData.PlayerData[0].InGameData.BossKillCount = 3;
+            //    gameData.PlayerData[1].InGameData.BossKillCount = 5;
+            //    gameData.PlayerData[2].InGameData.BossKillCount = 7;
+            //    gameData.PlayerData[3].InGameData.BossKillCount = 9;
+            //    //<<
+
+
+            //}
 
             void Start()
             {

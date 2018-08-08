@@ -6,66 +6,71 @@ using UnityEngine.UI;
 /// <summary>
 /// 작성자 : 김하정
 /// 장비 레벨UP UI
-/// weaponNecessaryResourcesArray <요런건 어떻게 고치지..
 /// </summary>
 
-namespace RedTheSettlers
+namespace RedTheSettlers.UI
 {
+    using RedTheSettlers.LogManager;
 
-    public class UIEquipmentScript : MonoBehaviour
+    struct Test
     {
+      public  int wood;
+      public int iron;
+      public int soil;
+    }
+
+
+
+    public class UIEquipmentScript : MonoBehaviour 
+    {
+
+        const int EquipmentLevel = 2;
+        const int ItemType = 3;
+
         int itemID;
+        [Space(20)]
         [SerializeField]
-        private Image[] weaponLevelBlurImages;
+        private Image[] weaponLevelBlurImages, shieldLevelBlurImages;
 
-        [Space (20)]
-        [SerializeField]
-        private Image[] shieldLevelBlurImages;
+
 
         [Space(20)]
         [SerializeField]
-        private Button[] weaponLevelButtons;
+        private Button[] weaponLevelButtons, shieldLevelButtons;
 
-        [Space(20)]
-        [SerializeField]
-        private Button[] shieldLevelButtons;
+
 
         [Space(20)]
         [SerializeField]
         private int[] tempResourceCounts;
 
-        [HideInInspector]
+ 
         [Space(20)]
         [SerializeField]
-        private GameObject[] weaponLevelTextGroups;
+        private GameObject[] weaponLevelTextGroups, shieldLevelTextGroups;
 
-        [HideInInspector]
-        [Space(20)]
-        [SerializeField]
-        private GameObject[] shieldLevelTextGroups;
 
-        [HideInInspector]
-        [Space(20)]
-        [SerializeField]
-        private Text[] weaponLevelTexts;
 
-        [HideInInspector]
+       
         [Space(20)]
         [SerializeField]
-        private Text[] shieldLevelTexts;
+        private Text[] weaponLevelTexts, shieldLevelTexts;
+
+
+       
+         
+
 
         private Button[] buttonArray;
         private Image[] blurImageArray;
-        private int[,] weaponNecessaryResourcesArray;
-        private int[,] shieldNecessaryResourcesArray;
+        private int[,] weaponNecessaryResourcesArray, shieldNecessaryResourcesArray;
         private int[] playerResourceArray;
-        private GameObject[] resourceTextGroupArray;
-        private Text[,] weaponTextArray;
-        private Text[,] shieldTextArray;
-
-        private int playerWeaponLevel;
-        private int playerShieldLevel;
-        private Color textColor = new Color(255, 0, 0, 255);
+        private GameObject[] weaponResourceTextGroupArray, shieldResourceTextGroupArray;
+         
+        private Text[,] weaponTextArray, shieldTextArray;
+        
+        private int playerWeaponLevel, playerShieldLevel;
+        private Color textColor = Color.red;
 
         private enum ResourceNumbers
         {
@@ -105,6 +110,17 @@ namespace RedTheSettlers
             playerWeaponLevel = 1;
             playerShieldLevel = 1;
 
+            Test test;
+            test.wood = 3;
+            test.iron = 5;
+            test.soil = 5;
+
+            Test test2;
+            test2.wood = 10;
+            test2.iron = 15;
+            test2.soil = 15;
+
+
             buttonArray = new Button[4]
             {
                     weaponLevelButtons[(int)ResourceButtonNumbers.FirstWeaponAndShieldButton],
@@ -121,13 +137,13 @@ namespace RedTheSettlers
                     shieldLevelBlurImages[(int)BlurImageNumbers.SecondWeaponAndShieldBlurImage],
             };
 
-            weaponNecessaryResourcesArray = new int[2, 3]
+            weaponNecessaryResourcesArray = new int[EquipmentLevel, ItemType]
              {
-                    { 3,5,5 },
-                    { 10,15,15 }
+                    { test.wood,test.iron,test.soil },
+                    { test2.wood,test2.iron,test2.soil }
              };
 
-            shieldNecessaryResourcesArray = new int[2, 3]
+            shieldNecessaryResourcesArray = new int[EquipmentLevel, ItemType]
             {
                     { 5,3,3 },
                     { 10,5,5 }
@@ -140,7 +156,7 @@ namespace RedTheSettlers
                     tempResourceCounts[(int)ResourceNumbers.Soil],
             };
 
-            weaponTextArray = new Text[2, 3]
+            weaponTextArray = new Text[EquipmentLevel, ItemType]
             {
                     { weaponLevelTexts[(int)EquipmentLevelTextNumbers.FirstLevelText],
                     weaponLevelTexts[(int)EquipmentLevelTextNumbers.SecondLevelText],
@@ -152,7 +168,7 @@ namespace RedTheSettlers
 
              };
 
-            shieldTextArray = new Text[2, 3]
+            shieldTextArray = new Text[EquipmentLevel, ItemType]
             {
 
                     { shieldLevelTexts[(int)EquipmentLevelTextNumbers.FirstLevelText],
@@ -164,15 +180,19 @@ namespace RedTheSettlers
                     shieldLevelTexts[(int)EquipmentLevelTextNumbers.SixthLevelText]},
              };
 
-            resourceTextGroupArray = new GameObject[4]
+            weaponResourceTextGroupArray = new GameObject[EquipmentLevel]
             {
                     weaponLevelTextGroups[(int)EquipmentLevelTextNumbers.FirstLevelText],
                     weaponLevelTextGroups[(int)EquipmentLevelTextNumbers.SecondLevelText],
-                    shieldLevelTextGroups[(int)EquipmentLevelTextNumbers.FirstLevelText],
+                    
+            };
+            shieldResourceTextGroupArray = new GameObject[EquipmentLevel]
+            {
+                shieldLevelTextGroups[(int)EquipmentLevelTextNumbers.FirstLevelText],
                     shieldLevelTextGroups[(int)EquipmentLevelTextNumbers.SecondLevelText],
             };
 
-            for (int i = 0; i < 2; i++)
+            for (int i = 0; i < EquipmentLevel; i++)
             {
                 weaponTextArray[i, (int)EquipmentLevelTextNumbers.FirstLevelText].text = weaponNecessaryResourcesArray[i,(int)ResourceNumbers.Wood].ToString(); //업그레이드에 필요한 나무 개수를 넣어준다.
                 weaponTextArray[i, (int)EquipmentLevelTextNumbers.SecondLevelText].text = weaponNecessaryResourcesArray[i, (int)ResourceNumbers.Iron].ToString(); //업그레이드에 필요한 소지한 철 개수를 넣어준다.
@@ -226,9 +246,10 @@ namespace RedTheSettlers
                 buttonArray[(int)ResourceButtonNumbers.ForthWeaponAndShieldButton].enabled = true;
             }
 
-            Debug.Log("플레이어가 소지한 나무=" + playerResourceArray[0] + "플레이어가 소지한 철=" +
-               playerResourceArray[1] + "플레이어가 소지한 흙=" + playerResourceArray[2]);
-            Debug.Log("플레이어의 무기 레벨은" + playerWeaponLevel + "플레이어의 방어 레벨은" + playerShieldLevel);
+            LogManager.Instance.UserDebug( LogColor.Green, GetType().Name, "플레이어가 소지한 나무=" + playerResourceArray[0] + "플레이어가 소지한 철=" +
+                playerResourceArray[1] + "플레이어가 소지한 흙=" + playerResourceArray[2]);
+            LogManager.Instance.UserDebug(LogColor.Green, GetType().Name, "플레이어의 무기 레벨은" + playerWeaponLevel + "플레이어의 방어 레벨은" + playerShieldLevel);
+            
         }
 
         void UpgradeWeapon(int value)
@@ -244,7 +265,7 @@ namespace RedTheSettlers
                 playerResourceArray[(int)ResourceNumbers.Soil] -= weaponNecessaryResourcesArray[value, 2];
                 buttonArray[value].interactable = false;
                 blurImageArray[value].gameObject.SetActive(false);
-                resourceTextGroupArray[value].gameObject.SetActive(false);
+                //resourceTextGroupArray[value].gameObject.SetActive(false);
             }
             else
             {
@@ -272,7 +293,7 @@ namespace RedTheSettlers
                 playerResourceArray[(int)ResourceNumbers.Soil] -= shieldNecessaryResourcesArray[value - 2, 2];
                 buttonArray[value].interactable = false;
                 blurImageArray[value].gameObject.SetActive(false);
-                resourceTextGroupArray[value].gameObject.SetActive(false);
+                //resourceTextGroupArray[value].gameObject.SetActive(false);
             }
             else
             {
