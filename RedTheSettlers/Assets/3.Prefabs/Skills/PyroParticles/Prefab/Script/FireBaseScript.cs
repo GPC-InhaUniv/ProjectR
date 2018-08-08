@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-using RedTheSettlers.System;
+using RedTheSettlers.GameSystem;
 
 namespace DigitalRuby.PyroParticles
 {

@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using RedTheSettlers.System;
+using RedTheSettlers.GameSystem;
 
 namespace RedTheSettlers
 {
