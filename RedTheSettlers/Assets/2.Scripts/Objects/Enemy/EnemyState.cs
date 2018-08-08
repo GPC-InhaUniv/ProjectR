@@ -1,4 +1,4 @@
-﻿namespace RedTheSettlers.Monster
+﻿namespace RedTheSettlers.Enemys
 {
     public abstract class EnemyState
     {

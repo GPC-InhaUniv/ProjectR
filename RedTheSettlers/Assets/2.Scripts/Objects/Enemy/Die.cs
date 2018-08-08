@@ -1,7 +1,7 @@
-﻿namespace RedTheSettlers.Monster
-{
-    using RedTheSettlers.GameTime;
+﻿using RedTheSettlers.GameSystem;
 
+namespace RedTheSettlers.Enemys
+{
     public class Die : EnemyState
     {
         public override void DoAction(Enemy enemy)

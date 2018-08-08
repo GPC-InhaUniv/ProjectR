@@ -1,10 +1,8 @@
-﻿
+﻿using RedTheSettlers.GameSystem;
 using UnityEngine;
 
-namespace RedTheSettlers.Monster
+namespace RedTheSettlers.Enemys
 {
-    using RedTheSettlers.GameTime;
-
     public class Move : EnemyState
     {
         const float speedCorrection = 50f;

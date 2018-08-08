@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
+using RedTheSettlers.Enemys;
 
 namespace RedTheSettlers.UnitTest
 {
-    using RedTheSettlers.Monster;
     /// <summary>
     /// **********************************************
     /// enemy 이동 테스트를 위한 테스트옹 소스입니다.

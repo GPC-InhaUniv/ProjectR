@@ -1,4 +1,4 @@
-﻿namespace RedTheSettlers.Monster
+﻿namespace RedTheSettlers.Enemys
 {
     /// <summary>
     /// 기본 공격

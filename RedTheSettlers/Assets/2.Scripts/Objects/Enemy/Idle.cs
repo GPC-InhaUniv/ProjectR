@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace RedTheSettlers.Monster
+namespace RedTheSettlers.Enemys
 {
     public class Idle : EnemyState
     {

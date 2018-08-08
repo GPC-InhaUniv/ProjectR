@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
+using RedTheSettlers.UnitTest;
+using RedTheSettlers.GameSystem;
 
-namespace RedTheSettlers.Monster
+namespace RedTheSettlers.Enemys
 {
-    using RedTheSettlers.UnitTest;
-
     public enum EnemyType
     {
         Iron = 0,

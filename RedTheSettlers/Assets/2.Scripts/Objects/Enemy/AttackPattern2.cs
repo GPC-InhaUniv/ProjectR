@@ -1,7 +1,7 @@
-﻿namespace RedTheSettlers.Monster
-{
-    using RedTheSettlers.GameTime;
+﻿using RedTheSettlers.GameSystem;
 
+namespace RedTheSettlers.Enemys
+{
     /// <summary>
     /// 파이어볼 발사, enemy 객체는 한번에 하나의 fireball 객체를 보유할 수 있다.
     /// </summary>
