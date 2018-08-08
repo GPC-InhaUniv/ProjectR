@@ -1,14 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
-/// <summary>
-/// 담당자 : 박상원
-/// 거래 화면 입력 부분
-/// </summary>
-public class TradeInMainStageState : InputState
+public class EquipSkillInMainStageState : InputState
 {
     private static GameObject[] beingDragged;
     private static GameObject[] Slot;

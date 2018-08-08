@@ -16,19 +16,22 @@ namespace RedTheSettlers.GameSystem
         MainStageState,
         BattleStageState,
         TradeInMainStageState,
+        EquipSkillInMainStageState,
         WeatherInMainStageState,
     }
-
+    // 추후 버튼 명칭 확정 후 그에 맞춰 수정
     public enum InputButtonType
     {
-        GameStart,
+        PressToStart,
+        SignUp,
+        Login,
         Option,
         Battle,
         Trade,
         TurnEnd,
-        CharacterState,
-        MiniMap,
-        Character,
+        Status,
+        Map,
+        EquipAndSkill,
         Attack,
         Skill1,
         Skill2,
@@ -57,6 +60,14 @@ namespace RedTheSettlers.GameSystem
             TypeState(stateType);
         }
 
+        private void Update()
+        {
+            if(enableInputKey)
+            {
+                InteractionKey();
+            }
+        }
+
         private void FixedUpdate()
         {
             if (enableInputKey)
@@ -70,7 +81,7 @@ namespace RedTheSettlers.GameSystem
             input.TouchOrClickButton(inputButtonType);
         }
 
-        public void InputDrag(Vector3 direction)
+        public void MainStageDrag(Vector3 direction)
         {
             input.DragMove(direction);
         }
@@ -88,6 +99,11 @@ namespace RedTheSettlers.GameSystem
         public void EndDrag()
         {
             input.EndDragUI();
+        }
+
+        public void OnDrop()
+        {
+            input.OnDropUI();
         }
 
         private void EnterDirectionKey()
@@ -150,6 +166,9 @@ namespace RedTheSettlers.GameSystem
                 case StateType.TitleStageState:
                     ChangeState(new TitleStageState());
                     enableInputKey = false;
+                    break;
+                default:
+                    LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, "해당되는 상태가 존재하지 않습니다.");
                     break;
             }
         }

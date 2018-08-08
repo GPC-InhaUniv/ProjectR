@@ -15,6 +15,7 @@ namespace RedTheSettlers.GameSystem
         다음 컨트롤러로 작업을 넘겨준다.
         이 과정에서 데이터와 연동
         
+        임시적 데이터 저장 및 ui 매니저로의 전달(presenter)
          */
 
     }

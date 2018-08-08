@@ -6,9 +6,10 @@ namespace RedTheSettlers.Enemys
     {
         public Rigidbody rigidbodyComponent;
 
-        private void Awake()
+        private void Start()
         {
             rigidbodyComponent = GetComponent<Rigidbody>();
+            gameObject.SetActive(false);
         }
 
         private void OnDisable()
