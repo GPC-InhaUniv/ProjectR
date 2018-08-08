@@ -8,15 +8,13 @@ using System.Linq;
 using UnityEngine;
 
 
-namespace RedTheSettlers
+namespace RedTheSettlers.GameSystem
 {
-
     /// <summary>
     /// 작성자 : 박준명
     /// </summary>
     public class GameDataLoader
     {
-
         private DatabaseReference reference;
         private string jsonData;
 
@@ -148,7 +146,5 @@ namespace RedTheSettlers
                 }
             });
         }
-
     }
-
 }

@@ -1,27 +1,21 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 
-
-[System.Serializable]
-public struct AssetBundleData
-{
-    public Hash128 Player;
-    public Hash128 Skill;
-    public Hash128 Enemey;
-    public Hash128 FirstBoss;
-    public Hash128 SecondBoss;
-    public Hash128 ThirdBoss;
-    public Hash128 UI;
-    public Hash128 Tile;
-
-}
-
-namespace RedTheSettlers
+namespace RedTheSettlers.GameSystem
 {
 
-
-
+    [Serializable]
+    public struct AssetBundleData
+    {
+        public Hash128 Player;
+        public Hash128 Skill;
+        public Hash128 Enemey;
+        public Hash128 FirstBoss;
+        public Hash128 SecondBoss;
+        public Hash128 ThirdBoss;
+        public Hash128 UI;
+        public Hash128 Tile;
+    }
     /// <summary>
     /// 작성자 : 박준명
     /// </summary>
@@ -52,18 +46,18 @@ namespace RedTheSettlers
 
         public void SaveGameData()
         {
-            GameData.PlayerData[0].ResourceData.SoilNum = 10;
-            GameData.PlayerData[1].ResourceData.IronNum = 7;
-            GameData.PlayerData[2].ResourceData.WaterNum = 5;
-            GameData.PlayerData[3].ResourceData.WheatNum = 20;
+            GameData.PlayerData[0].ResourceData.SoilNumber = 10;
+            GameData.PlayerData[1].ResourceData.IronNumber = 7;
+            GameData.PlayerData[2].ResourceData.WaterNumber = 5;
+            GameData.PlayerData[3].ResourceData.WheatNumber = 20;
             gameDataLoader.SetUpdateInDB(GameData);
         }
 
         public void ResetData()
         {
-            ResourceData resource = new ResourceData
+            ItemData resource = new ItemData
             {
-                IronNum = 1
+                IronNumber = 1
             };
             GameData.PlayerData[0].ResourceData = resource;
             GameData.PlayerData = new PlayerData[4];
