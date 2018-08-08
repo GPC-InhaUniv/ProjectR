@@ -55,7 +55,8 @@ namespace RedTheSettlers.Enemys
         public int MaxHp;
         public float TimeToReturn = 3.0f;
         public float Power;
-        public float FireBallSpeed;
+        [ReadOnly]
+        public float FireBallSpeed = 5.0f;
 
         [Header("Timers")]
         public GameTimer DeadTimer;
@@ -80,7 +81,7 @@ namespace RedTheSettlers.Enemys
 
             //test
             tempFireBallPool = Instantiate(FireBallPrefab);
-            tempFireBallPool.gameObject.SetActive(false);
+            //tempFireBallPool.gameObject.SetActive(false);
         }
 
         //fireball test용 pool method
@@ -93,6 +94,7 @@ namespace RedTheSettlers.Enemys
         //fireball test용 pool method2
         public void PushFireBall()
         {
+            FireBallLifeTimer = null;
             tempFireBallPool.gameObject.SetActive(false);
         }
 

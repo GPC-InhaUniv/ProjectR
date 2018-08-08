@@ -12,22 +12,21 @@ using UnityEngine.SceneManagement;
 /// }
 /// </summary>
 
-namespace RedTheSettlers
+namespace RedTheSettlers.GameSystem
 {
     class TitleState : State
     {
         public override State Execute(StageType stageType)
         {
-            switch (stageType)
-            {
-                case StageType.LodingStage:
-                    SceneManager.LoadSceneAsync((int)stageType);
-                    return new LodingState();
-                default:
-                    return null;
-            }
+            SceneManager.LoadSceneAsync((int)StageType.LoadingStageState);
+            return new LoadingState();
         }
 
+        public override State Execute()
+        {
+            return null;
+        }
     }
+
 }
 

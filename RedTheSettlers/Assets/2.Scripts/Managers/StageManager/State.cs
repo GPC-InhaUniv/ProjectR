@@ -12,10 +12,11 @@ using UnityEngine;
 /// }
 /// </summary>
 
-namespace RedTheSettlers
+namespace RedTheSettlers.GameSystem
 {
     abstract class State
     {
         public abstract State Execute(StageType stageType);
+        public abstract State Execute();
     }
 }

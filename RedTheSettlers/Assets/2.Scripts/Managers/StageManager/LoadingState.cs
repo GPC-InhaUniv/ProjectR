@@ -8,25 +8,26 @@ using UnityEngine.SceneManagement;
 /// 수정시 간략 설명과 수정 날짜 
 /// {
 ///   Ex : 함수명 변경 18/07/15
-///     
+///   Context 부분 
+///   
 /// }
 /// </summary>
 
-namespace RedTheSettlers
+
+namespace RedTheSettlers.GameSystem
 {
-    class LodingState : State
+    class LoadingState : State
     {
         public override State Execute(StageType stageType)
         {
-            switch (stageType)
-            {
-                case StageType.MainStage:
-                    SceneManager.LoadSceneAsync((int)stageType);
-                    return new MainState();
-                default:
-                    return null;
-            }
+            SceneManager.LoadSceneAsync((int)StageType.MainStageState);
+            return new MainState();
+        }
+
+        public override State Execute()
+        {
+            return null;
         }
     }
-}
 
+}
