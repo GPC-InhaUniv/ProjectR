@@ -12,13 +12,13 @@ public class CameraController : MonoBehaviour {
     
     [SerializeField]
     GameCamera BoardGameCamera, BattleGameCamera, ActiveCamera;
+    Transform target;
     
     private void Start()
     {
         BoardGameCamera = GameObject.Find("Board Camera").GetComponent<GameCamera>();
         BattleGameCamera = GameObject.Find("Battle Camera").GetComponent<GameCamera>();
         ActiveCamera = BoardGameCamera;
-
     }
 
     private void Update()
@@ -31,29 +31,32 @@ public class CameraController : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.C))
         {
             Debug.Log("c");
-            ZoomIn(ActiveCamera);
+            ZoomInOut(ActiveCamera);
         }
-
+        //피치줌인아웃 들어갈자리(현재 DragZoom : CameraZoomInOut 안에 있음
     }
     private void FixedUpdate()
     {
         ActiveCamera.MovingCamera();
+        ActiveCamera.Looking(target);
     }
 
-    private void ZoomIn(GameCamera activeCamera)
+    private void ZoomInOut(GameCamera activeCamera)
     {
-        activeCamera.ZoomInCamera();
+        activeCamera.ZoomInOutCamera();
     }
 
-    void SwichingCamera(GameCamera Camera)
+    void SwichingCamera(GameCamera activeCamera)
     {
         ActiveCamera.TrunOffCamera();
-        if(Camera == BoardGameCamera)
+        if(activeCamera == BoardGameCamera)
         {
+            target = GameObject.FindGameObjectWithTag("Player").transform;
             ActiveCamera = BattleGameCamera;
         }
         else
         {
+            target = null;
             ActiveCamera = BoardGameCamera;
         }
         ActiveCamera.TrunOnCamera();

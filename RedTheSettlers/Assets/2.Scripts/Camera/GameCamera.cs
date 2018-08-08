@@ -6,26 +6,23 @@ using UnityEngine;
 
 public class GameCamera : MonoBehaviour
 {
-    [SerializeField]
-    AbstractCamera abstractCamera = null;
-    //BoardCamera boardCamera;
+    
+    AbstractCamera abstractCamera;
     string cameraName;
-    private void Start()
+    private void Awake()
     {
         cameraName = gameObject.name;
         if(cameraName == "Board Camera")
         {
-            abstractCamera = gameObject.AddComponent<BoardCamera>();
+            abstractCamera = new BoardCamera(gameObject);
         }
         else
         {
-            abstractCamera = gameObject.AddComponent<BattleCamera>();
+            abstractCamera = new BattleCamera(gameObject);
         }
-        
+        abstractCamera.camera = gameObject.GetComponent<Camera>();
     }
     
-
-
 
     public void TrunOnCamera()
     {
@@ -39,13 +36,13 @@ public class GameCamera : MonoBehaviour
     {
         abstractCamera.MovingCamera();
     }
-    public void ZoomInCamera()
+    public void ZoomInOutCamera()
     {
-        abstractCamera.ZoomIn();
+        abstractCamera.ZoomInOutCamera();
     }
-    public void ZoomOutCamera()
+    public void Looking(Transform target)
     {
-        abstractCamera.ZoomOut();
+        abstractCamera.LookAt(target);
     }
     
 

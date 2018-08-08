@@ -1,54 +1,102 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="BattleCamera">
-    <Position X="8.5" Y="5.75" Width="1.5" />
+    <Position X="7" Y="5.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAIAACAAAAAAQAAAACAAAAAAAACAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Assets\2.Scripts\Camera\BattleCamera.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="BoardCamera">
-    <Position X="6.5" Y="5.75" Width="1.5" />
+    <Position X="5.25" Y="5.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAACIAACASAAAAQAAAAAABAIAAAACABAAAABAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Assets\2.Scripts\Camera\BoardCamera.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="CameraController" Collapsed="true">
-    <Position X="2" Y="0.5" Width="1.5" />
+    <Position X="11" Y="1.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAQAAAIAAiAIAQAAAAAAAAAAAAAAAAAEAAAAAAQAAAA=</HashCode>
+      <HashCode>AAQAAAAIAiAIAQAAIAAAAAAAAAAAAAAAAAAAAAQAAAA=</HashCode>
       <FileName>Assets\2.Scripts\Camera\CameraController.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="GameCamera">
-    <Position X="2" Y="2.25" Width="1.5" />
+    <Position X="8.5" Y="1.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAABEgAAACAAAACIQAAAAAAIAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAABAAAQAAAAAACIQAAAAAAIAAAAAAAAAAAAAAAAAEA=</HashCode>
       <FileName>Assets\2.Scripts\Camera\GameCamera.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="AbstractCamera">
-    <Position X="7.5" Y="2.25" Width="1.5" />
+    <Position X="6.25" Y="1.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>ABAAAAIAAgAAAAAAQAAAIAAAAAAAAACAQAAAAAAAAAA=</HashCode>
+      <HashCode>AhAQAAAQAgAAAAAAQAAAAEAAAAAAAAAAQAAAAAAAAAI=</HashCode>
       <FileName>Assets\2.Scripts\Camera\AbstractCamera.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CameraTarget">
-    <Position X="4" Y="4" Width="1.5" />
+  <Class Name="CameraMoving">
+    <Position X="1.75" Y="0.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>IAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Assets\2.Scripts\Camera\CameraTarget.cs</FileName>
+      <HashCode>AAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAA=</HashCode>
+      <FileName>Assets\2.Scripts\Camera\CameraMoving.cs</FileName>
     </TypeIdentifier>
-    <Lollipop Position="0.2" />
   </Class>
-  <Interface Name="ICamera">
-    <Position X="4.5" Y="2.25" Width="1.5" />
+  <Class Name="CameraZoomInOut">
+    <Position X="2" Y="3.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>IAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Assets\2.Scripts\Camera\ICamera.cs</FileName>
+      <HashCode>BAAAAAAIAgAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\2.Scripts\Camera\CameraZoomInOut.cs</FileName>
     </TypeIdentifier>
-  </Interface>
+  </Class>
+  <Class Name="CameraAngle">
+    <Position X="2" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\2.Scripts\Camera\CameraAngle.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DragMoving" Collapsed="true">
+    <Position X="0.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAABAAIEA=</HashCode>
+      <FileName>Assets\2.Scripts\Camera\DragMoving.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FollowMoving" Collapsed="true">
+    <Position X="3" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\2.Scripts\Camera\FollowMoving.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ManualZoom" Collapsed="true">
+    <Position X="0.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIIAAACAAAAAAAAAAAAAAABAACAAAAAAAAAAEA=</HashCode>
+      <FileName>Assets\2.Scripts\Camera\ManualZoom.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DragZoom" Collapsed="true">
+    <Position X="3" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>Assets\2.Scripts\Camera\DragZoom.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LookAtTarget" Collapsed="true">
+    <Position X="0.75" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAQAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>Assets\2.Scripts\Camera\LookAtTarget.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LookAtManual" Collapsed="true">
+    <Position X="2.75" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>Assets\2.Scripts\Camera\LookAtManual.cs</FileName>
+    </TypeIdentifier>
+  </Class>
   <Font Name="맑은 고딕" Size="9" />
 </ClassDiagram>
