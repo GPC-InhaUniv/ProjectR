@@ -8,7 +8,7 @@ using UnityEngine;
 /// 담당자 : 박상원
 /// Log 출력 및  기록을 전담
 /// </summary>
-namespace RedTheSettlers.LogManager
+namespace RedTheSettlers.GameSystem
 {
     /// <summary>
     /// 디버그 LogColor 선택을 위한 Type 값

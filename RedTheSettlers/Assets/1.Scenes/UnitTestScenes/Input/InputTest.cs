@@ -1,7 +1,4 @@
-﻿using RedTheSettlers.InputManager;
-using RedTheSettlers.LogManager;
-using System.Collections;
-using System.Collections.Generic;
+﻿using RedTheSettlers.GameSystem;
 using UnityEngine;
 
 public class InputTest : MonoBehaviour
