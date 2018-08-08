@@ -12,12 +12,12 @@ namespace RedTheSettlers.UnitTest
     {
         Player,
         Skill,
-        Enemy,
+        Enemy, // unload(false)
         Boss1,
         Boss2,
         Boss3,
         Tile, // unload(false)
-        UI, // ???
+        UI, 
         objects, // 테스트용으로 사용 // 추후에 제거할 것
         canvas, // 테스트용으로 사용 // 추후에 제거할 것
     }

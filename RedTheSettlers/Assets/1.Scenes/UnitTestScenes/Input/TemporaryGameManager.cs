@@ -1,4 +1,5 @@
 ﻿using RedTheSettlers;
+using RedTheSettlers.LogManager;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

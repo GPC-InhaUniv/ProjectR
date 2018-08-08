@@ -26,7 +26,7 @@ namespace RedTheSettlers
 
             private void Start()
             {
-                _turnObserver += new TurnObserver(turn.NotifyObserver);
+                //_turnObserver += new TurnObserver(turn.NotifyObserver);
             }
 
             public void SendState(GameState state)

@@ -56,71 +56,84 @@ namespace RedTheSettlers.UnitTest
             mediator.RequestTrade(requestPlayer, tradeData);
         }
 
+
         public void SendTrade(Player requestPlayer, ResourceData tradeData)
         {
             tradePanel.SetActive(true);
             // tradeData를 풀어 UI에서 정보 보여주기
+            // GetTradeData() -> RequestAgain(requestPlayer, this.Player);
+            // 또는 수락 / 거절
+            mediator.RequestAgain(requestPlayer, tradeData);
         }
 
-        public void RequestAgain(Player respondPlayer)
+        public void RequestAgain(Player requestPlayer, ResourceData tradeData)
         {
-
-        }
-    }
-
-    //public class User : Player
-    //{
-
-    //}
-
-    //public class AI : Player
-    //{
-
-    //}
-
-    public interface IMediatable
-    {
-        void RegisterPlayer(Player player);
-        void RequestTrade(Player requestPlayer, ResourceData tradeData);
-        void RequestAgain(Player respondPlayer);
-        //void ShowTradePanel(Player requestPlayer);
-    }
-
-    // Constructor Mediator
-    public class TradeControllerTest : MonoBehaviour, IMediatable
-    {
-        List<Player> playerList = new List<Player>();
-
-        void Start()
-        {
-            //Player user = new User();
-            //Player ai1 = new AI();
-            //Player ai2 = new AI();
-            //Player ai3 = new AI();
-
-            //RegisterPlayer(user);
-            //RegisterPlayer(ai1);
-            //RegisterPlayer(ai2);
-            //RegisterPlayer(ai3);
+            mediator.RequestAgain(requestPlayer, tradeData);
         }
 
-        public void RegisterPlayer(Player player)
+        //public class User : Player
+        //{
+
+        //}
+
+        //public class AI : Player
+        //{
+
+        //}
+
+        public interface IMediatable
         {
-            playerList.Add(player);
+            void RegisterPlayer(Player player);
+            void RequestTrade(Player requestPlayer, ResourceData tradeData);
+            void RequestAgain(Player respondPlayer, ResourceData tradeData);
+            //void ShowTradePanel(Player requestPlayer);
         }
 
-        public void RequestTrade(Player requestPlayer, ResourceData tradeData)
+        // Constructor Mediator
+        public class TradeControllerTest : MonoBehaviour, IMediatable
         {
-            for (int i = 0; i < playerList.Count; i++)
+            List<Player> playerList = new List<Player>();
+
+            void Start()
             {
-                if (playerList[i] == requestPlayer) continue;
-                playerList[i].SendTrade(requestPlayer, tradeData);
+
+                //Player user = new User();
+                //Player ai1 = new AI();
+                //Player ai2 = new AI();
+                //Player ai3 = new AI();
+
+                //RegisterPlayer(user);
+                //RegisterPlayer(ai1);
+                //RegisterPlayer(ai2);
+                //RegisterPlayer(ai3);
             }
-        }
 
-        public void RequestAgain(Player respondPlayer)
-        {
+            public void RegisterPlayer(Player player)
+            {
+                playerList.Add(player);
+            }
 
+            public void RequestTrade(Player requestPlayer, ResourceData tradeData)
+            {
+                for (int i = 0; i < playerList.Count; i++)
+                {
+                    if (playerList[i] == requestPlayer) continue;
+                    playerList[i].SendTrade(requestPlayer, tradeData);
+                }
+            }
+
+            public void RequestAgain(Player requestPlayer, ResourceData tradeData)
+            {
+                for (int i = 0; i < playerList.Count; i++)
+                {
+                    if (playerList[i] == requestPlayer) playerList[i].SendTrade(requestPlayer, tradeData);
+                }
+            }
         }
     }
 }
+/*
+RegisterPlayer() // 처음 start할 때 호출
+
+RequestTrade() -> ShowTradePanel() -> GetTradeData() -> RequestTrade()_Controller -> SendTrade() -> RequestAgain()
+*/
