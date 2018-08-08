@@ -23,11 +23,11 @@ public class MainStageState : InputState
                 break;
             case InputButtonType.TurnEnd:
                 break;
-            case InputButtonType.CharacterState:
+            case InputButtonType.Status:
                 break;
-            case InputButtonType.MiniMap:
+            case InputButtonType.Map:
                 break;
-            case InputButtonType.Character:
+            case InputButtonType.EquipAndSkill:
                 break;
         }
     }
