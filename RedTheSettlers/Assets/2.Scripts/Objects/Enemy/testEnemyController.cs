@@ -23,7 +23,7 @@ namespace RedTheSettlers.UnitTest
                 {
                     Debug.Log("hit point : " + hitInfo.point);
                     enemy.destinationPoint = new Vector3(hitInfo.point.x, 0, hitInfo.point.z);
-                    enemy.ChangeStage(EnemyStateType.Move);
+                    //enemy.ChangeStage(EnemyStateType.Move);
                 }
             }
         }

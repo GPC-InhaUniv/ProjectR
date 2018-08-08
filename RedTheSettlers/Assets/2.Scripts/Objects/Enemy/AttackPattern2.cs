@@ -1,4 +1,5 @@
 ﻿using RedTheSettlers.GameSystem;
+using UnityEngine;
 
 namespace RedTheSettlers.Enemys
 {
@@ -8,7 +9,9 @@ namespace RedTheSettlers.Enemys
     public class AttackPattern2 : Attack
     {
         EnemyFireBall fireBall;
-        const float lifeTime = 5f;
+        const float lifeTime = 3f;
+        const float speedCorrection = 50f;
+        const float Yoffset = 0.55f;
 
         public override void DoAction(Enemy enemy)
         {
@@ -16,11 +19,21 @@ namespace RedTheSettlers.Enemys
             //pool manager로부터 fireball 객체 받아오는 코드로 수정해야 함.
 
             //test
-            fireBall = enemy.PopFireBall();
-            fireBall.rigidbodyComponent.velocity = (enemy.TargetObject.transform.position - enemy.transform.position).normalized * enemy.FireBallSpeed * GameTimeManager.Instance.DeltaTime;
-            enemy.FireBallLifeTimer = GameTimeManager.Instance.PopTimer();
-            enemy.FireBallLifeTimer.SetTimer(lifeTime, false);
-            enemy.FireBallLifeTimer.Callback = new TimerCallback(enemy.PushFireBall);
+            if (enemy.FireBallLifeTimer == null)
+            {
+                Vector3 normalVector = (enemy.TargetObject.transform.position - enemy.transform.position).normalized;
+                Vector3 firePosition = new Vector3(enemy.transform.position.x, enemy.transform.position.y + Yoffset, enemy.transform.position.z);
+
+                fireBall = enemy.PopFireBall();
+                fireBall.transform.position = firePosition;
+                fireBall.rigidbodyComponent.velocity = normalVector * enemy.FireBallSpeed * GameTimeManager.Instance.DeltaTime * speedCorrection;
+                enemy.transform.rotation = Quaternion.LookRotation(normalVector);
+
+                enemy.FireBallLifeTimer = GameTimeManager.Instance.PopTimer();
+                enemy.FireBallLifeTimer.SetTimer(lifeTime, false);
+                enemy.FireBallLifeTimer.Callback = new TimerCallback(enemy.PushFireBall);
+                enemy.FireBallLifeTimer.StartTimer();
+            }            
         }
     }
 }
