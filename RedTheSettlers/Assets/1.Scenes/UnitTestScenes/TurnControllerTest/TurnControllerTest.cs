@@ -2,42 +2,33 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace RedTheSettlers
+namespace RedTheSettlers.UnitTest
 {
     public enum GameState
     {
         //TurnController,
         EventController,
         ItemController,
-        Player1, 
+        Player1,
         Player2,
         Player3,
         Player4,
     }
 
-    namespace UnitTest
+    public abstract class Controller : MonoBehaviour
     {
-        interface IInformable
+        ITrunObservable turnobserver;
+    }
+
+    public class TurnControllerTest : Controller
+    {
+        GameState state = GameState.EventController;
+        private ObserverSets observer;
+
+        public void AcceptTestMethod()
         {
-            void SetObserver(ObserverSets observer);
-            void NotifyObserver();
+
         }
 
-        public class TurnControllerTest : MonoBehaviour, IInformable
-        {
-            GameState state = GameState.EventController;
-            private ObserverSets observer;
-
-            public void SetObserver(ObserverSets observer)
-            {
-                this.observer = observer;
-            }
-
-            public void NotifyObserver()
-            {
-                observer.SendState(state); // 상태 변경을 전달?
-            }
-            
-        }
     }
 }

@@ -8,7 +8,7 @@ using UnityEngine;
 /// </summary>
 namespace RedTheSettlers
 {
-    public class MainTitleState : InputState
+    public class TitleStageState : InputState
     {
 
     }

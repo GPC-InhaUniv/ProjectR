@@ -5,32 +5,31 @@ using System.IO;
 using UnityEngine;
 
 /// <summary>
-/// 디버그 LogColor 선택을 위한 Type 값
-/// 자신의 색상값 잘 기억해둘 것
-/// </summary>
-public enum LogColor
-{
-    Orange, // 지용
-    Olive,
-    Green,
-    Teal,
-    Blue,
-    Navy,
-    Purple,
-    Magenta,
-    Brown,
-    Red, // 중요
-}
-
-/// <summary>
 /// 담당자 : 박상원
 /// Log 출력 및  기록을 전담
 /// </summary>
-namespace RedTheSettlers
+namespace RedTheSettlers.LogManager
 {
+    /// <summary>
+    /// 디버그 LogColor 선택을 위한 Type 값
+    /// 자신의 색상값 잘 기억해둘 것
+    /// </summary>
+    public enum LogColor
+    {
+        Orange, // 지용
+        Olive,
+        Green,
+        Teal,
+        Blue,
+        Navy,
+        Purple,
+        Magenta,
+        Brown,
+        Red, // 중요
+    }
+
     public class LogManager : Singleton<LogManager>
     {
-        private static LogManager logManager;
 
         private FileStream logFile;
         private FileInfo debugLog;
@@ -43,7 +42,6 @@ namespace RedTheSettlers
         private void Awake()
         {
             fileName = "Log-" + DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss") + ".txt";
-            logManager = this;
             DontDestroyOnLoad(gameObject);
         }
 

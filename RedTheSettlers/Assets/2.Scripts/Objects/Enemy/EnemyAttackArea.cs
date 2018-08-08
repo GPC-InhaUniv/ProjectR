@@ -1,26 +1,20 @@
 ﻿using UnityEngine;
 
-namespace RedTheSettlers
+public class EnemyAttackArea : MonoBehaviour
 {
-    namespace System
+    public Collider AttackCollider;
+
+    private void Start()
     {
-        public class EnemyAttackArea : MonoBehaviour
+        AttackCollider = GetComponent<Collider>();
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Player")
         {
-            public Collider AttackCollider;
-
-            private void Start()
-            {
-                AttackCollider = GetComponent<Collider>();
-            }
-
-            private void OnTriggerEnter(Collider other)
-            {
-                if (other.tag == "Player")
-                {
-                    //플레이어에게 타격을 준다.
-                    //GameManager 통해서 처리
-                }
-            }
+            //플레이어에게 타격을 준다.
+            //GameManager 통해서 처리
         }
     }
 }

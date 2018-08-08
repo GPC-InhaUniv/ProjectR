@@ -1,32 +1,30 @@
-﻿using System.Collections;
+﻿using RedTheSettlers.InputManager;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace RedTheSettlers
+public abstract class InputState
 {
-    public abstract class InputState
-    {
-        public virtual void CurrentState() { }
+    public virtual void DragMove(Vector3 direction) { }
 
-        public virtual void DragMove(Vector3 direction) { }
+    //----------------------UI 드래그----------------------
 
-        //----------------------UI 드래그----------------------
+    public virtual void OnBeginDragUI() { }
 
-        public virtual void OnBeginDragUI() { }
+    public virtual void OnDragUI() { }
 
-        public virtual void OnDragUI() { }
+    public virtual void EndDragUI() { }
 
-        public virtual void EndDragUI() { }
+    public virtual void OnDropUI() { }
 
-        //----------------------UI 터치 & 클릭----------------------
+    //----------------------UI 터치 & 클릭----------------------
 
-        public virtual void TouchOrClickButton(InputButtonType inputButtonType) { }
+    public virtual void TouchOrClickButton(InputButtonType inputButtonType) { }
 
-        //----------------------PC 용 Battle Phase----------------------
+    //----------------------PC 용 Battle Phase----------------------
 
-        public virtual void DirectionKey(Vector3 direction) { }
+    public virtual void DirectionKey(Vector3 direction) { }
 
-        public virtual void BattleAttack() { }
-    }
+    public virtual void BattleAttack() { }
 }
