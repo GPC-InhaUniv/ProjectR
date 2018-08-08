@@ -8,7 +8,7 @@ using UnityEngine;
 /// 화면 또는 아이콘 드래그, 이동 방향 전달, UI 버튼 입력시
 /// 해당 UI 버튼 해야 하는 일을 받아서 전달
 /// </summary>
-namespace RedTheSettlers.InputManager
+namespace RedTheSettlers.GameSystem
 {
     public enum StateType
     {

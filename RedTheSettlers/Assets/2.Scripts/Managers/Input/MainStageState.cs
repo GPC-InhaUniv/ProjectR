@@ -1,9 +1,5 @@
-﻿using RedTheSettlers.InputManager;
-using RedTheSettlers.LogManager;
-using System.Collections;
-using System.Collections.Generic;
+﻿using RedTheSettlers.GameSystem;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 /// <summary>
 /// 담당자 박상원

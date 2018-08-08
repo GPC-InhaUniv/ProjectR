@@ -1,8 +1,5 @@
-﻿using RedTheSettlers.InputManager;
-using System.Collections;
-using System.Collections.Generic;
+﻿using RedTheSettlers.GameSystem;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public abstract class InputState
 {
