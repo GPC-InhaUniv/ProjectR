@@ -1,80 +1,67 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using RedTheSettlers.System;
+using RedTheSettlers.Tiles;
 
-public enum TileType
+namespace RedTheSettlers.GameSystem
 {
-    Beef,
-    Iron,
-    Malt,
-    River,
-    Soil,
-    Wood,
-}
-
-public class TileManager : MonoBehaviour {
-
-    public static TileManager TileInstance;
-    
-    public GameObject[,] TileGrid;
-
-    private void Awake()
+    public class TileManager : Singleton<TileManager>
     {
-        TileInstance = this;
-    }
+        public GameObject[,] TileGrid;
 
-    void Start ()
-    {
-        TileGrid = new GameObject[9, 9];
-
-        CreateTileGrid();
-        ShowTile();
-	}
-	
-	void CreateTileGrid()
-    {
-        int index = 0;
-
-        for (int z = 0; z < 9; z++)
+        void Start()
         {
-            for (int x = 0; x < 9; x++)
+            TileGrid = new GameObject[9, 9];
+
+            CreateTileGrid();
+            ShowTile();
+        }
+
+        void CreateTileGrid()
+        {
+            int index = 0;
+
+            for (int z = 0; z < 9; z++)
             {
-                if(z > - x + 3 && z < - x + 13)
+                for (int x = 0; x < 9; x++)
                 {
-                    float xCoord = CalculateXcoord(x, z);
-                    float zCoord = CalculateZcoord(z);
-                    TileGrid[x, z] = ObjectPoolManager.ObjectPoolInstance.TileSets[index].gameObject;
-                    TileGrid[x, z].transform.position = new Vector3(xCoord, 0.5f, zCoord);
-                    TileGrid[x, z].GetComponent<BoardTile>().coordinate = new Coordinate(x, z);
-                    index++;
+                    if (z > -x + 3 && z < -x + 13)
+                    {
+                        float xCoord = CalculateXcoord(x, z);
+                        float zCoord = CalculateZcoord(z);
+                        TileGrid[x, z] = ObjectPoolManager.ObjectPoolInstance.TileSets[index].gameObject;
+                        TileGrid[x, z].transform.position = new Vector3(xCoord, 0.5f, zCoord);
+                        TileGrid[x, z].GetComponent<BoardTile>().coordinate = new Coordinate(x, z);
+                        index++;
+                    }
                 }
             }
         }
-    }
 
-    void ShowTile()
-    {
-        for (int z = 0; z < 9; z++)
+        void ShowTile()
         {
-            for (int x = 0; x < 9; x++)
+            for (int z = 0; z < 9; z++)
             {
-                if (z > - x + 3 && z < - x + 13)
+                for (int x = 0; x < 9; x++)
                 {
-                    TileGrid[x, z].SetActive(true);
+                    if (z > -x + 3 && z < -x + 13)
+                    {
+                        TileGrid[x, z].SetActive(true);
+                    }
                 }
             }
         }
-    }
 
-    float CalculateXcoord(float x, float z)
-    {
-        return (x  + z / 2) * 1.74f;
-    }
+        float CalculateXcoord(float x, float z)
+        {
+            return (x + z / 2) * 1.74f;
+        }
 
-    float CalculateZcoord(float z)
-    {
-        return z * 3 / 2f + 0.1f;
-    } 
- 
+        float CalculateZcoord(float z)
+        {
+            return z * 3 / 2f + 0.1f;
+        }
+
+    }
 }
+

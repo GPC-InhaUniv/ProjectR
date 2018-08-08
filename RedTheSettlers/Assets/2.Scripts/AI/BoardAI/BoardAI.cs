@@ -1,76 +1,88 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using RedTheSettlers.Tiles;
+using RedTheSettlers.GameSystem;
 
-public class BoardAI : MonoBehaviour {
-
-    private List<BoardTile> possessedTiles;
-    private IAIStrategy myStrategy;
-    private Dictionary<TileType, int> resource;
-
-    private void Start()
+namespace RedTheSettlers.AI
+{
+    public class BoardAI : MonoBehaviour
     {
-        myStrategy = gameObject.AddComponent<SoftStrategy>();
-        possessedTiles = new List<BoardTile>();
-        resource = new Dictionary<TileType, int>();
-        resource.Add(TileType.Beef, 1);
-        resource.Add(TileType.Iron, 2);
-        resource.Add(TileType.Malt, 3);
-        resource.Add(TileType.River, 4);
-        resource.Add(TileType.Soil, 5);
-        resource.Add(TileType.Wood, 6);
-    }
 
-    public void FindOptimizedPath()
-    {
-        if (possessedTiles.Count <= 0)
+        private List<BoardTile> possessedTiles;
+        private PriorityQueue<BoardTile> tileQueue;
+        private IAIStrategy myStrategy;
+        private Dictionary<TileType, int> resource;
+
+        private IEnumerator Start()
         {
-            PossessTile(TileManager.TileInstance.TileGrid[4, 4].GetComponent<BoardTile>());
+            myStrategy = gameObject.AddComponent<SoftStrategy>();
+            possessedTiles = new List<BoardTile>();
+            tileQueue = new PriorityQueue<BoardTile>();
+
+            resource = new Dictionary<TileType, int>();
+            resource.Add(TileType.Beef, 1);
+            resource.Add(TileType.Iron, 2);
+            resource.Add(TileType.Malt, 3);
+            resource.Add(TileType.River, 4);
+            resource.Add(TileType.Soil, 5);
+            resource.Add(TileType.Wood, 6);
+
+            yield return new WaitForSeconds(0.5f);
+
+            PossessTile(TileManager.Instance.TileGrid[4, 4].GetComponent<BoardTile>());
         }
 
-        BoardTile targetTile = null;
 
-        foreach(BoardTile boardTile in possessedTiles)
+        public void FindOptimizedPath()
         {
-            BoardTile searchedTile = myStrategy.CalculateTileWeight(boardTile , resource);
+            BoardTile targetTile = null;
 
-            if(targetTile == null)
+            foreach (BoardTile boardTile in possessedTiles)
             {
-                targetTile = searchedTile;
+                BoardTile searchedTile = myStrategy.CalculateTileWeight(boardTile, resource);
+
+                if (targetTile == null)
+                {
+                    targetTile = searchedTile;
+                }
+                else
+                {
+                    targetTile = (targetTile.tileWeight < searchedTile.tileWeight) ? targetTile : searchedTile;
+                }
             }
-            else
-            {
-                targetTile = (targetTile.tileWeight < searchedTile.tileWeight) ? targetTile : searchedTile;
-            }
+
+            PossessTile(targetTile);
         }
 
-        PossessTile(targetTile);
-    }
-
-    public void PossessTile(BoardTile boardTile)
-    {
-        boardTile.owner = 1;
-        boardTile.isPossessed = true;
-        possessedTiles.Add(boardTile);
-
-        resource[boardTile.tileType]++;
-
-        transform.position = new Vector3(boardTile.transform.position.x, transform.position.y, boardTile.transform.position.z);
-
-        int[] coordX = { 1, 0, -1, -1, 0, 1 };
-        int[] coordZ = { 0, 1, 1, 0, -1, -1 };
-
-        for (int i = 0; i < 6; i++)
+        public void PossessTile(BoardTile boardTile)
         {
-            if(TileManager.TileInstance.TileGrid[boardTile.coordinate.x + coordX[i], boardTile.coordinate.z + coordZ[i]].GetComponent<BoardTile>().isPossessed == true)
+            boardTile.owner = 1;
+            boardTile.isPossessed = true;
+            possessedTiles.Add(boardTile);
+
+            resource[boardTile.tileType]++;
+
+            transform.position = new Vector3(boardTile.transform.position.x, transform.position.y, boardTile.transform.position.z);
+
+            int[] coordX = { 1, 0, -1, -1, 0, 1 };
+            int[] coordZ = { 0, 1, 1, 0, -1, -1 };
+
+            for (int i = 0; i < 6; i++)
             {
-                boardTile.TileBorder[i].SetActive(false);
-                TileManager.TileInstance.TileGrid[boardTile.coordinate.x + coordX[i], boardTile.coordinate.z + coordZ[i]].GetComponent<BoardTile>().TileBorder[(i + 3) % 6].SetActive(false);
+                BoardTile targetBoardTile = TileManager.Instance.TileGrid[boardTile.coordinate.x + coordX[i], boardTile.coordinate.z + coordZ[i]].GetComponent<BoardTile>();
+
+                if (targetBoardTile.isPossessed == true)
+                {
+                    boardTile.TileBorder[i].SetActive(false);
+                    targetBoardTile.TileBorder[(i + 3) % 6].SetActive(false);
+                }
+                else
+                {
+                    boardTile.TileBorder[i].SetActive(true);
+                }
             }
-            else
-            {
-                boardTile.TileBorder[i].SetActive(true);
-            }
+
         }
     }
 }

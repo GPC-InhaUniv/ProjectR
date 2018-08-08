@@ -2,31 +2,46 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
-public struct Coordinate
+namespace RedTheSettlers.Tiles
 {
-    public Coordinate(int x, int z)
+    public enum TileType
     {
-        this.x = x;
-        this.z = z;
+        Beef,
+        Iron,
+        Malt,
+        River,
+        Soil,
+        Wood,
     }
 
-    public int x;
-    public int z;
-}
-
-public class Tile : MonoBehaviour{
-    
-    public TileType tileType;
-    [HideInInspector]
-    public Coordinate coordinate;
-    public GameObject[] TileBorder = new GameObject[6];
-
-    private void Start()
+    [System.Serializable]
+    public struct Coordinate
     {
-        for(int i = 0; i < 6; i++)
+        public Coordinate(int x, int z)
         {
-            TileBorder[i] = transform.GetChild(i).gameObject;
+            this.x = x;
+            this.z = z;
+        }
+
+        public int x;
+        public int z;
+    }
+
+    public class Tile : MonoBehaviour
+    {
+
+        public TileType tileType;
+        [HideInInspector]
+        public Coordinate coordinate;
+        [HideInInspector]
+        public GameObject[] TileBorder = new GameObject[6];
+
+        private void Start()
+        {
+            for (int i = 0; i < 6; i++)
+            {
+                TileBorder[i] = transform.GetChild(i).gameObject;
+            }
         }
     }
 }
