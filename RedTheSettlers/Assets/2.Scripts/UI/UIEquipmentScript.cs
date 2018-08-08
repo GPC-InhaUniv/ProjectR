@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using RedTheSettlers.GameSystem;
+
 
 /// <summary>
 /// 작성자 : 김하정
@@ -10,7 +12,7 @@ using UnityEngine.UI;
 
 namespace RedTheSettlers.UI
 {
-    using RedTheSettlers.LogManager;
+   
 
     struct Test
     {
@@ -72,7 +74,7 @@ namespace RedTheSettlers.UI
         private int playerWeaponLevel, playerShieldLevel;
         private Color textColor = Color.red;
 
-        private enum ResourceNumbers
+        private enum ResourceNumbers    //ItemType
         {
             Wood,
             Iron,

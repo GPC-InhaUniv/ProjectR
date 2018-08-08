@@ -76,7 +76,7 @@ namespace RedTheSettlers
             private int tempEquipmentWeightScore = 5000;
             private int tempTendAndMonsterWeightScore = 7000;
 
-            private GameData gameData;
+            //private GameData gameData;
 
             //private void Awake()
             //{
@@ -195,66 +195,66 @@ namespace RedTheSettlers
                     while (tempScore <= 50)
                     {
                         
-                        if (int.Parse(playersCowCardText[i].text) < gameData.PlayerData[i].ResourceData.CowNum)
-                        {
-                            playersCowCardText[i].text = string.Format("{0:D2}", tempScore);
-                        }
-                        else if (int.Parse(playersCowCardText[i].text) == gameData.PlayerData[i].ResourceData.CowNum)
-                        {
-                            Debug.Log("cow" + i);
+                        //if (int.Parse(playersCowCardText[i].text) < gameData.PlayerData[i].ResourceData.CowNum)
+                        //{
+                        //    playersCowCardText[i].text = string.Format("{0:D2}", tempScore);
+                        //}
+                        //else if (int.Parse(playersCowCardText[i].text) == gameData.PlayerData[i].ResourceData.CowNum)
+                        //{
+                        //    Debug.Log("cow" + i);
                            
                             
-                        }
+                        //}
 
-                        if (int.Parse(playersWaterCardText[i].text) < gameData.PlayerData[i].ResourceData.WaterNum)
-                        {
-                            playersWaterCardText[i].text = string.Format("{0:D2}", tempScore);
-                        }
-                        else if (int.Parse(playersWaterCardText[i].text) == gameData.PlayerData[i].ResourceData.WaterNum)
-                        {
+                        //if (int.Parse(playersWaterCardText[i].text) < gameData.PlayerData[i].ResourceData.WaterNum)
+                        //{
+                        //    playersWaterCardText[i].text = string.Format("{0:D2}", tempScore);
+                        //}
+                        //else if (int.Parse(playersWaterCardText[i].text) == gameData.PlayerData[i].ResourceData.WaterNum)
+                        //{
                           
                             
-                        }
+                        //}
 
-                        if (int.Parse(playersWheatCardtText[i].text) < gameData.PlayerData[i].ResourceData.WheatNum)
-                        {
-                            playersWheatCardtText[i].text = string.Format("{0:D2}", tempScore);
-                        }
-                        else if (int.Parse(playersWheatCardtText[i].text) == gameData.PlayerData[i].ResourceData.WheatNum)
-                        {
+                        //if (int.Parse(playersWheatCardtText[i].text) < gameData.PlayerData[i].ResourceData.WheatNum)
+                        //{
+                        //    playersWheatCardtText[i].text = string.Format("{0:D2}", tempScore);
+                        //}
+                        //else if (int.Parse(playersWheatCardtText[i].text) == gameData.PlayerData[i].ResourceData.WheatNum)
+                        //{
                            
                            
-                        }
+                        //}
 
-                        if (int.Parse(playersWoodCardText[i].text) < gameData.PlayerData[i].ResourceData.WoodNum)
-                        {
-                            playersWoodCardText[i].text = string.Format("{0:D2}", tempScore);
-                        }
-                        else if (int.Parse(playersWoodCardText[i].text) == gameData.PlayerData[i].ResourceData.WoodNum)
-                        {
+                        //if (int.Parse(playersWoodCardText[i].text) < gameData.PlayerData[i].ResourceData.WoodNum)
+                        //{
+                        //    playersWoodCardText[i].text = string.Format("{0:D2}", tempScore);
+                        //}
+                        //else if (int.Parse(playersWoodCardText[i].text) == gameData.PlayerData[i].ResourceData.WoodNum)
+                        //{
                             
                             
-                        }
+                        //}
 
-                        if (int.Parse(playerIronCardText[i].text) < gameData.PlayerData[i].ResourceData.IronNum)
-                        {
-                            playerIronCardText[i].text = string.Format("{0:D2}", tempScore);
-                        }
-                        else if (int.Parse(playerIronCardText[i].text) == gameData.PlayerData[i].ResourceData.IronNum)
-                        {
+                        //if (int.Parse(playerIronCardText[i].text) < gameData.PlayerData[i].ResourceData.IronNum)
+                        //{
+                        //    playerIronCardText[i].text = string.Format("{0:D2}", tempScore);
+                        //}
+                        //else if (int.Parse(playerIronCardText[i].text) == gameData.PlayerData[i].ResourceData.IronNum)
+                        //{
                             
                             
-                        }
+                        //}
 
-                        if (int.Parse(playerSoilCardText[i].text) < gameData.PlayerData[i].ResourceData.SoilNum)
-                        {
-                            playerSoilCardText[i].text = string.Format("{0:D2}", tempScore);
-                        }
-                        else if (int.Parse(playerSoilCardText[i].text) == gameData.PlayerData[i].ResourceData.SoilNum)
-                        {
+                        //if (int.Parse(playerSoilCardText[i].text) < gameData.PlayerData[i].ResourceData.SoilNum)
+                        //{
+                        //    playerSoilCardText[i].text = string.Format("{0:D2}", tempScore);
+                        //}
+                        //else if (int.Parse(playerSoilCardText[i].text) == gameData.PlayerData[i].ResourceData.SoilNum)
+                        //{
                             
                              
-                        }
+                        //}
                         tempScore++;
                         
                     }
