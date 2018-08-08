@@ -43,7 +43,7 @@ public class InputTest : MonoBehaviour
             {
                 dragPosition = Input.mousePosition;
                 dragDirection = (dragPosition - firstClickPosition).normalized * moveSpeed * Time.deltaTime;
-                InputManager.Instance.InputDrag(dragDirection);
+                InputManager.Instance.MainStageDrag(dragDirection);
             }
         }
         else if (!Input.GetMouseButton(0))
