@@ -12,7 +12,7 @@ using UnityEngine.SceneManagement;
 /// }
 /// </summary>
 
-namespace RedTheSettlers
+namespace RedTheSettlers.GameSystem
 {
     class MainState : State
     {
@@ -20,17 +20,22 @@ namespace RedTheSettlers
         {
             switch (stageType)
             {
-                case StageType.TutorialStage:
+                case StageType.TutorialStageState:
                     SceneManager.LoadSceneAsync((int)stageType);
                     return new TutorialState();
 
-                case StageType.BattleStage:
+                case StageType.BattleStageState:
                     SceneManager.LoadSceneAsync((int)stageType);
                     return new BattleState();
 
                 default:
-                    return null;
+                    return Execute();
             }
+        }
+
+        public override State Execute()
+        {
+            return null;
         }
     }
 }

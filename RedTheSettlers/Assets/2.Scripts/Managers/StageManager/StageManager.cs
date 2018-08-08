@@ -14,26 +14,26 @@ using UnityEngine.SceneManagement;
 /// }
 /// </summary>
 
-public enum StageType
-{
-    TitleStage,
-    LodingStage,
-    MainStage,
-    TutorialStage,
-    BattleStage
-}
-
-namespace RedTheSettlers
+namespace RedTheSettlers.GameSystem
 {
 
+    public enum StageType
+    {
+        TitleStageState,
+        LoadingStageState,
+        MainStageState,
+        TutorialStageState,
+        BattleStageState
+    }
+    
     public class StageManager : Singleton<StageManager>
     {
-        private static StageManager stageManager;
+        
         private State currentState;
 
         private void Awake()
         {
-            stageManager = this;
+       
             currentState = new TitleState();
             DontDestroyOnLoad(gameObject);
         }
@@ -42,6 +42,14 @@ namespace RedTheSettlers
         {
             currentState = currentState.Execute(stageType);
         }
+
+        public void LookAtTurnOfCamera()
+        {
+         
+        }
+        public void Load() { 
+}
+
     }
 
 }
