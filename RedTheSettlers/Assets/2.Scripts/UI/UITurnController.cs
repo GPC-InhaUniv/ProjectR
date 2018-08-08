@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using RedTheSettlers.GameSystem;
 
 namespace RedTheSettlers.UI
 {
@@ -29,6 +30,7 @@ namespace RedTheSettlers.UI
 
             //currentTurn.text = gameData.cowcow.ToString();
             //이런식으로 현재 Turn 정보를 gameData에서 가져와서 텍스트에 넣어줘야 함.
+            LogManager.Instance.UserDebug(LogColor.Olive, GetType().Name, "현재 Turn : " + currentTurn);
         }
 
         private void Start()

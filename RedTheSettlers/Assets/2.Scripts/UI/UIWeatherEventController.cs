@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using RedTheSettlers.GameSystem;
 
 /// <summary>
 /// 작성자 : 강다희
@@ -35,13 +36,13 @@ namespace RedTheSettlers.UI
 
         private void ChangeWeatherEvent()
         {
-            whatEvent = 0; //Test
+            whatEvent = 1; //Test
                            //currentTurn.text = gameData.cowcow.ToString();
                            //이런식으로 현재 이벤트 정보, Move 정보를 gameData에서 가져와서 텍스트에 넣어줘야 함.
 
             switch (whatEvent) //gameData
             {
-                //text 부분 enum 처리
+                //text 부분 enum 처리? 아니면 json으로 준명님이 만들어주시면 매개변수를 가져옴.
                 case 0:
                     {
                         currentEventTitle.text = "현재 날씨는 맑습니다";
@@ -133,6 +134,8 @@ namespace RedTheSettlers.UI
                     }
                     break;
             }
+            LogManager.Instance.UserDebug(LogColor.Olive, GetType().Name, "현재 날씨 이벤트 : " + currentEventTitle.text);
+            LogManager.Instance.UserDebug(LogColor.Olive, GetType().Name, "현재 날씨 설명 : " + currentEventContent.text);
         }
 
         private void Start()
