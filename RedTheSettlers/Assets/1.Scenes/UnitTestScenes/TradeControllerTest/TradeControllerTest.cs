@@ -25,6 +25,7 @@ namespace RedTheSettlers.UnitTest
     public class TradeControllerTest : MonoBehaviour, IMediatable
     {
         List<Player> playerList = new List<Player>();
+        Player requestPlayer, responsePlayer;
 
         void Start()
         {
@@ -42,22 +43,39 @@ namespace RedTheSettlers.UnitTest
         public void RegisterPlayer(Player player)
         {
             playerList.Add(player);
+            LogManager.Instance.UserDebug(LogColor.Orange, GetType().Name, "플레이어 등록 : " + player);
         }
 
+        /// <summary>
+        /// 거래 요청자를 다른 플레이어들에게 거래를 요청한다.
+        /// </summary>
+        /// <param name="requestPlayer">거래를 요청한 플레이어</param>
+        /// <param name="tradeData">거래할 자원 정보를 담은 구조체</param>
         public void ReceiveTrade(Player requestPlayer, ItemData tradeData)
         {
+            this.requestPlayer = requestPlayer;
+
             for (int i = 0; i < playerList.Count; i++)
             {
                 if (playerList[i] == requestPlayer) continue;
                 playerList[i].ReceiveTrade(requestPlayer, tradeData);
+                LogManager.Instance.UserDebug(LogColor.Orange, GetType().Name, requestPlayer + "가 " + playerList[i] + "에게 거래 요청");
             }
         }
 
-        public void RequestAgain(Player requestPlayer, ItemData tradeData)
+        /// <summary>
+        /// 거래 요청자에게 거래할 자원 내역 수정을 요청한다.
+        /// </summary>
+        /// <param name="responsePlayer">재협상을 요청한 플레이어</param>
+        /// <param name="tradeData">거래할 자원 정보를 담은 구조체</param>
+        public void RequestAgain(Player responsePlayer, ItemData tradeData)
         {
+            this.responsePlayer = responsePlayer;
+
             for (int i = 0; i < playerList.Count; i++)
             {
-                if (playerList[i] == requestPlayer) playerList[i].ReceiveTrade(requestPlayer, tradeData);
+                if (playerList[i] == responsePlayer) playerList[i].ReceiveTrade(responsePlayer, tradeData);
+                LogManager.Instance.UserDebug(LogColor.Orange, GetType().Name, requestPlayer + "와 " + responsePlayer + "간의 재협상");
             }
         }
     }
@@ -71,11 +89,10 @@ namespace RedTheSettlers.UnitTest
         /// <summary>
         /// 다른 플레이어들에게 자원 거래를 요청한다.
         /// </summary>
-        /// <param name="requestPlayer">거래를 요청한 플레이어</param>
         /// <param name="tradeData">요구하는 자원 거래 정보</param>
-        abstract public void RequestTrade(Player requestPlayer, ItemData tradeData);
+        abstract public void RequestTrade(ItemData tradeData);
         abstract public void ReceiveTrade(Player requestPlayer, ItemData tradeData);
-        abstract public void RequestAgain(Player requestPlayer, ItemData tradeData);
+        abstract public void RequestAgain(Player responsePlayer, ItemData tradeData);
     }
 
     public class User : Player
@@ -111,24 +128,26 @@ namespace RedTheSettlers.UnitTest
             return sendData;
         }
 
-        override public void RequestTrade(Player requestPlayer, ItemData tradeData)
+        override public void RequestTrade(ItemData tradeData)
         {
             ItemData sendData = ShowTradePanel();
-            mediator.ReceiveTrade(requestPlayer, tradeData);
+            mediator.ReceiveTrade(this, tradeData);
         }
 
         override public void ReceiveTrade(Player requestPlayer, ItemData tradeData)
         {
+            // UI에 어떤 플레이어에게서 온 거래 요청인지 표기해야하므로 requestPlayer 정보 필요
+            Debug.Log(requestPlayer + "로부터의 거래 요청입니다.");
             tradePanel.SetActive(true);
             // tradeData를 풀어 UI에서 정보 보여주기
             // GetTradeData() -> RequestAgain(requestPlayer, this.Player);
             // 또는 수락 / 거절
-            RequestAgain(requestPlayer, tradeData);
+            RequestAgain(this, tradeData);
         }
 
-        override public void RequestAgain(Player requestPlayer, ItemData tradeData)
+        override public void RequestAgain(Player responsePlayer, ItemData tradeData)
         {
-            mediator.RequestAgain(requestPlayer, tradeData);
+            mediator.RequestAgain(responsePlayer, tradeData);
         }
     }
 
@@ -139,23 +158,23 @@ namespace RedTheSettlers.UnitTest
             this.mediator = mediator;
         }
 
-        override public void RequestTrade(Player requestPlayer, ItemData tradeData)
+        override public void RequestTrade(ItemData tradeData)
         {
             // 랜덤으로 데이터 받아오기
             ItemData sendData; // =
-            mediator.ReceiveTrade(requestPlayer, tradeData);
+            mediator.ReceiveTrade(this, tradeData);
         }
 
         override public void ReceiveTrade(Player requestPlayer, ItemData tradeData)
         {
             // GetTradeData() -> RequestAgain(requestPlayer, this.Player);
             // AI를 통해 재협상 / 수락/ 거절 선택
-            RequestAgain(requestPlayer, tradeData);
+            RequestAgain(this, tradeData);
         }
 
-        override public void RequestAgain(Player requestPlayer, ItemData tradeData)
+        override public void RequestAgain(Player responsePlayer, ItemData tradeData)
         {
-            mediator.RequestAgain(requestPlayer, tradeData);
+            mediator.RequestAgain(responsePlayer, tradeData);
         }
     }
 }
