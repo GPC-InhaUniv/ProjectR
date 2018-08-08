@@ -1,25 +1,27 @@
-﻿using RedTheSettlers.System;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class EnemyHitArea : MonoBehaviour
+namespace RedTheSettlers.Monster
 {
-    Enemy enemy;
-
-    private void Start()
+    public class EnemyHitArea : MonoBehaviour
     {
-        enemy = GetComponentInParent<Enemy>();
-    }
+        Enemy enemy;
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.tag == "PlayerAttack")
+        private void Start()
         {
-            enemy.ChangeStage(EnemyStateType.Damage);
+            enemy = GetComponentInParent<Enemy>();
         }
-        else if (other.tag == "Wall")
+
+        private void OnTriggerEnter(Collider other)
         {
-            enemy.rigidbodyComponent.velocity = Vector3.zero;
-            enemy.ChangeStage(EnemyStateType.Idle);
+            if (other.tag == "PlayerAttack")
+            {
+                enemy.ChangeStage(EnemyStateType.Damage);
+            }
+            else if (other.tag == "Wall")
+            {
+                enemy.rigidbodyComponent.velocity = Vector3.zero;
+                enemy.ChangeStage(EnemyStateType.Idle);
+            }
         }
     }
 }

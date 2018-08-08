@@ -1,5 +1,5 @@
-﻿using RedTheSettlers;
-using RedTheSettlers.System;
+﻿using RedTheSettlers.GameTime;
+using RedTheSettlers.LogManager;
 using UnityEngine;
 
 public delegate void TimerCallback();

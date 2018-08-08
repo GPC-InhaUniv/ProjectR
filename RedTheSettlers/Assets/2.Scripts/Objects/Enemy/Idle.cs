@@ -1,10 +1,12 @@
-﻿using RedTheSettlers.System;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class Idle : EnemyState
+namespace RedTheSettlers.Monster
 {
-    public override void DoAction(Enemy enemy)
+    public class Idle : EnemyState
     {
-        enemy.anim.SetFloat("Speed", Vector3.Distance(enemy.destinationPoint, enemy.currentPoint));
+        public override void DoAction(Enemy enemy)
+        {
+            enemy.anim.SetFloat("Speed", Vector3.Distance(enemy.destinationPoint, enemy.currentPoint));
+        }
     }
 }

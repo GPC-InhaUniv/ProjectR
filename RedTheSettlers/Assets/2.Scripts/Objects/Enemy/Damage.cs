@@ -1,10 +1,10 @@
-﻿using RedTheSettlers.System;
-using UnityEngine;
-
-public class Damage : EnemyState
+﻿namespace RedTheSettlers.Monster
 {
-    public override void DoAction(Enemy enemy)
+    public class Damage : EnemyState
     {
-        enemy.anim.SetTrigger("Damage");
+        public override void DoAction(Enemy enemy)
+        {
+            enemy.anim.SetTrigger("Damage");
+        }
     }
 }

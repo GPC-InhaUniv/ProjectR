@@ -1,9 +1,10 @@
-﻿using RedTheSettlers.System;
-
-public class Attack : EnemyState
+﻿namespace RedTheSettlers.Monster
 {
-    public override void DoAction(Enemy enemy)
+    public class Attack : EnemyState
     {
-        enemy.anim.SetTrigger("Attack");
+        public override void DoAction(Enemy enemy)
+        {
+            enemy.anim.SetTrigger("Attack");
+        }
     }
 }

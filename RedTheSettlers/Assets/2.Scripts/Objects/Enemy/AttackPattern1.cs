@@ -1,12 +1,13 @@
-﻿using RedTheSettlers.System;
-
-/// <summary>
-/// 기본 공격
-/// </summary>
-public class AttackPattern1 : Attack
+﻿namespace RedTheSettlers.Monster
 {
-    public override void DoAction(Enemy enemy)
+    /// <summary>
+    /// 기본 공격
+    /// </summary>
+    public class AttackPattern1 : Attack
     {
-        base.DoAction(enemy);
+        public override void DoAction(Enemy enemy)
+        {
+            base.DoAction(enemy);
+        }
     }
 }

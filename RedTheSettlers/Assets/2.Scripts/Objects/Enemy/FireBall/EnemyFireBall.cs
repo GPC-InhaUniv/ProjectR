@@ -1,18 +1,19 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class EnemyFireBall : MonoBehaviour
+namespace RedTheSettlers.Monster
 {
-    public Rigidbody rigidbodyComponent;
-
-    private void Awake()
+    public class EnemyFireBall : MonoBehaviour
     {
-        rigidbodyComponent = GetComponent<Rigidbody>();
-    }
+        public Rigidbody rigidbodyComponent;
 
-    private void OnDisable()
-    {
-        rigidbodyComponent.velocity = Vector3.zero;
+        private void Awake()
+        {
+            rigidbodyComponent = GetComponent<Rigidbody>();
+        }
+
+        private void OnDisable()
+        {
+            rigidbodyComponent.velocity = Vector3.zero;
+        }
     }
 }

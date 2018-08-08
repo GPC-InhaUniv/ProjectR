@@ -1,16 +1,21 @@
-﻿using RedTheSettlers.System;
+﻿
 using UnityEngine;
 
-public class Move : EnemyState
+namespace RedTheSettlers.Monster
 {
-    const float speedCorrection = 50f;
+    using RedTheSettlers.GameTime;
 
-    public override void DoAction(Enemy enemy)
+    public class Move : EnemyState
     {
-        enemy.anim.SetFloat("Speed", Vector3.Distance(enemy.destinationPoint, enemy.currentPoint));
+        const float speedCorrection = 50f;
 
-        Vector3 normalVector = (enemy.destinationPoint - enemy.currentPoint).normalized;
-        enemy.transform.rotation = Quaternion.LookRotation(normalVector);
-        enemy.rigidbodyComponent.velocity = normalVector * GameTimeManager.Instance.DeltaTime * enemy.MoveSpeed * speedCorrection;
+        public override void DoAction(Enemy enemy)
+        {
+            enemy.anim.SetFloat("Speed", Vector3.Distance(enemy.destinationPoint, enemy.currentPoint));
+
+            Vector3 normalVector = (enemy.destinationPoint - enemy.currentPoint).normalized;
+            enemy.transform.rotation = Quaternion.LookRotation(normalVector);
+            enemy.rigidbodyComponent.velocity = normalVector * GameTimeManager.Instance.DeltaTime * enemy.MoveSpeed * speedCorrection;
+        }
     }
 }

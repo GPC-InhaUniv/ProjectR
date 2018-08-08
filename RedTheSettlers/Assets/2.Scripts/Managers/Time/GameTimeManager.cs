@@ -6,83 +6,80 @@ using UnityEngine;
 /// 게임의 시간을 관리하는 기반 클래스
 /// 담당자 : 최대원
 /// </summary>
-namespace RedTheSettlers
+namespace RedTheSettlers.GameTime
 {
-    namespace System
+    public class GameTimeManager : Singleton<GameTimeManager>
     {
-        public class GameTimeManager : Singleton<GameTimeManager>
+        protected GameTimeManager() { }
+
+        public float TimeScale;
+        public float DeltaTime;
+        public float TimeSceneLoad
         {
-            protected GameTimeManager() { }
-
-            public float TimeScale;
-            public float DeltaTime;
-            public float TimeSceneLoad
+            get
             {
-                get
-                {
-                    return Time.timeSinceLevelLoad;
-                }
+                return Time.timeSinceLevelLoad;
             }
-            public float GameTime
+        }
+        public float GameTime
+        {
+            get
             {
-                get
-                {
-                    return Time.time;
-                }
+                return Time.time;
             }
-            private float startTime;
-            private float fixedDeltaTime;
+        }
+        private float startTime;
+        private float fixedDeltaTime;
 
-            private Stack<GameTimer> TimerStack;
-            [SerializeField]
-            private GameTimer gameTimerPrefab;
-            const int timerAmount = 10;
+        private Stack<GameTimer> TimerStack;
+        [SerializeField]
+        private GameTimer gameTimerPrefab;
+        const int timerAmount = 10;
 
-            private void Awake()
+        private void Awake()
+        {
+            startTime = Time.realtimeSinceStartup;
+            fixedDeltaTime = Time.fixedDeltaTime;
+            TimeScale = 1f;
+
+            TimerStack = new Stack<GameTimer>();
+            for (int i = 0; i < timerAmount; i++)
             {
-                startTime = Time.realtimeSinceStartup;
-                fixedDeltaTime = Time.fixedDeltaTime;
-                TimeScale = 1f;
-
-                TimerStack = new Stack<GameTimer>();
-                for (int i = 0; i < timerAmount; i++)
-                {
-                    GameTimer gametimer = Instantiate(gameTimerPrefab, transform);
-                    TimerStack.Push(gametimer);
-                    gametimer.gameObject.SetActive(false);
-                }
+                GameTimer gametimer = Instantiate(gameTimerPrefab, transform);
+                TimerStack.Push(gametimer);
+                gametimer.gameObject.SetActive(false);
             }
+        }
 
-            private void Update()
-            {
-                DeltaTime = Time.realtimeSinceStartup - startTime;
-                startTime = Time.realtimeSinceStartup;
+        private void Update()
+        {
+            DeltaTime = Time.realtimeSinceStartup - startTime;
+            startTime = Time.realtimeSinceStartup;
 
-                Time.fixedDeltaTime = fixedDeltaTime * TimeScale;
-            }
+            Time.fixedDeltaTime = fixedDeltaTime * TimeScale;
+        }
 
-            /// <summary>
-            /// 타이머를 가져옵니다.
-            /// </summary>
-            /// <returns></returns>
-            public GameTimer PopTimer()
-            {
-                GameTimer timer = TimerStack.Pop();
-                timer.gameObject.SetActive(true);
-                return timer;
-            }
+        /// <summary>
+        /// 타이머를 가져옵니다.
+        /// </summary>
+        /// <returns></returns>
+        public GameTimer PopTimer()
+        {
+            GameTimer timer = TimerStack.Pop();
+            timer.gameObject.SetActive(true);
+            return timer;
+        }
 
-            /// <summary>
-            /// 다 사용한 타이머를 집어 넣습니다.
-            /// </summary>
-            /// <param name="timer"></param>
-            public void PushTimer(GameTimer timer)
-            {
-                timer.SetTimer(0f, false);
-                timer.StopTimer();
-                TimerStack.Push(timer);
-                timer.gameObject.SetActive(false);
-            }
+        /// <summary>
+        /// 다 사용한 타이머를 집어 넣습니다.
+        /// </summary>
+        /// <param name="timer"></param>
+        public void PushTimer(GameTimer timer)
+        {
+            timer.SetTimer(0f, false);
+            timer.StopTimer();
+            TimerStack.Push(timer);
+            timer.gameObject.SetActive(false);
         }
     }
 }
