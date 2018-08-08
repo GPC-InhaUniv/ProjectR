@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using System.IO;
-
+using RedTheSettlers.GameSystem;
 
 namespace RedTheSettlers.UnitTest
 {
-    using RedTheSettlers.LogManager;
     public enum AssetBundleNumbers
     {
         Player,
