@@ -61,11 +61,14 @@ namespace RedTheSettlers
             {
                 tradePanel.SetActive(true);
                 // tradeData를 풀어 UI에서 정보 보여주기
+                // GetTradeData() -> RequestAgain(requestPlayer, this.Player);
+                // 또는 수락 / 거절
+                mediator.RequestAgain(requestPlayer, tradeData);
             }
 
-            public void RequestAgain(Player respondPlayer)
+            public void RequestAgain(Player requestPlayer, ResourceData tradeData)
             {
-
+                mediator.RequestAgain(requestPlayer, tradeData);
             }
         }
 
@@ -83,8 +86,7 @@ namespace RedTheSettlers
         {
             void RegisterPlayer(Player player);
             void RequestTrade(Player requestPlayer, ResourceData tradeData);
-            void RequestAgain(Player respondPlayer);
-            //void ShowTradePanel(Player requestPlayer);
+            void RequestAgain(Player respondPlayer, ResourceData tradeData);
         }
 
         // Constructor Mediator
@@ -119,11 +121,19 @@ namespace RedTheSettlers
                 }
             }
 
-            public void RequestAgain(Player respondPlayer)
+            public void RequestAgain(Player requestPlayer, ResourceData tradeData)
             {
-               
+                for (int i = 0; i < playerList.Count; i++)
+                {
+                    if (playerList[i] == requestPlayer) playerList[i].SendTrade(requestPlayer, tradeData);
+                }
             }
         }
 
     }
 }
+/*
+RegisterPlayer() // 처음 start할 때 호출
+
+RequestTrade() -> ShowTradePanel() -> GetTradeData() -> RequestTrade()_Controller -> SendTrade() -> RequestAgain()
+*/

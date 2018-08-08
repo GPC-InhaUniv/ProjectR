@@ -13,22 +13,22 @@ namespace RedTheSettlers
     {
         Player,
         Skill,
-        Enemy,
+        Enemy, // unload(false)
         Boss1,
         Boss2,
         Boss3,
         Tile, // unload(false)
-        UI, // ???
+        UI, 
         objects, // 테스트용으로 사용 // 추후에 제거할 것
         canvas, // 테스트용으로 사용 // 추후에 제거할 것
     }
 
-    /// <summary>
-    /// 작성자 : 박지용
-    /// 게임에서 사용할 에셋번들을 관리하는 매니저
-    /// </summary>
     namespace UnitTest
     {
+        /// <summary>
+        /// 작성자 : 박지용
+        /// 게임에서 사용할 에셋번들을 관리하는 매니저
+        /// </summary>
         public class AssetBundleManagerTest : Singleton<AssetBundleManagerTest>
         {
             private Hash128 hash; // DataManager에서 버전 정보를 가져옴. 웹에서 새로 받은 Manifest의 hash와 비교하여 버전 체크. 다르면 해당 번들을 다운.
