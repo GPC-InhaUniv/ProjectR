@@ -12,20 +12,15 @@ using RedTheSettlers.GameSystem;
 
 namespace RedTheSettlers.UI
 {
-   
-
-    struct Test
+    struct ItemList
     {
-      public  int wood;
-      public int iron;
-      public int soil;
+        public int wood;
+        public int iron;
+        public int soil;
     }
 
-
-
-    public class UIEquipmentScript : MonoBehaviour 
+    public class UIEquipmentScript : MonoBehaviour
     {
-
         const int EquipmentLevel = 2;
         const int ItemType = 3;
 
@@ -34,186 +29,188 @@ namespace RedTheSettlers.UI
         [SerializeField]
         private Image[] weaponLevelBlurImages, shieldLevelBlurImages;
 
-
+        [Space(20)]
+        [SerializeField]
+        private Button[] weaponLevelButton, shieldLevelButton;
 
         [Space(20)]
         [SerializeField]
-        private Button[] weaponLevelButtons, shieldLevelButtons;
+        private int[] tempItemCounts;
 
-
-
-        [Space(20)]
-        [SerializeField]
-        private int[] tempResourceCounts;
-
- 
         [Space(20)]
         [SerializeField]
         private GameObject[] weaponLevelTextGroups, shieldLevelTextGroups;
 
-
-
-       
         [Space(20)]
         [SerializeField]
         private Text[] weaponLevelTexts, shieldLevelTexts;
 
+        private Button[] weaponButton, shieldButton;
+        private Image[] weaponBlurImage, shieldBlurImage;
+        private int[,] weaponNecessaryItem, shieldNecessaryItem;
+        private int[] playerItem;
+        private GameObject[] weaponItemTextGroup, shieldItemTextGroup;
 
-       
-         
-
-
-        private Button[] buttonArray;
-        private Image[] blurImageArray;
-        private int[,] weaponNecessaryResourcesArray, shieldNecessaryResourcesArray;
-        private int[] playerResourceArray;
-        private GameObject[] weaponResourceTextGroupArray, shieldResourceTextGroupArray;
-         
         private Text[,] weaponTextArray, shieldTextArray;
-        
-        private int playerWeaponLevel, playerShieldLevel;
-        private Color textColor = Color.red;
 
-        private enum ResourceNumbers    //ItemType
+        private int playerWeaponLevel, playerShieldLevel;
+        private Color textColor = new Color(255, 0, 0, 255);   //빠..빠..빨간색!
+
+        private enum ItemTypeList
         {
             Wood,
             Iron,
             Soil,
         }
-        private enum ResourceButtonNumbers
+        private enum ItemButton
         {
-            FirstWeaponAndShieldButton,
-            SecondWeaponAndShieldButton,
-            ThirdWeaponAndShieldButton,
-            ForthWeaponAndShieldButton
+            FirstWeaponAndShield,
+            SecondWeaponAndShield,
         }
 
-        private enum BlurImageNumbers
+        private enum BlurImage
         {
-            FirstWeaponAndShieldBlurImage,
-            SecondWeaponAndShieldBlurImage,
-            
+            FirstEquipment,
+            SecondEquipment,
         }
 
-        private enum EquipmentLevelTextNumbers
+        private enum EquipmentLevelText
         {
-            FirstLevelText,
-            SecondLevelText,
-            ThirdLevelText,
-            ForthLevelText,
-            FifthLevelText,
-            SixthLevelText,
+            FirstLevel,
+            SecondLevel,
+            ThirdLevel,
+            ForthLevel,
+            FifthLevel,
+            SixthLevel,
         }
 
 
         void Start()
         {
             itemID = 0; //0번은 Weapon, 1번은 Shield
+
             playerWeaponLevel = 1;
             playerShieldLevel = 1;
 
-            Test test;
-            test.wood = 3;
-            test.iron = 5;
-            test.soil = 5;
+            ItemList weaponLevelTwo;
+            weaponLevelTwo.wood = 3;
+            weaponLevelTwo.iron = 5;
+            weaponLevelTwo.soil = 5;
 
-            Test test2;
-            test2.wood = 10;
-            test2.iron = 15;
-            test2.soil = 15;
+            ItemList weaponLevelThree;
+            weaponLevelThree.wood = 10;
+            weaponLevelThree.iron = 15;
+            weaponLevelThree.soil = 15;
+
+            ItemList shieldLevelTwo;
+            shieldLevelTwo.wood = 5;
+            shieldLevelTwo.iron = 3;
+            shieldLevelTwo.soil = 3;
+
+            ItemList shieldLevelThree;
+            shieldLevelThree.wood = 10;
+            shieldLevelThree.iron = 5;
+            shieldLevelThree.soil = 5;
 
 
-            buttonArray = new Button[4]
+            weaponButton = new Button[EquipmentLevel]
             {
-                    weaponLevelButtons[(int)ResourceButtonNumbers.FirstWeaponAndShieldButton],
-                    weaponLevelButtons[(int)ResourceButtonNumbers.SecondWeaponAndShieldButton],
-                    shieldLevelButtons[(int)ResourceButtonNumbers.FirstWeaponAndShieldButton],
-                    shieldLevelButtons[(int)ResourceButtonNumbers.SecondWeaponAndShieldButton],
+                weaponLevelButton[(int)ItemButton.FirstWeaponAndShield],
+                weaponLevelButton[(int)ItemButton.SecondWeaponAndShield],
             };
 
-            blurImageArray = new Image[4]
+            shieldButton = new Button[EquipmentLevel]
+          {
+                shieldLevelButton[(int)ItemButton.FirstWeaponAndShield],
+                shieldLevelButton[(int)ItemButton.SecondWeaponAndShield],
+          };
+
+            weaponBlurImage = new Image[EquipmentLevel]
             {
-                    weaponLevelBlurImages[(int)BlurImageNumbers.FirstWeaponAndShieldBlurImage],
-                    weaponLevelBlurImages[(int)BlurImageNumbers.SecondWeaponAndShieldBlurImage],
-                    shieldLevelBlurImages[(int)BlurImageNumbers.FirstWeaponAndShieldBlurImage],
-                    shieldLevelBlurImages[(int)BlurImageNumbers.SecondWeaponAndShieldBlurImage],
+                weaponLevelBlurImages[(int)BlurImage.FirstEquipment],
+                weaponLevelBlurImages[(int)BlurImage.SecondEquipment ],
+             
+            };
+            shieldBlurImage = new Image[EquipmentLevel]
+            { 
+                shieldLevelBlurImages[(int)BlurImage.FirstEquipment],
+                shieldLevelBlurImages[(int)BlurImage.SecondEquipment ],
             };
 
-            weaponNecessaryResourcesArray = new int[EquipmentLevel, ItemType]
+            weaponNecessaryItem = new int[EquipmentLevel, ItemType]
              {
-                    { test.wood,test.iron,test.soil },
-                    { test2.wood,test2.iron,test2.soil }
+                { weaponLevelTwo.wood,weaponLevelTwo.iron,weaponLevelTwo.soil },
+                { weaponLevelThree.wood,weaponLevelThree.iron,weaponLevelThree.soil }
              };
 
-            shieldNecessaryResourcesArray = new int[EquipmentLevel, ItemType]
+            shieldNecessaryItem = new int[EquipmentLevel, ItemType]
             {
-                    { 5,3,3 },
-                    { 10,5,5 }
+                { shieldLevelTwo.wood,shieldLevelTwo.iron,shieldLevelTwo.soil},
+                { shieldLevelThree.wood,shieldLevelThree.iron,shieldLevelThree.soil }
             };
 
-            playerResourceArray = new int[3]
+            playerItem = new int[ItemType]
             {
-                    tempResourceCounts[(int)ResourceNumbers.Wood],
-                    tempResourceCounts[(int)ResourceNumbers.Iron],
-                    tempResourceCounts[(int)ResourceNumbers.Soil],
+                tempItemCounts[(int)ItemTypeList.Wood],
+                tempItemCounts[(int)ItemTypeList.Iron],
+                tempItemCounts[(int)ItemTypeList.Soil],
             };
 
             weaponTextArray = new Text[EquipmentLevel, ItemType]
             {
-                    { weaponLevelTexts[(int)EquipmentLevelTextNumbers.FirstLevelText],
-                    weaponLevelTexts[(int)EquipmentLevelTextNumbers.SecondLevelText],
-                    weaponLevelTexts[(int)EquipmentLevelTextNumbers.ThirdLevelText] },
+                { weaponLevelTexts[(int)EquipmentLevelText.FirstLevel],
+                weaponLevelTexts[(int)EquipmentLevelText.SecondLevel],
+                weaponLevelTexts[(int)EquipmentLevelText.ThirdLevel] },
 
-                    { weaponLevelTexts[(int)EquipmentLevelTextNumbers.ForthLevelText],
-                    weaponLevelTexts[(int)EquipmentLevelTextNumbers.FifthLevelText],
-                    weaponLevelTexts[(int)EquipmentLevelTextNumbers.SixthLevelText] },
+                { weaponLevelTexts[(int)EquipmentLevelText.ForthLevel],
+                weaponLevelTexts[(int)EquipmentLevelText.FifthLevel],
+                weaponLevelTexts[(int)EquipmentLevelText.SixthLevel] },
 
              };
 
             shieldTextArray = new Text[EquipmentLevel, ItemType]
             {
 
-                    { shieldLevelTexts[(int)EquipmentLevelTextNumbers.FirstLevelText],
-                    shieldLevelTexts[(int)EquipmentLevelTextNumbers.SecondLevelText],
-                    shieldLevelTexts[(int)EquipmentLevelTextNumbers.ThirdLevelText] },
+                { shieldLevelTexts[(int)EquipmentLevelText.FirstLevel],
+                shieldLevelTexts[(int)EquipmentLevelText.SecondLevel],
+                shieldLevelTexts[(int)EquipmentLevelText.ThirdLevel] },
 
-                    { shieldLevelTexts[(int)EquipmentLevelTextNumbers.ForthLevelText],
-                    shieldLevelTexts[(int)EquipmentLevelTextNumbers.FifthLevelText],
-                    shieldLevelTexts[(int)EquipmentLevelTextNumbers.SixthLevelText]},
-             };
-
-            weaponResourceTextGroupArray = new GameObject[EquipmentLevel]
-            {
-                    weaponLevelTextGroups[(int)EquipmentLevelTextNumbers.FirstLevelText],
-                    weaponLevelTextGroups[(int)EquipmentLevelTextNumbers.SecondLevelText],
-                    
+                { shieldLevelTexts[(int)EquipmentLevelText.ForthLevel],
+                shieldLevelTexts[(int)EquipmentLevelText.FifthLevel],
+                shieldLevelTexts[(int)EquipmentLevelText.SixthLevel]},
             };
-            shieldResourceTextGroupArray = new GameObject[EquipmentLevel]
+
+            weaponItemTextGroup = new GameObject[EquipmentLevel]
             {
-                shieldLevelTextGroups[(int)EquipmentLevelTextNumbers.FirstLevelText],
-                    shieldLevelTextGroups[(int)EquipmentLevelTextNumbers.SecondLevelText],
+                weaponLevelTextGroups[(int)EquipmentLevelText.FirstLevel],
+                weaponLevelTextGroups[(int)EquipmentLevelText.SecondLevel],
+
+            };
+            shieldItemTextGroup = new GameObject[EquipmentLevel]
+            {
+                shieldLevelTextGroups[(int)EquipmentLevelText.FirstLevel],
+                shieldLevelTextGroups[(int)EquipmentLevelText.SecondLevel],
             };
 
             for (int i = 0; i < EquipmentLevel; i++)
             {
-                weaponTextArray[i, (int)EquipmentLevelTextNumbers.FirstLevelText].text = weaponNecessaryResourcesArray[i,(int)ResourceNumbers.Wood].ToString(); //업그레이드에 필요한 나무 개수를 넣어준다.
-                weaponTextArray[i, (int)EquipmentLevelTextNumbers.SecondLevelText].text = weaponNecessaryResourcesArray[i, (int)ResourceNumbers.Iron].ToString(); //업그레이드에 필요한 소지한 철 개수를 넣어준다.
-                weaponTextArray[i, (int)EquipmentLevelTextNumbers.ThirdLevelText].text = weaponNecessaryResourcesArray[i, (int)ResourceNumbers.Soil].ToString(); //업그레이드에 필요한 소지한 흙 개수를 넣어준다.
+                weaponTextArray[i, (int)EquipmentLevelText.FirstLevel].text = weaponNecessaryItem[i, (int)ItemTypeList.Wood].ToString(); //업그레이드에 필요한 나무 개수를 넣어준다.
+                weaponTextArray[i, (int)EquipmentLevelText.SecondLevel].text = weaponNecessaryItem[i, (int)ItemTypeList.Iron].ToString(); //업그레이드에 필요한 소지한 철 개수를 넣어준다.
+                weaponTextArray[i, (int)EquipmentLevelText.ThirdLevel].text = weaponNecessaryItem[i, (int)ItemTypeList.Soil].ToString(); //업그레이드에 필요한 소지한 흙 개수를 넣어준다.
 
 
                 //리소스 텍스트 어레이 쉴드랑 웨폰따라 나누기
-                shieldTextArray[i, (int)EquipmentLevelTextNumbers.FirstLevelText].text = shieldNecessaryResourcesArray[i, (int)ResourceNumbers.Wood].ToString(); //업그레이드에 필요한 나무 개수를 넣어준다.
-                shieldTextArray[i, (int)EquipmentLevelTextNumbers.SecondLevelText].text = shieldNecessaryResourcesArray[i, (int)ResourceNumbers.Iron].ToString(); //업그레이드에 필요한 소지한 철 개수를 넣어준다.
-                shieldTextArray[i, (int)EquipmentLevelTextNumbers.ThirdLevelText].text = shieldNecessaryResourcesArray[i, (int)ResourceNumbers.Soil].ToString(); //업그레이드에 필요한 소지한 흙 개수를 넣어준다.
+                shieldTextArray[i, (int)EquipmentLevelText.FirstLevel].text = shieldNecessaryItem[i, (int)ItemTypeList.Wood].ToString(); //업그레이드에 필요한 나무 개수를 넣어준다.
+                shieldTextArray[i, (int)EquipmentLevelText.SecondLevel].text = shieldNecessaryItem[i, (int)ItemTypeList.Iron].ToString(); //업그레이드에 필요한 소지한 철 개수를 넣어준다.
+                shieldTextArray[i, (int)EquipmentLevelText.ThirdLevel].text = shieldNecessaryItem[i, (int)ItemTypeList.Soil].ToString(); //업그레이드에 필요한 소지한 흙 개수를 넣어준다.
             }
             //레벨에 따른 버튼 on/ off를 위해 false로 지정
-            buttonArray[(int)ResourceButtonNumbers.SecondWeaponAndShieldButton].enabled = false;
-            buttonArray[(int)ResourceButtonNumbers.ForthWeaponAndShieldButton].enabled = false;
+            weaponButton[(int)ItemButton.SecondWeaponAndShield].enabled = false;
+            shieldButton[(int)ItemButton.SecondWeaponAndShield].enabled = false;
         }
 
         public void OnClickedEquipmentButton(int buttonValue)
         {
-
             switch (buttonValue)
             {
                 case 0:
@@ -236,47 +233,42 @@ namespace RedTheSettlers.UI
                 default:
                     break;
             }
-
             if (playerWeaponLevel == 2)
             {
-                buttonArray[(int)ResourceButtonNumbers.SecondWeaponAndShieldButton].enabled = true;
-
-
+                weaponButton[(int)ItemButton.SecondWeaponAndShield].enabled = true;
             }
-            else if (playerShieldLevel == 2)
+            if (playerShieldLevel == 2)
             {
-                buttonArray[(int)ResourceButtonNumbers.ForthWeaponAndShieldButton].enabled = true;
+                shieldButton[(int)ItemButton.SecondWeaponAndShield].enabled = true;
             }
-
-            LogManager.Instance.UserDebug( LogColor.Green, GetType().Name, "플레이어가 소지한 나무=" + playerResourceArray[0] + "플레이어가 소지한 철=" +
-                playerResourceArray[1] + "플레이어가 소지한 흙=" + playerResourceArray[2]);
+            LogManager.Instance.UserDebug(LogColor.Green, GetType().Name, "플레이어가 소지한 나무=" + playerItem[0] + "플레이어가 소지한 철=" +
+                playerItem[1] + "플레이어가 소지한 흙=" + playerItem[2]);
             LogManager.Instance.UserDebug(LogColor.Green, GetType().Name, "플레이어의 무기 레벨은" + playerWeaponLevel + "플레이어의 방어 레벨은" + playerShieldLevel);
-            
+
         }
 
         void UpgradeWeapon(int value)
         {
-
-            if (playerResourceArray[(int)ResourceNumbers.Wood] >= weaponNecessaryResourcesArray[value, 0] &&
-                playerResourceArray[(int)ResourceNumbers.Iron] >= weaponNecessaryResourcesArray[value, 1] &&
-                playerResourceArray[(int)ResourceNumbers.Soil] >= weaponNecessaryResourcesArray[value, 2])
+            if (playerItem[(int)ItemTypeList.Wood] >= weaponNecessaryItem[value, (int)ItemTypeList.Wood] &&
+                playerItem[(int)ItemTypeList.Iron] >= weaponNecessaryItem[value, (int)ItemTypeList.Iron] &&
+                playerItem[(int)ItemTypeList.Soil] >= weaponNecessaryItem[value, (int)ItemTypeList.Soil])
             {
                 playerWeaponLevel += 1;
-                playerResourceArray[(int)ResourceNumbers.Wood] -= weaponNecessaryResourcesArray[value, 0];
-                playerResourceArray[(int)ResourceNumbers.Iron] -= weaponNecessaryResourcesArray[value, 1];
-                playerResourceArray[(int)ResourceNumbers.Soil] -= weaponNecessaryResourcesArray[value, 2];
-                buttonArray[value].interactable = false;
-                blurImageArray[value].gameObject.SetActive(false);
-                //resourceTextGroupArray[value].gameObject.SetActive(false);
+                playerItem[(int)ItemTypeList.Wood] -= weaponNecessaryItem[value, (int)ItemTypeList.Wood];
+                playerItem[(int)ItemTypeList.Iron] -= weaponNecessaryItem[value, (int)ItemTypeList.Iron];
+                playerItem[(int)ItemTypeList.Soil] -= weaponNecessaryItem[value, (int)ItemTypeList.Soil];
+                weaponButton[value].interactable = false;
+                weaponBlurImage[value].gameObject.SetActive(false);
+                weaponLevelTextGroups[value].gameObject.SetActive(false);
             }
             else
             {
                 itemID = 0;
-                for (int i = 0; i < 3; i++)
+                for (int i = 0; i < ItemType; i++)
                 {
-                    for (int j = 0; j < 2; j++)
+                    for (int j = 0; j < EquipmentLevel; j++)
                     {
-                        SetShieldColor(i, j,itemID);
+                        SetShieldColor(i, j, itemID);
                     }
                 }
             }
@@ -285,56 +277,50 @@ namespace RedTheSettlers.UI
 
         void UpgradeShield(int value)
         {
-            if (playerResourceArray[(int)ResourceNumbers.Wood] >= shieldNecessaryResourcesArray[value - 2, 0] &&
-                playerResourceArray[(int)ResourceNumbers.Iron] >= shieldNecessaryResourcesArray[value - 2, 1] &&
-                playerResourceArray[(int)ResourceNumbers.Soil] >= shieldNecessaryResourcesArray[value - 2, 2])
+            //-weaponButton.Length를 해준 이유 : 버튼에서 들어오는 value값을 0부터 1까지로 만들어주기 위해.
+            if (playerItem[(int)ItemTypeList.Wood] >= shieldNecessaryItem[value - weaponButton.Length, (int)ItemTypeList.Wood] &&
+                playerItem[(int)ItemTypeList.Iron] >= shieldNecessaryItem[value - weaponButton.Length, (int)ItemTypeList.Iron] &&
+                playerItem[(int)ItemTypeList.Soil] >= shieldNecessaryItem[value - weaponButton.Length, (int)ItemTypeList.Soil])
             {
                 playerShieldLevel += 1;
-                playerResourceArray[(int)ResourceNumbers.Wood] -= shieldNecessaryResourcesArray[value - 2, 0];
-                playerResourceArray[(int)ResourceNumbers.Iron] -= shieldNecessaryResourcesArray[value - 2, 1];
-                playerResourceArray[(int)ResourceNumbers.Soil] -= shieldNecessaryResourcesArray[value - 2, 2];
-                buttonArray[value].interactable = false;
-                blurImageArray[value].gameObject.SetActive(false);
-                //resourceTextGroupArray[value].gameObject.SetActive(false);
+                playerItem[(int)ItemTypeList.Wood] -= shieldNecessaryItem[value - weaponButton.Length, (int)ItemTypeList.Wood];
+                playerItem[(int)ItemTypeList.Iron] -= shieldNecessaryItem[value - weaponButton.Length, (int)ItemTypeList.Iron];
+                playerItem[(int)ItemTypeList.Soil] -= shieldNecessaryItem[value - weaponButton.Length, (int)ItemTypeList.Soil];
+                shieldButton[value- weaponButton.Length].interactable = false;
+                shieldBlurImage[value- weaponButton.Length].gameObject.SetActive(false);
+                shieldLevelTextGroups[value- weaponButton.Length].gameObject.SetActive(false);
             }
             else
             {
                 itemID = 1;
-                for (int i = 0; i < 3; i++)
+                for (int i = 0; i < ItemType; i++)
                 {
-                    for (int j = 0; j < 2; j++)
+                    for (int j = 0; j < EquipmentLevel; j++)
                     {
-                        
-                        SetShieldColor(i,j,itemID);
+                        SetShieldColor(i, j, itemID);
                     }
                 }
             }
         }
 
-
-        void SetShieldColor(int PlayerResource, int NecessaryResourceLevel, int ItemID)
+        void SetShieldColor(int PlayerItem, int NecessaryItemLevel, int ItemID)
         {
             if (ItemID == 0)
             {
-                if(playerResourceArray[PlayerResource] < shieldNecessaryResourcesArray[NecessaryResourceLevel, PlayerResource])
+                if (playerItem[PlayerItem] < shieldNecessaryItem[NecessaryItemLevel, PlayerItem])
                 {
-                    weaponTextArray[NecessaryResourceLevel, PlayerResource].color = textColor;
-
+                    weaponTextArray[NecessaryItemLevel, PlayerItem].color = textColor;
                 }
             }
             else
             {
-                if (playerResourceArray[PlayerResource] < shieldNecessaryResourcesArray[NecessaryResourceLevel, PlayerResource])
+                if (playerItem[PlayerItem] < shieldNecessaryItem[NecessaryItemLevel, PlayerItem])
                 {
-                    shieldTextArray[NecessaryResourceLevel, PlayerResource].color = textColor;
-
+                    shieldTextArray[NecessaryItemLevel, PlayerItem].color = textColor;
                 }
             }
-
         }
-        
     }
-
 }
 
 
