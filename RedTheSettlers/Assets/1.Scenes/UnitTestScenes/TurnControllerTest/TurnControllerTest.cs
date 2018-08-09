@@ -25,8 +25,6 @@ namespace RedTheSettlers.UnitTest
     /// </summary>
     public class TurnControllerTest : MonoBehaviour
     {
-        private const float turnFlowTime = 1000;
-        
         private TurnCallback _callback;
         public TurnCallback Callback
         {
