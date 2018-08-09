@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class TemporaryGameManager : Singleton<TemporaryGameManager>
 {
-    private static TemporaryGameManager temporaryGameManager;
     private Transform transformCamera;
     //private new Transform Player;
     private new Rigidbody Player;
@@ -11,7 +10,6 @@ public class TemporaryGameManager : Singleton<TemporaryGameManager>
 
     private void Awake()
     {
-        temporaryGameManager = this;
         transformCamera = GameObject.FindWithTag("MainCamera").GetComponent<Transform>();
         //Player = GameObject.FindWithTag("Player").GetComponent<Transform>();
         //Player = GameObject.FindWithTag("Player").GetComponent<Rigidbody>();
@@ -29,8 +27,13 @@ public class TemporaryGameManager : Singleton<TemporaryGameManager>
 
     public void CameraMove(Vector3 direction)
     {
-        transformCamera.transform.Translate(new Vector3(direction.x, direction.y));
-        LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, "여기까지 왔는가");
+        transformCamera.transform.Translate(new Vector3(direction.x,0,direction.y),Space.World);
+        LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, "이동 좌표 : " + direction);
+    }
+
+    public void CameraZoom(float value)
+    {
+        transformCamera.transform.Translate(new Vector3(0, value, 0),Space.World);
     }
 
     public void UserTrade(Vector3 position)

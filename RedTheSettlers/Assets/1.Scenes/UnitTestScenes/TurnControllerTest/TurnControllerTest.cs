@@ -6,29 +6,42 @@ namespace RedTheSettlers.UnitTest
 {
     public enum GameState
     {
-        //TurnController,
+        TurnController,
         EventController,
         ItemController,
+        TradeController,
+        BattleController,
         Player1,
         Player2,
         Player3,
         Player4,
     }
 
-    public abstract class Controller : MonoBehaviour
-    {
-        ITrunObservable turnobserver;
-    }
+    public delegate void TurnCallback();
 
-    public class TurnControllerTest : Controller
+    /// <summary>
+    /// 작성자 : 박지용
+    /// 보드 게임에서 턴 흐름과 UI 로그 제어를 담당한다.
+    /// </summary>
+    public class TurnControllerTest : MonoBehaviour
     {
-        GameState state = GameState.EventController;
-        private ObserverSets observer;
-
-        public void AcceptTestMethod()
+        private const float turnFlowTime = 1000;
+        
+        private TurnCallback _callback;
+        public TurnCallback Callback
         {
-
+            get
+            {
+                GameManagerTest.Instance.state += 1;
+                return _callback;
+            }
+            set { _callback = value; }
         }
 
+        public IEnumerator TurnFlow()
+        {
+            Callback();
+            yield return new WaitForSeconds(3);
+        }
     }
 }
