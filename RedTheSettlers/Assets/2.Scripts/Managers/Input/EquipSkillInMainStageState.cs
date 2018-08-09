@@ -14,7 +14,7 @@ public class EquipSkillInMainStageState : InputState
     private float firstDirection;
     private float currentDirection;
 
-    public override void OnBeginDragUI()
+    public override void OnStartDrag()
     {
         clickPoint = Input.mousePosition;
         beingDragged = GameObject.FindGameObjectsWithTag("SkillIcon");
@@ -32,12 +32,12 @@ public class EquipSkillInMainStageState : InputState
         startParent = targetUI.transform.parent;
     }
 
-    public override void OnDragUI()
+    public override void OnDragging()
     {
         targetUI.transform.position = Input.mousePosition;
     }
 
-    public override void EndDragUI()
+    public override void EndStopDrag()
     {
         if (targetUI.transform.parent != startParent)
         {
@@ -46,7 +46,7 @@ public class EquipSkillInMainStageState : InputState
         targetUI = null;
     }
 
-    public override void OnDropUI()
+    public override void OnDropOff()
     {
         Slot = GameObject.FindGameObjectsWithTag("Slot");
     }

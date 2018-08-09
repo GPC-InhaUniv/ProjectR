@@ -48,6 +48,10 @@ namespace RedTheSettlers.GameSystem
         [SerializeField]
         private StateType stateType;
         private bool enableInputKey = false;
+        [SerializeField,Range(1,100)]
+        private float moveSpeed;
+        [SerializeField,Range(1,100)]
+        private float zoomSpeed;
 
         private void Awake()
         {
@@ -66,6 +70,10 @@ namespace RedTheSettlers.GameSystem
             {
                 InteractionKey();
             }
+            if(!enableInputKey)
+            {
+                MainStageDragAndZoom();
+            }
         }
 
         private void FixedUpdate()
@@ -81,29 +89,30 @@ namespace RedTheSettlers.GameSystem
             input.TouchOrClickButton(inputButtonType);
         }
 
-        public void MainStageDrag(Vector3 direction)
+        public void MainStageDragAndZoom()
         {
-            input.DragMove(direction);
+            input.DragMove(moveSpeed);
+            input.ZoomOrOut(zoomSpeed);
         }
 
         public void OnBeginDrag()
         {
-            input.OnBeginDragUI();
+            input.OnStartDrag();
         }
 
         public void OnDrag()
         {
-            input.OnDragUI();
+            input.OnDragging();
         }
 
         public void EndDrag()
         {
-            input.EndDragUI();
+            input.EndStopDrag();
         }
 
         public void OnDrop()
         {
-            input.OnDropUI();
+            input.OnDropOff();
         }
 
         private void EnterDirectionKey()
