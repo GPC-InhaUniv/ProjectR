@@ -15,12 +15,12 @@ namespace RedTheSettlers.Enemys
         {
             if (other.tag == "PlayerAttack")
             {
-                enemy.ChangeStage(EnemyStateType.Damage);
+                enemy.ChangeState(EnemyStateType.Damage);
             }
             else if (other.tag == "Wall")
             {
                 enemy.rigidbodyComponent.velocity = Vector3.zero;
-                enemy.ChangeStage(EnemyStateType.Idle);
+                enemy.ChangeState(EnemyStateType.Idle);
             }
         }
     }

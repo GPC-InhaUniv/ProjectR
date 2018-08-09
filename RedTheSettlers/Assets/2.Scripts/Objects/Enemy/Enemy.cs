@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using RedTheSettlers.UnitTest;
 using RedTheSettlers.GameSystem;
+using RedTheSettlers.Tiles;
+using RedTheSettlers.AI;
 
 namespace RedTheSettlers.Enemys
 {
@@ -33,7 +35,7 @@ namespace RedTheSettlers.Enemys
         public EnemyState currentState;
         private Material[] materials;
         public GameObject FireBall;
-        //EnemyBattleAI battleAI;
+        private BattleAI battleAI;
 
         [Header("Compoenets")]
         public Animator anim;
@@ -48,6 +50,7 @@ namespace RedTheSettlers.Enemys
         [Header("Moving Points")]
         public Vector3 destinationPoint;
         public Vector3 currentPoint;
+        public Tile currentTile;
 
         [Header("Status")]
         public float MoveSpeed;
@@ -56,7 +59,7 @@ namespace RedTheSettlers.Enemys
         public float TimeToReturn = 3.0f;
         public float Power;
         [ReadOnly]
-        public float FireBallSpeed = 5.0f;
+        public float FireBallSpeed = 4.0f;
 
         [Header("Timers")]
         public GameTimer DeadTimer;
@@ -77,7 +80,7 @@ namespace RedTheSettlers.Enemys
             hitArea = GetComponentInChildren<EnemyHitArea>();
             rigidbodyComponent = GetComponent<Rigidbody>();
 
-            ChangeStage(EnemyStateType.Idle);
+            ChangeState(EnemyStateType.Idle);
 
             //test
             tempFireBallPool = Instantiate(FireBallPrefab);
@@ -104,7 +107,7 @@ namespace RedTheSettlers.Enemys
             StopMovement();
         }
 
-        public void ChangeStage(EnemyStateType stateType)
+        public void ChangeState(EnemyStateType stateType)
         {
             switch (stateType)
             {
@@ -133,9 +136,9 @@ namespace RedTheSettlers.Enemys
             ReQuest();
         }
 
-        public void ChangeStage(int stateType)
+        public void ChangeState(int stateType)
         {
-            ChangeStage((EnemyStateType)stateType);
+            ChangeState((EnemyStateType)stateType);
         }
 
         private void ReQuest()
@@ -155,13 +158,13 @@ namespace RedTheSettlers.Enemys
 
         private void EndAttack()
         {
-            ChangeStage(EnemyStateType.Idle);
+            ChangeState(EnemyStateType.Idle);
             attackArea.AttackCollider.enabled = false;
         }
 
         public void StartAttack2()
         {
-            ChangeStage(EnemyStateType.Attack2);
+            ChangeState(EnemyStateType.Attack2);
         }
 
         //피격 처리를 담당하는 메서드
@@ -177,7 +180,7 @@ namespace RedTheSettlers.Enemys
 
         private void EndDamage()
         {
-            ChangeStage(EnemyStateType.Idle);
+            ChangeState(EnemyStateType.Idle);
         }
 
         public void EndDead()
@@ -192,7 +195,7 @@ namespace RedTheSettlers.Enemys
         {
             if (CurrentHp <= 0 && currentState.ToString() != EnemyStateType.Die.ToString())
             {
-                ChangeStage(EnemyStateType.Die);
+                ChangeState(EnemyStateType.Die);
             }
 
             if (CurrentHp > MaxHp)
@@ -206,7 +209,7 @@ namespace RedTheSettlers.Enemys
             if (Vector3.Distance(destinationPoint, currentPoint) <= 1.0f && currentState.ToString() == EnemyStateType.Move.ToString())
             {
                 rigidbodyComponent.velocity = Vector3.zero;
-                ChangeStage(EnemyStateType.Idle);
+                ChangeState(EnemyStateType.Idle);
             }
         }
     }
