@@ -74,7 +74,7 @@ namespace RedTheSettlers.UI
             playerTotalItem.text = computeItemNum.ToString();
 
             totalItemBar.value = computeItemNum / cardmaxNum;
-            LogManager.Instance.UserDebug(LogColor.Olive, GetType().Name, "현재 소지한 자원 합 : " + playerTotalItem);
+            LogManager.Instance.UserDebug(LogColor.Olive, GetType().Name, "현재 소지한 자원 합 : " + playerTotalItem.text);
         }
 
         private void Start()

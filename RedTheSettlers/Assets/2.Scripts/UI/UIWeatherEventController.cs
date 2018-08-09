@@ -19,12 +19,6 @@ namespace RedTheSettlers.UI
     {
         [Header("Player's Current Situation")]
         [SerializeField]
-        private Text currentTurn;
-
-        [SerializeField]
-        private Text currentMove;
-
-        [SerializeField]
         private Text currentEventTitle;
 
         [SerializeField]
@@ -134,8 +128,7 @@ namespace RedTheSettlers.UI
                     }
                     break;
             }
-            LogManager.Instance.UserDebug(LogColor.Olive, GetType().Name, "현재 날씨 이벤트 : " + currentEventTitle.text);
-            LogManager.Instance.UserDebug(LogColor.Olive, GetType().Name, "현재 날씨 설명 : " + currentEventContent.text);
+            LogManager.Instance.UserDebug(LogColor.Olive, GetType().Name, "현재 날씨 이벤트 : " + currentEventTitle.text + " / " + currentEventContent.text);
         }
 
         private void Start()

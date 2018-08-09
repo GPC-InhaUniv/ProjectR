@@ -31,7 +31,7 @@ namespace RedTheSettlers
 
             public void SendState(GameState state)
             {
-                gm.GameUpdate();
+                //gm.GameUpdate();
             }
 
             
