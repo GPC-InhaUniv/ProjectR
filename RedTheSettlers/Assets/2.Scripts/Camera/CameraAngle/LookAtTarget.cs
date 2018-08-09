@@ -4,22 +4,25 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-public class LookAtTarget : CameraAngle
+namespace RedTheSettlers.GameSystem
 {
-    public Transform targetTransform;
-    private void Awake()
+    public class LookAtTarget : CameraAngle
     {
-        cameraObject = gameObject;
-    }
-    public override void Looking(Transform target)
-    {
-        Debug.Log("루킹" + target);
-        if (targetTransform == null)
+        public Transform targetTransform;
+        private void Awake()
         {
-            targetTransform = target;
-            return;
+            cameraObject = gameObject;
         }
+        public override void Looking(Transform target)
+        {
+            Debug.Log("루킹" + target);
+            if (targetTransform == null)
+            {
+                targetTransform = target;
+                return;
+            }
 
-        cameraObject.transform.LookAt(targetTransform);
-    }
+            cameraObject.transform.LookAt(targetTransform);
+        }
+    } 
 }

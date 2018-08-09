@@ -4,15 +4,18 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-public class LookAtManual : CameraAngle
+namespace RedTheSettlers.GameSystem
 {
-    private void Awake()
+    public class LookAtManual : CameraAngle
     {
-        cameraObject = gameObject;
-    }
-    public override void Looking(Transform target)
-    {
-        Debug.Log("룩엣메뉴얼");
-        return;
-    }
+        private void Awake()
+        {
+            cameraObject = gameObject;
+        }
+        public override void Looking(Transform target)
+        {
+            Debug.Log("룩엣메뉴얼");
+            return;
+        }
+    } 
 }

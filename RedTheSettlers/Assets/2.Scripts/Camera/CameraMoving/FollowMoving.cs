@@ -1,39 +1,52 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Collections;
 using UnityEngine;
 
-public class FollowMoving : CameraMoving
+namespace RedTheSettlers.GameSystem
 {
-    Transform targetTransform;
-    Vector3 cameraOffset;
-    [SerializeField]
-    [Range(0.01f, 1.0f)]
-    float smooth = 0.1f;
+    public class FollowMoving : CameraMoving
+    {
+        ICameraState CameraState;
 
-    private void Awake()
-    {
-        cameraObject = gameObject;
-        FindTarget();
-        cameraOffset = cameraObject.transform.position - targetTransform.position;
-    }
+        private void Awake()
+        {
+            cameraObject = gameObject;
+            CameraState = new CameraNomalState(cameraObject);
+        }
 
-    public override void Moving()
-    {
-        if (targetTransform == null)
+        public override void Moving()
         {
-            Debug.Log("타겟이 없어서 타겟을 찾는다");
-            FindTarget();
+            CameraState.CameraBehavior();
         }
-        else
+
+        private void StateTest()
         {
-            Vector3 newPos = targetTransform.position + cameraOffset;
-            cameraObject.transform.position = Vector3.Slerp(cameraObject.transform.position, newPos, smooth);
+            StartCoroutine(SetShakeState());
         }
+        public void SetState(ICameraState state)
+        {
+            this.CameraState = state;
+        }
+        private IEnumerator SetShakeState()
+        {
+            CameraState = new CameraShakeState();
+            yield return new WaitForSeconds(1f);
+            CameraState = new CameraNomalState(cameraObject);
+        }
+        //StartCoroutine(MobileAttack());
+        //IEnumerator MobileAttack()
+        //{
+        //    yield return 1f;
+
+        //    while (playerStatusComponent.PlayerHp > 0)
+        //    {
+        //        bulletObjectPool.SetPlayerBulletOfPositionAndActive(bulletSpawn);
+        //        yield return new WaitForSeconds(0.4f);
+        //    }
+        //}
+
     }
-    public void FindTarget()
-    {
-        targetTransform = GameObject.FindGameObjectWithTag("Player").transform;
-    }
+    
 }

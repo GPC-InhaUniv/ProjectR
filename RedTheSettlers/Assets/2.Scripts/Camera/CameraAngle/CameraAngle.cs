@@ -4,8 +4,11 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-public abstract class CameraAngle : MonoBehaviour
+namespace RedTheSettlers.GameSystem
 {
-    public GameObject cameraObject;
-    public abstract void Looking(Transform target);
+    public abstract class CameraAngle : MonoBehaviour
+    {
+        public GameObject cameraObject;
+        public abstract void Looking(Transform target);
+    } 
 }

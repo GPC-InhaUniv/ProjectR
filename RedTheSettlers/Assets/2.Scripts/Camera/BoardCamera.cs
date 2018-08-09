@@ -2,14 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-class BoardCamera : AbstractCamera{
-    //추상적 개념에 정의된 인터페이스를 확장한다
-    
-    public BoardCamera(GameObject cameraObject)
+namespace RedTheSettlers.GameSystem
+{
+    class BoardCamera : AbstractCamera
     {
-        //GetCamera();
-        cameraMoving = cameraObject.AddComponent<DragMoving>();
-        cameraZoomInOut = cameraObject.AddComponent<ManualZoom>();
-        cameraAngle = cameraObject.AddComponent<LookAtManual>();
-    }
+        //추상적 개념에 정의된 인터페이스를 확장한다
+
+        public BoardCamera(GameObject cameraObject)
+        {
+            //GetCamera();
+            cameraMoving = cameraObject.AddComponent<DragMoving>();
+            cameraZoomInOut = cameraObject.AddComponent<ManualZoom>();
+            cameraAngle = cameraObject.AddComponent<LookAtManual>();
+        }
+    } 
 }

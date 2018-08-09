@@ -4,8 +4,11 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-public abstract class CameraMoving : MonoBehaviour
+namespace RedTheSettlers.GameSystem
 {
-    public GameObject cameraObject;
-    public abstract void Moving();
+    public abstract class CameraMoving : MonoBehaviour
+    {
+        public GameObject cameraObject;
+        public abstract void Moving();
+    } 
 }

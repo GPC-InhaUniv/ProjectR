@@ -2,13 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-class BattleCamera : AbstractCamera
+namespace RedTheSettlers.GameSystem
 {
-    public BattleCamera(GameObject cameraObject)
+    class BattleCamera : AbstractCamera
     {
-        //GetCamera();
-        cameraMoving = cameraObject.AddComponent<FollowMoving>();
-        cameraZoomInOut = cameraObject.AddComponent<DragZoom>();
-        cameraAngle = cameraObject.AddComponent<LookAtTarget>();
-    }
+        public BattleCamera(GameObject cameraObject)
+        {
+            //GetCamera();
+            cameraMoving = cameraObject.AddComponent<FollowMoving>();
+            cameraZoomInOut = cameraObject.AddComponent<DragZoom>();
+            cameraAngle = cameraObject.AddComponent<LookAtTarget>();
+        }
+    } 
 }

@@ -4,47 +4,50 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-public class GameCamera : MonoBehaviour
+namespace RedTheSettlers.GameSystem
 {
-    
-    AbstractCamera abstractCamera;
-    string cameraName;
-    private void Awake()
+    public class GameCamera : MonoBehaviour
     {
-        cameraName = gameObject.name;
-        if(cameraName == "Board Camera")
+
+        AbstractCamera abstractCamera;
+        string cameraName;
+        private void Awake()
         {
-            abstractCamera = new BoardCamera(gameObject);
+            cameraName = gameObject.name;
+            if (cameraName == "Board Camera")
+            {
+                abstractCamera = new BoardCamera(gameObject);
+            }
+            else
+            {
+                abstractCamera = new BattleCamera(gameObject);
+            }
+            abstractCamera.camera = gameObject.GetComponent<Camera>();
         }
-        else
+
+
+        public void TrunOnCamera()
         {
-            abstractCamera = new BattleCamera(gameObject);
+            abstractCamera.TurnOn();
         }
-        abstractCamera.camera = gameObject.GetComponent<Camera>();
-    }
-    
-
-    public void TrunOnCamera()
-    {
-        abstractCamera.TurnOn();
-    }
-    public void TrunOffCamera()
-    {
-        abstractCamera.TurnOff();
-    }
-    public void MovingCamera()
-    {
-        abstractCamera.MovingCamera();
-    }
-    public void ZoomInOutCamera()
-    {
-        abstractCamera.ZoomInOutCamera();
-    }
-    public void Looking(Transform target)
-    {
-        abstractCamera.LookAt(target);
-    }
-    
+        public void TrunOffCamera()
+        {
+            abstractCamera.TurnOff();
+        }
+        public void MovingCamera()
+        {
+            abstractCamera.MovingCamera();
+        }
+        public void ZoomInOutCamera()
+        {
+            abstractCamera.ZoomInOutCamera();
+        }
+        public void Looking(Transform target)
+        {
+            abstractCamera.LookAt(target);
+        }
 
 
+
+    } 
 }
