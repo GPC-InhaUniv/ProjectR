@@ -34,8 +34,9 @@ namespace RedTheSettlers.UnitTest
         private Dictionary<int, string> WebManifest = new Dictionary<int, string>();
         private Dictionary<int, AssetBundle> Bundles = new Dictionary<int, AssetBundle>();
 
-        private void Start()
+        private void Awake()
         {
+            DontDestroyOnLoad(this);
             SetWebpaths();
         }
 

@@ -17,6 +17,8 @@ namespace RedTheSettlers.UnitTest
         void RequestAgain(Player respondPlayer, ItemData tradeData);
     }
 
+    public delegate void TradeCallback();
+
     /// <summary>
     /// 작성자 : 박지용
     /// Constructor Mediator
@@ -26,6 +28,13 @@ namespace RedTheSettlers.UnitTest
     {
         List<Player> playerList = new List<Player>();
         Player requestPlayer, responsePlayer;
+
+        private TradeCallback _callback;
+        public TradeCallback Callback
+        {
+            get { return _callback; }
+            set { _callback = value; }
+        }
 
         void Start()
         {
@@ -38,6 +47,14 @@ namespace RedTheSettlers.UnitTest
             RegisterPlayer(ai1);
             RegisterPlayer(ai2);
             RegisterPlayer(ai3);
+
+            //Callback();
+        }
+
+        public IEnumerator TradeFlow()
+        {
+            Callback();
+            yield return new WaitForSeconds(3);
         }
 
         public void RegisterPlayer(Player player)
