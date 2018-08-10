@@ -6,7 +6,7 @@ namespace RedTheSettlers.Enemys
     {
         public override void DoAction(Enemy enemy)
         {
-            enemy.anim.SetFloat("Speed", Vector3.Distance(enemy.destinationPoint, enemy.currentPoint));
+            enemy.anim.SetFloat("Speed", enemy.rigidbodyComponent.velocity.magnitude);
         }
     }
 }
