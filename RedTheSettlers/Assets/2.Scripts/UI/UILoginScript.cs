@@ -34,11 +34,14 @@ namespace RedTheSettlers
             [SerializeField]
             private Text createAlertText;
 
+            [SerializeField]
+            private GameObject createResultObject;
+
             // Use this for initialization
             void Start()
             {
-                loginAlertText.text = "정보가 올바르지 않습니다.";
-                createAlertText.text = "정보가 올바르지 않습니다.";
+                loginAlertText.text = "";
+                createAlertText.text = "";
             }
 
             public void OnClickedGameQuitButton()
@@ -49,25 +52,31 @@ namespace RedTheSettlers
             public void OnClickedLoginButton()
             {
                 DataManager.Instance.Login(playerID.text, playerPassword.text);
-                ChangeText();
             }
 
             public void OnClickedCreateAccountButton()
             {
-                if (SignUpPassword.text == PasswordConfirmation.text)
+                if (SignUpID.text.Length < 4)
+                {
+                    createAlertText.text = "아이디는 최소 4자여야 합니다.";
+                    return;
+                }
+                else if (SignUpPassword.text == PasswordConfirmation.text)
                 {
                     DataManager.Instance.CreateNewAccount(SignUpID.text, SignUpPassword.text);
-                    ChangeText();
+                    if (createAlertText.text.Length == 0)
+                    {
+                        createResultObject.SetActive(true);
+                    }
                 }
-                else
+                else if (SignUpPassword.text != PasswordConfirmation.text)
                     createAlertText.text = "비밀번호확인이 일치하지 않습니다.";
-
             }
 
             public void onClickedUpdateButton()
             {
 
-                DataManager.Instance.SaveGameData();
+                //DataManager.Instance.SaveGameData();
             }
 
             public void onClickedResetButton()
@@ -75,11 +84,6 @@ namespace RedTheSettlers
                 DataManager.Instance.ResetData();
             }
 
-            private void ChangeText()
-            {
-                loginAlertText.text = "확인중.";
-                createAlertText.text = "확인중.";
-            }
         }
     }
 }

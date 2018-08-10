@@ -46,7 +46,6 @@ namespace RedTheSettlers.GameSystem
     {
         public int TurnCount;
         public int Weather;
-        public int BossKillCount;
     }
 
 
@@ -59,8 +58,8 @@ namespace RedTheSettlers.GameSystem
         public StatData StatData;
         public List<SkillData> SkillList;
         public List<TileData> TileList;
-        public ItemData ResourceData;
-        public InGameData InGameData;
+        public ItemData ItemData;
+        public int BossKillCount;
 
         public PlayerData()
         {
@@ -75,12 +74,10 @@ namespace RedTheSettlers.GameSystem
     [Serializable]
     public class GameData
     {
-        public const int maxResourceNum = 30;
-        public const int maxItemUpgradeLevel = 3;
-        public const int maxTileUpgradeLevel = 5;
 
         public string UserId;
         public string UserPassword;
+        public InGameData InGameData;
         public PlayerData[] PlayerData;
 
         public GameData(int numberOfPlayer)
