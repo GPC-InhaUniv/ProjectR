@@ -45,13 +45,13 @@ namespace RedTheSettlers.UnitTest
 
         }
 
-        private Player GetLowestPlayer()
-        {
-            Player lowestPlayer;
-            
+        //private Player GetLowestPlayer()
+        //{
+        //    Player lowestPlayer;
+        //    //DataManager
 
-            return lowestPlayer;
-        }
+        //    return lowestPlayer;
+        //}
 
         private void AppearMiddleBoss1()
         {
