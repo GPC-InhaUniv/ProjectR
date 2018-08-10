@@ -51,7 +51,7 @@ namespace RedTheSettlers.UnitTest
                     break;
                 default: state = GameState.TurnController; break;
             }
-            StartCoroutine(GameFlow());
+            GameFlow();
         }
 
         public void TurnFinish()
