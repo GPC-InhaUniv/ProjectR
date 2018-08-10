@@ -3,50 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using System.IO;
-using RedTheSettlers.GameSystem;
 
-namespace RedTheSettlers.UnitTest
+namespace RedTheSettlers.GameSystem
 {
-    /// <summary>
-    /// 작성자 : 박지용
-    /// 게임에서 사용할 에셋번들을 관리하는 매니저
-    /// </summary>
-    public class AssetBundleManagerTest : Singleton<AssetBundleManagerTest>
+    public class AssetBundleManager : Singleton<AssetBundleManager>
     {
-        private string assetBundleDirectory = AssetBundleDataTest.assetBundleDirectory;
-        private int HashCodeLine = AssetBundleDataTest.HashCodeLine;
+        private string assetBundleDirectory = AssetBundleSettings.assetBundleDirectory;
+        private int HashCodeLine = AssetBundleSettings.HashCodeLine;
 
         public Dictionary<int, string> WebPaths = new Dictionary<int, string>();
         public Dictionary<int, string> WebManifest = new Dictionary<int, string>();
         private Dictionary<int, AssetBundle> Bundles = new Dictionary<int, AssetBundle>();
 
-        //public const int HashCodeLine = 6; //6번째 ReadLine에 Manifest의 Hash코드 라인을 읽게 된다.
-        //public const string assetBundleDirectory = "Assets/0.AssetBundles/";
-
         private void Awake()
         {
             DontDestroyOnLoad(this);
-            //SetWebpaths();
         }
-
-        //private void SetWebpaths()
-        //{
-        //    /* AssetBundle */
-        //    WebPaths.Add((int)AssetBundleNumbers.Player, "");
-        //    WebPaths.Add((int)AssetBundleNumbers.Skill, "");
-        //    WebPaths.Add((int)AssetBundleNumbers.Enemy, "");
-        //    WebPaths.Add((int)AssetBundleNumbers.Boss1, "");
-        //    WebPaths.Add((int)AssetBundleNumbers.Boss2, "");
-        //    WebPaths.Add((int)AssetBundleNumbers.Boss3, "");
-        //    WebPaths.Add((int)AssetBundleNumbers.Tile, "");
-        //    WebPaths.Add((int)AssetBundleNumbers.UI, "");
-        //    WebPaths.Add((int)AssetBundleNumbers.canvas, "https://drive.google.com/uc?authuser=0&id=1AHBIgStWfP28ODXGaY3pxU2OslSTsl3Q&export=download");
-        //    WebPaths.Add((int)AssetBundleNumbers.objects, "https://drive.google.com/uc?authuser=0&id=189GqP1ULCgaZDLq-x9VCrH3eCDOv9qpJ&export=download");
-
-        //    /* Manifest */
-        //    WebManifest.Add((int)AssetBundleNumbers.objects, "https://drive.google.com/uc?authuser=0&id=1qWeskKwcwEyh330RmR36GV4TReFJlIui&export=download");
-        //    WebManifest.Add((int)AssetBundleNumbers.canvas, "https://drive.google.com/uc?authuser=0&id=174Bgh4SsX7koF9PVDNFWjYlUpS4ihPjE&export=download");
-        //}
 
         private void AddBundles(AssetBundleNumbers num, AssetBundle bundle)
         {
@@ -65,15 +37,6 @@ namespace RedTheSettlers.UnitTest
 
         }
 
-        public void DownCanvas()
-        {
-            StartCoroutine(SaveAssetBundleOnDisk(AssetBundleNumbers.canvas));
-        }
-
-        public void DownObjects()
-        {
-            StartCoroutine(SaveAssetBundleOnDisk(AssetBundleNumbers.objects));
-        }
         /// <summary>
         /// 로컬 드라이브에서 에셋번들을 불러온다.
         /// 실사용시에는 매개변수에 AssetBundleNumbers를 받아 구분한다.
@@ -81,16 +44,6 @@ namespace RedTheSettlers.UnitTest
         public void LocalLoadAssetBundle()
         {
 
-        }
-
-        public void LoadCanvas()
-        {
-            StartCoroutine(LoadAssetBundleFromLocalDisk(AssetBundleNumbers.canvas));
-        }
-
-        public void LoadObjects()
-        {
-            StartCoroutine(LoadAssetBundleFromLocalDisk(AssetBundleNumbers.objects));
         }
 
         private string GetAssetBundlePath(AssetBundleNumbers key)
@@ -157,16 +110,6 @@ namespace RedTheSettlers.UnitTest
             AddBundles(number, bundle);
         }
 
-        public void CheckObjects()
-        {
-            StartCoroutine(CheckAssetBundleVersion(AssetBundleNumbers.objects));
-        }
-
-        public void CheckCanvas()
-        {
-            StartCoroutine(CheckAssetBundleVersion(AssetBundleNumbers.canvas));
-        }
-
         /// <summary>
         /// 현재 에셋번들이 최신버전인지 체크한다. 
         /// </summary>
@@ -202,7 +145,7 @@ namespace RedTheSettlers.UnitTest
             //string nowManifest = string.Empty; // DataManager에서 받아옴
             string tempHash = "e8e649b24e98b76009451b3b64b5e42e";
 
-            
+
             fs = new FileStream(assetBundleDirectory + assetBundleName, FileMode.Open);
             StreamReader sr = new StreamReader(fs);
 
@@ -220,29 +163,6 @@ namespace RedTheSettlers.UnitTest
 
             if (newManifest.CompareTo(tempHash) == 0) Debug.Log("같은 파일");
             else Debug.Log("다른 파일. 에셋번들 다운로드");
-        }
-
-        public void CloneObjects()
-        {
-            AssetBundle bundle;
-            Bundles.TryGetValue((int)AssetBundleNumbers.objects, out bundle);
-
-            GameObject prefab;
-            prefab = bundle.LoadAsset<GameObject>("cube"); Instantiate(prefab);
-            prefab = bundle.LoadAsset<GameObject>("sphere"); Instantiate(prefab);
-
-            Resources.UnloadUnusedAssets(); // 호출되지 않은 번들 제거
-                                            //bundle.Unload(true);
-        }
-
-        public void CloneCanvas()
-        {
-            AssetBundle bundle;
-            Bundles.TryGetValue((int)AssetBundleNumbers.canvas, out bundle);
-
-            GameObject canvas;
-            canvas = bundle.LoadAsset<GameObject>("canvas");
-            Instantiate(canvas);
         }
     }
 }

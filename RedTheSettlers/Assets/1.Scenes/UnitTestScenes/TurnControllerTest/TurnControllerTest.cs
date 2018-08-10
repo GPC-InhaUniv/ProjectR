@@ -41,5 +41,14 @@ namespace RedTheSettlers.UnitTest
             Callback();
             yield return new WaitForSeconds(3);
         }
+
+        /// <summary>
+        /// 게임 화면에 게임 진행 상황을 표시하는 텍스트를 출력한다.
+        /// UI매니저와 연동한다.
+        /// </summary>
+        public void PrintGameLog()
+        {
+            
+        }
     }
 }
