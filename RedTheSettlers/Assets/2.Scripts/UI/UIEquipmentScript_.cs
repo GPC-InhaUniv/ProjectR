@@ -9,6 +9,11 @@ namespace RedTheSettlers.UI
 {
     public class UIEquipmentScript_ : MonoBehaviour
     {
+        public int PlayerWood;
+        public int PlayerIron;
+        public int PlayerSoil;
+
+
         [Flags]
         enum UpgradeItems
         {
@@ -77,10 +82,18 @@ namespace RedTheSettlers.UI
         private Text shieldLevelOneWood, shieldLevelOneIron, shieldLevelOneSoil;
         [SerializeField, Space(20)]
         private Text shieldLevelTwoWood, shieldLevelTwoIron, shieldLevelTwoSoil;
+        [SerializeField, Space(20)]
+        private Button firstWeaponLevelButton, secondWeaponLevelButton, firstShieldLevelButton, secondShieldLevelButton;
+        [SerializeField, Space(20)]
+        private GameObject firstWeaponLevelGroup, secondWeaponLevelGroup, firstShieldLevelGroup, secondShieldLevelGroup;
 
         Color textColor = new Color(255, 0, 0, 255); // 빨간색
         private void Start()
         {
+            secondWeaponLevelButton.interactable = false;
+            secondShieldLevelButton.interactable = false;
+
+
             weaponLevelOneWood.text = weaponLevelOneWoodValue.ToString();
             weaponLevelOneIron.text = weaponLevelOneIronValue.ToString();
             weaponLevelOneSoil.text = weaponLevelOneSoilValue.ToString();
@@ -99,30 +112,30 @@ namespace RedTheSettlers.UI
 
             WeaponLevelOne = new UpgradeRequestItems
             {
-                Wood = weaponLevelOneWoodValue,
-                Iron = weaponLevelOneIronValue,
-                Soil = weaponLevelOneSoilValue,
+                Wood = PlayerWood,
+                Iron = PlayerIron,
+                Soil = PlayerSoil,
 
             };
 
             WeaponLevelTwo = new UpgradeRequestItems
             {
-                Wood = weaponLevelTwoWoodValue,//플레이어 자원
-                Iron = weaponLevelTwoIronValue,
-                Soil = weaponLevelTwoSoilValue,
+                Wood = PlayerWood,//플레이어 자원
+                Iron = PlayerIron,
+                Soil = PlayerSoil,
             };
 
             ShieldLevelOne = new UpgradeRequestItems
             {
-                Wood = shieldLevelOneWoodValue,
-                Iron = shieldLevelOneIronValue,
-                Soil = shieldLevelOneSoilValue,
+                Wood = PlayerWood,
+                Iron = PlayerIron,
+                Soil = PlayerSoil,
             };
             ShieldLevelTwo = new UpgradeRequestItems
             {
-                Wood = shieldLevelTwoWoodValue,
-                Iron = shieldLevelTwoIronValue,
-                Soil = shieldLevelTwoSoilValue,
+                Wood = PlayerWood,
+                Iron = PlayerIron,
+                Soil = PlayerSoil,
             };
         }
 
@@ -134,46 +147,56 @@ namespace RedTheSettlers.UI
                 if(playerWeaponLevel == 0)
                 {
                     upgradeItems = WeaponLevelOne.CheckForItems(weaponLevelOneWoodValue, weaponLevelOneIronValue, weaponLevelOneSoilValue);
+
                 }
                 else
                 {
                     upgradeItems = WeaponLevelTwo.CheckForItems(weaponLevelTwoWoodValue, weaponLevelTwoIronValue, weaponLevelTwoSoilValue);
+                  
+                   
                 }
                 EquipmentUpgrade(playerWeaponLevel, buttonValue);
-                playerWeaponLevel++;
+               
+                
+                
             }
             else //0일때는 무기 1일때는 방어구
             {
-                int temp;
+
                 if (playerShieldLevel == 0)
                 {
                     upgradeItems = ShieldLevelOne.CheckForItems(shieldLevelOneWoodValue, shieldLevelOneIronValue, shieldLevelOneSoilValue);
+                 
                 }
                 else
                 {
                     upgradeItems = ShieldLevelTwo.CheckForItems(shieldLevelTwoWoodValue, shieldLevelTwoIronValue, shieldLevelTwoSoilValue);
+                   
                 }
                 EquipmentUpgrade(playerShieldLevel, buttonValue);
-                playerShieldLevel++;
+               
+                
             }
-            LogManager.Instance.UserDebug(LogColor.Green, GetType().Name, "플레이어가 소지한 나무=" + WeaponLevelOne.Wood + "플레이어가 소지한 철=" +
-               WeaponLevelOne.Iron + "플레이어가 소지한 흙=" + WeaponLevelOne.Soil);
+            LogManager.Instance.UserDebug(LogColor.Green, GetType().Name, "플레이어가 소지한 나무=" + PlayerWood + "플레이어가 소지한 철=" +
+                 PlayerIron + "플레이어가 소지한 흙=" +PlayerSoil);
             LogManager.Instance.UserDebug(LogColor.Green, GetType().Name, "플레이어의 무기 레벨은" + playerWeaponLevel + "플레이어의 방어 레벨은" + playerShieldLevel);
         }
 
         void EquipmentUpgrade(int level, int buttonValue)
         {
-            if (upgradeItems == (UpgradeItems.Wood & upgradeItems))
+            if (upgradeItems != (UpgradeItems.Wood & upgradeItems))
             {
                 if (buttonValue == 0)
                 {
                     if (level == 0)
                     {
                         weaponLevelOneWood.color = textColor; //빠..빠..빨간색!
+                        firstWeaponLevelButton.interactable = false;
                     }
-                    else
+                    else if(level == 1)
                     {
                         weaponLevelTwoWood.color = textColor;
+                        secondWeaponLevelButton.interactable = false;
                     }
                 }
                 if (buttonValue == 1)
@@ -181,25 +204,29 @@ namespace RedTheSettlers.UI
                     if (level == 0)
                     {
                         shieldLevelOneWood.color = textColor; //빠..빠..빨간색!
+                        firstShieldLevelButton.interactable = false;
                     }
-                    else
+                    else if (level == 1)
                     {
                         shieldLevelTwoWood.color = textColor;
+                        secondShieldLevelButton.interactable = false;
                     }
                 }
                 //나무 부족
             }
-            if (upgradeItems == (UpgradeItems.Iron & upgradeItems))
+            if (upgradeItems != (UpgradeItems.Iron & upgradeItems))
             {
                 if (buttonValue == 0)
                 {
                     if (level == 0)
                     {
                         weaponLevelOneIron.color = textColor; //빠..빠..빨간색!
+                        firstWeaponLevelButton.interactable = false;
                     }
-                    else
+                    else if (level == 1)
                     {
                         weaponLevelTwoIron.color = textColor;
+                        secondWeaponLevelButton.interactable = false;
                     }
                 }
                 if (buttonValue == 1)
@@ -208,24 +235,26 @@ namespace RedTheSettlers.UI
                     {
                         shieldLevelOneIron.color = textColor; //빠..빠..빨간색!
                     }
-                    else
+                    else if (level == 1)
                     {
                         shieldLevelTwoIron.color = textColor;
                     }
                 }
                 //철 부족
             }
-            if (upgradeItems == (UpgradeItems.Soil & upgradeItems))
+            if (upgradeItems != (UpgradeItems.Soil & upgradeItems))
             {
                 if (buttonValue == 0)
                 {
                     if (level == 0)
                     {
                         weaponLevelOneSoil.color = textColor; //빠..빠..빨간색!
+                        
                     }
-                    else
+                    else if (level == 1)
                     {
                         weaponLevelTwoSoil.color = textColor;
+                        
                     }
                 }
                 if (buttonValue == 1)
@@ -234,12 +263,12 @@ namespace RedTheSettlers.UI
                     {
                         shieldLevelOneSoil.color = textColor; //빠..빠..빨간색!
                     }
-                    else
+                    else if (level == 1)
                     {
                         shieldLevelTwoSoil.color = textColor;
                     }
                 }
-                //철 부족
+                //흙 부족
             }
             if (upgradeItems == (UpgradeItems.Iron | UpgradeItems.Soil | UpgradeItems.Wood))
             {
@@ -248,33 +277,49 @@ namespace RedTheSettlers.UI
                 {
                     if (level == 0)
                     {
-                        WeaponLevelOne.Wood -= weaponLevelOneWoodValue;
-                        WeaponLevelOne.Iron -= weaponLevelOneIronValue;
-                        WeaponLevelOne.Soil-= weaponLevelOneSoilValue;
+                        PlayerWood -= weaponLevelOneWoodValue;
+                        PlayerIron -= weaponLevelOneIronValue;
+                        PlayerSoil -= weaponLevelOneSoilValue;
+                        firstWeaponLevelGroup.SetActive(false);
+                        firstWeaponLevelButton.interactable = false;
+                        secondWeaponLevelButton.interactable = true;
+                        playerWeaponLevel++;
                     }
-                    else
+                    else if (level == 1)
                     {
-                        WeaponLevelTwo.Wood -= weaponLevelTwoWoodValue;
-                        WeaponLevelTwo.Iron -= weaponLevelTwoIronValue;
-                        WeaponLevelTwo.Soil -= weaponLevelTwoSoilValue;
+                        PlayerWood -= weaponLevelTwoWoodValue;
+                        PlayerIron -= weaponLevelTwoIronValue;
+                       PlayerSoil -= weaponLevelTwoSoilValue;
+                        secondWeaponLevelGroup.SetActive(false);
+                        secondWeaponLevelButton.interactable = false;
+                        playerWeaponLevel++;
                     }
                 }
                 if (buttonValue == 1)
                 {
                     if (level == 0)
                     {
-                        ShieldLevelOne.Wood -= shieldLevelOneWoodValue;
-                        ShieldLevelOne.Iron -= shieldLevelOneIronValue;
-                        ShieldLevelOne.Soil -= shieldLevelOneSoilValue;
+                        PlayerWood -= shieldLevelOneWoodValue;
+                        PlayerIron -= shieldLevelOneIronValue;
+                        PlayerSoil -= shieldLevelOneSoilValue;
+                        secondShieldLevelButton.interactable = true;
+                        firstShieldLevelGroup.SetActive(false);
+                        firstShieldLevelButton.interactable = false;
+                        playerShieldLevel++;
                     }
-                    else
+                    else if (level == 1)
                     {
-                        ShieldLevelTwo.Wood -= shieldLevelTwoWoodValue;
-                        ShieldLevelTwo.Iron -= shieldLevelTwoIronValue;
-                        ShieldLevelTwo.Soil -= shieldLevelTwoSoilValue;
+                        PlayerWood -= shieldLevelTwoWoodValue;
+                        PlayerIron -= shieldLevelTwoIronValue;
+                        PlayerSoil -= shieldLevelTwoSoilValue;
+                        secondShieldLevelGroup.SetActive(false);
+                        secondShieldLevelButton.interactable = false;
+                        playerShieldLevel++;
                     }
                 }
+
             }
         }
+
     }
 }
