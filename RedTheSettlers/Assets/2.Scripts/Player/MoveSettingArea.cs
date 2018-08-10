@@ -1,11 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using RedTheSettlers.Players;
 
 public class MoveSettingArea : MonoBehaviour {
 
     public PlayerBattle playerbattle;
-    private Coroutine coroutine;
+    private Coroutine coroutineMove;
+    private Coroutine coroutineAttack;
 
     private void Start()
     {
@@ -27,6 +29,11 @@ public class MoveSettingArea : MonoBehaviour {
                 MoveByKeyboard();
             }
 
+            if(Input.GetKeyDown(KeyCode.Space))
+            {
+                MakePlayerAttack();
+            }
+
             yield return null;
         }
     }
@@ -41,14 +48,14 @@ public class MoveSettingArea : MonoBehaviour {
             if (hit.collider.gameObject.name.Contains("Plane"))
             {
                 Vector3 targetPosition = hit.point + new Vector3(0, playerbattle.transform.position.y, 0);
-                if(coroutine == null)
+                if(coroutineMove == null)
                 {
-                    coroutine = StartCoroutine(playerbattle.MoveToTargetPostion(targetPosition));
+                    coroutineMove = StartCoroutine(playerbattle.MoveToTargetPostion(targetPosition));
                 }
                 else
                 {
-                    StopCoroutine(coroutine);
-                    coroutine = StartCoroutine(playerbattle.MoveToTargetPostion(targetPosition));
+                    StopCoroutine(coroutineMove);
+                    coroutineMove = StartCoroutine(playerbattle.MoveToTargetPostion(targetPosition));
                 }
             }
         }
@@ -58,15 +65,20 @@ public class MoveSettingArea : MonoBehaviour {
     {
         Vector3 direction = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
 
-        if (coroutine == null)
+        if (coroutineMove == null)
         {
-            coroutine = StartCoroutine(playerbattle.MoveToDirection(direction));
+            coroutineMove = StartCoroutine(playerbattle.MoveToDirection(direction));
         }
 
         else
         {
-            StopCoroutine(coroutine);
-            coroutine = StartCoroutine(playerbattle.MoveToDirection(direction));
+            StopCoroutine(coroutineMove);
+            coroutineMove = StartCoroutine(playerbattle.MoveToDirection(direction));
         }
+    }
+
+    private void MakePlayerAttack()
+    {
+        coroutineAttack = StartCoroutine(playerbattle.AttackEnemy());
     }
 }

@@ -21,16 +21,22 @@ namespace RedTheSettlers.GameSystem
     /// </summary>
     public class DataManager : Singleton<DataManager>
     {
-        public GameData GameData;
+        private GameData gameData;
+
+        public GameData GameData
+        {
+            get { return gameData; }
+        }
+
 
         private GameDataLoader gameDataLoader;
         // Use this for initialization
         void Awake()
         {
 
-            GameData = new GameData(4);
+            gameData = new GameData(4);
             gameDataLoader = new GameDataLoader();
-            string json = JsonUtility.ToJson(GameData);
+            string json = JsonUtility.ToJson(gameData);
             Debug.Log(json);
         }
 
@@ -44,26 +50,24 @@ namespace RedTheSettlers.GameSystem
             gameDataLoader.LoadLoginDataFromDB(id, password);
         }
 
-        public void SaveGameData()
+        public void SaveGameData(GameData gameData, bool ShouldSaveForDB)
         {
-            GameData.PlayerData[0].ResourceData.SoilNumber = 10;
-            GameData.PlayerData[1].ResourceData.IronNumber = 7;
-            GameData.PlayerData[2].ResourceData.WaterNumber = 5;
-            GameData.PlayerData[3].ResourceData.WheatNumber = 20;
-            gameDataLoader.SetUpdateInDB(GameData);
+            this.gameData = gameData;
+
+            if(ShouldSaveForDB)
+            {
+                gameDataLoader.SetUpdateInDB(gameData);
+            }
         }
 
         public void ResetData()
         {
-            ItemData resource = new ItemData
-            {
-                IronNumber = 1
-            };
-            GameData.PlayerData[0].ResourceData = resource;
-            GameData.PlayerData = new PlayerData[4];
-            gameDataLoader.SetUpdateInDB(GameData);
-
+            gameData.PlayerData = new PlayerData[4];
+            gameDataLoader.SetUpdateInDB(gameData);
         }
+
+
+
 
     }
 

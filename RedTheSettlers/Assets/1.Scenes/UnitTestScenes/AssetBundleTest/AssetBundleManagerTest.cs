@@ -7,55 +7,46 @@ using RedTheSettlers.GameSystem;
 
 namespace RedTheSettlers.UnitTest
 {
-    public enum AssetBundleNumbers
-    {
-        Player,
-        Skill,
-        Enemy, // unload(false)
-        Boss1,
-        Boss2,
-        Boss3,
-        Tile, // unload(false)
-        UI, 
-        objects, // 테스트용으로 사용 // 추후에 제거할 것
-        canvas, // 테스트용으로 사용 // 추후에 제거할 것
-    }
-
     /// <summary>
     /// 작성자 : 박지용
     /// 게임에서 사용할 에셋번들을 관리하는 매니저
     /// </summary>
     public class AssetBundleManagerTest : Singleton<AssetBundleManagerTest>
     {
-        private Hash128 hash; // DataManager에서 버전 정보를 가져옴. 웹에서 새로 받은 Manifest의 hash와 비교하여 버전 체크. 다르면 해당 번들을 다운.
-        private const int HashCodeLine = 6; //6번째 ReadLine에 Manifest의 Hash코드 라인을 읽게 된다.
-        private const string assetBundleDirectory = "Assets/0.AssetBundles/";
-        private Dictionary<int, string> WebPaths = new Dictionary<int, string>();
-        private Dictionary<int, string> WebManifest = new Dictionary<int, string>();
+        private string assetBundleDirectory = AssetBundleDataTest.assetBundleDirectory;
+        private int HashCodeLine = AssetBundleDataTest.HashCodeLine;
+
+        public Dictionary<int, string> WebPaths = new Dictionary<int, string>();
+        public Dictionary<int, string> WebManifest = new Dictionary<int, string>();
         private Dictionary<int, AssetBundle> Bundles = new Dictionary<int, AssetBundle>();
+
+        //public const int HashCodeLine = 6; //6번째 ReadLine에 Manifest의 Hash코드 라인을 읽게 된다.
+        //public const string assetBundleDirectory = "Assets/0.AssetBundles/";
 
         private void Awake()
         {
             DontDestroyOnLoad(this);
-            SetWebpaths();
+            //SetWebpaths();
         }
 
-        private void SetWebpaths()
-        {
-            WebPaths.Add((int)AssetBundleNumbers.Player, "");
-            WebPaths.Add((int)AssetBundleNumbers.Skill, "");
-            WebPaths.Add((int)AssetBundleNumbers.Enemy, "");
-            WebPaths.Add((int)AssetBundleNumbers.Boss1, "");
-            WebPaths.Add((int)AssetBundleNumbers.Boss2, "");
-            WebPaths.Add((int)AssetBundleNumbers.Boss3, "");
-            WebPaths.Add((int)AssetBundleNumbers.Tile, "");
-            WebPaths.Add((int)AssetBundleNumbers.UI, "");
-            WebPaths.Add((int)AssetBundleNumbers.canvas, "https://drive.google.com/uc?authuser=0&id=1AHBIgStWfP28ODXGaY3pxU2OslSTsl3Q&export=download");
-            WebPaths.Add((int)AssetBundleNumbers.objects, "https://drive.google.com/uc?authuser=0&id=189GqP1ULCgaZDLq-x9VCrH3eCDOv9qpJ&export=download");
+        //private void SetWebpaths()
+        //{
+        //    /* AssetBundle */
+        //    WebPaths.Add((int)AssetBundleNumbers.Player, "");
+        //    WebPaths.Add((int)AssetBundleNumbers.Skill, "");
+        //    WebPaths.Add((int)AssetBundleNumbers.Enemy, "");
+        //    WebPaths.Add((int)AssetBundleNumbers.Boss1, "");
+        //    WebPaths.Add((int)AssetBundleNumbers.Boss2, "");
+        //    WebPaths.Add((int)AssetBundleNumbers.Boss3, "");
+        //    WebPaths.Add((int)AssetBundleNumbers.Tile, "");
+        //    WebPaths.Add((int)AssetBundleNumbers.UI, "");
+        //    WebPaths.Add((int)AssetBundleNumbers.canvas, "https://drive.google.com/uc?authuser=0&id=1AHBIgStWfP28ODXGaY3pxU2OslSTsl3Q&export=download");
+        //    WebPaths.Add((int)AssetBundleNumbers.objects, "https://drive.google.com/uc?authuser=0&id=189GqP1ULCgaZDLq-x9VCrH3eCDOv9qpJ&export=download");
 
-            WebManifest.Add((int)AssetBundleNumbers.objects, "https://drive.google.com/uc?authuser=0&id=1qWeskKwcwEyh330RmR36GV4TReFJlIui&export=download");
-            WebManifest.Add((int)AssetBundleNumbers.canvas, "https://drive.google.com/uc?authuser=0&id=174Bgh4SsX7koF9PVDNFWjYlUpS4ihPjE&export=download");
-        }
+        //    /* Manifest */
+        //    WebManifest.Add((int)AssetBundleNumbers.objects, "https://drive.google.com/uc?authuser=0&id=1qWeskKwcwEyh330RmR36GV4TReFJlIui&export=download");
+        //    WebManifest.Add((int)AssetBundleNumbers.canvas, "https://drive.google.com/uc?authuser=0&id=174Bgh4SsX7koF9PVDNFWjYlUpS4ihPjE&export=download");
+        //}
 
         private void AddBundles(AssetBundleNumbers num, AssetBundle bundle)
         {
@@ -211,7 +202,7 @@ namespace RedTheSettlers.UnitTest
             //string nowManifest = string.Empty; // DataManager에서 받아옴
             string tempHash = "e8e649b24e98b76009451b3b64b5e42e";
 
-
+            
             fs = new FileStream(assetBundleDirectory + assetBundleName, FileMode.Open);
             StreamReader sr = new StreamReader(fs);
 

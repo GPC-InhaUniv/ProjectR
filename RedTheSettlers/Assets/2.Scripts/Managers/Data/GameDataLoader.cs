@@ -99,7 +99,7 @@ namespace RedTheSettlers.GameSystem
                             Dictionary<string, object> userDataDictionary = (Dictionary<string, object>)datasnapshot.Value;
                             if (password.Equals(datasnapshot.Child("UserPassword").Value))
                             {
-                                DataManager.Instance.GameData = JsonUtility.FromJson<GameData>(datasnapshot.GetRawJsonValue());
+                                DataManager.Instance.SaveGameData(JsonUtility.FromJson<GameData>(datasnapshot.GetRawJsonValue()), false);
                                 return;
                             }
                             else

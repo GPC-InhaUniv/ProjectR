@@ -43,35 +43,35 @@ namespace RedTheSettlers.UI
             gameData = new GameData(4);
 
             //>>Resource<<
-            gameData.PlayerData[0].ResourceData.CowNumber = 1;
-            gameData.PlayerData[1].ResourceData.CowNumber = 2;
-            gameData.PlayerData[2].ResourceData.CowNumber = 3;
-            gameData.PlayerData[3].ResourceData.CowNumber = 4;
+            gameData.PlayerData[0].ItemData.CowNumber = 1;
+            gameData.PlayerData[1].ItemData.CowNumber = 2;
+            gameData.PlayerData[2].ItemData.CowNumber = 3;
+            gameData.PlayerData[3].ItemData.CowNumber = 4;
 
-            gameData.PlayerData[0].ResourceData.WaterNumber = 5;
-            gameData.PlayerData[1].ResourceData.WaterNumber = 15;
-            gameData.PlayerData[2].ResourceData.WaterNumber = 20;
-            gameData.PlayerData[3].ResourceData.WaterNumber = 25;
+            gameData.PlayerData[0].ItemData.WaterNumber = 5;
+            gameData.PlayerData[1].ItemData.WaterNumber = 15;
+            gameData.PlayerData[2].ItemData.WaterNumber = 20;
+            gameData.PlayerData[3].ItemData.WaterNumber = 25;
 
-            gameData.PlayerData[0].ResourceData.WheatNumber = 5;
-            gameData.PlayerData[1].ResourceData.WheatNumber = 6;
-            gameData.PlayerData[2].ResourceData.WheatNumber = 7;
-            gameData.PlayerData[3].ResourceData.WheatNumber = 8;
+            gameData.PlayerData[0].ItemData.WheatNumber = 5;
+            gameData.PlayerData[1].ItemData.WheatNumber = 6;
+            gameData.PlayerData[2].ItemData.WheatNumber = 7;
+            gameData.PlayerData[3].ItemData.WheatNumber = 8;
 
-            gameData.PlayerData[0].ResourceData.WoodNumber = 2;
-            gameData.PlayerData[1].ResourceData.WoodNumber = 4;
-            gameData.PlayerData[2].ResourceData.WoodNumber = 6;
-            gameData.PlayerData[3].ResourceData.WoodNumber = 8;
+            gameData.PlayerData[0].ItemData.WoodNumber = 2;
+            gameData.PlayerData[1].ItemData.WoodNumber = 4;
+            gameData.PlayerData[2].ItemData.WoodNumber = 6;
+            gameData.PlayerData[3].ItemData.WoodNumber = 8;
 
-            gameData.PlayerData[0].ResourceData.IronNumber = 4;
-            gameData.PlayerData[1].ResourceData.IronNumber = 8;
-            gameData.PlayerData[2].ResourceData.IronNumber = 12;
-            gameData.PlayerData[3].ResourceData.IronNumber = 16;
+            gameData.PlayerData[0].ItemData.IronNumber = 4;
+            gameData.PlayerData[1].ItemData.IronNumber = 8;
+            gameData.PlayerData[2].ItemData.IronNumber = 12;
+            gameData.PlayerData[3].ItemData.IronNumber = 16;
 
-            gameData.PlayerData[0].ResourceData.SoilNumber = 3;
-            gameData.PlayerData[1].ResourceData.SoilNumber = 6;
-            gameData.PlayerData[2].ResourceData.SoilNumber = 9;
-            gameData.PlayerData[3].ResourceData.SoilNumber = 12;
+            gameData.PlayerData[0].ItemData.SoilNumber = 3;
+            gameData.PlayerData[1].ItemData.SoilNumber = 6;
+            gameData.PlayerData[2].ItemData.SoilNumber = 9;
+            gameData.PlayerData[3].ItemData.SoilNumber = 12;
             //<<
 
             //>>Equipement
@@ -107,10 +107,10 @@ namespace RedTheSettlers.UI
             gameData.PlayerData[2].TileList.Add(tileData);
             gameData.PlayerData[3].TileList.Add(tileData);
 
-            gameData.PlayerData[0].InGameData.BossKillCount = 3;
-            gameData.PlayerData[1].InGameData.BossKillCount = 5;
-            gameData.PlayerData[2].InGameData.BossKillCount = 7;
-            gameData.PlayerData[3].InGameData.BossKillCount = 9;
+            gameData.PlayerData[0].BossKillCount = 3;
+            gameData.PlayerData[0].BossKillCount = 5;
+            gameData.PlayerData[0].BossKillCount = 7;
+            gameData.PlayerData[0].BossKillCount = 9;
             //<<
 
 
@@ -153,61 +153,61 @@ namespace RedTheSettlers.UI
                 while (tempScore <= 50)
                 {
 
-                    if (int.Parse(playersCowCardText[i].text) < gameData.PlayerData[i].ResourceData.CowNumber)
+                    if (int.Parse(playersCowCardText[i].text) < gameData.PlayerData[i].ItemData.CowNumber)
                     {
                         playersCowCardText[i].text = string.Format("{0:D2}", tempScore);
                     }
-                    else if (int.Parse(playersCowCardText[i].text) == gameData.PlayerData[i].ResourceData.CowNumber)
+                    else if (int.Parse(playersCowCardText[i].text) == gameData.PlayerData[i].ItemData.CowNumber)
                     {
                           
 
                     }
 
-                    if (int.Parse(playersWaterCardText[i].text) < gameData.PlayerData[i].ResourceData.WaterNumber)
+                    if (int.Parse(playersWaterCardText[i].text) < gameData.PlayerData[i].ItemData.WaterNumber)
                     {
                         playersWaterCardText[i].text = string.Format("{0:D2}", tempScore);
                     }
-                    else if (int.Parse(playersWaterCardText[i].text) == gameData.PlayerData[i].ResourceData.WaterNumber)
+                    else if (int.Parse(playersWaterCardText[i].text) == gameData.PlayerData[i].ItemData.WaterNumber)
                     {
                         
 
                     }
 
-                    if (int.Parse(playersWheatCardtText[i].text) < gameData.PlayerData[i].ResourceData.WheatNumber)
+                    if (int.Parse(playersWheatCardtText[i].text) < gameData.PlayerData[i].ItemData.WheatNumber)
                     {
                         playersWheatCardtText[i].text = string.Format("{0:D2}", tempScore);
                     }
-                    else if (int.Parse(playersWheatCardtText[i].text) == gameData.PlayerData[i].ResourceData.WheatNumber)
+                    else if (int.Parse(playersWheatCardtText[i].text) == gameData.PlayerData[i].ItemData.WheatNumber)
                     {
                          
 
                     }
 
-                    if (int.Parse(playersWoodCardText[i].text) < gameData.PlayerData[i].ResourceData.WoodNumber)
+                    if (int.Parse(playersWoodCardText[i].text) < gameData.PlayerData[i].ItemData.WoodNumber)
                     {
                         playersWoodCardText[i].text = string.Format("{0:D2}", tempScore);
                     }
-                    else if (int.Parse(playersWoodCardText[i].text) == gameData.PlayerData[i].ResourceData.WoodNumber)
+                    else if (int.Parse(playersWoodCardText[i].text) == gameData.PlayerData[i].ItemData.WoodNumber)
                     {
 
                        
                     }
 
-                    if (int.Parse(playerIronCardText[i].text) < gameData.PlayerData[i].ResourceData.IronNumber)
+                    if (int.Parse(playerIronCardText[i].text) < gameData.PlayerData[i].ItemData.IronNumber)
                     {
                         playerIronCardText[i].text = string.Format("{0:D2}", tempScore);
                     }
-                    else if (int.Parse(playerIronCardText[i].text) == gameData.PlayerData[i].ResourceData.IronNumber)
+                    else if (int.Parse(playerIronCardText[i].text) == gameData.PlayerData[i].ItemData.IronNumber)
                     {
                       
 
                     }
 
-                    if (int.Parse(playerSoilCardText[i].text) < gameData.PlayerData[i].ResourceData.SoilNumber)
+                    if (int.Parse(playerSoilCardText[i].text) < gameData.PlayerData[i].ItemData.SoilNumber)
                     {
                         playerSoilCardText[i].text = string.Format("{0:D2}", tempScore);
                     }
-                    else if (int.Parse(playerSoilCardText[i].text) == gameData.PlayerData[i].ResourceData.SoilNumber)
+                    else if (int.Parse(playerSoilCardText[i].text) == gameData.PlayerData[i].ItemData.SoilNumber)
                     {
 
                          
