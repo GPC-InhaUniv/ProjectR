@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using RedTheSettlers.GameSystem;
 using RedTheSettlers.Tiles;
+using System;
 
 /// <summary>
 /// 작성자 : 김하정
@@ -14,27 +15,42 @@ namespace RedTheSettlers.UI
 {
     public class UICalculateScoreScript : MonoBehaviour
     {
-
         const int playerNumbers = 4;
 
         private int tempScore;
-        private int calculateTotalScore;
+        int TotalScore;
+        int tempTotalNumber;
 
         const int tempCardWeightScore = 3000;
         const int tempEquipmentWeightScore = 5000;
         const int tempTendAndMonsterWeightScore = 7000;
 
+        [System.Serializable]
+        private struct PlayersCardInfo
+        {
+            public string InspedtorName;
+            public Text PlayerCow;
+            public Text PlayerIron;
+            public Text PlayerSoil;
+            public Text PlayerWater;
+            public Text PlayerWheat;
+            public Text PlayerWood;
+        }
+        [SerializeField]
+        private PlayersCardInfo[] playersCardInfo;
 
-        [SerializeField, Header("Card Texts")]
-        private Text firstPlayerCow;
+        [System.Serializable]
+        private struct PlayersBonusInfo
+        {
+            public string InspedtorName;
+            public Text PlayerWeapon;
+            public Text PlayerShield;
+            public Text PlayerTent;
+            public Text PlayerKillMonster;
+            public Text PlayerTotalScore;
+        }
         [SerializeField]
-        private Text firstPlayerIron, firstPlayerSoil, firstPlayerWater, firstPlayerWheat, firstPlayerWood;
-        [SerializeField]
-        private Text secondPlayerCow, secondPlayerIron, secondPlayerSoil, secondPlayerWater, secondPlayerWheat, secondPlayerWood;
-        [SerializeField]
-        private Text thirdPlayerCow, thirdPlayerIron, thirdPlayerSoil, thirdPlayerWater, thirdPlayerWheat, thirdPlayerWood;
-        [SerializeField]
-        private Text fourthPlayerCow, fourthPlayerIron, fourthPlayerSoil, fourthPlayerWater, fourthPlayerWheat, fourthPlayerWood;
+        private PlayersBonusInfo[] playersBonusInfos;
 
         [SerializeField, Header("Weight Score Texts")]
         private Text firstPlayerTotalScore;
@@ -56,30 +72,7 @@ namespace RedTheSettlers.UI
         [SerializeField]
         private Text fourthPlayerCardsWeight, fourthPlayerEquipmentWeight, fourthPlayerTendAndMonsterWeight;
 
-        [SerializeField, Header("Equipment And Tents, Monster  Texts")]
-        private Text firstPlayerWeapon;
-        [SerializeField ]
-        private Text  firstPlayerShield, firstPlayerTents, firstPlayerKillBoss;
-
-        [SerializeField, Space(10)]
-        private Text secondPlayerWeapon;
-        [SerializeField]
-        private Text secondPlayerShield, secondPlayerTents, secondPlayerKillBoss;
-
-        [SerializeField, Space(10)]
-        private Text thirdPlayerWeapon;
-        [SerializeField]
-        private Text thirdPlayerShield, thirdPlayerTents, thirdPlayerKillBoss;
-
-        [SerializeField, Space(10)]
-        private Text fourthPlayerWeapon;
-        [SerializeField]
-        private Text fourthPlayerShield, fourthPlayerTents, fourthPlayerKillBoss;
-
-        //배열 사용.... 대신 인스펙터에서 사용하는 것이 아니라 인스펙터에서 받아온 텍스트 오브젝트들을 배열로 만들어
-        //아래서 값을 넣어줄때 사용할 예정.
-        private Text[] playersCowCards, playersIronCards, playersSoilCards, playersWaterCards, playersWheatCards, playersWoodCards;
-        private Text[] playersWeapon, playersShield, playersTent, playersKillMonster, playersTotalScore;
+         
 
         private GameData gameData;
 
@@ -87,8 +80,6 @@ namespace RedTheSettlers.UI
         private void Awake()
         {
             //Initial Weight Score Text
-
-
             gameData = new GameData(4);
 
             //>>Resource<<
@@ -135,7 +126,6 @@ namespace RedTheSettlers.UI
             gameData.PlayerData[3].StatData.ArmorLevel = 3;
             //<<
 
-
             // >>Player Tents Count And Kill Monsters Count
 
             TileData tileData;
@@ -161,14 +151,14 @@ namespace RedTheSettlers.UI
             gameData.PlayerData[2].BossKillCount = 7;
             gameData.PlayerData[3].BossKillCount = 9;
             //<<
-
-
         }
 
         void Start()
         {
             tempScore = 0;
-            calculateTotalScore = 0;
+            TotalScore = 0;
+            tempTotalNumber = 0;
+
 
             //가중치 넣어줌
             firstPlayerCardsWeight.text = tempCardWeightScore.ToString();
@@ -185,144 +175,100 @@ namespace RedTheSettlers.UI
             secondPlayerTendAndMonsterWeight.text = tempTendAndMonsterWeightScore.ToString();
             thirdPlayerTendAndMonsterWeight.text = tempTendAndMonsterWeightScore.ToString();
             fourthPlayerTendAndMonsterWeight.text = tempTendAndMonsterWeightScore.ToString();
-
-            //>>Card Items 6개(플레이어 기준)
-            playersCowCards = new Text[4]
-           { firstPlayerCow, secondPlayerCow, thirdPlayerCow, fourthPlayerCow };
-
-            playersIronCards = new Text[4]
-            { firstPlayerIron, secondPlayerIron, thirdPlayerIron, fourthPlayerIron };
-
-            playersSoilCards = new Text[4]
-            { firstPlayerSoil, secondPlayerSoil, thirdPlayerSoil, fourthPlayerSoil };
-
-            playersWaterCards = new Text[4]
-            { firstPlayerWater, secondPlayerWater, thirdPlayerWater, fourthPlayerWater };
-
-            playersWheatCards = new Text[4]
-            { firstPlayerWheat, secondPlayerWheat, thirdPlayerWheat, fourthPlayerWheat };
-
-            playersWoodCards = new Text[4]
-            { firstPlayerWood, secondPlayerWood, thirdPlayerWood, fourthPlayerWood };
-            //<<
-
-            //>>무기, 방어구, 텐트, 죽인 몬스터 수, 총 점수(플레이어 기준)
-            playersWeapon = new Text[4]
-            { firstPlayerWeapon, secondPlayerWeapon, thirdPlayerWeapon, fourthPlayerWeapon};
-
-            playersShield = new Text[4]
-            { firstPlayerShield, secondPlayerShield, thirdPlayerShield, fourthPlayerShield};
-
-            playersTent = new Text[4]
-            { firstPlayerTents, secondPlayerTents, thirdPlayerTents, fourthPlayerTents};
-
-            playersKillMonster = new Text[4]
-            { firstPlayerKillBoss, secondPlayerKillBoss, thirdPlayerKillBoss, fourthPlayerKillBoss};
-
-            playersTotalScore = new Text[4]
-            { firstPlayerTotalScore, secondPlayerTotalScore, thirdPlayerTotalScore, fourthPlayerTotalScore};
-               //<<
         }
 
-        private void ChangeCardScores()
+        int scoreFlag = 1;  //0 : 메소드 모두 중지 1 : 획득한 점수 메소드만 작동  
+        private float TimeLeft = 0.05f;
+        private float nextTime = 0.0f;
+
+        private void Update()
         {
-            for (int i = 0; i < playerNumbers; i++)
+            if (scoreFlag == 1 && Time.time > nextTime)
             {
-                if (int.Parse(playersCowCards[i].text) <  gameData.PlayerData[i].ItemData.CowNumber)
+                nextTime = Time.time + TimeLeft;
+                ChangeScores();
+                CalculateTotalScore();
+            }
+
+        }
+
+        private void ChangeScores()
+        {
+            if (playersCardInfo.Length <= playerNumbers)
+            {
+                for (int i = 0; i < playersCardInfo.Length; i++)
                 {
-                    playersCowCards[i].text = string.Format("{0:D2}", tempScore);
-                }
-                if (int.Parse(playersIronCards[i].text) < gameData.PlayerData[i].ItemData.IronNumber)
-                {
-                    playersIronCards[i].text = string.Format("{0:D2}", tempScore);
-                }
-                if (int.Parse(playersSoilCards[i].text) <  gameData.PlayerData[i].ItemData.SoilNumber)
-                {
-                    playersSoilCards[i].text = string.Format("{0:D2}", tempScore);
-                }
-                if (int.Parse(playersWaterCards[i].text) <  gameData.PlayerData[i].ItemData.WaterNumber)
-                {
-                    playersWaterCards[i].text = string.Format("{0:D2}", tempScore);
-                }
-                if (int.Parse(playersWheatCards[i].text) <  gameData.PlayerData[i].ItemData.WheatNumber)
-                {
-                    playersWheatCards[i].text = string.Format("{0:D2}", tempScore);
-                }
-                if (int.Parse(playersWoodCards[i].text) < gameData.PlayerData[i].ItemData.WoodNumber)
-                {
-                    playersWoodCards[i].text = string.Format("{0:D2}", tempScore);
+                    if (int.Parse(playersCardInfo[i].PlayerCow.text) < gameData.PlayerData[i].ItemData.CowNumber)
+                    {
+                        playersCardInfo[i].PlayerCow.text = string.Format("{0:D2}", tempScore);
+                    }
+                    if (int.Parse(playersCardInfo[i].PlayerIron.text) < gameData.PlayerData[i].ItemData.IronNumber)
+                    {
+                        playersCardInfo[i].PlayerIron.text = string.Format("{0:D2}", tempScore);
+                    }
+                    if (int.Parse(playersCardInfo[i].PlayerSoil.text) < gameData.PlayerData[i].ItemData.SoilNumber)
+                    {
+                        playersCardInfo[i].PlayerSoil.text = string.Format("{0:D2}", tempScore);
+                    }
+                    if (int.Parse(playersCardInfo[i].PlayerWater.text) < gameData.PlayerData[i].ItemData.WaterNumber)
+                    {
+                        playersCardInfo[i].PlayerWater.text = string.Format("{0:D2}", tempScore);
+                    }
+                    if (int.Parse(playersCardInfo[i].PlayerWheat.text) < gameData.PlayerData[i].ItemData.WheatNumber)
+                    {
+                        playersCardInfo[i].PlayerWheat.text = string.Format("{0:D2}", tempScore);
+                    }
+                    if (int.Parse(playersCardInfo[i].PlayerWood.text) < gameData.PlayerData[i].ItemData.WoodNumber)
+                    {
+                        playersCardInfo[i].PlayerWood.text = string.Format("{0:D2}", tempScore);
+                    }
+
+                    if (int.Parse(playersBonusInfos[i].PlayerWeapon.text) < gameData.PlayerData[i].StatData.WeaponLevel)
+                    {
+                        playersBonusInfos[i].PlayerWeapon.text = string.Format("{0:D2}", tempScore);
+                    }
+                    if (int.Parse(playersBonusInfos[i].PlayerShield.text) < gameData.PlayerData[i].StatData.ArmorLevel)
+                    {
+                        playersBonusInfos[i].PlayerShield.text = string.Format("{0:D2}", tempScore);
+                    }
+
+                    if (int.Parse(playersBonusInfos[i].PlayerTent.text) < gameData.PlayerData[i].TileList.Count)
+                    {
+                        playersBonusInfos[i].PlayerTent.text = string.Format("{0:D2}", tempScore);
+                    }
+                    if (int.Parse(playersBonusInfos[i].PlayerKillMonster.text) < gameData.PlayerData[i].BossKillCount)
+                    {
+                        playersBonusInfos[i].PlayerKillMonster.text = string.Format("{0:D2}", tempScore);
+                    }
                 }
             }
-             
-        }
-
-        private void ChangeEquipmentScore()
-        {
-             
-            for (int i = 0; i < playerNumbers; i++)
+            else
             {
-                if (int.Parse(playersWeapon[i].text) < gameData.PlayerData[i].StatData.WeaponLevel)
-                {
-                    playersWeapon[i].text = string.Format("{0:D2}", tempScore);
-                }
-                if (int.Parse(playersShield[i].text) < gameData.PlayerData[i].StatData.ArmorLevel)
-                {
-                    playersShield[i].text = string.Format("{0:D2}", tempScore);
-                }
-
-            }
-             
-        }
-
-        private void ChangeTentAndMonsterScore()
-        {
-
-            for (int i = 0; i < playerNumbers; i++)
-            {
-                if (int.Parse(playersTent[i].text) < gameData.PlayerData[i].TileList.Count)
-                {
-                    playersTent[i].text = string.Format("{0:D2}", tempScore);
-                }
-                if (int.Parse(playersKillMonster[i].text) < gameData.PlayerData[i].BossKillCount)
-                {
-                    playersKillMonster[i].text = string.Format("{0:D2}", tempScore);
-                }
-
+                LogManager.Instance.UserDebug(LogColor.Red, GetType().Name, "작업자님 인스펙터 창을 다시 확인해주세요. 플레이어의 숫자가 4명을 넘어갔습니다.");
             }
             tempScore++;
         }
 
         private void CalculateTotalScore()
         {
-            int tempTotalNumber = 0; 
             for (int i = 0; i < playerNumbers; i++)
             {
-                tempTotalNumber = (gameData.PlayerData[i].ItemData.CowNumber + gameData.PlayerData[i].ItemData.IronNumber
-                    + gameData.PlayerData[i].ItemData.SoilNumber  + gameData.PlayerData[i].ItemData.WaterNumber
+                 TotalScore = ((gameData.PlayerData[i].ItemData.CowNumber + gameData.PlayerData[i].ItemData.IronNumber
+                    + gameData.PlayerData[i].ItemData.SoilNumber + gameData.PlayerData[i].ItemData.WaterNumber
                     + gameData.PlayerData[i].ItemData.WheatNumber + gameData.PlayerData[i].ItemData.WoodNumber)
-                    * tempCardWeightScore;
-                playersTotalScore[i].text = tempTotalNumber.ToString();
-            }
-        }
+                    * tempCardWeightScore)+
+                    ((gameData.PlayerData[i].StatData.WeaponLevel + gameData.PlayerData[i].StatData.ArmorLevel)*tempEquipmentWeightScore)+
+                    ((gameData.PlayerData[i].TileList.Count + gameData.PlayerData[i].BossKillCount)*tempTendAndMonsterWeightScore);
 
-        int tempflag = 1;
-        private float TimeLeft = 0.05f;
-        private float nextTime = 0.0f;
- 
-        private void Update()
-        {
-            if (tempflag==1 && Time.time>nextTime)
-            {
-                nextTime = Time.time + TimeLeft;
-                ChangeCardScores();
-                ChangeEquipmentScore();
-                ChangeTentAndMonsterScore();
+                if (double.Parse(playersBonusInfos[i].PlayerTotalScore.text) <  TotalScore)
+                {
+                    playersBonusInfos[i].PlayerTotalScore.text = string.Format("{0:D2}", tempTotalNumber);
+                    tempTotalNumber += 1000;
+                }
             }
-            
         }
 
 
 
     }
 }
-  
