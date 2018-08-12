@@ -13,7 +13,7 @@ namespace RedTheSettlers.Skills
 
             if(target.CompareTag("Enemy"))
             {
-                target.GetComponent<Enemy>().StartDamage(projectileDamage);
+                target.GetComponent<Enemy>().Damaged(projectileDamage);
             }
 
             Destroy(gameObject);
