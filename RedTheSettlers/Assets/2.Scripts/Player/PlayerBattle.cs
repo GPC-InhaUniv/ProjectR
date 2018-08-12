@@ -1,7 +1,6 @@
 ﻿using RedTheSettlers.GameSystem;
-using RedTheSettlers.Enemys;
+using RedTheSettlers.Skills;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace RedTheSettlers.Players
@@ -16,7 +15,6 @@ namespace RedTheSettlers.Players
 
     public class PlayerBattle : MonoBehaviour
     {
-
         private GameTimer playerTimer;
         private Animator animator;
 
@@ -24,6 +22,8 @@ namespace RedTheSettlers.Players
         private int mp;
         private float moveSpeed = 2.0f;
         private bool isAttacking = false;
+
+        private Skill[] skillSet = new Skill[4];
 
         private void Awake()
         {
@@ -36,11 +36,11 @@ namespace RedTheSettlers.Players
 
             Quaternion targetAngle = Quaternion.LookRotation(targetPosition - transform.position);
 
-            while (Quaternion.Angle(transform.rotation, targetAngle) > 0.05f ||
+            while (Quaternion.Angle(transform.rotation, targetAngle) > 0.1f ||
                     Vector3.Distance(transform.position, targetPosition) > 0.05f)
             {
-                transform.rotation = Quaternion.Lerp(transform.rotation, targetAngle, 0.2f);
-                transform.position = Vector3.Lerp(transform.position, targetPosition, moveSpeed * Time.deltaTime);
+                transform.rotation = Quaternion.Lerp(transform.rotation, targetAngle, 0.5f);
+                transform.position += Vector3.Normalize(targetPosition - transform.position) * moveSpeed * Time.deltaTime;
 
                 yield return null;
             }
@@ -58,7 +58,7 @@ namespace RedTheSettlers.Players
 
             while (frameCount < 30)
             {
-                transform.rotation = Quaternion.Lerp(transform.rotation, targetAngle, 0.2f);
+                transform.rotation = Quaternion.Lerp(transform.rotation, targetAngle, 0.5f);
 
                 transform.position += Direction * moveSpeed * Time.deltaTime;
 

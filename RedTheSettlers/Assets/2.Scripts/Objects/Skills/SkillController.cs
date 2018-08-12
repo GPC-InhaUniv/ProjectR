@@ -7,7 +7,6 @@ namespace RedTheSettlers
 {
     public class SkillController : MonoBehaviour
     {
-
         void Start()
         {
             StartCoroutine(UseFireball());
@@ -17,11 +16,13 @@ namespace RedTheSettlers
         {
             while (true)
             {
-                if (Input.GetButtonDown("Fire1"))
+                if (Input.GetKeyDown(KeyCode.Space))
                 {
                     if (ObjectPoolManager.ObjectPoolInstance.SkillQueue.Count > 0)
                     {
-                        Instantiate(ObjectPoolManager.ObjectPoolInstance.SkillQueue.Dequeue(), gameObject.transform.position + Vector3.forward * 3, gameObject.transform.rotation);
+                        Vector3 positionToCreate = transform.rotation * Vector3.forward * 2 + transform.position;
+
+                        Instantiate(ObjectPoolManager.ObjectPoolInstance.SkillQueue.Dequeue(), positionToCreate, transform.rotation);
                     }
                 }
 

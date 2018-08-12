@@ -3,22 +3,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[Flags]
-public enum SkillType
+namespace RedTheSettlers.Skills
 {
-    
-}
-
-public class Skill : MonoBehaviour {
-
-    private float duration = 0;
-
-    private IEnumerator Start()
+    [Flags]
+    public enum SkillType
     {
-        while(duration > 3.0f)
-        {
-            yield return null;
-        }
+        Melee,
+        Range,
+        Buff,
+    }
 
+    public class Skill : MonoBehaviour
+    {
+
+        private float duration = 0;
+
+        private IEnumerator Start()
+        {
+            while (duration > 3.0f)
+            {
+                yield return null;
+            }
+
+        }
     }
 }

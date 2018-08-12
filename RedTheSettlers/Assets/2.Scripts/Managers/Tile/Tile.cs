@@ -29,6 +29,7 @@ namespace RedTheSettlers.Tiles
 
     public class Tile : MonoBehaviour
     {
+        private const int tileTypeAmount = 6;
 
         public TileType tileType;
         [HideInInspector]
@@ -38,7 +39,7 @@ namespace RedTheSettlers.Tiles
 
         private void Start()
         {
-            for (int i = 0; i < 6; i++)
+            for (int i = 0; i < tileTypeAmount; i++)
             {
                 TileBorder[i] = transform.GetChild(i).gameObject;
             }

@@ -6,29 +6,30 @@ namespace RedTheSettlers.GameSystem
 {
     public class ObjectPoolManager : MonoBehaviour
     {
-
         public static ObjectPoolManager ObjectPoolInstance;
 
+        public const int TilePoolSize = 61;
+        public const int CloneSetSize = 6;
         public GameObject[] TileObjects;
+        public GameObject[] CloneSet;
         public GameObject SkillObject;
 
-        public GameObject[] CloneSet;
-
         [HideInInspector]
-        public GameObject[] TileSets;
+        public GameObject[] TileSet;
         public Queue<GameObject> SkillQueue;
 
         private void Awake()
         {
             ObjectPoolInstance = this;
 
-            TileSets = new GameObject[61];
+            TileSet = new GameObject[TilePoolSize];
+
             for (int i = 0; i < 61; i++)
             {
-                int randomTileIndex = Random.Range(0, 6);
+                int randomTileIndex = Random.Range(0, CloneSetSize);
 
-                TileSets[i] = Instantiate(TileObjects[randomTileIndex]);
-                TileSets[i].transform.parent = CloneSet[randomTileIndex].transform;
+                TileSet[i] = Instantiate(TileObjects[randomTileIndex]);
+                TileSet[i].transform.parent = CloneSet[randomTileIndex].transform;
             }
 
             SkillQueue = new Queue<GameObject>(6);
