@@ -78,7 +78,15 @@ public class MainStageState : InputState
     }
     public override void ZoomOrOut(float speed)
     {
-        cameraZoom = (Input.GetAxis("Mouse ScrollWheel") * speed) * reversValue;
-        TemporaryGameManager.Instance.CameraZoom(cameraZoom);
+        if(Input.GetAxis("Mouse ScrollWheel") * reversValue < 0)
+        {
+            cameraZoom = (Input.GetAxis("Mouse ScrollWheel") * speed) * reversValue;
+            TemporaryGameManager.Instance.CameraZoom(cameraZoom);
+        }
+        else if(Input.GetAxis("Mouse ScrollWheel") * reversValue > 0)
+        {
+            cameraZoom = (Input.GetAxis("Mouse ScrollWheel") * speed) * reversValue;
+            TemporaryGameManager.Instance.CameraZoom(cameraZoom);
+        }
     }
 }

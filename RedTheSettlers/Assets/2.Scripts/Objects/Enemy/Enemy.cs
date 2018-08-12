@@ -168,14 +168,11 @@ namespace RedTheSettlers.Enemys
         }
 
         //피격 처리를 담당하는 메서드
-        public void StartDamage(int damage)
+        public void Damaged(int damage)
         {
-            if (currentState.ToString() == EnemyStateType.Damage.ToString())
-            {
-                rigidbodyComponent.velocity = Vector3.zero;
-                CurrentHp -= damage;
-                CheckHp();
-            }
+            rigidbodyComponent.velocity = Vector3.zero;
+            CurrentHp -= damage;
+            CheckHp();
         }
 
         private void EndDamage()
@@ -193,7 +190,7 @@ namespace RedTheSettlers.Enemys
 
         private void CheckHp()
         {
-            if (CurrentHp <= 0 && currentState.ToString() != EnemyStateType.Die.ToString())
+            if (CurrentHp <= 0)
             {
                 ChangeState(EnemyStateType.Die);
             }
@@ -206,11 +203,22 @@ namespace RedTheSettlers.Enemys
 
         private void StopMovement()
         {
-            if (Vector3.Distance(destinationPoint, currentPoint) <= 1.0f && currentState.ToString() == EnemyStateType.Move.ToString())
+            if (Vector3.Distance(destinationPoint, currentPoint) <= 1.0f && currentState.ToString().Contains("Move"))
             {
                 rigidbodyComponent.velocity = Vector3.zero;
                 ChangeState(EnemyStateType.Idle);
             }
+        }
+
+        void SetStatus(int playerNumber, ItemType type)
+        {
+            //자원량을 매개변수로 받아서 enemy의 스탯 설정
+            //DataManager.Instance.GameData.PlayerData[0].ResourceData.SoilNumber = 123;
+        }
+
+        private void OnEnable()
+        {
+            //SetStatus();
         }
     }
 }

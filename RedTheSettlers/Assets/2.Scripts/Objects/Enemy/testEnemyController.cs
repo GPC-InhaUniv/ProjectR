@@ -15,7 +15,7 @@ namespace RedTheSettlers.UnitTest
 
         void Update()
         {
-            if (Input.GetMouseButtonUp(0))
+            if (Input.GetMouseButtonUp(0) && GUIUtility.hotControl == 0)
             {
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 RaycastHit hitInfo;
@@ -23,7 +23,7 @@ namespace RedTheSettlers.UnitTest
                 {
                     Debug.Log("hit point : " + hitInfo.point);
                     //enemy.destinationPoint = new Vector3(hitInfo.point.x, 0, hitInfo.point.z);
-                    //enemy.ChangeStage(EnemyStateType.Move);
+                    //enemy.ChangeState(EnemyStateType.Move);
                 }
             }
         }
