@@ -21,248 +21,45 @@ namespace RedTheSettlers.UnitTest
         Deluge,
     }
 
-    class Rain : Water
-    {
-        public override void GetItems()
-        {
-            GetWater(2);
-            GetWheat(1);
-            GetCow(1);
-            GetWood(1);
-            GetIron(1);
-            GetSoil(1);
-        }
-    }
-
-    class Drought : Water
-    {
-        public override void GetItems()
-        {
-            GetWater(0);
-            GetWheat(1);
-            GetCow(1);
-            GetWood(1);
-            GetIron(1);
-            GetSoil(1);
-        }
-    }
-
-    class RichYear : Wheat
-    {
-        public override void GetItems()
-        {
-            GetWater(1);
-            GetWheat(2);
-            GetCow(1);
-            GetWood(1);
-            GetIron(1);
-            GetSoil(1);
-        }
-    }
-
-    class SwarmOfLocusts : Wheat
-    {
-        public override void GetItems()
-        {
-            GetWater(1);
-            GetWheat(0);
-            GetCow(1);
-            GetWood(1);
-            GetIron(1);
-            GetSoil(1);
-        }
-    }
-
-    class BreedingSeason : Cow
-    {
-        public override void GetItems()
-        {
-            GetWater(1);
-            GetWheat(1);
-            GetCow(2);
-            GetWood(1);
-            GetIron(1);
-            GetSoil(1);
-        }
-    }
-
-    class Plague : Cow
-    {
-        public override void GetItems()
-        {
-            GetWater(1);
-            GetWheat(1);
-            GetCow(0);
-            GetWood(1);
-            GetIron(1);
-            GetSoil(1);
-        }
-    }
-
-    class FestivalOfSprits : Wood
-    { 
-        public override void GetItems()
-        {
-            GetWater(1);
-            GetWheat(1);
-            GetCow(1);
-            GetWood(2);
-            GetIron(1);
-            GetSoil(1);
-        }
-    }
-
-    class ForestFire : Wood
-    {
-        public override void GetItems()
-        {
-            GetWater(1);
-            GetWheat(1);
-            GetCow(1);
-            GetWood(0);
-            GetIron(1);
-            GetSoil(1);
-        }
-    }
-
-    class GoldMine : Iron
-    {
-        public override void GetItems()
-        {
-            GetWater(1);
-            GetWheat(1);
-            GetCow(1);
-            GetWood(1);
-            GetIron(2);
-            GetSoil(1);
-        }
-    }
-
-    class LandSlide : Iron
-    {
-        public override void GetItems()
-        {
-            GetWater(1);
-            GetWheat(1);
-            GetCow(1);
-            GetWood(1);
-            GetIron(0);
-            GetSoil(1);
-        }
-    }
-
-    class GoodSoil : Soil
-    {
-        public override void GetItems()
-        {
-            GetWater(1);
-            GetWheat(1);
-            GetCow(1);
-            GetWood(1);
-            GetIron(1);
-            GetSoil(2);
-        }
-    }
-
-    class Deluge : WeatherChange
-    {
-        public override void GetItems()
-        {
-            GetWater(1);
-            GetWheat(1);
-            GetCow(1);
-            GetWood(1);
-            GetIron(1);
-            GetSoil(0);
-        }
-    }
-
     abstract class WeatherChange
     {
         GameData datas = DataManager.Instance.GameData;
         abstract public void GetItems();
 
-        public void GetWater(int itemCount)
+        // 캠프 개수 정보를 알 수 없어서 ItemData로 일단 짰음.
+        public void GetItemfromWeather(ItemType type, int itemCount)
         {
-            if(0 > itemCount || itemCount > 2)
+            switch (type)
             {
-                Debug.Log("잘못된 ItemCount입니다.");
-                return;
-            }
+                case ItemType.Water:
+                    for (int i = 0; i < GlobalVariables.maxPlayerNumber; i++)
+                        datas.PlayerData[i].ItemData.WaterNumber *= itemCount;
+                    break;
 
-            for (int i = 0; i < GlobalVariables.maxPlayerNumber; i++)
-            {
-                datas.PlayerData[i].ItemData.WaterNumber += itemCount;
-            }
-        }
+                case ItemType.Wheat:
+                    for (int i = 0; i < GlobalVariables.maxPlayerNumber; i++)
+                        datas.PlayerData[i].ItemData.WheatNumber *= itemCount;
+                    break;
 
-        public void GetWheat(int itemCount)
-        {
-            if (0 > itemCount || itemCount > 2)
-            {
-                Debug.Log("잘못된 ItemCount입니다.");
-                return;
-            }
+                case ItemType.Wood:
+                    for (int i = 0; i < GlobalVariables.maxPlayerNumber; i++)
+                        datas.PlayerData[i].ItemData.WoodNumber *= itemCount;
+                    break;
 
-            for (int i = 0; i < GlobalVariables.maxPlayerNumber; i++)
-            {
-                datas.PlayerData[i].ItemData.WheatNumber += itemCount;
-            }
-        }
+                case ItemType.Cow:
+                    for (int i = 0; i < GlobalVariables.maxPlayerNumber; i++)
+                        datas.PlayerData[i].ItemData.CowNumber *= itemCount;
+                    break;
 
-        public void GetWood(int itemCount)
-        {
-            if (0 > itemCount || itemCount > 2)
-            {
-                Debug.Log("잘못된 ItemCount입니다.");
-                return;
-            }
+                case ItemType.Iron:
+                    for (int i = 0; i < GlobalVariables.maxPlayerNumber; i++)
+                        datas.PlayerData[i].ItemData.IronNumber *= itemCount;
+                    break;
 
-            for (int i = 0; i < GlobalVariables.maxPlayerNumber; i++)
-            {
-                datas.PlayerData[i].ItemData.WoodNumber += itemCount;
-            }
-        }
-
-        public void GetCow(int itemCount)
-        {
-            if (0 > itemCount || itemCount > 2)
-            {
-                Debug.Log("잘못된 ItemCount입니다.");
-                return;
-            }
-
-            for (int i = 0; i < GlobalVariables.maxPlayerNumber; i++)
-            {
-                datas.PlayerData[i].ItemData.CowNumber += itemCount;
-            }
-        }
-
-        public void GetIron(int itemCount)
-        {
-            if (0 > itemCount || itemCount > 2)
-            {
-                Debug.Log("잘못된 ItemCount입니다.");
-                return;
-            }
-
-            for (int i = 0; i < GlobalVariables.maxPlayerNumber; i++)
-            {
-                datas.PlayerData[i].ItemData.IronNumber += itemCount;
-            }
-        }
-
-        public void GetSoil(int itemCount)
-        {
-            if (0 > itemCount || itemCount > 2)
-            {
-                Debug.Log("잘못된 ItemCount입니다.");
-                return;
-            }
-
-            for (int i = 0; i < GlobalVariables.maxPlayerNumber; i++)
-            {
-                datas.PlayerData[i].ItemData.SoilNumber += itemCount;
+                case ItemType.Soil:
+                    for (int i = 0; i < GlobalVariables.maxPlayerNumber; i++)
+                        datas.PlayerData[i].ItemData.SoilNumber *= itemCount;
+                    break;
             }
         }
     }
@@ -273,4 +70,160 @@ namespace RedTheSettlers.UnitTest
     abstract class Wood : WeatherChange { }
     abstract class Iron : WeatherChange { }
     abstract class Soil : WeatherChange { }
+
+    class Rain : Water
+    {
+        public override void GetItems()
+        {
+            GetItemfromWeather(ItemType.Water, 2);
+            GetItemfromWeather(ItemType.Wheat, 1);
+            GetItemfromWeather(ItemType.Wood, 1);
+            GetItemfromWeather(ItemType.Cow, 1);
+            GetItemfromWeather(ItemType.Iron, 1);
+            GetItemfromWeather(ItemType.Soil, 1);
+        }
+    }
+
+    class Drought : Water
+    {
+        public override void GetItems()
+        {
+            GetItemfromWeather(ItemType.Water, 0);
+            GetItemfromWeather(ItemType.Wheat, 1);
+            GetItemfromWeather(ItemType.Wood, 1);
+            GetItemfromWeather(ItemType.Cow, 1);
+            GetItemfromWeather(ItemType.Iron, 1);
+            GetItemfromWeather(ItemType.Soil, 1);
+        }
+    }
+
+    class RichYear : Wheat
+    {
+        public override void GetItems()
+        {
+            GetItemfromWeather(ItemType.Water, 1);
+            GetItemfromWeather(ItemType.Wheat, 2);
+            GetItemfromWeather(ItemType.Wood, 1);
+            GetItemfromWeather(ItemType.Cow, 1);
+            GetItemfromWeather(ItemType.Iron, 1);
+            GetItemfromWeather(ItemType.Soil, 1);
+        }
+    }
+
+    class SwarmOfLocusts : Wheat
+    {
+        public override void GetItems()
+        {
+            GetItemfromWeather(ItemType.Water, 1);
+            GetItemfromWeather(ItemType.Wheat, 0);
+            GetItemfromWeather(ItemType.Wood, 1);
+            GetItemfromWeather(ItemType.Cow, 1);
+            GetItemfromWeather(ItemType.Iron, 1);
+            GetItemfromWeather(ItemType.Soil, 1);
+        }
+    }
+
+    class BreedingSeason : Cow
+    {
+        public override void GetItems()
+        {
+            GetItemfromWeather(ItemType.Water, 1);
+            GetItemfromWeather(ItemType.Wheat, 1);
+            GetItemfromWeather(ItemType.Wood, 1);
+            GetItemfromWeather(ItemType.Cow, 2);
+            GetItemfromWeather(ItemType.Iron, 1);
+            GetItemfromWeather(ItemType.Soil, 1);
+        }
+    }
+
+    class Plague : Cow
+    {
+        public override void GetItems()
+        {
+            GetItemfromWeather(ItemType.Water, 1);
+            GetItemfromWeather(ItemType.Wheat, 1);
+            GetItemfromWeather(ItemType.Wood, 1);
+            GetItemfromWeather(ItemType.Cow, 0);
+            GetItemfromWeather(ItemType.Iron, 1);
+            GetItemfromWeather(ItemType.Soil, 1);
+        }
+    }
+
+    class FestivalOfSprits : Wood
+    { 
+        public override void GetItems()
+        {
+            GetItemfromWeather(ItemType.Water, 1);
+            GetItemfromWeather(ItemType.Wheat, 1);
+            GetItemfromWeather(ItemType.Wood, 2);
+            GetItemfromWeather(ItemType.Cow, 1);
+            GetItemfromWeather(ItemType.Iron, 1);
+            GetItemfromWeather(ItemType.Soil, 1);
+        }
+    }
+
+    class ForestFire : Wood
+    {
+        public override void GetItems()
+        {
+            GetItemfromWeather(ItemType.Water, 1);
+            GetItemfromWeather(ItemType.Wheat, 1);
+            GetItemfromWeather(ItemType.Wood, 0);
+            GetItemfromWeather(ItemType.Cow, 1);
+            GetItemfromWeather(ItemType.Iron, 1);
+            GetItemfromWeather(ItemType.Soil, 1);
+        }
+    }
+
+    class GoldMine : Iron
+    {
+        public override void GetItems()
+        {
+            GetItemfromWeather(ItemType.Water, 1);
+            GetItemfromWeather(ItemType.Wheat, 1);
+            GetItemfromWeather(ItemType.Wood, 1);
+            GetItemfromWeather(ItemType.Cow, 1);
+            GetItemfromWeather(ItemType.Iron, 2);
+            GetItemfromWeather(ItemType.Soil, 1);
+        }
+    }
+
+    class LandSlide : Iron
+    {
+        public override void GetItems()
+        {
+            GetItemfromWeather(ItemType.Water, 1);
+            GetItemfromWeather(ItemType.Wheat, 1);
+            GetItemfromWeather(ItemType.Wood, 1);
+            GetItemfromWeather(ItemType.Cow, 1);
+            GetItemfromWeather(ItemType.Iron, 0);
+            GetItemfromWeather(ItemType.Soil, 1);
+        }
+    }
+
+    class GoodSoil : Soil
+    {
+        public override void GetItems()
+        {
+            GetItemfromWeather(ItemType.Water, 1);
+            GetItemfromWeather(ItemType.Wheat, 1);
+            GetItemfromWeather(ItemType.Wood, 1);
+            GetItemfromWeather(ItemType.Cow, 1);
+            GetItemfromWeather(ItemType.Iron, 1);
+            GetItemfromWeather(ItemType.Soil, 2);
+        }
+    }
+
+    class Deluge : WeatherChange
+    {
+        public override void GetItems()
+        {
+            GetItemfromWeather(ItemType.Water, 1);
+            GetItemfromWeather(ItemType.Wheat, 1);
+            GetItemfromWeather(ItemType.Wood, 1);
+            GetItemfromWeather(ItemType.Cow, 1);
+            GetItemfromWeather(ItemType.Iron, 1);
+            GetItemfromWeather(ItemType.Soil, 0);
+        }
+    }
 }
