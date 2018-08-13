@@ -72,7 +72,11 @@ namespace RedTheSettlers.UI
         [SerializeField]
         private Text fourthPlayerCardsWeight, fourthPlayerEquipmentWeight, fourthPlayerTendAndMonsterWeight;
 
-         
+        [SerializeField, Header("Player Winner Icons")]
+        private Image firstPlayerWinnerIcon;
+        [SerializeField]
+        private Image secondPlayerWinnerIcon, thirdPlayerWinnerIcon, fourthPlayerWinnerIcon;
+
 
         private GameData gameData;
 
@@ -159,7 +163,6 @@ namespace RedTheSettlers.UI
             TotalScore = 0;
             tempTotalNumber = 0;
 
-
             //가중치 넣어줌
             firstPlayerCardsWeight.text = tempCardWeightScore.ToString();
             secondPlayerCardsWeight.text = tempCardWeightScore.ToString();
@@ -178,14 +181,14 @@ namespace RedTheSettlers.UI
         }
 
         int scoreFlag = 1;  //0 : 메소드 모두 중지 1 : 획득한 점수 메소드만 작동  
-        private float TimeLeft = 0.05f;
+        private float timeLeft = 0.05f;
         private float nextTime = 0.0f;
 
         private void Update()
         {
             if (scoreFlag == 1 && Time.time > nextTime)
             {
-                nextTime = Time.time + TimeLeft;
+                nextTime = Time.time + timeLeft;
                 ChangeScores();
                 CalculateTotalScore();
             }
@@ -249,6 +252,8 @@ namespace RedTheSettlers.UI
             tempScore++;
         }
 
+        //>> 내가 짜놓고도 이게 왜 잘 돌아가는지 모르겠네;; totalscore에 값이 덫씌어지는거 아닌가.. 그럼 첫번째 total은 지워질텐데
+        //그리고 왜 if문에서 멈춰 있지 않고 다음으로 넘어가는거지???
         private void CalculateTotalScore()
         {
             for (int i = 0; i < playerNumbers; i++)
@@ -260,15 +265,28 @@ namespace RedTheSettlers.UI
                     ((gameData.PlayerData[i].StatData.WeaponLevel + gameData.PlayerData[i].StatData.ArmorLevel)*tempEquipmentWeightScore)+
                     ((gameData.PlayerData[i].TileList.Count + gameData.PlayerData[i].BossKillCount)*tempTendAndMonsterWeightScore);
 
-                if (double.Parse(playersBonusInfos[i].PlayerTotalScore.text) <  TotalScore)
+                if (double.Parse(playersBonusInfos[i].PlayerTotalScore.text) < TotalScore)
                 {
                     playersBonusInfos[i].PlayerTotalScore.text = string.Format("{0:D2}", tempTotalNumber);
-                    tempTotalNumber += 1000;
                 }
             }
+            tempTotalNumber += 1000;
         }
 
-
+        //>>왕관 이미지 보이게하기... 이건 어떻게 해야할까 도무지 떠오르지를 않네
+        public void ShowWinnerIcon()
+        {
+            if (double.Parse(playersBonusInfos[0].PlayerTotalScore.text) < double.Parse(playersBonusInfos[1].PlayerTotalScore.text))
+            {
+                secondPlayerWinnerIcon.gameObject.SetActive(true);
+            }
+            else
+            {
+                firstPlayerWinnerIcon.gameObject.SetActive(true);
+            }
+            
+           
+        }
 
     }
 }
