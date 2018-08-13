@@ -22,5 +22,6 @@ namespace RedTheSettlers.GameSystem
         public const int maxItemNum = 30;
         public const int maxEquipmentUpgradeLevel = 3;
         public const int maxTileUpgradeLevel = 5;
+        public const int maxPlayerNumber = 4;
     }
 }

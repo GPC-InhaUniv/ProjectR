@@ -1,135 +1,35 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using RedTheSettlers.GameSystem;
 
 namespace RedTheSettlers.UnitTest
 {
     public class ItemControllerTest2 : MonoBehaviour
     {
+        IWeatherChangeable weather;
+        WeatherChange weather2;
+        GameData datas = DataManager.Instance.GameData;
 
-    }
-
-    class Rain : Water
-    {
-        public override void GetItems()
+        public IEnumerator ItemFlow()
         {
+            ChangeWeather();
+            weather2.GetItems();
+            weather.GetItems();
 
+            yield return new WaitForSeconds(3);
         }
-    }
 
-    class Drought : Water
-    {
-        public override void GetItems()
+        public void ChangeWeather()
         {
-
+            switch((Weather)datas.InGameData.Weather)
+            {
+                case Weather.Rain:
+                    weather = new Rain(); break;
+                case Weather.Drought:
+                    weather = new Drought(); break;
+                default: Debug.Log("존재하지 않는 날씨 상태입니다."); break;
+            }
         }
-    }
-
-    class RichYear : Wheat
-    {
-        public override void GetItems()
-        {
-
-        }
-    }
-
-    class SwarmOfLocusts : Wheat
-    {
-        public override void GetItems()
-        {
-
-        }
-    }
-
-    class BreedingSeason : Cow
-    {
-        public override void GetItems()
-        {
-        }
-    }
-
-    class Plague : Cow
-    {
-        public override void GetItems()
-        {
-        }
-    }
-
-    class FestivalOfSprits : Forest
-    {
-        public override void GetItems()
-        {
-        }
-    }
-
-    class ForestFire : Forest
-    {
-        public override void GetItems()
-        {
-        }
-    }
-
-    class GoldMine : Iron
-    {
-        public override void GetItems()
-        {
-        }
-    }
-
-    class LandSlide : Iron
-    {
-        public override void GetItems()
-        {
-        }
-    }
-
-    class GoodSoil : Soil
-    {
-        public override void GetItems()
-        {
-        }
-    }
-
-    class Deluge : Soil
-    {
-        public override void GetItems()
-        {
-        }
-    }
-
-    interface IWeatherChangeable
-    {
-        void GetItems();
-    }
-
-    abstract class Water : IWeatherChangeable
-    {
-        public abstract void GetItems();
-    }
-
-    abstract class Wheat : IWeatherChangeable
-    {
-        public abstract void GetItems();
-    }
-
-
-    abstract class Cow : IWeatherChangeable
-    {
-        public abstract void GetItems();
-    }
-
-    abstract class Forest : IWeatherChangeable
-    {
-        public abstract void GetItems();
-    }
-
-    abstract class Iron : IWeatherChangeable
-    {
-        public abstract void GetItems();
-    }
-
-    abstract class Soil : IWeatherChangeable
-    {
-        public abstract void GetItems();
     }
 }

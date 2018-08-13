@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using RedTheSettlers.GameSystem;
 
 namespace RedTheSettlers.UnitTest
 {
@@ -28,16 +29,16 @@ namespace RedTheSettlers.UnitTest
         private TurnCallback _callback;
         public TurnCallback Callback
         {
-            get
-            {
-                GameManagerTest.Instance.state += 1;
-                return _callback;
-            }
+            get{ return _callback; }
             set { _callback = value; }
         }
 
+        GameData datas = DataManager.Instance.GameData;
+
         public IEnumerator TurnFlow()
         {
+            GameManagerTest.Instance.state += 1;
+            PrintGameLog();
             Callback();
             yield return new WaitForSeconds(3);
         }
