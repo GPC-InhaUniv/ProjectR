@@ -5,19 +5,6 @@ using RedTheSettlers.GameSystem;
 
 namespace RedTheSettlers.UnitTest
 {
-    // 필요한 데이터 리스트 적어놓은 것. 나중에 지움
-    public struct needInfos
-    {
-        public int TurnCount;
-        public int Weather;
-        
-        public int MaxPlayer; // 4
-        public int MiddleBoss1AppearTurn; // 12
-        public int MiddleBoss2AppearTurn; // 24
-        public int BossAppearTurn; // 36
-        public int WeatherEventStartTurn; // 5
-    }
-
     /// <summary>
     /// 작성자 : 박지용
     /// 날씨 선택이나 보스 출현 등 보드게임에서 발생하는 이벤트를 제어한다.

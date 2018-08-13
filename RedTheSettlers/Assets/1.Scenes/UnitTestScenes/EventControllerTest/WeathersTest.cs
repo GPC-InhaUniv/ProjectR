@@ -21,16 +21,16 @@ namespace RedTheSettlers.UnitTest
         Deluge,
     }
 
-    public class WeathersTest : MonoBehaviour
-    {
-
-    }
-
     class Rain : Water
     {
         public override void GetItems()
         {
-
+            GetWater(2);
+            GetWheat(1);
+            GetCow(1);
+            GetWood(1);
+            GetIron(1);
+            GetSoil(1);
         }
     }
 
@@ -38,7 +38,12 @@ namespace RedTheSettlers.UnitTest
     {
         public override void GetItems()
         {
-
+            GetWater(0);
+            GetWheat(1);
+            GetCow(1);
+            GetWood(1);
+            GetIron(1);
+            GetSoil(1);
         }
     }
 
@@ -46,7 +51,12 @@ namespace RedTheSettlers.UnitTest
     {
         public override void GetItems()
         {
-
+            GetWater(1);
+            GetWheat(2);
+            GetCow(1);
+            GetWood(1);
+            GetIron(1);
+            GetSoil(1);
         }
     }
 
@@ -54,7 +64,12 @@ namespace RedTheSettlers.UnitTest
     {
         public override void GetItems()
         {
-
+            GetWater(1);
+            GetWheat(0);
+            GetCow(1);
+            GetWood(1);
+            GetIron(1);
+            GetSoil(1);
         }
     }
 
@@ -62,6 +77,12 @@ namespace RedTheSettlers.UnitTest
     {
         public override void GetItems()
         {
+            GetWater(1);
+            GetWheat(1);
+            GetCow(2);
+            GetWood(1);
+            GetIron(1);
+            GetSoil(1);
         }
     }
 
@@ -69,20 +90,38 @@ namespace RedTheSettlers.UnitTest
     {
         public override void GetItems()
         {
+            GetWater(1);
+            GetWheat(1);
+            GetCow(0);
+            GetWood(1);
+            GetIron(1);
+            GetSoil(1);
         }
     }
 
-    class FestivalOfSprits : Forest
-    {
+    class FestivalOfSprits : Wood
+    { 
         public override void GetItems()
         {
+            GetWater(1);
+            GetWheat(1);
+            GetCow(1);
+            GetWood(2);
+            GetIron(1);
+            GetSoil(1);
         }
     }
 
-    class ForestFire : Forest
+    class ForestFire : Wood
     {
         public override void GetItems()
         {
+            GetWater(1);
+            GetWheat(1);
+            GetCow(1);
+            GetWood(0);
+            GetIron(1);
+            GetSoil(1);
         }
     }
 
@@ -90,6 +129,12 @@ namespace RedTheSettlers.UnitTest
     {
         public override void GetItems()
         {
+            GetWater(1);
+            GetWheat(1);
+            GetCow(1);
+            GetWood(1);
+            GetIron(2);
+            GetSoil(1);
         }
     }
 
@@ -97,6 +142,12 @@ namespace RedTheSettlers.UnitTest
     {
         public override void GetItems()
         {
+            GetWater(1);
+            GetWheat(1);
+            GetCow(1);
+            GetWood(1);
+            GetIron(0);
+            GetSoil(1);
         }
     }
 
@@ -104,26 +155,34 @@ namespace RedTheSettlers.UnitTest
     {
         public override void GetItems()
         {
+            GetWater(1);
+            GetWheat(1);
+            GetCow(1);
+            GetWood(1);
+            GetIron(1);
+            GetSoil(2);
         }
     }
 
-    class Deluge : Soil
+    class Deluge : WeatherChange
     {
         public override void GetItems()
         {
+            GetWater(1);
+            GetWheat(1);
+            GetCow(1);
+            GetWood(1);
+            GetIron(1);
+            GetSoil(0);
         }
-    }
-
-
-    interface IWeatherChangeable
-    {
-        void GetItems();
     }
 
     abstract class WeatherChange
     {
         GameData datas = DataManager.Instance.GameData;
-        public void GetItems(int itemCount)
+        abstract public void GetItems();
+
+        public void GetWater(int itemCount)
         {
             if(0 > itemCount || itemCount > 2)
             {
@@ -136,37 +195,82 @@ namespace RedTheSettlers.UnitTest
                 datas.PlayerData[i].ItemData.WaterNumber += itemCount;
             }
         }
+
+        public void GetWheat(int itemCount)
+        {
+            if (0 > itemCount || itemCount > 2)
+            {
+                Debug.Log("잘못된 ItemCount입니다.");
+                return;
+            }
+
+            for (int i = 0; i < GlobalVariables.maxPlayerNumber; i++)
+            {
+                datas.PlayerData[i].ItemData.WheatNumber += itemCount;
+            }
+        }
+
+        public void GetWood(int itemCount)
+        {
+            if (0 > itemCount || itemCount > 2)
+            {
+                Debug.Log("잘못된 ItemCount입니다.");
+                return;
+            }
+
+            for (int i = 0; i < GlobalVariables.maxPlayerNumber; i++)
+            {
+                datas.PlayerData[i].ItemData.WoodNumber += itemCount;
+            }
+        }
+
+        public void GetCow(int itemCount)
+        {
+            if (0 > itemCount || itemCount > 2)
+            {
+                Debug.Log("잘못된 ItemCount입니다.");
+                return;
+            }
+
+            for (int i = 0; i < GlobalVariables.maxPlayerNumber; i++)
+            {
+                datas.PlayerData[i].ItemData.CowNumber += itemCount;
+            }
+        }
+
+        public void GetIron(int itemCount)
+        {
+            if (0 > itemCount || itemCount > 2)
+            {
+                Debug.Log("잘못된 ItemCount입니다.");
+                return;
+            }
+
+            for (int i = 0; i < GlobalVariables.maxPlayerNumber; i++)
+            {
+                datas.PlayerData[i].ItemData.IronNumber += itemCount;
+            }
+        }
+
+        public void GetSoil(int itemCount)
+        {
+            if (0 > itemCount || itemCount > 2)
+            {
+                Debug.Log("잘못된 ItemCount입니다.");
+                return;
+            }
+
+            for (int i = 0; i < GlobalVariables.maxPlayerNumber; i++)
+            {
+                datas.PlayerData[i].ItemData.SoilNumber += itemCount;
+            }
+        }
     }
 
-
-    abstract class Water : IWeatherChangeable
-    {
-        public abstract void GetItems();
-    }
-
-    abstract class Wheat : IWeatherChangeable
-    {
-        public abstract void GetItems();
-    }
-
-
-    abstract class Cow : IWeatherChangeable
-    {
-        public abstract void GetItems();
-    }
-
-    abstract class Forest : IWeatherChangeable
-    {
-        public abstract void GetItems();
-    }
-
-    abstract class Iron : IWeatherChangeable
-    {
-        public abstract void GetItems();
-    }
-
-    abstract class Soil : IWeatherChangeable
-    {
-        public abstract void GetItems();
-    }
+    abstract class Water : WeatherChange { }
+    abstract class Wheat : WeatherChange { }
+    abstract class Cow : WeatherChange { }
+    abstract class Wood : WeatherChange { }
+    abstract class Iron : WeatherChange { }
+    abstract class Soil : WeatherChange { }
 }

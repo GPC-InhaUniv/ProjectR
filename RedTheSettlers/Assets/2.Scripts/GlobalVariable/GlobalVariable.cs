@@ -22,6 +22,11 @@ namespace RedTheSettlers.GameSystem
         public const int maxItemNum = 30;
         public const int maxEquipmentUpgradeLevel = 3;
         public const int maxTileUpgradeLevel = 5;
+
         public const int maxPlayerNumber = 4;
+        public const int MiddleBoss1AppearTurn = 12;
+        public const int MiddleBoss2AppearTurn = 24;
+        public const int BossAppearTurn = 36;
+        public const int WeatherEventStartTurn = 5;
     }
 }
