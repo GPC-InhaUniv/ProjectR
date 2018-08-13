@@ -88,6 +88,7 @@ namespace RedTheSettlers.UI
         private GameObject firstWeaponLevelGroup, secondWeaponLevelGroup, firstShieldLevelGroup, secondShieldLevelGroup;
 
         Color textColor = new Color(255, 0, 0, 255); // 빨간색
+        Color resetTextColor = new Color(0, 0, 0);//검은색
         private void Start()
         {
             secondWeaponLevelButton.interactable = false;
@@ -321,5 +322,36 @@ namespace RedTheSettlers.UI
             }
         }
 
+        public void ResetTextsAndButtons()
+        {
+            if (playerWeaponLevel==0)
+            {
+                firstWeaponLevelButton.interactable = true;
+                weaponLevelOneIron.color = resetTextColor;
+                weaponLevelOneSoil.color = resetTextColor;
+                weaponLevelOneWood.color = resetTextColor;
+            }
+            else
+            {
+                secondWeaponLevelButton.interactable = true;
+                weaponLevelTwoIron.color = resetTextColor;
+                weaponLevelTwoSoil.color = resetTextColor;
+                weaponLevelTwoWood.color = resetTextColor;
+            }
+            if (playerShieldLevel == 0)
+            {
+                firstShieldLevelButton.interactable = true;
+                shieldLevelOneIron.color = resetTextColor;
+                shieldLevelOneSoil.color = resetTextColor;
+                shieldLevelOneWood.color = resetTextColor;
+            }
+            else
+            {
+                secondShieldLevelButton.interactable = true;
+                shieldLevelTwoIron.color = resetTextColor;
+                shieldLevelTwoSoil.color = resetTextColor;
+                shieldLevelTwoWood.color = resetTextColor;
+            }
+        }
     }
 }
