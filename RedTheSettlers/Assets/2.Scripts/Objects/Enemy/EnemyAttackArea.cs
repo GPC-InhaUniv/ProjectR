@@ -16,7 +16,6 @@ namespace RedTheSettlers.Enemys
             if (other.tag == "Player")
             {
                 //플레이어에게 타격을 준다.
-                //GameManager 통해서 처리
             }
         }
     }
