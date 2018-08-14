@@ -178,99 +178,103 @@ namespace RedTheSettlers.UI
             secondPlayerTendAndMonsterWeight.text = tempTendAndMonsterWeightScore.ToString();
             thirdPlayerTendAndMonsterWeight.text = tempTendAndMonsterWeightScore.ToString();
             fourthPlayerTendAndMonsterWeight.text = tempTendAndMonsterWeightScore.ToString();
+
+            StartCoroutine(ChangeScores());
+            StartCoroutine(CalculateTotalScore());
         }
 
-        int scoreFlag = 1;  //0 : 메소드 모두 중지 1 : 획득한 점수 메소드만 작동  
-        private float timeLeft = 0.05f;
-        private float nextTime = 0.0f;
+       
+        
 
-        private void Update()
+        IEnumerator ChangeScores()
         {
-            if (scoreFlag == 1 && Time.time > nextTime)
+            if (playersCardInfo.Length <= playerNumbers && playersBonusInfos.Length <= playerNumbers)
             {
-                nextTime = Time.time + timeLeft;
-                ChangeScores();
-                CalculateTotalScore();
-            }
 
-        }
-
-        private void ChangeScores()
-        {
-            if (playersCardInfo.Length <= playerNumbers)
-            {
-                for (int i = 0; i < playersCardInfo.Length; i++)
+                while (tempScore < 50)
                 {
-                    if (tempScore <= gameData.PlayerData[i].ItemData.CowNumber)
+                    for (int i = 0; i < playersCardInfo.Length; i++)
                     {
-                        playersCardInfo[i].PlayerCow.text = string.Format("{0:D2}", tempScore);
-                    }
-                    if (tempScore <= gameData.PlayerData[i].ItemData.IronNumber)
-                    {
-                        playersCardInfo[i].PlayerIron.text = string.Format("{0:D2}", tempScore);
-                    }
-                    if (tempScore <= gameData.PlayerData[i].ItemData.SoilNumber)
-                    {
-                        playersCardInfo[i].PlayerSoil.text = string.Format("{0:D2}", tempScore);
-                    }
-                    if (tempScore <= gameData.PlayerData[i].ItemData.WaterNumber)
-                    {
-                        playersCardInfo[i].PlayerWater.text = string.Format("{0:D2}", tempScore);
-                    }
-                    if (tempScore <= gameData.PlayerData[i].ItemData.WheatNumber)
-                    {
-                        playersCardInfo[i].PlayerWheat.text = string.Format("{0:D2}", tempScore);
-                    }
-                    if (tempScore <= gameData.PlayerData[i].ItemData.WoodNumber)
-                    {
-                        playersCardInfo[i].PlayerWood.text = string.Format("{0:D2}", tempScore);
-                    }
+                        if (tempScore <= gameData.PlayerData[i].ItemData.CowNumber)
+                        {
+                            playersCardInfo[i].PlayerCow.text = string.Format("{0:D2}", tempScore);
+                        }
+                        if (tempScore <= gameData.PlayerData[i].ItemData.IronNumber)
+                        {
+                            playersCardInfo[i].PlayerIron.text = string.Format("{0:D2}", tempScore);
+                        }
+                        if (tempScore <= gameData.PlayerData[i].ItemData.SoilNumber)
+                        {
+                            playersCardInfo[i].PlayerSoil.text = string.Format("{0:D2}", tempScore);
+                        }
+                        if (tempScore <= gameData.PlayerData[i].ItemData.WaterNumber)
+                        {
+                            playersCardInfo[i].PlayerWater.text = string.Format("{0:D2}", tempScore);
+                        }
+                        if (tempScore <= gameData.PlayerData[i].ItemData.WheatNumber)
+                        {
+                            playersCardInfo[i].PlayerWheat.text = string.Format("{0:D2}", tempScore);
+                        }
+                        if (tempScore <= gameData.PlayerData[i].ItemData.WoodNumber)
+                        {
+                            playersCardInfo[i].PlayerWood.text = string.Format("{0:D2}", tempScore);
+                        }
 
-                    if (tempScore <= gameData.PlayerData[i].StatData.WeaponLevel)
-                    {
-                        playersBonusInfos[i].PlayerWeapon.text = string.Format("{0:D2}", tempScore);
-                    }
-                    if (tempScore <= gameData.PlayerData[i].StatData.ShieldLevel)
-                    {
-                        playersBonusInfos[i].PlayerShield.text = string.Format("{0:D2}", tempScore);
-                    }
+                        if (tempScore <= gameData.PlayerData[i].StatData.WeaponLevel)
+                        {
+                            playersBonusInfos[i].PlayerWeapon.text = string.Format("{0:D2}", tempScore);
+                        }
+                        if (tempScore <= gameData.PlayerData[i].StatData.ShieldLevel)
+                        {
+                            playersBonusInfos[i].PlayerShield.text = string.Format("{0:D2}", tempScore);
+                        }
 
-                    if (tempScore <= gameData.PlayerData[i].TileList.Count)
-                    {
-                        playersBonusInfos[i].PlayerTent.text = string.Format("{0:D2}", tempScore);
-                    }
-                    if (tempScore <= gameData.PlayerData[i].BossKillCount)
-                    {
-                        playersBonusInfos[i].PlayerKillMonster.text = string.Format("{0:D2}", tempScore);
-                    }
+                        if (tempScore <= gameData.PlayerData[i].TileList.Count)
+                        {
+                            playersBonusInfos[i].PlayerTent.text = string.Format("{0:D2}", tempScore);
+                        }
+                        if (tempScore <= gameData.PlayerData[i].BossKillCount)
+                        {
+                            playersBonusInfos[i].PlayerKillMonster.text = string.Format("{0:D2}", tempScore);
+                        }
 
+                    }
+                    tempScore++;
+                    yield return null;
                 }
-                tempScore++;
+
+             
             }
             else
             {
                 LogManager.Instance.UserDebug(LogColor.Red, GetType().Name, "작업자님 인스펙터 창을 다시 확인해주세요. 플레이어의 숫자가 4명을 넘어갔습니다.");
             }
            
+           
         }
 
         int[] testTotalScore = new int[playerNumbers] {0,0,0,0};
-        int tempTotalScore = 0;
-        private void CalculateTotalScore()
+
+        IEnumerator CalculateTotalScore()
         {
-            for (int i = 0; i < playerNumbers; i++)
+            while (tempTotalNumber < 9999999) //그 배열에서 가장 큰 수 찾기.
             {
-                testTotalScore[i] = (gameData.PlayerData[i].ItemData.SumOfItem * tempCardWeightScore)
-                   + ((gameData.PlayerData[i].StatData.WeaponLevel + gameData.PlayerData[i].StatData.ShieldLevel) * tempEquipmentWeightScore) +
-                   ((gameData.PlayerData[i].TileList.Count + gameData.PlayerData[i].BossKillCount) * tempTendAndMonsterWeightScore);
-
-                if (tempTotalScore <= testTotalScore[i])
+                for (int i = 0; i < playerNumbers; i++)
                 {
-                    playersBonusInfos[i].PlayerTotalScore.text = string.Format("{0:D2}", tempTotalScore);
-                }
+                    testTotalScore[i] = (gameData.PlayerData[i].ItemData.SumOfItem * tempCardWeightScore)
+                       + ((gameData.PlayerData[i].StatData.WeaponLevel + gameData.PlayerData[i].StatData.ShieldLevel) * tempEquipmentWeightScore) +
+                       ((gameData.PlayerData[i].TileList.Count + gameData.PlayerData[i].BossKillCount) * tempTendAndMonsterWeightScore);
 
+                    if (tempTotalNumber <= testTotalScore[i])
+                    {
+                        playersBonusInfos[i].PlayerTotalScore.text = string.Format("{0:D2}", tempTotalNumber);
+                    }
+
+                }
+                tempTotalNumber += 1000;
+                yield return null;
             }
-            tempTotalScore += 1000;
+            
         }
  
 
