@@ -57,7 +57,7 @@ namespace DigitalRuby.PyroParticles
 
             Destroy(gameObject);
 
-            ObjectPoolManager.ObjectPoolInstance.SkillQueue.Enqueue(ObjectPoolManager.ObjectPoolInstance.SkillObject);
+            ObjectPoolManager.Instance.SkillQueue.Enqueue(ObjectPoolManager.Instance.SkillObject);
 
         }
 
