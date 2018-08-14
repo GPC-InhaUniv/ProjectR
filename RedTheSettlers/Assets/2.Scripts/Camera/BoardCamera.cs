@@ -11,9 +11,13 @@ namespace RedTheSettlers.GameSystem
         public BoardCamera(GameObject cameraObject)
         {
             //GetCamera();
-            cameraMoving = cameraObject.AddComponent<DragMoving>();
-            cameraZoomInOut = cameraObject.AddComponent<ManualZoom>();
-            cameraAngle = cameraObject.AddComponent<LookAtManual>();
+            camera = cameraObject.GetComponent<Camera>();
+            //cameraMoving = cameraObject.AddComponent<DragMoving>();
+            //cameraZoomInOut = cameraObject.AddComponent<ManualZoom>();
+            //cameraAngle = cameraObject.AddComponent<LookAtManual>();
+            cameraMoving = new DragMoving(cameraObject);
+            cameraZoomInOut = new ManualZoom();
+            cameraAngle = new LookAtManual();
         }
     } 
 }

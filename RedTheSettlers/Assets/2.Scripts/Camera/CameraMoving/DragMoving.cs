@@ -12,26 +12,15 @@ namespace RedTheSettlers.GameSystem
         private float dragSpeed;
         private Vector3 dragOrigin;
 
-        private void Awake()
+        public DragMoving(GameObject cameraObject)
         {
+            this.cameraObject = cameraObject;
             dragSpeed = 1;
-            cameraObject = gameObject;
         }
 
-        public override void Moving()
+        public override void Moving(Vector3 vector3)
         {
-            Debug.Log("보드카메라 무빙카메라()");
-            if (Input.GetMouseButtonDown(0))
-            {
-                dragOrigin = Input.mousePosition;
-                return;
-            }
-
-            if (!Input.GetMouseButton(0)) return;
-
-            Vector3 pos = Camera.main.ScreenToViewportPoint(dragOrigin - Input.mousePosition);
-            Vector3 move = new Vector3(pos.x * dragSpeed, 0, pos.y * dragSpeed);
-            cameraObject.transform.Translate(move, Space.World);
+            cameraObject.transform.Translate(vector3, Space.World);
         }
     } 
 }

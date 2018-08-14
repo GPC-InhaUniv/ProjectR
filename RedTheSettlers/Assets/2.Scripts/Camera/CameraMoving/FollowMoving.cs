@@ -8,32 +8,36 @@ namespace RedTheSettlers.GameSystem
 {
     public class FollowMoving : CameraMoving
     {
-        ICameraState CameraState;
-
-        private void Awake()
+        ICameraState cameraState;
+        public FollowMoving(GameObject cameraObject)
         {
-            cameraObject = gameObject;
-            CameraState = new CameraNomalState(cameraObject);
+            this.cameraObject = cameraObject;
+            cameraState = new CameraNomalState(this.cameraObject);
         }
+        //private void Awake()
+        //{
+        //    cameraObject = gameObject;
+        //    cameraState = new CameraShakeState(cameraObject);
+        //}
 
-        public override void Moving()
+        public override void Moving(Vector3 vector3)
         {
-            CameraState.CameraBehavior();
+            cameraState.CameraBehavior(vector3);
         }
 
         private void StateTest()
         {
-            StartCoroutine(SetShakeState());
+            //StartCoroutine(SetShakeState());
         }
         public void SetState(ICameraState state)
         {
-            this.CameraState = state;
+            this.cameraState = state;
         }
         private IEnumerator SetShakeState()
         {
-            CameraState = new CameraShakeState();
+            cameraState = new CameraShakeState(cameraObject);
             yield return new WaitForSeconds(1f);
-            CameraState = new CameraNomalState(cameraObject);
+            cameraState = new CameraNomalState(cameraObject);
         }
         //StartCoroutine(MobileAttack());
         //IEnumerator MobileAttack()
@@ -47,6 +51,9 @@ namespace RedTheSettlers.GameSystem
         //    }
         //}
 
+
+        //int radius = 5;
+        //double result = CalculateArea(radius);
     }
     
 }

@@ -6,9 +6,9 @@ using UnityEngine;
 
 namespace RedTheSettlers.GameSystem
 {
-    public abstract class CameraMoving : MonoBehaviour
+    public abstract class CameraMoving
     {
         public GameObject cameraObject;
-        public abstract void Moving();
+        public abstract void Moving(Vector3 vector3);
     } 
 }
