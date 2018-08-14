@@ -62,7 +62,6 @@ namespace RedTheSettlers.GameSystem
         {
             return z * 1.5f + 0.1f;
         }
-
     }
 }
 
