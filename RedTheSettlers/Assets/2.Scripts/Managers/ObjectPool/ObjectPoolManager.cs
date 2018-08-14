@@ -4,10 +4,8 @@ using UnityEngine;
 
 namespace RedTheSettlers.GameSystem
 {
-    public class ObjectPoolManager : MonoBehaviour
+    public class ObjectPoolManager : Singleton<ObjectPoolManager>
     {
-        public static ObjectPoolManager ObjectPoolInstance;
-
         public const int TilePoolSize = 61;
         public const int CloneSetSize = 6;
         public GameObject[] TileObjects;
@@ -20,8 +18,6 @@ namespace RedTheSettlers.GameSystem
 
         private void Awake()
         {
-            ObjectPoolInstance = this;
-
             TileSet = new GameObject[TilePoolSize];
 
             for (int i = 0; i < 61; i++)
