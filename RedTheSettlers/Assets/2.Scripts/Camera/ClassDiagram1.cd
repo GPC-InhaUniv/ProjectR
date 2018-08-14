@@ -1,36 +1,36 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="RedTheSettlers.GameSystem.CameraMoving" Collapsed="true">
-    <Position X="1.75" Y="0.75" Width="1.5" />
+    <Position X="4.25" Y="3.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAA=</HashCode>
       <FileName>Assets\2.Scripts\Camera\CameraMoving\CameraMoving.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="RedTheSettlers.GameSystem.DragMoving" Collapsed="true">
-    <Position X="1" Y="2.25" Width="1.5" />
+    <Position X="2.25" Y="2.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAABAAIEA=</HashCode>
       <FileName>Assets\2.Scripts\Camera\CameraMoving\DragMoving.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="RedTheSettlers.GameSystem.FollowMoving" Collapsed="true">
-    <Position X="2.75" Y="2.25" Width="1.5" />
+    <Position X="2.25" Y="3.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAQAACAAAAAAAAABAAAAEAAAAAAIAAAAAAAAAAAAIEA=</HashCode>
+      <HashCode>AAQABAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAIAAIEA=</HashCode>
       <FileName>Assets\2.Scripts\Camera\CameraMoving\FollowMoving.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="RedTheSettlers.GameSystem.CameraNomalState">
-    <Position X="3.25" Y="4" Width="1.5" />
+    <Position X="0.5" Y="7" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAQDAAAAAAAAABAAAAEAAAAAAIAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Assets\2.Scripts\Camera\CameraMoving\ICameraState\CameraNomalState.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="RedTheSettlers.GameSystem.CameraSkillActionState">
-    <Position X="4.75" Y="4" Width="1.5" />
+    <Position X="2" Y="7" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Assets\2.Scripts\Camera\CameraMoving\ICameraState\CameraSkillActionState.cs</FileName>
@@ -38,15 +38,64 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="RedTheSettlers.GameSystem.CameraShakeState">
-    <Position X="6.25" Y="4" Width="1.5" />
+    <Position X="3.5" Y="7" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAQBIAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAA=</HashCode>
       <FileName>Assets\2.Scripts\Camera\CameraMoving\ICameraState\CameraShakeState.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
+  <Class Name="RedTheSettlers.GameSystem.CameraZoomInOut" Collapsed="true">
+    <Position X="4.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAIAgAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\2.Scripts\Camera\CameraZoomInOut\CameraZoomInOut.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RedTheSettlers.GameSystem.CameraAngle" Collapsed="true">
+    <Position X="4.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\2.Scripts\Camera\CameraAngle\CameraAngle.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RedTheSettlers.GameSystem.AbstractCamera" Collapsed="true">
+    <Position X="8" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AhAQAAAQAgAAAAAAQAAAAEAAAAAAAAAAQAAAAAAAAAI=</HashCode>
+      <FileName>Assets\2.Scripts\Camera\AbstractCamera.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RedTheSettlers.GameSystem.BattleCamera" Collapsed="true">
+    <Position X="7.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\2.Scripts\Camera\BattleCamera.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RedTheSettlers.GameSystem.BoardCamera" Collapsed="true">
+    <Position X="9.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\2.Scripts\Camera\BoardCamera.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RedTheSettlers.GameSystem.CameraController" Collapsed="true">
+    <Position X="12" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAgAAIAiAIAQAAIAAAAAAAAAAAAAAEAAAAAAQAAAA=</HashCode>
+      <FileName>Assets\2.Scripts\Camera\CameraController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RedTheSettlers.GameSystem.GameCamera" Collapsed="true">
+    <Position X="10" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAQAAAAAACIQAAAAAAIAAAAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>Assets\2.Scripts\Camera\GameCamera.cs</FileName>
+    </TypeIdentifier>
+  </Class>
   <Interface Name="RedTheSettlers.GameSystem.ICameraState">
-    <Position X="5" Y="2.25" Width="1.5" />
+    <Position X="2.25" Y="5.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Assets\2.Scripts\Camera\CameraMoving\ICameraState\ICameraState.cs</FileName>

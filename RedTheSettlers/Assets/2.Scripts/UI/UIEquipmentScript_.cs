@@ -13,11 +13,10 @@ namespace RedTheSettlers.UI
         public int PlayerIron;
         public int PlayerSoil;
 
-
         [Flags]
         enum UpgradeItems
         {
-            Wood = 1,
+            Wood=1,
             Iron=2,
             Soil=4,
         }
@@ -45,14 +44,11 @@ namespace RedTheSettlers.UI
             }
         }
 
-        UpgradeItems upgradeItems;
-
         int playerWeaponLevel = 0;
         int playerShieldLevel = 0;
 
         const int ItemsNumber = 3;
-    
-         
+
         const int weaponLevelOneWoodValue = 3;
         const int weaponLevelOneIronValue = 5;
         const int weaponLevelOneSoilValue = 5;
@@ -89,11 +85,11 @@ namespace RedTheSettlers.UI
 
         Color textColor = new Color(255, 0, 0, 255); // 빨간색
         Color resetTextColor = new Color(0, 0, 0);//검은색
+
         private void Start()
         {
             secondWeaponLevelButton.interactable = false;
             secondShieldLevelButton.interactable = false;
-
 
             weaponLevelOneWood.text = weaponLevelOneWoodValue.ToString();
             weaponLevelOneIron.text = weaponLevelOneIronValue.ToString();
@@ -116,7 +112,6 @@ namespace RedTheSettlers.UI
                 Wood = PlayerWood,
                 Iron = PlayerIron,
                 Soil = PlayerSoil,
-
             };
 
             WeaponLevelTwo = new UpgradeRequestItems
@@ -142,48 +137,37 @@ namespace RedTheSettlers.UI
 
         public void OnclickedButton(int buttonValue)
         {
+            UpgradeItems upgradeItems;
             if (buttonValue == 0) //0일때는 무기 1일때는 방어구
             {
-                
-                if(playerWeaponLevel == 0)
+                if (playerWeaponLevel == 0)
                 {
                     upgradeItems = WeaponLevelOne.CheckForItems(weaponLevelOneWoodValue, weaponLevelOneIronValue, weaponLevelOneSoilValue);
-
                 }
-                else
+                else //if (playerWeaponLevel == 1)
                 {
                     upgradeItems = WeaponLevelTwo.CheckForItems(weaponLevelTwoWoodValue, weaponLevelTwoIronValue, weaponLevelTwoSoilValue);
-                  
-                   
                 }
-                EquipmentUpgrade(playerWeaponLevel, buttonValue);
-               
-                
-                
+                EquipmentUpgrade(playerWeaponLevel, buttonValue, upgradeItems);
             }
             else //0일때는 무기 1일때는 방어구
             {
-
                 if (playerShieldLevel == 0)
                 {
                     upgradeItems = ShieldLevelOne.CheckForItems(shieldLevelOneWoodValue, shieldLevelOneIronValue, shieldLevelOneSoilValue);
-                 
                 }
-                else
+                else //if (playerShieldLevel == 1)
                 {
                     upgradeItems = ShieldLevelTwo.CheckForItems(shieldLevelTwoWoodValue, shieldLevelTwoIronValue, shieldLevelTwoSoilValue);
-                   
                 }
-                EquipmentUpgrade(playerShieldLevel, buttonValue);
-               
-                
+                EquipmentUpgrade(playerShieldLevel, buttonValue, upgradeItems);
             }
             LogManager.Instance.UserDebug(LogColor.Green, GetType().Name, "플레이어가 소지한 나무=" + PlayerWood + "플레이어가 소지한 철=" +
                  PlayerIron + "플레이어가 소지한 흙=" +PlayerSoil);
             LogManager.Instance.UserDebug(LogColor.Green, GetType().Name, "플레이어의 무기 레벨은" + playerWeaponLevel + "플레이어의 방어 레벨은" + playerShieldLevel);
         }
 
-        void EquipmentUpgrade(int level, int buttonValue)
+        void EquipmentUpgrade(int level, int buttonValue, UpgradeItems upgradeItems )
         {
             if (upgradeItems != (UpgradeItems.Wood & upgradeItems))
             {
@@ -250,12 +234,10 @@ namespace RedTheSettlers.UI
                     if (level == 0)
                     {
                         weaponLevelOneSoil.color = textColor; //빠..빠..빨간색!
-                        
                     }
                     else if (level == 1)
                     {
                         weaponLevelTwoSoil.color = textColor;
-                        
                     }
                 }
                 if (buttonValue == 1)
@@ -318,7 +300,6 @@ namespace RedTheSettlers.UI
                         playerShieldLevel++;
                     }
                 }
-
             }
         }
 
@@ -338,6 +319,7 @@ namespace RedTheSettlers.UI
                 weaponLevelTwoSoil.color = resetTextColor;
                 weaponLevelTwoWood.color = resetTextColor;
             }
+
             if (playerShieldLevel == 0)
             {
                 firstShieldLevelButton.interactable = true;

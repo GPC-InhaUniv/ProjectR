@@ -22,7 +22,7 @@ namespace RedTheSettlers.GameSystem
             {
                 abstractCamera = new BattleCamera(gameObject);
             }
-            abstractCamera.camera = gameObject.GetComponent<Camera>();
+            //abstractCamera = gameObject.GetComponent<Camera>();
         }
 
 
@@ -34,9 +34,9 @@ namespace RedTheSettlers.GameSystem
         {
             abstractCamera.TurnOff();
         }
-        public void MovingCamera()
+        public void MovingCamera(Vector3 vector3)
         {
-            abstractCamera.MovingCamera();
+            abstractCamera.MovingCamera(vector3);
         }
         public void ZoomInOutCamera()
         {
