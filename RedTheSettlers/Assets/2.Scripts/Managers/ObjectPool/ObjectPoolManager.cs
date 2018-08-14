@@ -26,7 +26,7 @@ namespace RedTheSettlers.GameSystem
 
             for (int i = 0; i < 61; i++)
             {
-                int randomTileIndex = Random.Range(0, CloneSetSize);
+                int randomTileIndex = Random.Range(0, 0);
 
                 TileSet[i] = Instantiate(TileObjects[randomTileIndex]);
                 TileSet[i].transform.parent = CloneSet[randomTileIndex].transform;
