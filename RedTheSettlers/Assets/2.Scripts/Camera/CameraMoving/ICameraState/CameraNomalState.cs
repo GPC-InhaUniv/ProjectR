@@ -37,6 +37,7 @@ namespace RedTheSettlers.GameSystem
                 Vector3 newPos = targetTransform.position + cameraOffset;
                 cameraObject.transform.position = Vector3.Slerp(cameraObject.transform.position, newPos, smooth);
             }
+            
         }
         
         private void FindTarget()
