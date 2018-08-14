@@ -10,7 +10,7 @@ namespace RedTheSettlers.UnitTest
         public ItemType tileType;
     }
 
-    public class BattleControllerTest : MonoBehaviour
+    public class BattleControllerTest2 : MonoBehaviour
     {
         public IEnumerator BattleFlow()
         {
