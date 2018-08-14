@@ -15,7 +15,7 @@ namespace RedTheSettlers.UI
 {
     public class UICalculateScoreScript : MonoBehaviour
     {
-        const int playerNumbers = 4;
+        const int playerNumbers = 4; // maxPlayerNumber
 
         private int tempScore;
         int TotalScore;
@@ -124,10 +124,10 @@ namespace RedTheSettlers.UI
             gameData.PlayerData[2].StatData.WeaponLevel = 3;
             gameData.PlayerData[3].StatData.WeaponLevel = 2;
 
-            gameData.PlayerData[0].StatData.ArmorLevel = 1;
-            gameData.PlayerData[1].StatData.ArmorLevel = 3;
-            gameData.PlayerData[2].StatData.ArmorLevel = 2;
-            gameData.PlayerData[3].StatData.ArmorLevel = 3;
+            gameData.PlayerData[0].StatData.ShieldLevel = 1;
+            gameData.PlayerData[1].StatData.ShieldLevel = 3;
+            gameData.PlayerData[2].StatData.ShieldLevel = 2;
+            gameData.PlayerData[3].StatData.ShieldLevel = 3;
             //<<
 
             // >>Player Tents Count And Kill Monsters Count
@@ -136,13 +136,13 @@ namespace RedTheSettlers.UI
             tileData.LocationX = 8;
             tileData.LocationY = 21;
             tileData.TileLevel = 2;
-            tileData.TileType = TileType.Wood;
+            tileData.TileType = ItemType.Wood;
 
             TileData tileData2;
             tileData2.LocationX = 8;
             tileData2.LocationY = 21;
             tileData2.TileLevel = 2;
-            tileData2.TileType = TileType.Wood;
+            tileData2.TileType = ItemType.Wood;
 
             gameData.PlayerData[0].TileList.Add(tileData);
             gameData.PlayerData[0].TileList.Add(tileData2);
@@ -230,7 +230,7 @@ namespace RedTheSettlers.UI
                     {
                         playersBonusInfos[i].PlayerWeapon.text = string.Format("{0:D2}", tempScore);
                     }
-                    if (int.Parse(playersBonusInfos[i].PlayerShield.text) < gameData.PlayerData[i].StatData.ArmorLevel)
+                    if (int.Parse(playersBonusInfos[i].PlayerShield.text) < gameData.PlayerData[i].StatData.ShieldLevel)
                     {
                         playersBonusInfos[i].PlayerShield.text = string.Format("{0:D2}", tempScore);
                     }
@@ -258,12 +258,13 @@ namespace RedTheSettlers.UI
         {
             for (int i = 0; i < playerNumbers; i++)
             {
+                //나중에 준명님한테 함수로 가져오기
                  TotalScore = ((gameData.PlayerData[i].ItemData.CowNumber + gameData.PlayerData[i].ItemData.IronNumber
                     + gameData.PlayerData[i].ItemData.SoilNumber + gameData.PlayerData[i].ItemData.WaterNumber
                     + gameData.PlayerData[i].ItemData.WheatNumber + gameData.PlayerData[i].ItemData.WoodNumber)
                     * tempCardWeightScore)+
-                    ((gameData.PlayerData[i].StatData.WeaponLevel + gameData.PlayerData[i].StatData.ArmorLevel)*tempEquipmentWeightScore)+
-                    ((gameData.PlayerData[i].TileList.Count + gameData.PlayerData[i].BossKillCount)*tempTendAndMonsterWeightScore);
+                    ((gameData.PlayerData[i].StatData.WeaponLevel + gameData.PlayerData[i].StatData.ShieldLevel) * tempEquipmentWeightScore) +
+                    ((gameData.PlayerData[i].TileList.Count + gameData.PlayerData[i].BossKillCount) * tempTendAndMonsterWeightScore);
 
                 if (double.Parse(playersBonusInfos[i].PlayerTotalScore.text) < TotalScore)
                 {

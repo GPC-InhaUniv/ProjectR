@@ -11,7 +11,7 @@ namespace RedTheSettlers.GameSystem
         public int MagicPoint;
         public int StaminaPoint;
         public int WeaponLevel;
-        public int ArmorLevel;
+        public int ShieldLevel;
     }
 
     [Serializable]
@@ -24,7 +24,7 @@ namespace RedTheSettlers.GameSystem
     [Serializable]
     public struct TileData
     {
-        public TileType TileType;
+        public ItemType TileType;            
         public float LocationX;
         public float LocationY;
         public int TileLevel;
@@ -39,6 +39,10 @@ namespace RedTheSettlers.GameSystem
         public int WoodNumber;
         public int IronNumber;
         public int SoilNumber;
+        public int SumOfItem
+        {
+            get { return CowNumber + WaterNumber + WheatNumber + WoodNumber + IronNumber + SoilNumber; }
+        }
     }
 
     [Serializable]
@@ -60,6 +64,7 @@ namespace RedTheSettlers.GameSystem
         public List<TileData> TileList;
         public ItemData ItemData;
         public int BossKillCount;
+
 
         public PlayerData()
         {

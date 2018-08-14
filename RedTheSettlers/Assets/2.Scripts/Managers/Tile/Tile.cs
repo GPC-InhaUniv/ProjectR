@@ -27,6 +27,7 @@ namespace RedTheSettlers.Tiles
         public int z;
     }
 
+    [System.Serializable]
     public class Tile : MonoBehaviour
     {
         private const int tileTypeAmount = 6;
