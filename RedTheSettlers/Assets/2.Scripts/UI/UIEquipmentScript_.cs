@@ -171,6 +171,7 @@ namespace RedTheSettlers.UI
         {
             if (upgradeItems != (UpgradeItems.Wood & upgradeItems))
             {
+                //나무 부족
                 if (buttonValue == 0)
                 {
                     if (level == 0)
@@ -197,10 +198,10 @@ namespace RedTheSettlers.UI
                         secondShieldLevelButton.interactable = false;
                     }
                 }
-                //나무 부족
             }
             if (upgradeItems != (UpgradeItems.Iron & upgradeItems))
             {
+                //철 부족
                 if (buttonValue == 0)
                 {
                     if (level == 0)
@@ -225,10 +226,10 @@ namespace RedTheSettlers.UI
                         shieldLevelTwoIron.color = textColor;
                     }
                 }
-                //철 부족
             }
             if (upgradeItems != (UpgradeItems.Soil & upgradeItems))
             {
+                //흙 부족
                 if (buttonValue == 0)
                 {
                     if (level == 0)
@@ -251,7 +252,6 @@ namespace RedTheSettlers.UI
                         shieldLevelTwoSoil.color = textColor;
                     }
                 }
-                //흙 부족
             }
             if (upgradeItems == (UpgradeItems.Iron | UpgradeItems.Soil | UpgradeItems.Wood))
             {

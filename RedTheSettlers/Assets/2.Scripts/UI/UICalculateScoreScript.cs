@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using RedTheSettlers.GameSystem;
 using RedTheSettlers.Tiles;
-using System;
+ 
 
 /// <summary>
 /// 작성자 : 김하정
@@ -15,7 +15,7 @@ namespace RedTheSettlers.UI
 {
     public class UICalculateScoreScript : MonoBehaviour
     {
-        const int playerNumbers = 4; // maxPlayerNumber
+        const int playerNumbers = GlobalVariables.maxPlayerNumber; 
 
         private int tempScore;
         int TotalScore;
@@ -201,78 +201,80 @@ namespace RedTheSettlers.UI
             {
                 for (int i = 0; i < playersCardInfo.Length; i++)
                 {
-                    if (int.Parse(playersCardInfo[i].PlayerCow.text) < gameData.PlayerData[i].ItemData.CowNumber)
+                    if (tempScore <= gameData.PlayerData[i].ItemData.CowNumber)
                     {
                         playersCardInfo[i].PlayerCow.text = string.Format("{0:D2}", tempScore);
                     }
-                    if (int.Parse(playersCardInfo[i].PlayerIron.text) < gameData.PlayerData[i].ItemData.IronNumber)
+                    if (tempScore <= gameData.PlayerData[i].ItemData.IronNumber)
                     {
                         playersCardInfo[i].PlayerIron.text = string.Format("{0:D2}", tempScore);
                     }
-                    if (int.Parse(playersCardInfo[i].PlayerSoil.text) < gameData.PlayerData[i].ItemData.SoilNumber)
+                    if (tempScore <= gameData.PlayerData[i].ItemData.SoilNumber)
                     {
                         playersCardInfo[i].PlayerSoil.text = string.Format("{0:D2}", tempScore);
                     }
-                    if (int.Parse(playersCardInfo[i].PlayerWater.text) < gameData.PlayerData[i].ItemData.WaterNumber)
+                    if (tempScore <= gameData.PlayerData[i].ItemData.WaterNumber)
                     {
                         playersCardInfo[i].PlayerWater.text = string.Format("{0:D2}", tempScore);
                     }
-                    if (int.Parse(playersCardInfo[i].PlayerWheat.text) < gameData.PlayerData[i].ItemData.WheatNumber)
+                    if (tempScore <= gameData.PlayerData[i].ItemData.WheatNumber)
                     {
                         playersCardInfo[i].PlayerWheat.text = string.Format("{0:D2}", tempScore);
                     }
-                    if (int.Parse(playersCardInfo[i].PlayerWood.text) < gameData.PlayerData[i].ItemData.WoodNumber)
+                    if (tempScore <= gameData.PlayerData[i].ItemData.WoodNumber)
                     {
                         playersCardInfo[i].PlayerWood.text = string.Format("{0:D2}", tempScore);
                     }
 
-                    if (int.Parse(playersBonusInfos[i].PlayerWeapon.text) < gameData.PlayerData[i].StatData.WeaponLevel)
+                    if (tempScore <= gameData.PlayerData[i].StatData.WeaponLevel)
                     {
                         playersBonusInfos[i].PlayerWeapon.text = string.Format("{0:D2}", tempScore);
                     }
-                    if (int.Parse(playersBonusInfos[i].PlayerShield.text) < gameData.PlayerData[i].StatData.ShieldLevel)
+                    if (tempScore <= gameData.PlayerData[i].StatData.ShieldLevel)
                     {
                         playersBonusInfos[i].PlayerShield.text = string.Format("{0:D2}", tempScore);
                     }
 
-                    if (int.Parse(playersBonusInfos[i].PlayerTent.text) < gameData.PlayerData[i].TileList.Count)
+                    if (tempScore <= gameData.PlayerData[i].TileList.Count)
                     {
                         playersBonusInfos[i].PlayerTent.text = string.Format("{0:D2}", tempScore);
                     }
-                    if (int.Parse(playersBonusInfos[i].PlayerKillMonster.text) < gameData.PlayerData[i].BossKillCount)
+                    if (tempScore <= gameData.PlayerData[i].BossKillCount)
                     {
                         playersBonusInfos[i].PlayerKillMonster.text = string.Format("{0:D2}", tempScore);
                     }
+
                 }
+                tempScore++;
             }
             else
             {
                 LogManager.Instance.UserDebug(LogColor.Red, GetType().Name, "작업자님 인스펙터 창을 다시 확인해주세요. 플레이어의 숫자가 4명을 넘어갔습니다.");
             }
-            tempScore++;
+           
         }
 
-        //>> 내가 짜놓고도 이게 왜 잘 돌아가는지 모르겠네;; totalscore에 값이 덫씌어지는거 아닌가.. 그럼 첫번째 total은 지워질텐데
-        //그리고 왜 if문에서 멈춰 있지 않고 다음으로 넘어가는거지???
+        int[] testTotalScore = new int[playerNumbers] {0,0,0,0};
+        int tempTotalScore = 0;
         private void CalculateTotalScore()
         {
             for (int i = 0; i < playerNumbers; i++)
             {
-                //나중에 준명님한테 함수로 가져오기
-                 TotalScore = ((gameData.PlayerData[i].ItemData.CowNumber + gameData.PlayerData[i].ItemData.IronNumber
-                    + gameData.PlayerData[i].ItemData.SoilNumber + gameData.PlayerData[i].ItemData.WaterNumber
-                    + gameData.PlayerData[i].ItemData.WheatNumber + gameData.PlayerData[i].ItemData.WoodNumber)
-                    * tempCardWeightScore)+
-                    ((gameData.PlayerData[i].StatData.WeaponLevel + gameData.PlayerData[i].StatData.ShieldLevel) * tempEquipmentWeightScore) +
-                    ((gameData.PlayerData[i].TileList.Count + gameData.PlayerData[i].BossKillCount) * tempTendAndMonsterWeightScore);
+                testTotalScore[i] = (gameData.PlayerData[i].ItemData.SumOfItem * tempCardWeightScore)
+                   + ((gameData.PlayerData[i].StatData.WeaponLevel + gameData.PlayerData[i].StatData.ShieldLevel) * tempEquipmentWeightScore) +
+                   ((gameData.PlayerData[i].TileList.Count + gameData.PlayerData[i].BossKillCount) * tempTendAndMonsterWeightScore);
 
-                if (double.Parse(playersBonusInfos[i].PlayerTotalScore.text) < TotalScore)
+                if (tempTotalScore <= testTotalScore[i])
                 {
-                    playersBonusInfos[i].PlayerTotalScore.text = string.Format("{0:D2}", tempTotalNumber);
+                    playersBonusInfos[i].PlayerTotalScore.text = string.Format("{0:D2}", tempTotalScore);
                 }
+
             }
-            tempTotalNumber += 1000;
+            tempTotalScore += 1000;
         }
+ 
+
+         
 
         //>>왕관 이미지 보이게하기... 이건 어떻게 해야할까 도무지 떠오르지를 않네
         public void ShowWinnerIcon()
