@@ -30,7 +30,7 @@ namespace RedTheSettlers.UI
 
         private void ChangeWeatherEvent()
         {
-            whatEvent = 1; //Test
+            whatEvent = 0; //Test
                            //currentTurn.text = gameData.cowcow.ToString();
                            //이런식으로 현재 이벤트 정보, Move 정보를 gameData에서 가져와서 텍스트에 넣어줘야 함.
 

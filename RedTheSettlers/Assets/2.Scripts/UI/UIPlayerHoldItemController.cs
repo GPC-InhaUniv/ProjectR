@@ -41,21 +41,39 @@ namespace RedTheSettlers.UI
         [SerializeField]
         private Slider totalItemBar;
 
+        [SerializeField]
+        [Header("Test")]
         private int cowCardNum;
+
+        [SerializeField]
         private int waterCardNum;
+
+        [SerializeField]
         private int wheatCardNum;
+
+        [SerializeField]
         private int woodCardNum;
+
+        [SerializeField]
         private int ironCardNum;
+
+        [SerializeField]
         private int soilCardNum;
+
+        [SerializeField]
         private float cardmaxNum;
 
         private int computeItemNum;
 
-        private void ChangeItem()
-        {
-            cowCardNum = 10; //test
+        private void PutItemNum()
 
-            playerCowItem.text = cowCardNum.ToString(); //test
+        {
+            playerCowItem.text = cowCardNum.ToString();
+            playerWaterItem.text = waterCardNum.ToString();
+            playerWheatItem.text = wheatCardNum.ToString();
+            playerWoodItem.text = woodCardNum.ToString();
+            playerIronItem.text = ironCardNum.ToString();
+            playerSoilItem.text = soilCardNum.ToString();
 
             //PlayerCowItem.text = gameData.cowcow.ToString();
             //이런식으로 6종류 자원을 gameData에서 가져와서 텍스트에 넣어줘야 함.
@@ -63,15 +81,8 @@ namespace RedTheSettlers.UI
 
         private void ComputeTotalItem()
         {
-            cowCardNum = Int32.Parse(playerCowItem.text);
-            waterCardNum = Int32.Parse(playerWaterItem.text);
-            wheatCardNum = Int32.Parse(playerWheatItem.text);
-            woodCardNum = Int32.Parse(playerWoodItem.text);
-            ironCardNum = Int32.Parse(playerIronItem.text);
-            soilCardNum = Int32.Parse(playerSoilItem.text);
-
             computeItemNum = cowCardNum + waterCardNum + wheatCardNum + woodCardNum + ironCardNum + soilCardNum;
-            playerTotalItem.text = computeItemNum.ToString();
+            playerTotalItem.text = computeItemNum.ToString(); //datamanager에서 가져와야 함.
 
             totalItemBar.value = computeItemNum / cardmaxNum;
             LogManager.Instance.UserDebug(LogColor.Olive, GetType().Name, "현재 소지한 자원 합 : " + playerTotalItem.text);
@@ -80,7 +91,7 @@ namespace RedTheSettlers.UI
         private void Start()
         {
             cardmaxNum = 50;
-            ChangeItem();
+            PutItemNum();
             ComputeTotalItem();
         }
 
