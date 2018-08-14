@@ -4,7 +4,12 @@ namespace RedTheSettlers.Enemys
 {
     public class Die : EnemyState
     {
-        public override void DoAction(Enemy enemy)
+        public Die(Enemy enemy)
+        {
+            this.enemy = enemy;
+        }
+
+        public override void DoAction()
         {
             enemy.anim.SetTrigger("Dead");
 

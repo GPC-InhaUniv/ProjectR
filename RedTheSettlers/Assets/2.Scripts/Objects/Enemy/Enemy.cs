@@ -6,6 +6,8 @@ using RedTheSettlers.AI;
 
 namespace RedTheSettlers.Enemys
 {
+    public delegate void FireballCallback(EnemyFireBall enemyFireBall);
+
     public enum EnemyType
     {
         Iron = 0,
@@ -30,20 +32,20 @@ namespace RedTheSettlers.Enemys
     /// 몬스터 클래스
     /// 담당자 : 최대원
     /// </summary>
-    public class Enemy : MonoBehaviour
+    public abstract class Enemy : MonoBehaviour
     {
         public EnemyState currentState;
-        private Material[] materials;
+        protected Material[] materials;
         public GameObject FireBall;
-        private BattleAI battleAI;
+        protected BattleAI battleAI;
 
         [Header("Compoenets")]
         public Animator anim;
-        private SkinnedMeshRenderer typeRenderer;
-        private EnemyAttackArea attackArea;
-        private EnemyHitArea hitArea;
-        private Collider AttackColliderComponent;
-        private Collider HitColliderComponent;
+        protected SkinnedMeshRenderer typeRenderer;
+        protected EnemyAttackArea attackArea;
+        protected EnemyHitArea hitArea;
+        protected Collider AttackColliderComponent;
+        protected Collider HitColliderComponent;
         public Rigidbody rigidbodyComponent;
         public GameObject TargetObject;
 
@@ -69,10 +71,18 @@ namespace RedTheSettlers.Enemys
 
         [SerializeField, Header("test fields")]
         testEnemyController testEnemyController;
-        public EnemyFireBall tempFireBallPool;
-        public EnemyFireBall FireBallPrefab;
 
-        void Start()
+        private void Start()
+        {
+            Setting();
+        }
+
+        private void Update()
+        {
+            UpdatePosition();
+        }
+
+        protected void Setting()
         {
             typeRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
             anim = GetComponent<Animator>();
@@ -81,57 +91,16 @@ namespace RedTheSettlers.Enemys
             rigidbodyComponent = GetComponent<Rigidbody>();
 
             ChangeState(EnemyStateType.Idle);
-
-            //test
-            tempFireBallPool = Instantiate(FireBallPrefab);
-            //tempFireBallPool.gameObject.SetActive(false);
         }
 
-        //fireball test용 pool method
-        public EnemyFireBall PopFireBall()
-        {
-            tempFireBallPool.gameObject.SetActive(true);
-            return tempFireBallPool;
-        }
-
-        //fireball test용 pool method2
-        public void PushFireBall()
-        {
-            FireBallLifeTimer = null;
-            tempFireBallPool.gameObject.SetActive(false);
-        }
-
-        private void Update()
+        protected void UpdatePosition()
         {
             currentPoint = transform.position;
             StopMovement();
         }
 
-        public void ChangeState(EnemyStateType stateType)
+        public virtual void ChangeState(EnemyStateType stateType)
         {
-            switch (stateType)
-            {
-                case EnemyStateType.Idle:
-                    currentState = new Idle();
-                    break;
-                case EnemyStateType.Die:
-                    currentState = new Die();
-                    break;
-                case EnemyStateType.Damage:
-                    currentState = new Damage();
-                    break;
-                case EnemyStateType.Attack1:
-                    currentState = new AttackPattern1();
-                    break;
-                case EnemyStateType.Attack2:
-                    currentState = new AttackPattern2();
-                    break;
-                case EnemyStateType.Move:
-                    currentState = new Move();
-                    break;
-                default:
-                    break;
-            }
             Debug.Log("currentState : " + currentState);
             ReQuest();
         }
@@ -141,31 +110,14 @@ namespace RedTheSettlers.Enemys
             ChangeState((EnemyStateType)stateType);
         }
 
-        private void ReQuest()
+        protected void ReQuest()
         {
-            currentState.DoAction(this);
+            currentState.DoAction();
         }
 
-        public void SetType(EnemyType enemyType)
-        {
-            typeRenderer.material = materials[(int)enemyType];
-        }
-
-        private void StartAttack1()
-        {
-            attackArea.AttackCollider.enabled = true;
-        }
-
-        private void EndAttack()
-        {
-            ChangeState(EnemyStateType.Idle);
-            attackArea.AttackCollider.enabled = false;
-        }
-
-        public void StartAttack2()
-        {
-            ChangeState(EnemyStateType.Attack2);
-        }
+        //자원량을 매개변수로 받아서 enemy의 스탯 설정
+        //DataManager.Instance.GameData.PlayerData[0].ResourceData.SoilNumber = 123;
+        protected abstract void SetStatus(int playerNumber, ItemType type);
 
         //피격 처리를 담당하는 메서드
         public void Damaged(int damage)
@@ -173,11 +125,6 @@ namespace RedTheSettlers.Enemys
             rigidbodyComponent.velocity = Vector3.zero;
             CurrentHp -= damage;
             CheckHp();
-        }
-
-        private void EndDamage()
-        {
-            ChangeState(EnemyStateType.Idle);
         }
 
         public void EndDead()
@@ -188,7 +135,7 @@ namespace RedTheSettlers.Enemys
             Debug.Log("enemy return to pool");
         }
 
-        private void CheckHp()
+        protected void CheckHp()
         {
             if (CurrentHp <= 0)
             {
@@ -201,7 +148,7 @@ namespace RedTheSettlers.Enemys
             }
         }
 
-        private void StopMovement()
+        protected void StopMovement()
         {
             if (Vector3.Distance(destinationPoint, currentPoint) <= 1.0f && currentState.ToString().Contains("Move"))
             {
@@ -210,15 +157,6 @@ namespace RedTheSettlers.Enemys
             }
         }
 
-        void SetStatus(int playerNumber, ItemType type)
-        {
-            //자원량을 매개변수로 받아서 enemy의 스탯 설정
-            //DataManager.Instance.GameData.PlayerData[0].ResourceData.SoilNumber = 123;
-        }
-
-        private void OnEnable()
-        {
-            //SetStatus();
-        }
+        
     }
 }

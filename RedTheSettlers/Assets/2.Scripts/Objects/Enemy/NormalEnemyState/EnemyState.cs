@@ -4,6 +4,6 @@
     {
         protected Enemy enemy;
 
-        public abstract void DoAction(Enemy enemy);
+        public abstract void DoAction();
     }
 }

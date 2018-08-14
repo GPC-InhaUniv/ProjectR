@@ -5,9 +5,14 @@
     /// </summary>
     public class AttackPattern1 : Attack
     {
-        public override void DoAction(Enemy enemy)
+        public AttackPattern1(Enemy enemy)
         {
-            base.DoAction(enemy);
+            this.enemy = enemy;
+        }
+
+        public override void DoAction()
+        {
+            base.DoAction();
         }
     }
 }
