@@ -46,13 +46,15 @@ namespace RedTheSettlers.UnitTest
         private int GetLowestPlayer()
         {
             int lowestPlayerNumber = 0;
-            int tempCampCount = 50; // tempValue
+            int tempCampCount = 39; // tempValue
 
             for (int i = 0; i < GlobalVariables.maxPlayerNumber; i++)
             {
                 // 캠프 수가 같으면 자원 수가 적은 사람이 우선권, 같으면 번호순
                 if (tempCampCount > datas.PlayerData[i].TileList.Count)
+                {
                     lowestPlayerNumber = i;
+                }
                 //else if()
             }
             return lowestPlayerNumber;
