@@ -4,7 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using RedTheSettlers.GameSystem;
 using RedTheSettlers.Tiles;
- 
+using System.Linq;
+using System;
 
 /// <summary>
 /// 작성자 : 김하정
@@ -15,7 +16,7 @@ namespace RedTheSettlers.UI
 {
     public class UICalculateScoreScript : MonoBehaviour
     {
-        const int playerNumbers = GlobalVariables.maxPlayerNumber; 
+        const int playerNumbers = GlobalVariables.maxPlayerNumber;
 
         private int tempScore;
         int TotalScore;
@@ -77,6 +78,17 @@ namespace RedTheSettlers.UI
         [SerializeField]
         private Image secondPlayerWinnerIcon, thirdPlayerWinnerIcon, fourthPlayerWinnerIcon;
 
+        [System.Serializable]
+        private struct PlayerWinnerImages
+        {
+            public string InspedtorName;
+            public Image WinnerButtonImage;
+
+        }
+        [SerializeField]
+        private PlayerWinnerImages[] playerWinnerImages;
+
+        int[] playerTotalScore = new int[playerNumbers] { 0, 0, 0, 0 }; //급 궁금 : 배열을 지역변수로 선언해도 되는걸까?
 
         private GameData gameData;
 
@@ -179,18 +191,17 @@ namespace RedTheSettlers.UI
             thirdPlayerTendAndMonsterWeight.text = tempTendAndMonsterWeightScore.ToString();
             fourthPlayerTendAndMonsterWeight.text = tempTendAndMonsterWeightScore.ToString();
 
+            //코루틴
             StartCoroutine(ChangeScores());
             StartCoroutine(CalculateTotalScore());
-        }
 
-       
-        
+            //ShowWinnerIcon();
+        }
 
         IEnumerator ChangeScores()
         {
             if (playersCardInfo.Length <= playerNumbers && playersBonusInfos.Length <= playerNumbers)
             {
-
                 while (tempScore < 50)
                 {
                     for (int i = 0; i < playersCardInfo.Length; i++)
@@ -237,63 +248,50 @@ namespace RedTheSettlers.UI
                         {
                             playersBonusInfos[i].PlayerKillMonster.text = string.Format("{0:D2}", tempScore);
                         }
-
                     }
                     tempScore++;
-                    yield return null;
+                    yield return new WaitForSeconds(0.05f);
                 }
-
-             
             }
             else
             {
                 LogManager.Instance.UserDebug(LogColor.Red, GetType().Name, "작업자님 인스펙터 창을 다시 확인해주세요. 플레이어의 숫자가 4명을 넘어갔습니다.");
             }
-           
-           
         }
-
-        int[] testTotalScore = new int[playerNumbers] {0,0,0,0};
 
         IEnumerator CalculateTotalScore()
         {
-            while (tempTotalNumber < 9999999) //그 배열에서 가장 큰 수 찾기.
+            int calculateFlag = 0;
+
+            while (tempTotalNumber <= playerTotalScore.Max())
             {
                 for (int i = 0; i < playerNumbers; i++)
-                {
-                    testTotalScore[i] = (gameData.PlayerData[i].ItemData.SumOfItem * tempCardWeightScore)
+                { 
+                    if (calculateFlag == 0) //한번만 계산하도록 하기 위해 if문을 붙임
+                    {
+                        playerTotalScore[i] = (gameData.PlayerData[i].ItemData.SumOfItem * tempCardWeightScore)
                        + ((gameData.PlayerData[i].StatData.WeaponLevel + gameData.PlayerData[i].StatData.ShieldLevel) * tempEquipmentWeightScore) +
                        ((gameData.PlayerData[i].TileList.Count + gameData.PlayerData[i].BossKillCount) * tempTendAndMonsterWeightScore);
 
-                    if (tempTotalNumber <= testTotalScore[i])
+                    }
+                    if (tempTotalNumber <= playerTotalScore[i]) //else if문을 사용하지 않은 이유는 else if문을 사용하게되면 처음 한번은 작동하지 않기 때문이다.
                     {
                         playersBonusInfos[i].PlayerTotalScore.text = string.Format("{0:D2}", tempTotalNumber);
                     }
 
                 }
                 tempTotalNumber += 1000;
-                yield return null;
-            }
-            
-        }
- 
+                calculateFlag = 1;
 
-         
+                int maxValue = playerTotalScore.Max();  //위에서 저장된 playerTotalScore값은 전역변수인데도 밖으로 나오면 값이 없어지나?
+                int maxIndex = playerTotalScore.ToList().IndexOf(maxValue);
+                //버튼 배열에 index넣어주기
+                playerWinnerImages[maxIndex].WinnerButtonImage.gameObject.SetActive(true);
 
-        //>>왕관 이미지 보이게하기... 이건 어떻게 해야할까 도무지 떠오르지를 않네
-        public void ShowWinnerIcon()
-        {
-            if (double.Parse(playersBonusInfos[0].PlayerTotalScore.text) < double.Parse(playersBonusInfos[1].PlayerTotalScore.text))
-            {
-                secondPlayerWinnerIcon.gameObject.SetActive(true);
+                yield return new WaitForSeconds(0.01f);
             }
-            else
-            {
-                firstPlayerWinnerIcon.gameObject.SetActive(true);
-            }
-            
            
         }
-
+ 
     }
 }
