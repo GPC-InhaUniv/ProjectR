@@ -7,17 +7,17 @@ namespace RedTheSettlers.UnitTest
 {
     public enum Weather
     {
-        Rain, // water
+        Rain,             // water
         Drought,
-        RichYear, // wheat
+        RichYear,         // wheat
         SwarmOfLocusts,
-        BreedingSeason, // cow
+        BreedingSeason,   // cow
         Plague,
         FestivalOfSprits, // foreset
         ForestFire,
-        GoldMine, // iron
+        GoldMine,         // iron
         LandSlide,
-        GoodSoil, // soil
+        GoodSoil,         // soil
         Deluge,
     }
 
@@ -26,59 +26,62 @@ namespace RedTheSettlers.UnitTest
         GameData datas = DataManager.Instance.GameData;
         abstract public void GetItems();
 
-        // ##수정
-        // 캠프 개수 정보를 알 수 없어서 ItemData로 일단 짰음.
-        public void GetItemfromWeather(ItemType type, int itemCount)
+        /// <summary>
+        /// 자원 타입에 따른 자원 획득을 수행한다.
+        /// </summary>
+        /// <param name="type">얻을 자원의 타입</param>
+        /// <param name="weatherBonus">날씨에 따른 자원 추가 획득량 (1, -1)</param>
+        public void GetItemByType(ItemType type, int weatherBonus)
         {
             switch (type)
             {
                 case ItemType.Water:
                     for (int i = 0; i < GlobalVariables.maxPlayerNumber; i++)
-                        datas.PlayerData[i].ItemData.WaterNumber *= itemCount + GetItemfromCampLevel(type, i);
+                        datas.PlayerData[i].ItemData.WaterNumber += GetItemfromCampLevel(type, weatherBonus, i);
                     break;
 
                 case ItemType.Wheat:
                     for (int i = 0; i < GlobalVariables.maxPlayerNumber; i++)
-                        datas.PlayerData[i].ItemData.WheatNumber *= itemCount + GetItemfromCampLevel(type, i);
+                        datas.PlayerData[i].ItemData.WheatNumber += GetItemfromCampLevel(type, weatherBonus, i);
                     break;
 
                 case ItemType.Wood:
                     for (int i = 0; i < GlobalVariables.maxPlayerNumber; i++)
-                        datas.PlayerData[i].ItemData.WoodNumber *= itemCount + GetItemfromCampLevel(type, i);
+                        datas.PlayerData[i].ItemData.WoodNumber += GetItemfromCampLevel(type, weatherBonus, i);
                     break;
 
                 case ItemType.Cow:
                     for (int i = 0; i < GlobalVariables.maxPlayerNumber; i++)
-                        datas.PlayerData[i].ItemData.CowNumber *= itemCount + GetItemfromCampLevel(type, i);
+                        datas.PlayerData[i].ItemData.CowNumber += GetItemfromCampLevel(type, weatherBonus, i);
                     break;
 
                 case ItemType.Iron:
                     for (int i = 0; i < GlobalVariables.maxPlayerNumber; i++)
-                        datas.PlayerData[i].ItemData.IronNumber *= itemCount + GetItemfromCampLevel(type, i);
+                        datas.PlayerData[i].ItemData.IronNumber += GetItemfromCampLevel(type, weatherBonus, i);
                     break;
 
                 case ItemType.Soil:
                     for (int i = 0; i < GlobalVariables.maxPlayerNumber; i++)
-                        datas.PlayerData[i].ItemData.SoilNumber *= itemCount;
+                        datas.PlayerData[i].ItemData.SoilNumber *= GetItemfromCampLevel(type, weatherBonus, i);
                     break;
             }
         }
 
         // ##수정
         // GameManager에 타입별로 자원 개수를 얻을 수 있게 되면 수정할 것
-        private int GetItemfromCampLevel(ItemType type, int playerNumber)
+        private int GetItemfromCampLevel(ItemType type, int weatherBonus, int playerNumber)
         {
             int playerCampCount = datas.PlayerData[playerNumber].TileList.Count;
             int getItemCount = 0;
 
             for (int i = 0; i < playerCampCount; i++)
             {
-                // 해당 타일 타입이고 타일 레벨이 2이면 획득 자원이 하나씩 증가한다.
-                if (datas.PlayerData[playerNumber].TileList[i].TileType == type
-                    && datas.PlayerData[playerNumber].TileList[i].TileLevel == 2)
-                { getItemCount++; }
+                // 해당 타일 타입의 개수만큼, 타일 레벨 + 날씨 보너스만큼 획득 자원이 증가한다.
+                if (datas.PlayerData[playerNumber].TileList[i].TileType == type)
+                { getItemCount += ( datas.PlayerData[playerNumber].TileList[i].TileLevel + weatherBonus ); }
             }
 
+            LogManager.Instance.UserDebug(LogColor.Orange, GetType().Name, "Player" + playerNumber + "의 " + type.ToString() + " 획득량 : " + getItemCount);
             return getItemCount;
         }
     }
@@ -94,12 +97,12 @@ namespace RedTheSettlers.UnitTest
     {
         public override void GetItems()
         {
-            GetItemfromWeather(ItemType.Water, 2);
-            GetItemfromWeather(ItemType.Wheat, 1);
-            GetItemfromWeather(ItemType.Wood, 1);
-            GetItemfromWeather(ItemType.Cow, 1);
-            GetItemfromWeather(ItemType.Iron, 1);
-            GetItemfromWeather(ItemType.Soil, 1);
+            GetItemByType(ItemType.Water, 1);
+            GetItemByType(ItemType.Wheat, 0);
+            GetItemByType(ItemType.Wood, 0);
+            GetItemByType(ItemType.Cow, 0);
+            GetItemByType(ItemType.Iron, 0);
+            GetItemByType(ItemType.Soil, 0);
         }
     }
 
@@ -107,12 +110,12 @@ namespace RedTheSettlers.UnitTest
     {
         public override void GetItems()
         {
-            GetItemfromWeather(ItemType.Water, 0);
-            GetItemfromWeather(ItemType.Wheat, 1);
-            GetItemfromWeather(ItemType.Wood, 1);
-            GetItemfromWeather(ItemType.Cow, 1);
-            GetItemfromWeather(ItemType.Iron, 1);
-            GetItemfromWeather(ItemType.Soil, 1);
+            GetItemByType(ItemType.Water, -1);
+            GetItemByType(ItemType.Wheat, 0);
+            GetItemByType(ItemType.Wood, 0);
+            GetItemByType(ItemType.Cow, 0);
+            GetItemByType(ItemType.Iron, 0);
+            GetItemByType(ItemType.Soil, 0);
         }
     }
 
@@ -120,12 +123,12 @@ namespace RedTheSettlers.UnitTest
     {
         public override void GetItems()
         {
-            GetItemfromWeather(ItemType.Water, 1);
-            GetItemfromWeather(ItemType.Wheat, 2);
-            GetItemfromWeather(ItemType.Wood, 1);
-            GetItemfromWeather(ItemType.Cow, 1);
-            GetItemfromWeather(ItemType.Iron, 1);
-            GetItemfromWeather(ItemType.Soil, 1);
+            GetItemByType(ItemType.Water, 0);
+            GetItemByType(ItemType.Wheat, 1);
+            GetItemByType(ItemType.Wood, 0);
+            GetItemByType(ItemType.Cow, 0);
+            GetItemByType(ItemType.Iron, 0);
+            GetItemByType(ItemType.Soil, 0);
         }
     }
 
@@ -133,12 +136,12 @@ namespace RedTheSettlers.UnitTest
     {
         public override void GetItems()
         {
-            GetItemfromWeather(ItemType.Water, 1);
-            GetItemfromWeather(ItemType.Wheat, 0);
-            GetItemfromWeather(ItemType.Wood, 1);
-            GetItemfromWeather(ItemType.Cow, 1);
-            GetItemfromWeather(ItemType.Iron, 1);
-            GetItemfromWeather(ItemType.Soil, 1);
+            GetItemByType(ItemType.Water, 0);
+            GetItemByType(ItemType.Wheat, -1);
+            GetItemByType(ItemType.Wood, 0);
+            GetItemByType(ItemType.Cow, 0);
+            GetItemByType(ItemType.Iron, 0);
+            GetItemByType(ItemType.Soil, 0);
         }
     }
 
@@ -146,12 +149,12 @@ namespace RedTheSettlers.UnitTest
     {
         public override void GetItems()
         {
-            GetItemfromWeather(ItemType.Water, 1);
-            GetItemfromWeather(ItemType.Wheat, 1);
-            GetItemfromWeather(ItemType.Wood, 1);
-            GetItemfromWeather(ItemType.Cow, 2);
-            GetItemfromWeather(ItemType.Iron, 1);
-            GetItemfromWeather(ItemType.Soil, 1);
+            GetItemByType(ItemType.Water, 0);
+            GetItemByType(ItemType.Wheat, 0);
+            GetItemByType(ItemType.Wood, 0);
+            GetItemByType(ItemType.Cow, 1);
+            GetItemByType(ItemType.Iron, 0);
+            GetItemByType(ItemType.Soil, 0);
         }
     }
 
@@ -159,12 +162,12 @@ namespace RedTheSettlers.UnitTest
     {
         public override void GetItems()
         {
-            GetItemfromWeather(ItemType.Water, 1);
-            GetItemfromWeather(ItemType.Wheat, 1);
-            GetItemfromWeather(ItemType.Wood, 1);
-            GetItemfromWeather(ItemType.Cow, 0);
-            GetItemfromWeather(ItemType.Iron, 1);
-            GetItemfromWeather(ItemType.Soil, 1);
+            GetItemByType(ItemType.Water, 0);
+            GetItemByType(ItemType.Wheat, 0);
+            GetItemByType(ItemType.Wood, 0);
+            GetItemByType(ItemType.Cow, -1);
+            GetItemByType(ItemType.Iron, 0);
+            GetItemByType(ItemType.Soil, 0);
         }
     }
 
@@ -172,12 +175,12 @@ namespace RedTheSettlers.UnitTest
     { 
         public override void GetItems()
         {
-            GetItemfromWeather(ItemType.Water, 1);
-            GetItemfromWeather(ItemType.Wheat, 1);
-            GetItemfromWeather(ItemType.Wood, 2);
-            GetItemfromWeather(ItemType.Cow, 1);
-            GetItemfromWeather(ItemType.Iron, 1);
-            GetItemfromWeather(ItemType.Soil, 1);
+            GetItemByType(ItemType.Water, 0);
+            GetItemByType(ItemType.Wheat, 0);
+            GetItemByType(ItemType.Wood, 1);
+            GetItemByType(ItemType.Cow, 0);
+            GetItemByType(ItemType.Iron, 0);
+            GetItemByType(ItemType.Soil, 0);
         }
     }
 
@@ -185,12 +188,12 @@ namespace RedTheSettlers.UnitTest
     {
         public override void GetItems()
         {
-            GetItemfromWeather(ItemType.Water, 1);
-            GetItemfromWeather(ItemType.Wheat, 1);
-            GetItemfromWeather(ItemType.Wood, 0);
-            GetItemfromWeather(ItemType.Cow, 1);
-            GetItemfromWeather(ItemType.Iron, 1);
-            GetItemfromWeather(ItemType.Soil, 1);
+            GetItemByType(ItemType.Water, 0);
+            GetItemByType(ItemType.Wheat, 0);
+            GetItemByType(ItemType.Wood, -1);
+            GetItemByType(ItemType.Cow, 0);
+            GetItemByType(ItemType.Iron, 0);
+            GetItemByType(ItemType.Soil, 0);
         }
     }
 
@@ -198,12 +201,12 @@ namespace RedTheSettlers.UnitTest
     {
         public override void GetItems()
         {
-            GetItemfromWeather(ItemType.Water, 1);
-            GetItemfromWeather(ItemType.Wheat, 1);
-            GetItemfromWeather(ItemType.Wood, 1);
-            GetItemfromWeather(ItemType.Cow, 1);
-            GetItemfromWeather(ItemType.Iron, 2);
-            GetItemfromWeather(ItemType.Soil, 1);
+            GetItemByType(ItemType.Water, 0);
+            GetItemByType(ItemType.Wheat, 0);
+            GetItemByType(ItemType.Wood, 0);
+            GetItemByType(ItemType.Cow, 0);
+            GetItemByType(ItemType.Iron, 1);
+            GetItemByType(ItemType.Soil, 0);
         }
     }
 
@@ -211,12 +214,12 @@ namespace RedTheSettlers.UnitTest
     {
         public override void GetItems()
         {
-            GetItemfromWeather(ItemType.Water, 1);
-            GetItemfromWeather(ItemType.Wheat, 1);
-            GetItemfromWeather(ItemType.Wood, 1);
-            GetItemfromWeather(ItemType.Cow, 1);
-            GetItemfromWeather(ItemType.Iron, 0);
-            GetItemfromWeather(ItemType.Soil, 1);
+            GetItemByType(ItemType.Water, 0);
+            GetItemByType(ItemType.Wheat, 0);
+            GetItemByType(ItemType.Wood, 0);
+            GetItemByType(ItemType.Cow, 0);
+            GetItemByType(ItemType.Iron, -1);
+            GetItemByType(ItemType.Soil, 0);
         }
     }
 
@@ -224,12 +227,12 @@ namespace RedTheSettlers.UnitTest
     {
         public override void GetItems()
         {
-            GetItemfromWeather(ItemType.Water, 1);
-            GetItemfromWeather(ItemType.Wheat, 1);
-            GetItemfromWeather(ItemType.Wood, 1);
-            GetItemfromWeather(ItemType.Cow, 1);
-            GetItemfromWeather(ItemType.Iron, 1);
-            GetItemfromWeather(ItemType.Soil, 2);
+            GetItemByType(ItemType.Water, 0);
+            GetItemByType(ItemType.Wheat, 0);
+            GetItemByType(ItemType.Wood, 0);
+            GetItemByType(ItemType.Cow, 0);
+            GetItemByType(ItemType.Iron, 0);
+            GetItemByType(ItemType.Soil, 1);
         }
     }
 
@@ -237,12 +240,12 @@ namespace RedTheSettlers.UnitTest
     {
         public override void GetItems()
         {
-            GetItemfromWeather(ItemType.Water, 1);
-            GetItemfromWeather(ItemType.Wheat, 1);
-            GetItemfromWeather(ItemType.Wood, 1);
-            GetItemfromWeather(ItemType.Cow, 1);
-            GetItemfromWeather(ItemType.Iron, 1);
-            GetItemfromWeather(ItemType.Soil, 0);
+            GetItemByType(ItemType.Water, 0);
+            GetItemByType(ItemType.Wheat, 0);
+            GetItemByType(ItemType.Wood, 0);
+            GetItemByType(ItemType.Cow, 0);
+            GetItemByType(ItemType.Iron, 0);
+            GetItemByType(ItemType.Soil, -1);
         }
     }
 }
