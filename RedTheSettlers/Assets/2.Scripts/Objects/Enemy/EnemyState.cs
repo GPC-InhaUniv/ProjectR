@@ -2,8 +2,6 @@
 {
     public abstract class EnemyState
     {
-        protected Enemy enemy;
-
-        public abstract void DoAction();
+        public abstract void DoAction(Enemy enemy);
     }
 }

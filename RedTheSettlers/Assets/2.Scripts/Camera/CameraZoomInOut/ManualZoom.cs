@@ -34,7 +34,7 @@ namespace RedTheSettlers.GameSystem
             }
 
         }
-        private IEnumerator ZoomIn(float zoomIn)
+        private float ZoomIn(float zoomIn)
         {
             while (true)
             {
@@ -47,7 +47,8 @@ namespace RedTheSettlers.GameSystem
                     break;
                 }
             }
-            yield return new WaitForSeconds(1f);//WaitForEndOfFrame();
+            //yield return new WaitForSeconds(1f);//WaitForEndOfFrame();
+            return camera.fieldOfView;
         }
         private IEnumerator ZoomOut(float cameraFOV)
         {
@@ -56,6 +57,7 @@ namespace RedTheSettlers.GameSystem
                 if (camera.fieldOfView >= cameraFOV)
                 {
                     camera.fieldOfView = Mathf.Lerp(camera.fieldOfView, cameraFOV, Time.deltaTime * zoomSpeed);
+                    yield return new WaitForSeconds(0.5f);
                 }
                 else break;
 

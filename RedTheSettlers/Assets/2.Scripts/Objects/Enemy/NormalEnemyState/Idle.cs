@@ -1,15 +1,10 @@
 ﻿using UnityEngine;
 
-namespace RedTheSettlers.Enemys
+namespace RedTheSettlers.Enemys.Normal
 {
     public class Idle : EnemyState
     {
-        public Idle(Enemy enemy)
-        {
-            this.enemy = enemy;
-        }
-
-        public override void DoAction()
+        public override void DoAction(Enemy enemy)
         {
             enemy.anim.SetFloat("Speed", enemy.rigidbodyComponent.velocity.magnitude);
         }

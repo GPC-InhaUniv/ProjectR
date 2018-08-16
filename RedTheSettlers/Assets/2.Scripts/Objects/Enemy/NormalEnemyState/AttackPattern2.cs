@@ -1,28 +1,23 @@
 ﻿using RedTheSettlers.GameSystem;
 using UnityEngine;
 
-namespace RedTheSettlers.Enemys
+namespace RedTheSettlers.Enemys.Normal
 {
     /// <summary>
     /// 파이어볼 발사, enemy 객체는 한번에 하나의 fireball 객체를 보유할 수 있다.
     /// </summary>
     public class AttackPattern2 : Attack
     {
-        public AttackPattern2(NormalEnemy enemy)
-        {
-            this.enemy = enemy;
-        }
-
         EnemyFireBall fireBall;
         const float lifeTime = 3f;
         const float speedCorrection = 50f;
         const float Yoffset = 0.55f;
 
-        public override void DoAction()
+        public override void DoAction(Enemy enemy)
         {
             if (enemy.FireBallLifeTimer == null)
             {
-                base.DoAction();
+                base.DoAction(enemy);
 
                 Vector3 normalVector = (enemy.TargetObject.transform.position - enemy.transform.position).normalized;
                 normalVector.y = 0f;

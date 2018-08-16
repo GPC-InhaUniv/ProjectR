@@ -1,18 +1,13 @@
-﻿namespace RedTheSettlers.Enemys
+﻿namespace RedTheSettlers.Enemys.Normal
 {
     /// <summary>
     /// 기본 공격
     /// </summary>
     public class AttackPattern1 : Attack
     {
-        public AttackPattern1(Enemy enemy)
+        public override void DoAction(Enemy enemy)
         {
-            this.enemy = enemy;
-        }
-
-        public override void DoAction()
-        {
-            base.DoAction();
+            base.DoAction(enemy);
         }
     }
 }
