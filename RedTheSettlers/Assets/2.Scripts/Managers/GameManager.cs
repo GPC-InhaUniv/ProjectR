@@ -27,6 +27,7 @@ namespace RedTheSettlers.GameSystem
 
         private void Start()
         {
+            //각 자원별 타일 분류
             PlayerCowTileData = new List<TileData>[GlobalVariables.maxPlayerNumber];
             PlayerIronTileData = new List<TileData>[GlobalVariables.maxPlayerNumber];
             PlayerSoilTileData = new List<TileData>[GlobalVariables.maxPlayerNumber];
@@ -35,31 +36,35 @@ namespace RedTheSettlers.GameSystem
             PlayerWoodTileData = new List<TileData>[GlobalVariables.maxPlayerNumber];
         }
 
-        public void SortList(int playerNumber)
+        /// <summary>
+        /// 모든 타일을 검색해서 각 플레이어가 가진 타일을 자원별로 분류합니다.
+        /// </summary>
+        /// <param name="playerNumber"></param>
+        public void SortItemList(int playerNumber)
         {
             for (int i = 0; i < DataManager.Instance.GameData.PlayerData[playerNumber].TileList.Count; i++)
             {
-                if (DataManager.Instance.GameData.PlayerData[playerNumber].TileList[i].TileType == TileType.Beef)
+                if (DataManager.Instance.GameData.PlayerData[playerNumber].TileList[i].TileType == ItemType.Cow)
                 {
                     PlayerCowTileData[playerNumber].Add(DataManager.Instance.GameData.PlayerData[playerNumber].TileList[i]);
                 }
-                else if (DataManager.Instance.GameData.PlayerData[playerNumber].TileList[i].TileType == TileType.Iron)
+                else if (DataManager.Instance.GameData.PlayerData[playerNumber].TileList[i].TileType == ItemType.Iron)
                 {
                     PlayerIronTileData[playerNumber].Add(DataManager.Instance.GameData.PlayerData[playerNumber].TileList[i]);
                 }
-                else if (DataManager.Instance.GameData.PlayerData[playerNumber].TileList[i].TileType == TileType.Malt)
+                else if (DataManager.Instance.GameData.PlayerData[playerNumber].TileList[i].TileType == ItemType.Soil)
                 {
                     PlayerSoilTileData[playerNumber].Add(DataManager.Instance.GameData.PlayerData[playerNumber].TileList[i]);
                 }
-                else if (DataManager.Instance.GameData.PlayerData[playerNumber].TileList[i].TileType == TileType.River)
+                else if (DataManager.Instance.GameData.PlayerData[playerNumber].TileList[i].TileType == ItemType.Water)
                 {
                     PlayerWaterTileData[playerNumber].Add(DataManager.Instance.GameData.PlayerData[playerNumber].TileList[i]);
                 }
-                else if (DataManager.Instance.GameData.PlayerData[playerNumber].TileList[i].TileType == TileType.Soil)
+                else if (DataManager.Instance.GameData.PlayerData[playerNumber].TileList[i].TileType == ItemType.Wheat)
                 {
                     PlayerWheatTileData[playerNumber].Add(DataManager.Instance.GameData.PlayerData[playerNumber].TileList[i]);
                 }
-                else if (DataManager.Instance.GameData.PlayerData[playerNumber].TileList[i].TileType == TileType.Wood)
+                else if (DataManager.Instance.GameData.PlayerData[playerNumber].TileList[i].TileType == ItemType.Wood)
                 {
                     PlayerWoodTileData[playerNumber].Add(DataManager.Instance.GameData.PlayerData[playerNumber].TileList[i]);
                 }
