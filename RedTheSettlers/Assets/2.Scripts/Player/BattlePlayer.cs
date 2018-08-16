@@ -13,7 +13,7 @@ namespace RedTheSettlers.Players
         Dead
     }
 
-    public class PlayerBattle : MonoBehaviour
+    public class BattlePlayer : MonoBehaviour
     {
         private GameTimer playerTimer;
         private Animator animator;
@@ -100,6 +100,11 @@ namespace RedTheSettlers.Players
         public IEnumerator UseSkill(Skill skill)
         {
             yield return null;
+        }
+
+        public void ChangeSpeed(float amount)
+        {
+            moveSpeed += amount;
         }
     }
 }

@@ -15,7 +15,7 @@ namespace RedTheSettlers.Tiles
         {
             int suddenDeathTimecount = 0;
 
-            while (suddenDeathTimecount > 10)
+            while (suddenDeathTimecount < 10)
             {
                 suddenDeathTimecount++;
                 yield return new WaitForSeconds(0.1f);
