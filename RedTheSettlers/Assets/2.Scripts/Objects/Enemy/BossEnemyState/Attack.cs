@@ -1,10 +1,10 @@
-﻿namespace RedTheSettlers.Enemys.Normal
+﻿namespace RedTheSettlers.Enemys.Boss
 {
     public class Attack : EnemyState
     {
         public override void DoAction(Enemy enemy)
         {
-            enemy.anim.SetTrigger("Attack");
+
         }
     }
 }

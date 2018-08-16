@@ -99,7 +99,9 @@ namespace RedTheSettlers.GameSystem
             }
         }
 
-
+        //필요한 기능들
+        // 다희 : 선택 된 타일의 타입을 알아야 한다.
+        // " : 선택 된 타일이 어느 플레이어 건지 알아야 한다.
 
 
     }

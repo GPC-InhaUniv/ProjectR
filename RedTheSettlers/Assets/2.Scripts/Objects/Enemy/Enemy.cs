@@ -112,12 +112,17 @@ namespace RedTheSettlers.Enemys
 
         protected void ReQuest()
         {
-            currentState.DoAction();
+            currentState.DoAction(this);
         }
 
         //자원량을 매개변수로 받아서 enemy의 스탯 설정
         //DataManager.Instance.GameData.PlayerData[0].ResourceData.SoilNumber = 123;
-        protected abstract void SetStatus(int playerNumber, ItemType type);
+        protected virtual void SetStatus(int ItemNumber)
+        {
+            MaxHp = 10 + ItemNumber * 3;
+            Power = 2 + ItemNumber * 0.5f;
+            CurrentHp = MaxHp;
+        }
 
         //피격 처리를 담당하는 메서드
         public void Damaged(int damage)

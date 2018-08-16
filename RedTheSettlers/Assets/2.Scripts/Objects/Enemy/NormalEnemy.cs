@@ -23,22 +23,22 @@ namespace RedTheSettlers.Enemys
             switch (stateType)
             {
                 case EnemyStateType.Idle:
-                    currentState = new Idle(this);
+                    currentState = new Normal.Idle();
                     break;
                 case EnemyStateType.Die:
-                    currentState = new Die(this);
+                    currentState = new Normal.Die();
                     break;
                 case EnemyStateType.Damage:
-                    currentState = new Damage(this);
+                    currentState = new Normal.Damage();
                     break;
                 case EnemyStateType.Attack1:
-                    currentState = new AttackPattern1(this);
+                    currentState = new Normal.AttackPattern1();
                     break;
                 case EnemyStateType.Attack2:
-                    currentState = new AttackPattern2(this);
+                    currentState = new Normal.AttackPattern2();
                     break;
                 case EnemyStateType.Move:
-                    currentState = new Move(this);
+                    currentState = new Normal.Move();
                     break;
                 default:
                     break;
@@ -86,16 +86,14 @@ namespace RedTheSettlers.Enemys
             ObjectPoolManager.Instance.FireballQueue.Enqueue(enemyFireBall);
         }
 
+        protected override void SetStatus(int ItemNumber)
+        {
+            base.SetStatus(ItemNumber);
+        }
+
         //자원량을 매개변수로 받아서 enemy의 스탯 설정
         //DataManager.Instance.GameData.PlayerData[0].ResourceData.SoilNumber = 123;
         //게임매니저에서 받으면 ㄷ횐다.
-        protected override void SetStatus(int playerNumber, ItemType type)
-        {
-            if(type == ItemType.Cow)
-            {
-                
-            }
-            
-        }
+
     }
 }
