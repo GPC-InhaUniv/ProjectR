@@ -76,7 +76,7 @@ public class MainStageState : InputState
             dragDirection = (dragPosition - firstClick).normalized;
         }
     }
-    public override void ZoomOrOut(float speed)
+    public override void ZoomInOut(float speed)
     {
         if(Input.GetAxis("Mouse ScrollWheel") * reversValue < 0)
         {

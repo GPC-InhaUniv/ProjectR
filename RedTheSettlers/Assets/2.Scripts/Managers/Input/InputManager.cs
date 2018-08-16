@@ -92,7 +92,7 @@ namespace RedTheSettlers.GameSystem
         public void MainStageDragAndZoom()
         {
             input.DragMove(moveSpeed);
-            input.ZoomOrOut(zoomSpeed);
+            input.ZoomInOut(zoomSpeed);
         }
 
         public void OnBeginDrag()
