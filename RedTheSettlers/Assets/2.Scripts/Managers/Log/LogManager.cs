@@ -23,7 +23,7 @@ namespace RedTheSettlers.GameSystem
         Blue,
         Navy,
         Purple,
-        Magenta,
+        Magenta, //준명
         Brown,
         Red, // 중요
     }

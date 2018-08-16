@@ -14,6 +14,18 @@ namespace RedTheSettlers.GameSystem
         Wood = 5,
     }
 
+    public enum AssetBundleNumbers
+    {
+        Player,
+        Skill,
+        Enemy, // unload(false)
+        MiddleBoss1,
+        MiddleBoss2,
+        Boss,
+        Tile, // unload(false)
+        UI,
+    }
+
     static class GlobalVariables
     {
         public const int tileGridSize = 9;

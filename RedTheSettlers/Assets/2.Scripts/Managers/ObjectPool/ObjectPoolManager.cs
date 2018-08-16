@@ -24,13 +24,13 @@ namespace RedTheSettlers.GameSystem
         {
             TileSet = new GameObject[TilePoolSize];
 
-            //for (int i = 0; i < 61; i++)
-            //{
-            //    int randomTileIndex = Random.Range(0, 0);
+            for (int i = 0; i < 61; i++)
+            {
+                int randomTileIndex = Random.Range(0, 0);
 
-            //    TileSet[i] = Instantiate(TileObjects[randomTileIndex]);
-            //    TileSet[i].transform.parent = CloneSet[randomTileIndex].transform;
-            //}
+                TileSet[i] = Instantiate(TileObjects[randomTileIndex]);
+                TileSet[i].transform.parent = CloneSet[randomTileIndex].transform;
+            }
 
             SkillQueue = new Queue<GameObject>(6);
             for (int i = 0; i < 6; i++)
