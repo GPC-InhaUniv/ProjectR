@@ -4,18 +4,6 @@ using UnityEngine;
 
 namespace RedTheSettlers.GameSystem
 {
-    public enum AssetBundleNumbers
-    {
-        Player,
-        Skill,
-        Enemy, // unload(false)
-        MiddleBoss1,
-        MiddleBoss2,
-        Boss,
-        Tile, // unload(false)
-        UI,
-    }
-
     public class AssetBundleSettings : MonoBehaviour
     {
         public const int HashCodeLine = 6; //6번째 ReadLine에 Manifest의 Hash코드 라인을 읽게 된다.
