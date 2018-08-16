@@ -23,6 +23,7 @@ namespace RedTheSettlers.GameSystem
     public class DataManager : Singleton<DataManager>
     {
         public const string DirectoryName = "Data";
+        public const string FilePath = DirectoryName + "/AssetBundleData.txt";
         private GameData gameData;
 
         public GameData GameData
@@ -81,48 +82,28 @@ namespace RedTheSettlers.GameSystem
                 LogManager.Instance.UserDebug(LogColor.Magenta, "DataManager", "파일이 이미 존재합니다.");
 
 
-            using (StreamWriter file = new StreamWriter(DirectoryName + "/AssetBundleData.txt"))
+            using (StreamWriter file = new StreamWriter(FilePath))
             {
-                FileInfo fileInfo = new FileInfo(DirectoryName + "/AssetBundleData.txt");
+                FileInfo fileInfo = new FileInfo(FilePath);
                 if (!fileInfo.Exists)
                 {
-                    for (int i = 0; i < 5; i++)
-                        file.WriteLine("Text" + i);
+                    File.Create(FilePath);
                 }
                 else
                 {
+
+                    string[] lines;
+                    lines = File.ReadAllLines(FilePath);
+                    for (int i = 0; i < lines.Length; i ++)
+                    {
+                        
+                    }
 
                 }
                 
                 
             }
-            /*switch (bundleNumbers)
-            {
-                case AssetBundleNumbers.Player:
-                    fileName = Application.dataPath + "/PlayerBundle.txt";
-                    break;
-                case AssetBundleNumbers.Skill:
-                    fileName = Application.dataPath + "/SkillBundle.txt";
-                    break;
-                case AssetBundleNumbers.Enemy:
-                    fileName = Application.dataPath + "/EnemyBundle.txt";
-                    break;
-                case AssetBundleNumbers.MiddleBoss1:
-                    fileName = Application.dataPath + "/MiddleBoss1Bundle.txt";
-                    break;
-                case AssetBundleNumbers.MiddleBoss2:
-                    fileName = Application.dataPath + "/MiddleBoss2Bundle.txt";
-                    break;
-                case AssetBundleNumbers.Boss:
-                    fileName = Application.dataPath + "/BossBundle.txt";
-                    break;
-                case AssetBundleNumbers.Tile:
-                    fileName = Application.dataPath + "/TileBundle.txt";
-                    break;
-                case AssetBundleNumbers.UI:
-                    fileName = Application.dataPath + "/UIBundle.txt";
-                    break;
-            }*/
+            
 
 
 
