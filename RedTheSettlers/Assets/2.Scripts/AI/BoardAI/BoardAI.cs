@@ -21,11 +21,11 @@ namespace RedTheSettlers.AI
             tileQueue = new PriorityQueue<BoardTile>();
 
             resource = new Dictionary<TileType, int>();
-            resource.Add(TileType.Beef, 1);
+            resource.Add(TileType.Cow, 1);
             resource.Add(TileType.Iron, 2);
-            resource.Add(TileType.Malt, 3);
-            resource.Add(TileType.River, 4);
-            resource.Add(TileType.Soil, 5);
+            resource.Add(TileType.Soil, 3);
+            resource.Add(TileType.Water, 4);
+            resource.Add(TileType.Wheat, 5);
             resource.Add(TileType.Wood, 6);
 
             yield return new WaitForSeconds(0.5f);
