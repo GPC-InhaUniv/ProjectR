@@ -9,6 +9,7 @@ namespace RedTheSettlers.GameSystem
     public class FollowMoving : CameraMoving
     {
         ICameraState cameraState;
+        Animation animation;
         public FollowMoving(GameObject cameraObject)
         {
             this.cameraObject = cameraObject;
@@ -23,6 +24,7 @@ namespace RedTheSettlers.GameSystem
         public override void Moving(Vector3 vector3)
         {
             cameraState.CameraBehavior(vector3);
+            animation.Play();
         }
 
         private void StateTest()
