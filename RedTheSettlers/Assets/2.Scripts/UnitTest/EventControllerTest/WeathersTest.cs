@@ -33,44 +33,16 @@ namespace RedTheSettlers.UnitTest
         /// <param name="weatherBonus">날씨에 따른 자원 획득량 제어</param>
         public void GetItemByType(ItemType type, int weatherBonus)
         {
-            switch (type)
+            int getItemCount = 0;
+
+            for (int i = 0; i < GlobalVariables.maxPlayerNumber; i++)
             {
-                ///// 게임매니저에게 playerNumber와 자원타입, 자원 획득량을 넘긴다. 게임 매니저가 데이터매니저와 상호작용한다.
-                case ItemType.Water:
-                    for (int i = 0; i < GlobalVariables.maxPlayerNumber; i++)
-                        datas.PlayerData[i].ItemData.WaterNumber += GetItemfromCampLevel(type, weatherBonus, i);
-                    break;
-
-                case ItemType.Wheat:
-                    for (int i = 0; i < GlobalVariables.maxPlayerNumber; i++)
-                        datas.PlayerData[i].ItemData.WheatNumber += GetItemfromCampLevel(type, weatherBonus, i);
-                    break;
-
-                case ItemType.Wood:
-                    for (int i = 0; i < GlobalVariables.maxPlayerNumber; i++)
-                        datas.PlayerData[i].ItemData.WoodNumber += GetItemfromCampLevel(type, weatherBonus, i);
-                    break;
-
-                case ItemType.Cow:
-                    for (int i = 0; i < GlobalVariables.maxPlayerNumber; i++)
-                        datas.PlayerData[i].ItemData.CowNumber += GetItemfromCampLevel(type, weatherBonus, i);
-                    break;
-
-                case ItemType.Iron:
-                    for (int i = 0; i < GlobalVariables.maxPlayerNumber; i++)
-                        datas.PlayerData[i].ItemData.IronNumber += GetItemfromCampLevel(type, weatherBonus, i);
-                    break;
-
-                case ItemType.Soil:
-                    for (int i = 0; i < GlobalVariables.maxPlayerNumber; i++)
-                        datas.PlayerData[i].ItemData.SoilNumber *= GetItemfromCampLevel(type, weatherBonus, i);
-                    break;
+                getItemCount = GetItemfromCampLevel(i, type, weatherBonus);
+                GameManager.Instance.SetItemByType(i, type, getItemCount);
             }
         }
 
-        // ##수정
-        // GameManager에 타입별로 자원 개수를 얻을 수 있게 되면 수정할 것
-        private int GetItemfromCampLevel(ItemType type, int weatherBonus, int playerNumber)
+        private int GetItemfromCampLevel(int playerNumber, ItemType type, int weatherBonus)
         {
             int playerCampCount = datas.PlayerData[playerNumber].TileList.Count;
             int getItemCount = 0;
