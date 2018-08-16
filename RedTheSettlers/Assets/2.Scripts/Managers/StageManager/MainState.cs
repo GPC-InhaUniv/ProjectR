@@ -16,27 +16,28 @@ namespace RedTheSettlers.GameSystem
 {
     class MainState : State
     {
-        public override State Execute(StageType stageType)
+        
+
+
+        public override State ChangeStage(StageType stageType)
         {
             switch (stageType)
             {
                 case StageType.TutorialStageState:
-                    SceneManager.LoadSceneAsync((int)stageType);
+
                     return new TutorialState();
 
                 case StageType.BattleStageState:
-                    SceneManager.LoadSceneAsync((int)stageType);
+
                     return new BattleState();
 
                 default:
-                    return Execute();
+                    return null;
             }
         }
 
-        public override State Execute()
-        {
-            return null;
-        }
+
+
     }
 }
 

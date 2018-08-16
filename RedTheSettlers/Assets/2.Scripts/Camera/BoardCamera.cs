@@ -19,5 +19,7 @@ namespace RedTheSettlers.GameSystem
             cameraZoomInOut = new ManualZoom();
             cameraAngle = new LookAtManual();
         }
+
+        public static object boardCamera { get; internal set; }
     } 
 }

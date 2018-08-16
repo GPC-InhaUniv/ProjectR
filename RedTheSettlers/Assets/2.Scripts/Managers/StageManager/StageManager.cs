@@ -24,32 +24,55 @@ namespace RedTheSettlers.GameSystem
         MainStageState,
         TutorialStageState,
         BattleStageState
+
     }
-    
+
     public class StageManager : Singleton<StageManager>
     {
-        
+
         private State currentState;
 
-        private void Awake()
+        private void Start()
         {
-       
-            currentState = new TitleState();
             DontDestroyOnLoad(gameObject);
+            StartCoroutine("ChangeStageLoad");
         }
+
 
         public void ChangeState(StageType stageType)
         {
-            currentState = currentState.Execute(stageType);
+            switch (stageType)
+            {
+                case StageType.LoadingStageState:
+                    currentState = new TitleState();
+
+                    break;
+                case StageType.MainStageState:
+                    currentState = new LoadingState();
+
+                    break;
+                case StageType.BattleStageState:
+                    currentState = new MainState();
+
+                    break;
+                case StageType.TutorialStageState:
+                    currentState = new MainState();
+
+                    break;
+            }
+            currentState.ChangeStage(stageType);
         }
 
-        public void LookAtTurnOfCamera()
+        public IEnumerator ChangeStageLoad(StageType stageType)
         {
-         
-        }
-        public void Load() { 
-}
+            AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(1);
 
+            asyncOperation.allowSceneActivation = false;
+
+            yield return asyncOperation;
+
+            asyncOperation.allowSceneActivation = true;
+        }
     }
 
 }
