@@ -5,7 +5,7 @@ using RedTheSettlers.Players;
 
 public class MoveSettingArea : MonoBehaviour {
 
-    public PlayerBattle playerbattle;
+    public BattlePlayer battlePlayer;
     private Coroutine coroutineMove;
     private Coroutine coroutineAttack;
 
@@ -47,15 +47,15 @@ public class MoveSettingArea : MonoBehaviour {
         {
             if (hit.collider.gameObject.name.Contains("Plane"))
             {
-                Vector3 targetPosition = hit.point + new Vector3(0, playerbattle.transform.position.y, 0);
+                Vector3 targetPosition = hit.point + new Vector3(0, battlePlayer.transform.position.y, 0);
                 if(coroutineMove == null)
                 {
-                    coroutineMove = StartCoroutine(playerbattle.MoveToTargetPostion(targetPosition));
+                    coroutineMove = StartCoroutine(battlePlayer.MoveToTargetPostion(targetPosition));
                 }
                 else
                 {
                     StopCoroutine(coroutineMove);
-                    coroutineMove = StartCoroutine(playerbattle.MoveToTargetPostion(targetPosition));
+                    coroutineMove = StartCoroutine(battlePlayer.MoveToTargetPostion(targetPosition));
                 }
             }
         }
@@ -67,13 +67,13 @@ public class MoveSettingArea : MonoBehaviour {
 
         if (coroutineMove == null)
         {
-            coroutineMove = StartCoroutine(playerbattle.MoveToDirection(direction));
+            coroutineMove = StartCoroutine(battlePlayer.MoveToDirection(direction));
         }
 
         else
         {
             StopCoroutine(coroutineMove);
-            coroutineMove = StartCoroutine(playerbattle.MoveToDirection(direction));
+            coroutineMove = StartCoroutine(battlePlayer.MoveToDirection(direction));
         }
     }
 
@@ -81,7 +81,7 @@ public class MoveSettingArea : MonoBehaviour {
     {
         if(coroutineAttack == null)
         {
-            coroutineAttack = StartCoroutine(playerbattle.AttackEnemy());
+            coroutineAttack = StartCoroutine(battlePlayer.AttackEnemy());
         }
     }
 }

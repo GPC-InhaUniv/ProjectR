@@ -4,7 +4,7 @@ using UnityEngine;
 public abstract class InputState
 {
     public virtual void DragMove(float speed) { }
-    public virtual void ZoomOrOut(float speed) { }
+    public virtual void ZoomInOut(float speed) { }
 
     //----------------------UI 드래그----------------------
 

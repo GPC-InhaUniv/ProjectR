@@ -6,11 +6,11 @@ namespace RedTheSettlers.Tiles
 {
     public enum TileType
     {
-        Beef,
+        Cow,
         Iron,
-        Malt,
-        River,
         Soil,
+        Water,
+        Wheat,
         Wood,
     }
 
