@@ -1,10 +1,17 @@
-﻿namespace RedTheSettlers.Enemys.Normal
+﻿using UnityEngine;
+
+namespace RedTheSettlers.Enemys.Normal
 {
     public class Attack : EnemyState
     {
-        public override void DoAction(Enemy enemy)
+        public Attack(Animator animator)
         {
-            enemy.anim.SetTrigger("Attack");
+            this.animator = animator;
+        }
+
+        public override void DoAction()
+        {
+            animator.SetTrigger("Attack");
         }
     }
 }

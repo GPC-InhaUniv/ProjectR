@@ -4,9 +4,9 @@ namespace RedTheSettlers.Enemys.Normal
 {
     public class Idle : EnemyState
     {
-        public override void DoAction(Enemy enemy)
+        public override void DoAction()
         {
-            enemy.anim.SetFloat("Speed", enemy.rigidbodyComponent.velocity.magnitude);
+            animator.SetFloat("Speed", velocity.magnitude);
         }
     }
 }

@@ -26,19 +26,19 @@ namespace RedTheSettlers.Enemys
                     currentState = new Normal.Idle();
                     break;
                 case EnemyStateType.Die:
-                    currentState = new Normal.Die();
+                    //currentState = new Normal.Die();
                     break;
                 case EnemyStateType.Damage:
-                    currentState = new Normal.Damage();
+                    //currentState = new Normal.Damage();
                     break;
                 case EnemyStateType.Attack1:
-                    currentState = new Normal.AttackPattern1();
+                    //currentState = new Normal.AttackPattern1();
                     break;
                 case EnemyStateType.Attack2:
-                    currentState = new Normal.AttackPattern2();
+                    //currentState = new Normal.AttackPattern2();
                     break;
                 case EnemyStateType.Move:
-                    currentState = new Normal.Move();
+                    //currentState = new Normal.Move();
                     break;
                 default:
                     break;

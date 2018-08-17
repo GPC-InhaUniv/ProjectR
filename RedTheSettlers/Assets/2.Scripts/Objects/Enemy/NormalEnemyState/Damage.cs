@@ -2,9 +2,9 @@
 {
     public class Damage : EnemyState
     {
-        public override void DoAction(Enemy enemy)
+        public override void DoAction()
         {
-            enemy.anim.SetTrigger("Damage");
+            animator.SetTrigger("Damage");
         }
     }
 }

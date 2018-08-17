@@ -8,34 +8,57 @@ namespace RedTheSettlers.Enemys.Normal
     /// </summary>
     public class AttackPattern2 : Attack
     {
-        EnemyFireBall fireBall;
         const float lifeTime = 3f;
         const float speedCorrection = 50f;
         const float Yoffset = 0.55f;
 
-        public override void DoAction(Enemy enemy)
+        public AttackPattern2(
+            EnemyFireBall fireBall,
+            GameTimer gameTimer,
+            Animator animator,
+            Quaternion rotation,
+            Vector3 velocity,
+            Vector3 targetPosition,
+            Vector3 position,
+            float fireballSpeed,
+            TimerCallback pushFireball,
+            ChangeStateCallback changeStateCallback
+            ) : base(animator)
         {
-            if (enemy.FireBallLifeTimer == null)
+            this.fireBall = fireBall;
+            this.fireballTimer = gameTimer;
+            this.animator = animator;
+            this.rotation = rotation;
+            this.velocity = velocity;
+            this.targetPosition = targetPosition;
+            this.position = position;
+            this.fireballSpeed = fireballSpeed;
+            this.pushFireball = pushFireball;
+            this.changeStateCallback = changeStateCallback;
+        }
+
+        public override void DoAction()
+        {
+            if (fireballTimer == null)
             {
-                base.DoAction(enemy);
+                base.DoAction();
 
-                Vector3 normalVector = (enemy.TargetObject.transform.position - enemy.transform.position).normalized;
+                Vector3 normalVector = (targetPosition - position).normalized;
                 normalVector.y = 0f;
-                enemy.transform.rotation = Quaternion.LookRotation(normalVector);
+                rotation = Quaternion.LookRotation(normalVector);
 
-                Vector3 fireRotationposition = enemy.transform.rotation * Vector3.forward * 0.2f + enemy.transform.position + Vector3.up;
-                fireBall = (enemy as NormalEnemy).PopFireBall();
+                Vector3 fireRotationposition = rotation * Vector3.forward * 0.2f + position + Vector3.up;
                 fireBall.transform.position = fireRotationposition;
-                fireBall.rigidbodyComponent.velocity = normalVector * enemy.FireBallSpeed * GameTimeManager.Instance.DeltaTime * speedCorrection;
+                fireBall.rigidbodyComponent.velocity = normalVector * fireballSpeed * GameTimeManager.Instance.DeltaTime * speedCorrection;
 
-                enemy.FireBallLifeTimer = GameTimeManager.Instance.PopTimer();
-                enemy.FireBallLifeTimer.SetTimer(lifeTime, false);
-                enemy.FireBallLifeTimer.Callback = new TimerCallback((enemy as NormalEnemy).PushFireBall);
-                enemy.FireBallLifeTimer.StartTimer();
+                fireballTimer = GameTimeManager.Instance.PopTimer();
+                fireballTimer.SetTimer(lifeTime, false);
+                fireballTimer.Callback = pushFireball;
+                fireballTimer.StartTimer();
             }
             else
             {
-                enemy.ChangeState(EnemyStateType.Idle);
+                changeStateCallback(EnemyStateType.Idle);
             }
                 
         }

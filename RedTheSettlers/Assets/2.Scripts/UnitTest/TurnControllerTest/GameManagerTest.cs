@@ -31,27 +31,21 @@ namespace RedTheSettlers.UnitTest
             StartCoroutine(GameFlow());
         }
 
-        IEnumerator GameFlow()
+        public IEnumerator GameFlow()
         {
             yield return turnCtrl.TurnFlow();
 
             switch (state)
             {
                 case GameState.EventController:
-                    yield return eventCtrl.EventFlow();
+                    eventCtrl.EventFlow();
                     break;
                 case GameState.ItemController:
-                    yield return itemCtrl.ItemFlow();
-                    break;
-                case GameState.TradeController:
-                    yield return tradeCtrl.TradeFlow();
-                    break;
-                case GameState.BattleController:
-                    yield return battleCtrl.BattleFlow();
+                    itemCtrl.ItemFlow();
                     break;
                 default: state = GameState.TurnController; break;
             }
-            GameFlow();
+            yield break;
         }
 
         public void TurnFinish()

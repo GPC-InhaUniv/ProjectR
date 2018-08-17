@@ -7,14 +7,23 @@ namespace RedTheSettlers.Enemys.Normal
     {
         const float speedCorrection = 50f;
 
-        //ai에서 길찾기 시작 할때 수직 아래 방향으로 레이를 쏴서 현재 위치한 좌표의 타일을 얻어와서 currentTile에 저장
-        public override void DoAction(Enemy enemy)
+        public Move(Animator ContextAnimator, Quaternion ContextRoration, Vector3 ContextVelocity, Vector3 ContextDestinationPoint, Vector3 ContextCurrentPoint, float ContextMoveSpeed)
         {
-            enemy.anim.SetFloat("Speed", Vector3.Distance(enemy.destinationPoint, enemy.currentPoint));
+            animator = ContextAnimator;
+            rotation = ContextRoration;
+            velocity = ContextVelocity;
+            destinationPoint = ContextDestinationPoint;
+            currentPoint = ContextCurrentPoint;
+            moveSpeed = ContextMoveSpeed;
+        }
 
-            Vector3 normalVector = (enemy.destinationPoint - enemy.currentPoint).normalized;
-            enemy.transform.rotation = Quaternion.LookRotation(normalVector);
-            enemy.rigidbodyComponent.velocity = normalVector * GameTimeManager.Instance.DeltaTime * enemy.MoveSpeed * speedCorrection;
+        //ai에서 길찾기 시작 할때 수직 아래 방향으로 레이를 쏴서 현재 위치한 좌표의 타일을 얻어와서 currentTile에 저장
+        public override void DoAction()
+        {
+            animator.SetFloat("Speed", Vector3.Distance(destinationPoint, currentPoint));
+            Vector3 normalVector = (destinationPoint - currentPoint).normalized;
+            rotation = Quaternion.LookRotation(normalVector);
+            velocity = normalVector * GameTimeManager.Instance.DeltaTime * moveSpeed * speedCorrection;
         }
     }
 }

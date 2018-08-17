@@ -7,6 +7,8 @@ using RedTheSettlers.AI;
 namespace RedTheSettlers.Enemys
 {
     public delegate void FireballCallback(EnemyFireBall enemyFireBall);
+    public delegate void ChangeStateCallback(EnemyStateType stateType);
+    public delegate void DeadTimerCallback();
 
     public enum EnemyType
     {
@@ -112,7 +114,7 @@ namespace RedTheSettlers.Enemys
 
         protected void ReQuest()
         {
-            currentState.DoAction(this);
+            currentState.DoAction();
         }
 
         //자원량을 매개변수로 받아서 enemy의 스탯 설정

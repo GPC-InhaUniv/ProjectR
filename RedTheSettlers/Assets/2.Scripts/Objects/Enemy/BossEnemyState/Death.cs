@@ -2,7 +2,7 @@
 {
     public class Death : EnemyState
     {
-        public override void DoAction(Enemy enemy)
+        public override void DoAction()
         {
 
         }

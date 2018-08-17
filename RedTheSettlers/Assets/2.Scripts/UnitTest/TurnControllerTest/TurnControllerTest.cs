@@ -10,12 +10,6 @@ namespace RedTheSettlers.UnitTest
         TurnController,
         EventController,
         ItemController,
-        TradeController,
-        BattleController,
-        Player1,
-        Player2,
-        Player3,
-        Player4,
     }
 
     public delegate void TurnCallback();
@@ -26,6 +20,11 @@ namespace RedTheSettlers.UnitTest
     /// </summary>
     public class TurnControllerTest : MonoBehaviour
     {
+        /// <summary>
+        /// 현재 턴 진행중인 플레이어 번호(0 ~ 3)
+        /// </summary>
+        public int CurrentPlayerTurn = 0;
+
         private TurnCallback _callback;
         public TurnCallback Callback
         {

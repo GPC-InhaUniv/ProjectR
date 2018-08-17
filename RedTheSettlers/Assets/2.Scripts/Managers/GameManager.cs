@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using RedTheSettlers.Tiles;
 using UnityEngine;
+using RedTheSettlers.UnitTest;
+using System;
 
 namespace RedTheSettlers.GameSystem
 {
@@ -26,6 +28,14 @@ namespace RedTheSettlers.GameSystem
         public List<TileData>[] PlayerWheatTileData;
         public List<TileData>[] PlayerWoodTileData;
 
+        public TurnControllerTest turnCtrl;
+        public EventControllerTest eventCtrl;
+        public ItemControllerTest itemCtrl;
+        public TradeControllerTest tradeCtrl;
+        public BattleControllerTest battleCtrl;
+
+        public GameState state = GameState.TurnController;
+
         private void Start()
         {
             PlayerCowTileData = new List<TileData>[GlobalVariables.maxPlayerNumber];
@@ -34,6 +44,54 @@ namespace RedTheSettlers.GameSystem
             PlayerWaterTileData = new List<TileData>[GlobalVariables.maxPlayerNumber];
             PlayerWheatTileData = new List<TileData>[GlobalVariables.maxPlayerNumber];
             PlayerWoodTileData = new List<TileData>[GlobalVariables.maxPlayerNumber];
+
+            turnCtrl.Callback = new TurnCallback(TurnFinish);
+            eventCtrl.Callback = new EventCallback(EventFinish);
+            itemCtrl.Callback = new ItemCallback(ItemFinish);
+            tradeCtrl.Callback = new TradeCallback(TradeFinish);
+            battleCtrl.Callback = new BattleCallback(BattleFinish);
+        }
+
+        public void GameFlow()
+        {
+            //switch (state)
+            //{
+            //    case GameState.EventController:
+            //        eventCtrl.EventFlow();
+            //        break;
+            //    case GameState.ItemController:
+            //        itemCtrl.ItemFlow();
+
+            //        break;
+            //    default:
+            //        break;
+            //}
+            //yield return turnCtrl.TurnFlow();
+        }
+
+        private void BattleFinish()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void TradeFinish()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void ItemFinish()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void EventFinish()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void TurnFinish()
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -98,6 +156,8 @@ namespace RedTheSettlers.GameSystem
                     break;
             }
         }
+
+
 
         //필요한 기능들
         // 다희 : 선택 된 타일의 타입을 알아야 한다.

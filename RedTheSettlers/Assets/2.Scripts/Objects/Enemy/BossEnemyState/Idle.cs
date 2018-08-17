@@ -2,7 +2,7 @@
 {
     public class Idle : EnemyState
     {
-        public override void DoAction(Enemy enemy)
+        public override void DoAction()
         {
 
         }
