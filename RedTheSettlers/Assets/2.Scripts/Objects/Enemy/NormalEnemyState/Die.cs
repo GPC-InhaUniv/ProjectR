@@ -1,15 +1,10 @@
 ﻿using RedTheSettlers.GameSystem;
 
-namespace RedTheSettlers.Enemys
+namespace RedTheSettlers.Enemys.Normal
 {
     public class Die : EnemyState
     {
-        public Die(Enemy enemy)
-        {
-            this.enemy = enemy;
-        }
-
-        public override void DoAction()
+        public override void DoAction(Enemy enemy)
         {
             enemy.anim.SetTrigger("Dead");
 

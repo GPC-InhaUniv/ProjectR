@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using UnityEngine;
 
 namespace RedTheSettlers.GameSystem
@@ -21,7 +22,8 @@ namespace RedTheSettlers.GameSystem
     /// </summary>
     public class DataManager : Singleton<DataManager>
     {
-        private string fileName;
+        public const string DirectoryName = "Data";
+        public const string FilePath = DirectoryName + "/AssetBundleData.txt";
         private GameData gameData;
 
         public GameData GameData
@@ -34,11 +36,12 @@ namespace RedTheSettlers.GameSystem
         // Use this for initialization
         void Awake()
         {
-
             gameData = new GameData(4);
             gameDataLoader = new GameDataLoader();
+
             string json = JsonUtility.ToJson(gameData);
             Debug.Log(json);
+            CheckedBundleVersion(AssetBundleNumbers.Player, "01024a35g3b");
         }
 
         public void CreateNewAccount(string id, string password)
@@ -49,6 +52,7 @@ namespace RedTheSettlers.GameSystem
         public void Login(string id, string password)
         {
             gameDataLoader.LoadLoginDataFromDB(id, password);
+            
         }
 
         public void SaveGameData(GameData gameData, bool ShouldSaveForDB)
@@ -69,33 +73,37 @@ namespace RedTheSettlers.GameSystem
 
         public bool CheckedBundleVersion(AssetBundleNumbers bundleNumbers, string assetBundleData)
         {
-            switch(bundleNumbers)
+            if (!Directory.Exists(DirectoryName))
             {
-                case AssetBundleNumbers.Player:
-                    fileName = Application.dataPath + "/PlayerBundle.txt";
-                    break;
-                case AssetBundleNumbers.Skill:
-                    fileName = Application.dataPath + "/SkillBundle.txt";
-                    break;
-                case AssetBundleNumbers.Enemy:
-                    fileName = Application.dataPath + "/EnemyBundle.txt";
-                    break;
-                case AssetBundleNumbers.MiddleBoss1:
-                    fileName = Application.dataPath + "/MiddleBoss1Bundle.txt";
-                    break;
-                case AssetBundleNumbers.MiddleBoss2:
-                    fileName = Application.dataPath + "/MiddleBoss2Bundle.txt";
-                    break;
-                case AssetBundleNumbers.Boss:
-                    fileName = Application.dataPath + "/BossBundle.txt";
-                    break;
-                case AssetBundleNumbers.Tile:
-                    fileName = Application.dataPath + "/TileBundle.txt";
-                    break;
-                case AssetBundleNumbers.UI:
-                    fileName = Application.dataPath + "/UIBundle.txt";
-                    break;
+                Directory.CreateDirectory(DirectoryName);
+                LogManager.Instance.UserDebug(LogColor.Magenta, "DataManager", "AssetBundle을 위한 Data폴더 생성");
             }
+            else
+                LogManager.Instance.UserDebug(LogColor.Magenta, "DataManager", "파일이 이미 존재합니다.");
+
+
+            using (StreamWriter file = new StreamWriter(FilePath))
+            {
+                FileInfo fileInfo = new FileInfo(FilePath);
+                if (!fileInfo.Exists)
+                {
+                    File.Create(FilePath);
+                }
+                else
+                {
+
+                    string[] lines;
+                    lines = File.ReadAllLines(FilePath);
+                    for (int i = 0; i < lines.Length; i ++)
+                    {
+                        
+                    }
+
+                }
+                
+                
+            }
+            
 
 
 

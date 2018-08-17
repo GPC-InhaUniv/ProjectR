@@ -16,15 +16,13 @@ namespace RedTheSettlers.GameSystem
 {
     class TutorialState : State
     {
-        public override State Execute(StageType stageType)
+        public override State ChangeStage(StageType stageType)
         {
-            SceneManager.LoadSceneAsync((int)StageType.MainStageState);
-            return new MainState();
+            throw new System.NotImplementedException();
         }
 
-        public override State Execute()
-        {
-            return null;
-        }
+       
+
+       
     }
 }
