@@ -34,11 +34,7 @@ namespace RedTheSettlers.GameSystem
 
         private void Start()
         {
-<<<<<<< HEAD
-
             currentState = new TitleState();
-=======
->>>>>>> 676814679227a1f9f2a56ca77747758cbbb6fc46
             DontDestroyOnLoad(gameObject);
             StartCoroutine("ChangeStageLoad");
         }
@@ -67,22 +63,12 @@ namespace RedTheSettlers.GameSystem
             }
             currentState.ChangeStage(stageType);
         }
-        
-        public void SwichCamera(StageType stageType)
-        {
-            currentState = currentState.Camera(stageType);
-        }
 
-<<<<<<< HEAD
-        public void Load()
-        {
 
-        }
-=======
         public IEnumerator ChangeStageLoad(StageType stageType)
         {
             AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(1);
->>>>>>> 676814679227a1f9f2a56ca77747758cbbb6fc46
+
 
             asyncOperation.allowSceneActivation = false;
 
