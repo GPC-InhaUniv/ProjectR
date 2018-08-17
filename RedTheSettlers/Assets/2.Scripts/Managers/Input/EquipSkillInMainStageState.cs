@@ -46,7 +46,7 @@ public class EquipSkillInMainStageState : InputState
         targetUI = null;
     }
 
-    public override void OnDropOff()
+    public override void OnDropSlot()
     {
         Slot = GameObject.FindGameObjectsWithTag("Slot");
     }

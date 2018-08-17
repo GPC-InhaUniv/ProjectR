@@ -43,7 +43,7 @@ namespace RedTheSettlers.GameSystem
 
     public class InputManager : Singleton<InputManager>
     {
-        private InputState input;
+        private InputState inputState;
 
         [SerializeField]
         private StateType stateType;
@@ -73,6 +73,7 @@ namespace RedTheSettlers.GameSystem
             if(!enableInputKey)
             {
                 MainStageDragAndZoom();
+                RayHitInfo();
             }
         }
 
@@ -86,33 +87,43 @@ namespace RedTheSettlers.GameSystem
 
         public void InputButton(InputButtonType inputButtonType)
         {
-            input.TouchOrClickButton(inputButtonType);
+            inputState.TouchOrClickButton(inputButtonType);
         }
 
         public void MainStageDragAndZoom()
         {
-            input.DragMove(moveSpeed);
-            input.ZoomInOut(zoomSpeed);
+            inputState.DragMove(moveSpeed);
+            inputState.ZoomInOut(zoomSpeed);
+        }
+
+        public void OnPointerEnter()
+        {
+
+        }
+
+        public void OnPointerExit()
+        {
+
         }
 
         public void OnBeginDrag()
         {
-            input.OnStartDrag();
+            inputState.OnStartDrag();
         }
 
         public void OnDrag()
         {
-            input.OnDragging();
+            inputState.OnDragging();
         }
 
         public void EndDrag()
         {
-            input.EndStopDrag();
+            inputState.EndStopDrag();
         }
 
         public void OnDrop()
         {
-            input.OnDropOff();
+            inputState.OnDropSlot();
         }
 
         private void EnterDirectionKey()
@@ -136,20 +147,29 @@ namespace RedTheSettlers.GameSystem
                 moveDirection += Vector3.right;
             }
 
-            input.DirectionKey(moveDirection);
+            inputState.DirectionKey(moveDirection);
         }
 
         private void InteractionKey()
         {
             if (Input.GetKey(KeyCode.Z))
             {
-                input.BattleAttack();
+                inputState.BattleAttack();
+            }
+            if (Input.GetKey(KeyCode.A))
+            {
+                inputState.SkillDirection();
             }
         }
 
-        private void ChangeState(InputState inputState)
+        private void RayHitInfo()
         {
-            input = inputState;
+            inputState.TileInfo();
+        }
+
+        private void ChangeState(InputState state)
+        {
+            inputState = state;
         }
 
         public void TypeState(StateType stateType)

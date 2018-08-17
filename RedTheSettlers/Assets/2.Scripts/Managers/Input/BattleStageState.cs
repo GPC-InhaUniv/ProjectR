@@ -8,6 +8,8 @@ using UnityEngine;
 /// </summary>
 public class BattleStageState : InputState
 {
+    private Vector3 skillDirection;
+
     public override void DirectionKey(Vector3 direction)
     {
         //GameManager.Instance.PlayerBattle.MoveTo(direction);
@@ -17,5 +19,11 @@ public class BattleStageState : InputState
     public override void BattleAttack()
     {
         LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, "공격");
+    }
+
+    public override void SkillDirection()
+    {
+        skillDirection = Input.mousePosition;
+        LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, "방향 : " + skillDirection);
     }
 }
