@@ -25,15 +25,15 @@ namespace RedTheSettlers.GameSystem
         TutorialStageState,
         BattleStageState
     }
-    
+
     public class StageManager : Singleton<StageManager>
     {
-        
+
         private State currentState;
 
         private void Awake()
         {
-       
+
             currentState = new TitleState();
             DontDestroyOnLoad(gameObject);
         }
@@ -42,13 +42,16 @@ namespace RedTheSettlers.GameSystem
         {
             currentState = currentState.Execute(stageType);
         }
-
-        public void LookAtTurnOfCamera()
+        
+        public void SwichCamera(StageType stageType)
         {
-         
+            currentState = currentState.Camera(stageType);
         }
-        public void Load() { 
-}
+
+        public void Load()
+        {
+
+        }
 
     }
 

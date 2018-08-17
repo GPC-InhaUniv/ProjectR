@@ -16,6 +16,11 @@ namespace RedTheSettlers.GameSystem
 {
     class MainState : State
     {
+        public override State Camera(StageType stageType)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public override State Execute(StageType stageType)
         {
             switch (stageType)

@@ -18,5 +18,6 @@ namespace RedTheSettlers.GameSystem
     {
         public abstract State Execute(StageType stageType);
         public abstract State Execute();
+        public abstract State Camera(StageType stageType);
     }
 }

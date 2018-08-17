@@ -16,6 +16,11 @@ namespace RedTheSettlers.GameSystem
 {
     class TutorialState : State
     {
+        public override State Camera(StageType stageType)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public override State Execute(StageType stageType)
         {
             SceneManager.LoadSceneAsync((int)StageType.MainStageState);
