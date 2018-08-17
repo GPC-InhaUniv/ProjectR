@@ -18,11 +18,11 @@ namespace RedTheSettlers
             {
                 if (Input.GetKeyDown(KeyCode.Space))
                 {
-                    if (ObjectPoolManager.ObjectPoolInstance.SkillQueue.Count > 0)
+                    if (ObjectPoolManager.Instance.SkillQueue.Count > 0)
                     {
                         Vector3 positionToCreate = transform.rotation * Vector3.forward * 2 + transform.position;
 
-                        Instantiate(ObjectPoolManager.ObjectPoolInstance.SkillQueue.Dequeue(), positionToCreate, transform.rotation);
+                        Instantiate(ObjectPoolManager.Instance.SkillQueue.Dequeue(), positionToCreate, transform.rotation);
                     }
                 }
 

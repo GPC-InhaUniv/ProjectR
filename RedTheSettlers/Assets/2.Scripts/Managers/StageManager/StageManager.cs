@@ -24,6 +24,7 @@ namespace RedTheSettlers.GameSystem
         MainStageState,
         TutorialStageState,
         BattleStageState
+
     }
 
     public class StageManager : Singleton<StageManager>
@@ -31,16 +32,40 @@ namespace RedTheSettlers.GameSystem
 
         private State currentState;
 
-        private void Awake()
+        private void Start()
         {
+<<<<<<< HEAD
 
             currentState = new TitleState();
+=======
+>>>>>>> 676814679227a1f9f2a56ca77747758cbbb6fc46
             DontDestroyOnLoad(gameObject);
+            StartCoroutine("ChangeStageLoad");
         }
+
 
         public void ChangeState(StageType stageType)
         {
-            currentState = currentState.Execute(stageType);
+            switch (stageType)
+            {
+                case StageType.LoadingStageState:
+                    currentState = new TitleState();
+
+                    break;
+                case StageType.MainStageState:
+                    currentState = new LoadingState();
+
+                    break;
+                case StageType.BattleStageState:
+                    currentState = new MainState();
+
+                    break;
+                case StageType.TutorialStageState:
+                    currentState = new MainState();
+
+                    break;
+            }
+            currentState.ChangeStage(stageType);
         }
         
         public void SwichCamera(StageType stageType)
@@ -48,11 +73,23 @@ namespace RedTheSettlers.GameSystem
             currentState = currentState.Camera(stageType);
         }
 
+<<<<<<< HEAD
         public void Load()
         {
 
         }
+=======
+        public IEnumerator ChangeStageLoad(StageType stageType)
+        {
+            AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(1);
+>>>>>>> 676814679227a1f9f2a56ca77747758cbbb6fc46
 
+            asyncOperation.allowSceneActivation = false;
+
+            yield return asyncOperation;
+
+            asyncOperation.allowSceneActivation = true;
+        }
     }
 
 }

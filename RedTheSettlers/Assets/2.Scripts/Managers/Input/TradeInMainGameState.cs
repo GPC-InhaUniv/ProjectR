@@ -13,6 +13,7 @@ public class TradeInMainStageState : InputState
     private static GameObject[] beingDragged;
     private static GameObject[] Slot;
     private GameObject targetUI;
+    private Image image;
 
     private Transform startParent;
     private Vector3 startPosition;
@@ -45,15 +46,29 @@ public class TradeInMainStageState : InputState
 
     public override void EndStopDrag()
     {
-        if (targetUI.transform.parent != startParent)
+        /*if (targetUI.transform.parent != startParent)
         {
             targetUI.transform.position = startPosition;
-        }
+        }*/
+        targetUI.transform.position = startPosition;
         targetUI = null;
     }
 
-    public override void OnDropOff()
+    public override void OnDropSlot()
     {
+        // 마지막 위치 정보를 넘겨주고
+        // 받는 쪽에서 마지막 위치정보와 함께 거리를 계산해서 붙는다면...?
+
         Slot = GameObject.FindGameObjectsWithTag("Slot");
+    }
+
+    public override void OnInPointer()
+    {
+        base.OnInPointer();
+    }
+
+    public override void OnOutPointer()
+    {
+        base.OnOutPointer();
     }
 }

@@ -41,21 +41,39 @@ namespace RedTheSettlers.UI
         [SerializeField]
         private Slider totalItemBar;
 
-        private int cowCardNum;
-        private int waterCardNum;
-        private int wheatCardNum;
-        private int woodCardNum;
-        private int ironCardNum;
-        private int soilCardNum;
-        private float cardmaxNum;
+        [SerializeField]
+        [Header("Test")]
+        private int cowCardNumber;
 
-        private int computeItemNum;
+        [SerializeField]
+        private int waterCardNumber;
 
-        private void ChangeItem()
+        [SerializeField]
+        private int wheatCardNumber;
+
+        [SerializeField]
+        private int woodCardNumber;
+
+        [SerializeField]
+        private int ironCardNumber;
+
+        [SerializeField]
+        private int soilCardNumber;
+
+        [SerializeField]
+        private float cardmaxNumber;
+
+        private int computeItemNumber;
+
+        private void PutItemNumber()
+
         {
-            cowCardNum = 10; //test
-
-            playerCowItem.text = cowCardNum.ToString(); //test
+            playerCowItem.text = cowCardNumber.ToString();
+            playerWaterItem.text = waterCardNumber.ToString();
+            playerWheatItem.text = wheatCardNumber.ToString();
+            playerWoodItem.text = woodCardNumber.ToString();
+            playerIronItem.text = ironCardNumber.ToString();
+            playerSoilItem.text = soilCardNumber.ToString();
 
             //PlayerCowItem.text = gameData.cowcow.ToString();
             //이런식으로 6종류 자원을 gameData에서 가져와서 텍스트에 넣어줘야 함.
@@ -63,24 +81,17 @@ namespace RedTheSettlers.UI
 
         private void ComputeTotalItem()
         {
-            cowCardNum = Int32.Parse(playerCowItem.text);
-            waterCardNum = Int32.Parse(playerWaterItem.text);
-            wheatCardNum = Int32.Parse(playerWheatItem.text);
-            woodCardNum = Int32.Parse(playerWoodItem.text);
-            ironCardNum = Int32.Parse(playerIronItem.text);
-            soilCardNum = Int32.Parse(playerSoilItem.text);
+            computeItemNumber = cowCardNumber + waterCardNumber + wheatCardNumber + woodCardNumber + ironCardNumber + soilCardNumber;
+            playerTotalItem.text = computeItemNumber.ToString(); //datamanager에서 가져와야 함.
 
-            computeItemNum = cowCardNum + waterCardNum + wheatCardNum + woodCardNum + ironCardNum + soilCardNum;
-            playerTotalItem.text = computeItemNum.ToString();
-
-            totalItemBar.value = computeItemNum / cardmaxNum;
+            totalItemBar.value = computeItemNumber / cardmaxNumber;
             LogManager.Instance.UserDebug(LogColor.Olive, GetType().Name, "현재 소지한 자원 합 : " + playerTotalItem.text);
         }
 
         private void Start()
         {
-            cardmaxNum = 50;
-            ChangeItem();
+            cardmaxNumber = 50;
+            PutItemNumber();
             ComputeTotalItem();
         }
 

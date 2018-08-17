@@ -1,4 +1,5 @@
 ﻿using RedTheSettlers.GameSystem;
+using RedTheSettlers.Tiles;
 using UnityEngine;
 
 /// <summary>
@@ -11,6 +12,7 @@ public class MainStageState : InputState
     private Vector3 firstClick;
     private Vector3 dragPosition;
     private Vector3 dragDirection;
+    private GameObject tileInformation;
     private float cameraZoom;
     private const int reversValue = -1;
 
@@ -32,7 +34,6 @@ public class MainStageState : InputState
                 break;
         }
     }
-
     public override void DragMove(float speed)
     {
         //TemporaryGameManager.Instance.CameraMove();
@@ -49,7 +50,6 @@ public class MainStageState : InputState
                 LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, "클릭 위치 : " + firstClick);
             }*/
             firstClick = Input.mousePosition;
-            LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, "시작 좌표 : " + firstClick);
         }
         else if (Input.GetMouseButton(0))
         {
@@ -67,7 +67,6 @@ public class MainStageState : InputState
             dragPosition = Input.mousePosition;
             dragDirection = (((dragPosition - firstClick).normalized * speed) * reversValue) * Time.deltaTime;
             TemporaryGameManager.Instance.CameraMove(dragDirection);
-            LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, "좌표 : " + dragPosition);
         }
         else if (!Input.GetMouseButton(0))
         {
@@ -76,7 +75,7 @@ public class MainStageState : InputState
             dragDirection = (dragPosition - firstClick).normalized;
         }
     }
-    public override void ZoomOrOut(float speed)
+    public override void ZoomInOut(float speed)
     {
         if(Input.GetAxis("Mouse ScrollWheel") * reversValue < 0)
         {
@@ -87,6 +86,23 @@ public class MainStageState : InputState
         {
             cameraZoom = (Input.GetAxis("Mouse ScrollWheel") * speed) * reversValue;
             TemporaryGameManager.Instance.CameraZoom(cameraZoom);
+        }
+    }
+    public override void TileInfo()
+    {
+        if(Input.GetMouseButtonDown(0))
+        {
+            Ray rayPoint = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hitPoint;
+
+            if(Physics.Raycast(rayPoint,out hitPoint,Mathf.Infinity))
+            {
+                if(hitPoint.collider.tag == "Tile")
+                {
+                    hitPoint.collider.gameObject.GetComponent<BoardTile>().tileType.GetType();
+                    TemporaryGameManager.Instance.TileInfo(hitPoint.collider.gameObject.GetComponent<BoardTile>().tileType);
+                }
+            }
         }
     }
 }

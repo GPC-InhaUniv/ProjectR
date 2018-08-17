@@ -4,14 +4,18 @@ using UnityEngine;
 public abstract class InputState
 {
     public virtual void DragMove(float speed) { }
-    public virtual void ZoomOrOut(float speed) { }
+    public virtual void SkillDirection() { }
+    public virtual void ZoomInOut(float speed) { }
+    public virtual void TileInfo() { }
 
     //----------------------UI 드래그----------------------
 
     public virtual void OnStartDrag() { }
     public virtual void OnDragging() { }
     public virtual void EndStopDrag() { }
-    public virtual void OnDropOff() { }
+    public virtual void OnDropSlot() { }
+    public virtual void OnInPointer() { }
+    public virtual void OnOutPointer() { }
 
     //----------------------UI 터치 & 클릭----------------------
 

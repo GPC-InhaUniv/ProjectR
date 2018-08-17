@@ -19,16 +19,17 @@ namespace RedTheSettlers.GameSystem
 
         public CameraNomalState(GameObject cameraObject)
         {
+            Debug.Log("CameraNomalState"+ cameraObject);
             this.cameraObject = cameraObject;
             FindTarget();
             cameraOffset = cameraObject.transform.position - targetTransform.position;
         }
 
-        public void CameraBehavior()
+        public void CameraBehavior(Vector3 vector3)
         {
             if (targetTransform == null)
             {
-                //Debug.Log("타겟이 없어서 타겟을 찾는다");
+                Debug.Log("타겟이 없어서 타겟을 찾는다");
                 FindTarget();
             }
             else
@@ -36,7 +37,9 @@ namespace RedTheSettlers.GameSystem
                 Vector3 newPos = targetTransform.position + cameraOffset;
                 cameraObject.transform.position = Vector3.Slerp(cameraObject.transform.position, newPos, smooth);
             }
+            
         }
+        
         private void FindTarget()
         {
             targetTransform = GameObject.FindGameObjectWithTag("Player").transform;

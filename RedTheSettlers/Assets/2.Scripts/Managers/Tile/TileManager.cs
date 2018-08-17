@@ -12,7 +12,7 @@ namespace RedTheSettlers.GameSystem
 
         void Start()
         {
-            TileGrid = new GameObject[GlobalVariables.tileGridSize, GlobalVariables.tileGridSize];
+            TileGrid = new GameObject[GlobalVariables.tileGridSize + 8, GlobalVariables.tileGridSize + 8];
 
             CreateTileGrid();
             ShowTile();
@@ -22,15 +22,15 @@ namespace RedTheSettlers.GameSystem
         {
             int index = 0;
 
-            for (int z = 0; z < GlobalVariables.tileGridSize; z++)
+            for (int z = 0; z < GlobalVariables.tileGridSize + 8; z++)
             {
-                for (int x = 0; x < GlobalVariables.tileGridSize; x++)
+                for (int x = 0; x < GlobalVariables.tileGridSize + 8; x++)
                 {
                     if (z > -x + GlobalVariables.minZIntercept && z < -x + GlobalVariables.maxZIntercept)
                     {
                         float xCoord = CalculateXcoord(x, z);
                         float zCoord = CalculateZcoord(z);
-                        TileGrid[x, z] = ObjectPoolManager.ObjectPoolInstance.TileSet[index].gameObject;
+                        TileGrid[x, z] = ObjectPoolManager.Instance.TileSet[index].gameObject;
                         TileGrid[x, z].transform.position = new Vector3(xCoord, 0.05f, zCoord);
                         TileGrid[x, z].GetComponent<BoardTile>().coordinate = new Coordinate(x, z);
                         index++;
@@ -62,7 +62,6 @@ namespace RedTheSettlers.GameSystem
         {
             return z * 1.5f + 0.1f;
         }
-
     }
 }
 

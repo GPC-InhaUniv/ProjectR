@@ -16,32 +16,37 @@ namespace RedTheSettlers.GameSystem
 {
     class MainState : State
     {
+<<<<<<< HEAD
         public override State Camera(StageType stageType)
         {
             throw new System.NotImplementedException();
         }
 
         public override State Execute(StageType stageType)
+=======
+        
+
+
+        public override State ChangeStage(StageType stageType)
+>>>>>>> 676814679227a1f9f2a56ca77747758cbbb6fc46
         {
             switch (stageType)
             {
                 case StageType.TutorialStageState:
-                    SceneManager.LoadSceneAsync((int)stageType);
+
                     return new TutorialState();
 
                 case StageType.BattleStageState:
-                    SceneManager.LoadSceneAsync((int)stageType);
+
                     return new BattleState();
 
                 default:
-                    return Execute();
+                    return null;
             }
         }
 
-        public override State Execute()
-        {
-            return null;
-        }
+
+
     }
 }
 

@@ -16,21 +16,35 @@ namespace RedTheSettlers.GameSystem
 {
     class TitleState : State
     {
+<<<<<<< HEAD
         public override State Camera(StageType stageType)
         {
             throw new System.NotImplementedException();
         }
 
         public override State Execute(StageType stageType)
+=======
+        public override State ChangeStage(StageType stageType)
+>>>>>>> 676814679227a1f9f2a56ca77747758cbbb6fc46
         {
             SceneManager.LoadSceneAsync((int)StageType.LoadingStageState);
             return new LoadingState();
         }
 
-        public override State Execute()
-        {
-            return null;
-        }
+        
+
+        //public IEnumerator ChangeStage()
+        //{
+        //    AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(1);
+
+        //    asyncOperation.allowSceneActivation = false;
+
+        //    yield return asyncOperation;
+
+        //    asyncOperation.allowSceneActivation = true;
+        //}
+
+       
     }
 
 }
