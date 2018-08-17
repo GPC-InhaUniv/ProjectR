@@ -17,14 +17,24 @@ namespace RedTheSettlers.UnitTest
         {
             int turnCount = GetTurnCount();
 
-            if (turnCount == 12) AppearMiddleBoss1();
-            else if (turnCount == 24) AppearMiddleBoss2();
-            else if (turnCount == 36) AppearBoss();
+            if (turnCount == GlobalVariables.MiddleBoss1AppearTurn) AppearMiddleBoss1();
+            else if (turnCount == GlobalVariables.MiddleBoss2AppearTurn) AppearMiddleBoss2();
+            else if (turnCount == GlobalVariables.BossAppearTurn) AppearBoss();
 
-            if(turnCount >= 5)
+            if(turnCount >= GlobalVariables.WeatherEventStartTurn)
             {
                 int playerNumber = GetLowestPlayer();
-                QualifyWeatherSelect(playerNumber);
+                if (playerNumber == 1)
+                {
+                    // 유저의 날씨 선택
+                    // UI 기다려야 하니 코루틴으로 동작
+                    //yield return PlayerSelect();
+                }
+                else
+                {
+                    // AI의 날씨 선택
+                }
+                //QualifyWeatherSelect(playerNumber);
             }
 
             yield return new WaitForSeconds(3);
@@ -35,12 +45,43 @@ namespace RedTheSettlers.UnitTest
             return datas.InGameData.TurnCount;
         }
 
-        private void QualifyWeatherSelect(int playerNumber)
+        //private void QualifyWeatherSelect(int playerNumber)
+        //{
+        //    // 해당 플레이어에게 선택 패널을 띄워서 보여준다. >> UI에서 처리
+            
+        //    int selectedWeather = 0;
+        //    datas.InGameData.Weather = selectedWeather;
+        //}
+
+        /// <summary>
+        /// 12개의 날씨 이벤트 중 3가지를 뽑아 반환한다.
+        /// </summary>
+        /// <returns>3의 길이를 갖는 int형 배열</returns>
+        public int[] PickWeatherEvent()
         {
-            // 해당 플레이어에게 선택 패널을 띄워서 보여준다.
-            // 플레이어의 선택 결과에 따라 값을 돌려받는다.
-            var selectedWeather = 0;
-            datas.InGameData.Weather = selectedWeather;
+            System.Random random = new System.Random();
+            int[] weathers = { -1, -1, -1 };
+            int pickedNumber;
+
+            for (int i = 0; i < weathers.Length; i++)
+            {
+                pickedNumber = random.Next(0, (int)Weather.Count + 1);
+
+                if (CheckDuplication(weathers, pickedNumber))
+                    weathers[i] = pickedNumber;
+                else i--;
+            }
+            return weathers;
+        }
+
+        private bool CheckDuplication(int[] weathers, int pickedNumber)
+        {
+            for (int i = 0; i < weathers.Length; i++)
+            {
+                if (weathers[i] == pickedNumber)
+                    return false;
+            }
+            return true;
         }
 
         private int GetLowestPlayer()
