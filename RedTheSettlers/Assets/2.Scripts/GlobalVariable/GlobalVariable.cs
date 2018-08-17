@@ -17,8 +17,8 @@ namespace RedTheSettlers.GameSystem
     static class GlobalVariables
     {
         public const int tileGridSize = 9;
-        public const int minZIntercept = 3;
-        public const int maxZIntercept = 13;
+        public const int minZIntercept = 11;
+        public const int maxZIntercept = 21;
         public const int maxItemNum = 30;
         public const int maxEquipmentUpgradeLevel = 3;
         public const int maxTileUpgradeLevel = 3;

@@ -7,7 +7,7 @@ namespace RedTheSettlers.GameSystem
 {
     public class ObjectPoolManager : Singleton<ObjectPoolManager>
     {
-        public const int TilePoolSize = 61;
+        public const int TilePoolSize = 200;
         public const int CloneSetSize = 6;
         public const int FireballSize = 10;
         public GameObject[] TileObjects;
@@ -24,7 +24,7 @@ namespace RedTheSettlers.GameSystem
         {
             TileSet = new GameObject[TilePoolSize];
 
-            for (int i = 0; i < 61; i++)
+            for (int i = 0; i < 200; i++)
             {
                 int randomTileIndex = Random.Range(0, 0);
 

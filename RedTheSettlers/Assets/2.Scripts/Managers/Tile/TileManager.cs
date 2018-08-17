@@ -12,7 +12,7 @@ namespace RedTheSettlers.GameSystem
 
         void Start()
         {
-            TileGrid = new GameObject[GlobalVariables.tileGridSize, GlobalVariables.tileGridSize];
+            TileGrid = new GameObject[GlobalVariables.tileGridSize + 8, GlobalVariables.tileGridSize + 8];
 
             CreateTileGrid();
             ShowTile();
@@ -22,9 +22,9 @@ namespace RedTheSettlers.GameSystem
         {
             int index = 0;
 
-            for (int z = 0; z < GlobalVariables.tileGridSize; z++)
+            for (int z = 0; z < GlobalVariables.tileGridSize + 8; z++)
             {
-                for (int x = 0; x < GlobalVariables.tileGridSize; x++)
+                for (int x = 0; x < GlobalVariables.tileGridSize + 8; x++)
                 {
                     if (z > -x + GlobalVariables.minZIntercept && z < -x + GlobalVariables.maxZIntercept)
                     {
