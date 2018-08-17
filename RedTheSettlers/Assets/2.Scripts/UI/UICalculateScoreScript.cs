@@ -16,8 +16,9 @@ namespace RedTheSettlers.UI
 {
     public class UICalculateScoreScript : MonoBehaviour
     {
-        const int playerNumbers = GlobalVariables.maxPlayerNumber;
-
+        //const int playerNumbers = GlobalVariables.maxPlayerNumber;
+        int tempscore;
+        const int TotalCountNumber = 10000;
         const int WinnerImageSize = 15;
 
         const int tempCardWeightScore = 3000;
@@ -54,7 +55,7 @@ namespace RedTheSettlers.UI
         [System.Serializable]
         private struct PlayerWinnerImages
         {
-            public string InspedtorName;
+            public string InspectorName;
             public Image WinnerIconImage;
         }
         [SerializeField]
@@ -80,7 +81,7 @@ namespace RedTheSettlers.UI
         [SerializeField]
         private Text fourthPlayerCardsWeight, fourthPlayerEquipmentWeight, fourthPlayerTendAndMonsterWeight;
 
-        int[] playerTotalScore = new int[playerNumbers] { 0, 0, 0, 0 };
+        int[] playerTotalScore = new int[GlobalVariables.maxPlayerNumber] { 0, 0, 0, 0 };
 
         private GameData gameData;
 
@@ -177,6 +178,8 @@ namespace RedTheSettlers.UI
 
         void Start()
         {
+            tempscore = 0;
+
             //가중치 넣어줌
             firstPlayerCardsWeight.text = tempCardWeightScore.ToString();
             secondPlayerCardsWeight.text = tempCardWeightScore.ToString();
@@ -194,126 +197,146 @@ namespace RedTheSettlers.UI
             fourthPlayerTendAndMonsterWeight.text = tempTendAndMonsterWeightScore.ToString();
 
             CalculateTotalScore();
+            
             //코루틴
-            for (int i = 0; i < playerNumbers; i++)
-            {
-                ChangeScores(i);
-            }
+            StartCoroutine(ChangeScores());
+
+
         }
 
         private void CalculateTotalScore()
         {
-            for (int i = 0; i < playerNumbers; i++)
+            for (int i = 0; i < GlobalVariables.maxPlayerNumber; i++)
             {
                 playerTotalScore[i] = (gameData.PlayerData[i].ItemData.SumOfItem * tempCardWeightScore)
                 + ((gameData.PlayerData[i].StatData.WeaponLevel + gameData.PlayerData[i].StatData.ShieldLevel) * tempEquipmentWeightScore) +
                 ((gameData.PlayerData[i].TileList.Count + gameData.PlayerData[i].BossKillCount) * tempTendAndMonsterWeightScore);
+                Debug.Log(playerTotalScore[i]);
             }
         }
 
-        IEnumerator ShowWinnerIcon()
+        private void ShowWinnerIcon()
         {
-            yield return new WaitForSeconds(2f);
             int maxValue = playerTotalScore.Max();
             int maxIndex = playerTotalScore.ToList().IndexOf(maxValue);
             playerWinnerImages[maxIndex].WinnerIconImage.gameObject.SetActive(true);
-            for (int i = WinnerImageSize; i >= 1; i--)
-            {
-                playerWinnerImages[maxIndex].WinnerIconImage.gameObject.transform.localScale = new Vector3(i, i, i);
-                yield return new WaitForSeconds(0.03f);
-            }
-           
-
         }
 
-        private void ChangeScores(int playerNumber)
+        //private void ChangeScores(int playerNumber)
+        //{
+        //    
+        //}
+
+        IEnumerator ChangeScores()
         {
-            StartCoroutine(CalculateCardScore(playerNumber));
-            StartCoroutine(CalculateEquipmentScore(playerNumber));
-            StartCoroutine(CalculatePropertyScore(playerNumber));
-            StartCoroutine(CalculateTotalScore(playerNumber));
-            StartCoroutine(ShowWinnerIcon());
+            for (int i = 0; i < GlobalVariables.maxPlayerNumber; i++)
+            {
+                tempscore = 0;
+                for (int j = 0; j <= gameData.PlayerData[i].ItemData.GetMaxItemNumber(); j++)
+                {
+                    ShowCardScore(i);
+                    tempscore++;
+                    yield return new WaitForSeconds(0.05f);
+                }
+
+                tempscore = 0;
+                for (int j = 0; j <= GlobalVariables.maxEquipmentUpgradeLevel; j++)
+                {
+                    ShowEquipmentScore(i);
+                    tempscore++;
+                    yield return new WaitForSeconds(0.05f);
+                }
+
+                tempscore = 0;
+                for (int j = 0; j <= PlayerData(MyEnum.TileList, i); j++)
+                {
+                    ShowTentScore(i);
+                    tempscore++;
+                    yield return new WaitForSeconds(0.05f);
+                }
+
+                tempscore = 0;
+                for (int j = 0; j <= PlayerData(MyEnum.BossKillCount, i); j++)
+                {
+                    ShowMonsterScore(i);
+                    tempscore++;
+                    yield return new WaitForSeconds(0.05f);
+                }
+
+                tempscore = 0;
+                for (int j = 0; j <= playerTotalScore[0]; j+= TotalCountNumber)
+                {
+                    ShowTotalScore(i);
+                    tempscore += j;
+                    yield return new WaitForSeconds(0.02f);
+                }
+            }
+            ShowWinnerIcon();
+            yield break;
         }
 
-        IEnumerator CalculateCardScore(int playerNumber)
+        private void ShowCardScore(int playerNumber)
         {
-            for (int i = 0; i < gameData.PlayerData[playerNumber].ItemData.GetMaxItemNumber(); i++)
+            if (tempscore <= PlayerData(MyEnum.cowNumber, playerNumber))
             {
-                if (i <= PlayerData(MyEnum.cowNumber, playerNumber)) 
-                {
-                    playersCardInfo[playerNumber].PlayerCow.text = i.ToString("D2");
-                }
-                if (i <= PlayerData(MyEnum.IronNumber, playerNumber))
-                {
-                    playersCardInfo[playerNumber].PlayerIron.text = i.ToString("D2");
-                }
-                if (i <= PlayerData(MyEnum.SoilNunber, playerNumber))
-                {
-                    playersCardInfo[playerNumber].PlayerSoil.text = i.ToString("D2");
-                }
-                if (i <= PlayerData(MyEnum.WaterNumber, playerNumber))
-                {
-                    playersCardInfo[playerNumber].PlayerWater.text = i.ToString("D2");
-                }
-                if (i <= PlayerData(MyEnum.WheatNumber, playerNumber))
-                {
-                    playersCardInfo[playerNumber].PlayerWheat.text = i.ToString("D2");
-                }
-                if (i <= PlayerData(MyEnum.WoodNumber, playerNumber))
-                {
-                    playersCardInfo[playerNumber].PlayerWood.text = i.ToString("D2");
-                }
-                yield return new WaitForSeconds(0.05f);
+                playersCardInfo[playerNumber].PlayerCow.text = tempscore.ToString("D2");
             }
-        }
-
-        IEnumerator CalculateEquipmentScore(int playerNumber)
-        {
-            for (int i = 0; i <= GlobalVariables.maxEquipmentUpgradeLevel; i++)
+            if (tempscore <= PlayerData(MyEnum.IronNumber, playerNumber))
             {
-                if (i <= PlayerData(MyEnum.WeaponLevel, playerNumber))
-                {
-                    playersBonusInfos[playerNumber].PlayerWeapon.text = i.ToString("D2");
-                }
-
-                if (i <= PlayerData(MyEnum.ShieldLevel, playerNumber))
-                {
-                    playersBonusInfos[playerNumber].PlayerShield.text = i.ToString("D2");
-                }
-                yield return new WaitForSeconds(0.05f);
+                playersCardInfo[playerNumber].PlayerIron.text = tempscore.ToString("D2");
             }
-        }
-
-        IEnumerator CalculatePropertyScore(int playerNumber)
-        {
-            for (int i = 0; i <= PlayerData(MyEnum.TileList, playerNumber); i++)
+            if (tempscore <= PlayerData(MyEnum.SoilNunber, playerNumber))
             {
-                if (i <= PlayerData(MyEnum.TileList, playerNumber))
-                {
-                    playersBonusInfos[playerNumber].PlayerTent.text = i.ToString("D2");
-                }
-                yield return new WaitForSeconds(0.05f);
+                playersCardInfo[playerNumber].PlayerSoil.text = tempscore.ToString("D2");
             }
-
-            for (int i = 0; i <= PlayerData(MyEnum.BossKillCount, playerNumber) ; i++)
+            if (tempscore <= PlayerData(MyEnum.WaterNumber, playerNumber))
             {
-                if (i <= PlayerData(MyEnum.BossKillCount, playerNumber))
-                {
-                    playersBonusInfos[playerNumber].PlayerKillMonster.text = i.ToString("D2");
-                }
-                yield return new WaitForSeconds(0.05f);
+                playersCardInfo[playerNumber].PlayerWater.text = tempscore.ToString("D2");
+            }
+            if (tempscore <= PlayerData(MyEnum.WheatNumber, playerNumber))
+            {
+                playersCardInfo[playerNumber].PlayerWheat.text = tempscore.ToString("D2");
+            }
+            if (tempscore <= PlayerData(MyEnum.WoodNumber, playerNumber))
+            {
+                playersCardInfo[playerNumber].PlayerWood.text = tempscore.ToString("D2");
             }
         }
 
-        IEnumerator CalculateTotalScore(int playerNumber)
+        private void ShowEquipmentScore(int playerNumber)
         {
-            for (int i = 0; i <= playerTotalScore[playerNumber]; i += 10000)
+            if (tempscore <= PlayerData(MyEnum.WeaponLevel, playerNumber))
             {
-                if (i <= playerTotalScore[playerNumber])
-                {
-                    playersBonusInfos[playerNumber].PlayerTotalScore.text = i.ToString("D2");
-                }
-                yield return new WaitForSeconds(0.05f);
+                playersBonusInfos[playerNumber].PlayerWeapon.text = tempscore.ToString("D2");
+            }
+
+            if (tempscore <= PlayerData(MyEnum.ShieldLevel, playerNumber))
+            {
+                playersBonusInfos[playerNumber].PlayerShield.text = tempscore.ToString("D2");
+            }
+        }
+
+        private void ShowTentScore(int playerNumber)
+        {
+            if (tempscore <= PlayerData(MyEnum.TileList, playerNumber))
+            {
+                playersBonusInfos[playerNumber].PlayerTent.text = tempscore.ToString("D2");
+            }
+        }
+
+        private void ShowMonsterScore(int playerNumber)
+        {
+            if (tempscore <= PlayerData(MyEnum.BossKillCount, playerNumber))
+            {
+                playersBonusInfos[playerNumber].PlayerKillMonster.text = tempscore.ToString("D2");
+            }
+        }
+
+        private void ShowTotalScore(int playerNumber)
+        {
+            if (tempscore <= playerTotalScore[playerNumber])
+            {
+                playersBonusInfos[playerNumber].PlayerTotalScore.text = tempscore.ToString("D2");
             }
         }
 
@@ -323,19 +346,19 @@ namespace RedTheSettlers.UI
             switch (tileType)
             {
                 case MyEnum.cowNumber:
-                      data = gameData.PlayerData[playerNumber].ItemData.CowNumber;
+                    data = gameData.PlayerData[playerNumber].ItemData.CowNumber;
                     break;
                 case MyEnum.IronNumber:
-                      data = gameData.PlayerData[playerNumber].ItemData.IronNumber;
+                    data = gameData.PlayerData[playerNumber].ItemData.IronNumber;
                     break;
                 case MyEnum.SoilNunber:
-                     data = gameData.PlayerData[playerNumber].ItemData.SoilNumber;
+                    data = gameData.PlayerData[playerNumber].ItemData.SoilNumber;
                     break;
                 case MyEnum.WaterNumber:
-                     data = gameData.PlayerData[playerNumber].ItemData.WaterNumber;
+                    data = gameData.PlayerData[playerNumber].ItemData.WaterNumber;
                     break;
                 case MyEnum.WheatNumber:
-                     data = gameData.PlayerData[playerNumber].ItemData.WheatNumber;
+                    data = gameData.PlayerData[playerNumber].ItemData.WheatNumber;
                     break;
                 case MyEnum.WoodNumber:
                     data = gameData.PlayerData[playerNumber].ItemData.WoodNumber;
