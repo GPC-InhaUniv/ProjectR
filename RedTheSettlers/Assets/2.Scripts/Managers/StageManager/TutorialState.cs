@@ -16,13 +16,12 @@ namespace RedTheSettlers.GameSystem
 {
     class TutorialState : State
     {
+
         public override State ChangeStage(StageType stageType)
         {
             throw new System.NotImplementedException();
         }
 
-       
 
-       
     }
 }

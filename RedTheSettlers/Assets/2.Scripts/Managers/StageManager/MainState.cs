@@ -16,10 +16,9 @@ namespace RedTheSettlers.GameSystem
 {
     class MainState : State
     {
-        
-
 
         public override State ChangeStage(StageType stageType)
+
         {
             switch (stageType)
             {
@@ -35,9 +34,7 @@ namespace RedTheSettlers.GameSystem
                     return null;
             }
         }
-
-
-
+        
     }
 }
 
