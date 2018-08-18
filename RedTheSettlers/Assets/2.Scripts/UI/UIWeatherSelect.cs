@@ -61,7 +61,7 @@ namespace RedTheSettlers.UI
             //지용님에게 받아서 랜덤으로 뽑힌 해당 값에 따라 이미지 변경
         }
 
-        private void MoveWeatherCard() //으아악 이동이 안돼 ㅠㅠㅠ
+        private void MoveWeatherCard() //으아악 이동이 안돼 ㅠㅠㅠ 왜 이동이 안되냐
         {
             float moveSpeed = 10 * Time.deltaTime;
 
