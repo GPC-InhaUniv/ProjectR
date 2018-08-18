@@ -19,7 +19,7 @@ namespace RedTheSettlers.UnitTest
         LandSlide,
         GoodSoil,         // soil
         Deluge,
-        Count = Deluge,
+        Count,
     }
 
     abstract class WeatherChange
