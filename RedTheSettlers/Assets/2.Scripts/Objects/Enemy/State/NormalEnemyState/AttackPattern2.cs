@@ -14,11 +14,11 @@ namespace RedTheSettlers.Enemys.Normal
 
         public AttackPattern2(
             EnemyFireBall fireBall,
-            GameTimer gameTimer,
+            GameTimer fireballLifeTimer,
             Animator animator,
-            Quaternion rotation,
-            Vector3 velocity,
-            Vector3 targetPosition,
+            Transform transform,
+            Rigidbody rigidbodyComponent,
+            GameObject targetObject,
             Vector3 position,
             float fireballSpeed,
             TimerCallback pushFireball,
@@ -26,12 +26,11 @@ namespace RedTheSettlers.Enemys.Normal
             ) : base(animator)
         {
             this.fireBall = fireBall;
-            this.fireballTimer = gameTimer;
+            this.fireballLifeTimer = fireballLifeTimer;
             this.animator = animator;
-            this.rotation = rotation;
-            this.velocity = velocity;
-            this.targetPosition = targetPosition;
-            this.position = position;
+            this.transform = transform;
+            this.rigidbodyComponent = rigidbodyComponent;
+            this.targetObject = targetObject;
             this.fireballSpeed = fireballSpeed;
             this.pushFireball = pushFireball;
             this.changeStateCallback = changeStateCallback;
@@ -39,22 +38,22 @@ namespace RedTheSettlers.Enemys.Normal
 
         public override void DoAction()
         {
-            if (fireballTimer == null)
+            if (fireballLifeTimer == null)
             {
                 base.DoAction();
 
-                Vector3 normalVector = (targetPosition - position).normalized;
+                Vector3 normalVector = (targetObject.transform.position - transform.position).normalized;
                 normalVector.y = 0f;
-                rotation = Quaternion.LookRotation(normalVector);
+                transform.rotation = Quaternion.LookRotation(normalVector);
 
-                Vector3 fireRotationposition = rotation * Vector3.forward * 0.2f + position + Vector3.up;
+                Vector3 fireRotationposition = transform.rotation * Vector3.forward * 0.2f + transform.position + Vector3.up;
                 fireBall.transform.position = fireRotationposition;
                 fireBall.rigidbodyComponent.velocity = normalVector * fireballSpeed * GameTimeManager.Instance.DeltaTime * speedCorrection;
 
-                fireballTimer = GameTimeManager.Instance.PopTimer();
-                fireballTimer.SetTimer(lifeTime, false);
-                fireballTimer.Callback = pushFireball;
-                fireballTimer.StartTimer();
+                fireballLifeTimer = GameTimeManager.Instance.PopTimer();
+                fireballLifeTimer.SetTimer(lifeTime, false);
+                fireballLifeTimer.Callback = pushFireball;
+                fireballLifeTimer.StartTimer();
             }
             else
             {

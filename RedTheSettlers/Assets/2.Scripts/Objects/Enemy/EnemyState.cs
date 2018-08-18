@@ -1,30 +1,46 @@
-﻿using RedTheSettlers.GameSystem;
+﻿using RedTheSettlers.AI;
+using RedTheSettlers.GameSystem;
+using RedTheSettlers.Tiles;
 using UnityEngine;
 
 namespace RedTheSettlers.Enemys
 {
     public abstract class EnemyState
     {
+        protected EnemyState currentState;
+        protected Material[] materials;
         protected EnemyFireBall fireBall;
-        protected GameTimer fireballTimer;
-        protected GameTimer deadTimer;
-        protected GameTimer Pattern1Timer;
-        protected GameTimer Pattern2Timer;
+        protected BattleAI battleAI;
+
+        protected Transform transform;
         protected Animator animator;
-        protected Quaternion rotation;
-        protected Vector3 velocity;
-        protected Vector3 targetPosition;
-        protected Vector3 position;
+        protected SkinnedMeshRenderer typeRenderer;
+        protected EnemyAttackArea attackArea;
+        protected EnemyHitArea hitArea;
+        protected Collider AttackColliderComponent;
+        protected Collider HitColliderComponent;
+        protected Rigidbody rigidbodyComponent;
+        protected GameObject targetObject;
+
         protected Vector3 destinationPoint;
         protected Vector3 currentPoint;
-        
+        protected Tile currentTile;
+
+        protected float moveSpeed;
+        protected int currentHp;
+        protected int maxHp;
+        protected float timeToReturn;
+        protected float power;
+        protected float fireballSpeed;
+
+        protected GameTimer deadTimer;
+        protected GameTimer pattern1Timer;
+        protected GameTimer pattern2Timer;
+        protected GameTimer fireballLifeTimer;
+
         protected TimerCallback pushFireball;
         protected ChangeStateCallback changeStateCallback;
         protected DeadTimerCallback deadTimerCallback;
-
-        protected float moveSpeed;
-        protected float fireballSpeed;
-        protected float timeToReturn;
 
         public abstract void DoAction();
     }

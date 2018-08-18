@@ -1,10 +1,14 @@
 ﻿using RedTheSettlers.GameSystem;
 
-namespace RedTheSettlers.Enemys.Normal
+namespace RedTheSettlers.Enemys
 {
     public class Die : EnemyState
     {
-        public Die(GameTimer deadTimer, float timeToReturn, DeadTimerCallback deadTimerCallback)
+        public Die(
+            GameTimer deadTimer, 
+            float timeToReturn, 
+            DeadTimerCallback deadTimerCallback
+            )
         {
             this.deadTimer = deadTimer;
             this.timeToReturn = timeToReturn;

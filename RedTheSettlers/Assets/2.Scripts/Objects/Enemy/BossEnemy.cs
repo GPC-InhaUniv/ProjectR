@@ -10,13 +10,13 @@ namespace RedTheSettlers.Enemys
             switch (stateType)
             {
                 case EnemyStateType.Idle:
-                    currentState = new Boss.Idle();
+                    currentState = new Idle(animator, rigidbodyComponent);
                     break;
                 case EnemyStateType.Die:
-                    currentState = new Boss.Death();
+                    currentState = new Die(DeadTimer, TimeToReturn, new DeadTimerCallback(EndDead));
                     break;
                 case EnemyStateType.Damage:
-                    currentState = new Boss.Damage();
+                    currentState = new Damage(animator);
                     break;
                 case EnemyStateType.Attack1:
                     currentState = new Boss.Attack();
@@ -25,7 +25,14 @@ namespace RedTheSettlers.Enemys
                     currentState = new Boss.UseSkill();
                     break;
                 case EnemyStateType.Move:
-                    currentState = new Boss.Move();
+                    currentState = new Move(
+                        animator,
+                        transform,
+                        rigidbodyComponent,
+                        destinationPoint,
+                        currentPoint,
+                        MoveSpeed,
+                        currentTile);
                     break;
                 default:
                     break;
