@@ -129,6 +129,12 @@ namespace RedTheSettlers.GameSystem
             }
         }
 
+        /// <summary>
+        /// 특정 플레이어의 아이템의 수량을 조절합니다.
+        /// </summary>
+        /// <param name="playerNumber"></param>
+        /// <param name="itemType"></param>
+        /// <param name="addItem"></param>
         public void SetItemByType(int playerNumber, ItemType itemType, int addItem)
         {
             switch (itemType)
@@ -157,12 +163,53 @@ namespace RedTheSettlers.GameSystem
             }
         }
 
-
-
         //필요한 기능들
         // 다희 : 선택 된 타일의 타입을 알아야 한다.
         // " : 선택 된 타일이 어느 플레이어 건지 알아야 한다.
 
 
+        /// <summary>
+        /// 클릭한 타일의 타입을 반환합니다. 
+        /// </summary>
+        /// <returns></returns>
+        public TileType GetSelectTileType()
+        {
+            BoardTile tile;
+            if (Input.GetMouseButtonUp(0))
+            {
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hitInfo;
+                if (Physics.Raycast(ray, out hitInfo, 1f) && (hitInfo.collider.tag == "Tile"))
+                {
+                    tile = hitInfo.collider.GetComponent<BoardTile>();
+                }
+                else tile = null;
+            }
+            else tile = null;
+
+            return tile.tileType;
+        }
+
+        /// <summary>
+        /// 클릭한 타일의 소유자를 반환합니다.
+        /// </summary>
+        /// <returns></returns>
+        public int GetWhoHaveTile()
+        {
+            BoardTile tile;
+            if (Input.GetMouseButtonUp(0))
+            {
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hitInfo;
+                if (Physics.Raycast(ray, out hitInfo, 1f) && (hitInfo.collider.tag == "Tile"))
+                {
+                    tile = hitInfo.collider.GetComponent<BoardTile>();
+                }
+                else tile = null;
+            }
+            else tile = null;
+
+            return tile.owner;
+        }
     }
 }
