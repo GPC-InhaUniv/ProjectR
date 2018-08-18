@@ -2,7 +2,7 @@
 using System.Collections;
 using RedTheSettlers.GameSystem;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
+ 
 
 public class UITradeCardScript : MonoBehaviour
 {
@@ -85,60 +85,62 @@ public class UITradeCardScript : MonoBehaviour
         gameData.PlayerData[3].BossKillCount = 9;
         //<<
     }
-
+   
     int cowValue, ironValue, soilValue, waterValue, wheatValue, woodValue;
 
     [SerializeField]
-    private GameObject takeItemPopup;
+    private GameObject takeItemPopup,giveItemPopup;
 
-    public GameObject target;
-  
+    [System.Serializable]
+    struct MyStruct
+    {
+        public string InspectorName;
+        public GameObject ItemsCard;
+        public Text TempitemsCount;
+    }
+    [SerializeField]
+    private MyStruct[] cardInfo;
+
+     
+    [SerializeField]
+    private Slider takeItemSlider, giveItemSlider;
+
 
     private void Start()
     {
         cowValue = gameData.PlayerData[0].ItemData.CowNumber;
         ironValue = gameData.PlayerData[0].ItemData.IronNumber;
         soilValue = gameData.PlayerData[0].ItemData.SoilNumber;
-
+        waterValue = gameData.PlayerData[0].ItemData.WaterNumber;
+        wheatValue = gameData.PlayerData[0].ItemData.WheatNumber;
+        woodValue = gameData.PlayerData[0].ItemData.WoodNumber;
     }
-
-    public float rayLength;
-    public LayerMask layerMask;
-
-    private void Update()
+     
+    public void CheckCards(string cardName)
     {
-        if (Input.GetMouseButton(0)&& !EventSystem.current.IsPointerOverGameObject())
+        for (int i = 0; i < cardInfo.Length; i++)
         {
-            RaycastHit hit;
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out hit, rayLength, layerMask))
+            if (cardName == ((ItemType)i).ToString()) 
             {
-                Debug.Log("되랏");
+                if (cardInfo[i].ItemsCard.gameObject.transform.parent.name == "TradeCardGiveGroup")
+                {
+                    giveItemPopup.gameObject.SetActive(true);
+                    cardInfo[i].TempitemsCount.text = giveItemSlider.value.ToString();//이건 버튼으로 옮기기
+                }
+                else if (cardInfo[i].ItemsCard.gameObject.transform.parent.name == "TradeCardTakeGroup")//구조체는 직접적으로 접근을해야하기떄문에, 즉 i를 사용할 수 없으므로 사용하지 않음
+                {
+                    takeItemPopup.gameObject.SetActive(true);
+                }
             }
+            Debug.Log(((ItemType)i).ToString());
         }
     }
 
-    
-
-    public void TakeCardInfo(string objectName)
+    public void OnClickedPopupButton()
     {
 
-
-        
-
-        takeItemPopup.gameObject.SetActive(true);
-
-        switch ("objectName")
-        {
-            default:
-                break;
-        }
-        Debug.Log("test2");
-
     }
+     
 
-
-
- 
 
 }

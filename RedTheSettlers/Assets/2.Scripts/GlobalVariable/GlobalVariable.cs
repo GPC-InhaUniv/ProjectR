@@ -37,6 +37,7 @@ namespace RedTheSettlers.GameSystem
         public const int maxTileCount = 39;
 
         public const int maxPlayerNumber = 4;
+        public const int maxItemNumber = 6;
         public const int MiddleBoss1AppearTurn = 12;
         public const int MiddleBoss2AppearTurn = 24;
         public const int BossAppearTurn = 36;
