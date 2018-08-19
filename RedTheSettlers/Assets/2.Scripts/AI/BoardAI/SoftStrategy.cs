@@ -19,7 +19,7 @@ namespace RedTheSettlers.AI
             {
                 BoardTile comparerTile = TileManager.Instance.TileGrid[boardTile.coordinate.x + coordX[i], boardTile.coordinate.z + coordZ[i]].GetComponent<BoardTile>();
 
-                if (comparerTile.isPossessed == true)
+                if (comparerTile.tileOwner != TileOwner.None)
                 {
                     continue;
                 }
