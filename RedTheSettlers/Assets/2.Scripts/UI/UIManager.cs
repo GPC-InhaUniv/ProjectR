@@ -6,11 +6,18 @@ using UnityEngine.UI;
 public class UIManager : Singleton<UIManager>
 {
     [SerializeField]
-    private GameObject boardUI;
+    private GameObject gameResultCalculateUI;
 
     [SerializeField]
-    private GameObject battleUI;
+    private GameObject equipmentAndSkillUI;
 
-    [SerializeField]
-    private GameObject gameResultUI;
+    private void Start()
+    {
+        equipmentAndSkillUI.gameObject.SetActive(true);
+    }
+
+    public void OnClickedBuildCamp()
+    {
+        gameResultCalculateUI.gameObject.SetActive(true);
+    }
 }

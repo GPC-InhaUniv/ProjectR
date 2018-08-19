@@ -16,7 +16,6 @@ namespace RedTheSettlers.UI
 {
     public class UICalculateScoreScript : MonoBehaviour
     {
-        //const int playerNumbers = GlobalVariables.maxPlayerNumber;
         int tempscore;
         const int TotalCountNumber = 10000;
         const int WinnerImageSize = 15;
@@ -24,6 +23,9 @@ namespace RedTheSettlers.UI
         const int tempCardWeightScore = 3000;
         const int tempEquipmentWeightScore = 5000;
         const int tempTendAndMonsterWeightScore = 7000;
+
+        const float ScoreTimer = 0.03f;
+        const float WinnerIconTimer = 1f;
 
         [System.Serializable]
         private struct PlayersCardInfo
@@ -231,7 +233,7 @@ namespace RedTheSettlers.UI
                 {
                     ShowCardScore(i);
                     tempscore++;
-                    yield return new WaitForSeconds(0.05f);
+                    yield return new WaitForSeconds(ScoreTimer);
                 }
 
                 tempscore = 0;
@@ -239,7 +241,7 @@ namespace RedTheSettlers.UI
                 {
                     ShowEquipmentScore(i);
                     tempscore++;
-                    yield return new WaitForSeconds(0.05f);
+                    yield return new WaitForSeconds(ScoreTimer);
                 }
 
                 tempscore = 0;
@@ -247,7 +249,7 @@ namespace RedTheSettlers.UI
                 {
                     ShowTentScore(i);
                     tempscore++;
-                    yield return new WaitForSeconds(0.05f);
+                    yield return new WaitForSeconds(ScoreTimer);
                 }
 
                 tempscore = 0;
@@ -255,17 +257,18 @@ namespace RedTheSettlers.UI
                 {
                     ShowMonsterScore(i);
                     tempscore++;
-                    yield return new WaitForSeconds(0.05f);
+                    yield return new WaitForSeconds(ScoreTimer);
                 }
 
                 tempscore = 0;
-                for (int j = 0; j <= playerTotalScore[0]; j+= TotalCountNumber)
+                for (int j = 0; j <= playerTotalScore[i]; j+= TotalCountNumber)
                 {
                     ShowTotalScore(i);
                     tempscore += TotalCountNumber;
-                    yield return new WaitForSeconds(0.02f);
+                    yield return new WaitForSeconds(ScoreTimer);
                 }
             }
+            yield return new WaitForSeconds(WinnerIconTimer);
             ShowWinnerIcon();
             yield break;
         }
