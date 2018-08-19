@@ -222,11 +222,6 @@ namespace RedTheSettlers.UI
             playerWinnerImages[maxIndex].WinnerIconImage.gameObject.SetActive(true);
         }
 
-        //private void ChangeScores(int playerNumber)
-        //{
-        //    
-        //}
-
         IEnumerator ChangeScores()
         {
             for (int i = 0; i < GlobalVariables.maxPlayerNumber; i++)
@@ -267,7 +262,7 @@ namespace RedTheSettlers.UI
                 for (int j = 0; j <= playerTotalScore[0]; j+= TotalCountNumber)
                 {
                     ShowTotalScore(i);
-                    tempscore += j;
+                    tempscore += TotalCountNumber;
                     yield return new WaitForSeconds(0.02f);
                 }
             }

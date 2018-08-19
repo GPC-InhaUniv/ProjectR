@@ -22,6 +22,12 @@ namespace RedTheSettlers.GameSystem
 
         private void Awake()
         {
+            FireballQueue = new Queue<EnemyFireBall>(FireballSize);
+            for (int i = 0; i < FireballSize; i++)
+            {
+                FireballQueue.Enqueue(Instantiate(FireballPrefab));
+            }
+
             TileSet = new GameObject[TilePoolSize];
 
             for (int i = 0; i < 200; i++)
@@ -38,11 +44,7 @@ namespace RedTheSettlers.GameSystem
                 SkillQueue.Enqueue(SkillObject);
             }
 
-            FireballQueue = new Queue<EnemyFireBall>(FireballSize);
-            for (int i = 0; i < FireballSize; i++)
-            {
-                FireballQueue.Enqueue(Instantiate(FireballPrefab));
-            }
+            
         }
 
     }

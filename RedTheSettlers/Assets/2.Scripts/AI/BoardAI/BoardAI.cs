@@ -57,8 +57,7 @@ namespace RedTheSettlers.AI
 
         public void PossessTile(BoardTile boardTile)
         {
-            boardTile.owner = 1;
-            boardTile.isPossessed = true;
+            boardTile.tileOwner = TileOwner.AI1;
             possessedTiles.Add(boardTile);
 
             resource[boardTile.tileType]++;
@@ -72,7 +71,7 @@ namespace RedTheSettlers.AI
             {
                 BoardTile targetBoardTile = TileManager.Instance.TileGrid[boardTile.coordinate.x + coordX[i], boardTile.coordinate.z + coordZ[i]].GetComponent<BoardTile>();
 
-                if (targetBoardTile.isPossessed == true)
+                if (targetBoardTile.tileOwner == TileOwner.AI1)
                 {
                     boardTile.TileBorder[i].SetActive(false);
                     targetBoardTile.TileBorder[(i + 3) % 6].SetActive(false);

@@ -6,9 +6,12 @@ using RedTheSettlers.AI;
 
 namespace RedTheSettlers.Enemys
 {
-    public delegate void FireballCallback(EnemyFireBall enemyFireBall);
+    public delegate EnemyFireBall FireballCallback(EnemyFireBall enemyFireBall);
     public delegate void ChangeStateCallback(EnemyStateType stateType);
     public delegate void DeadTimerCallback();
+    public delegate void Pattern1TimerCallback();
+    public delegate void Pattern2TimerCallback();
+
 
     public enum EnemyType
     {
@@ -42,7 +45,7 @@ namespace RedTheSettlers.Enemys
         protected BattleAI battleAI;
 
         [Header("Compoenets")]
-        public Animator anim;
+        public Animator animator;
         protected SkinnedMeshRenderer typeRenderer;
         protected EnemyAttackArea attackArea;
         protected EnemyHitArea hitArea;
@@ -87,7 +90,7 @@ namespace RedTheSettlers.Enemys
         protected void Setting()
         {
             typeRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
-            anim = GetComponent<Animator>();
+            animator = GetComponent<Animator>();
             attackArea = GetComponentInChildren<EnemyAttackArea>();
             hitArea = GetComponentInChildren<EnemyHitArea>();
             rigidbodyComponent = GetComponent<Rigidbody>();
@@ -117,8 +120,6 @@ namespace RedTheSettlers.Enemys
             currentState.DoAction();
         }
 
-        //자원량을 매개변수로 받아서 enemy의 스탯 설정
-        //DataManager.Instance.GameData.PlayerData[0].ResourceData.SoilNumber = 123;
         protected virtual void SetStatus(int ItemNumber)
         {
             MaxHp = 10 + ItemNumber * 3;
@@ -157,13 +158,14 @@ namespace RedTheSettlers.Enemys
 
         protected void StopMovement()
         {
-            if (Vector3.Distance(destinationPoint, currentPoint) <= 1.0f && currentState.ToString().Contains("Move"))
+            if (destinationPoint != null)
             {
-                rigidbodyComponent.velocity = Vector3.zero;
-                ChangeState(EnemyStateType.Idle);
+                if (Vector3.Distance(destinationPoint, currentPoint) <= 1.0f && currentState.ToString().Contains("Move"))
+                {
+                    rigidbodyComponent.velocity = Vector3.zero;
+                    ChangeState(EnemyStateType.Idle);
+                }
             }
-        }
-
-        
+        }        
     }
 }

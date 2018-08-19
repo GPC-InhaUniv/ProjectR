@@ -29,9 +29,18 @@ namespace RedTheSettlers.UI
         [SerializeField]
         private Text itemAcquireInfomation;
 
-        [Header("Current Owner Image")]
+        [Serializable]
+        private struct TileOwnerImage
+        {
+            public GameObject tilePlayerImage;
+            public GameObject tileAIFirstImage;
+            public GameObject tileAISecondImage;
+            public GameObject tileAIThirdImage;
+            public GameObject tileUnexploredImage;
+        }
+
         [SerializeField]
-        private GameObject[] tileOwnerImage;
+        private TileOwnerImage[] tileOwnerImage;
 
         [Header("Current Item Image")]
         [SerializeField]
@@ -43,7 +52,10 @@ namespace RedTheSettlers.UI
 
         [Header("test")]
         [SerializeField]
-        private int selectTileState;
+        private int selectTileOwner;
+
+        [SerializeField]
+        private int selectTileProperties;
 
         [SerializeField]
         private int selectTileName;
@@ -51,12 +63,9 @@ namespace RedTheSettlers.UI
         [SerializeField]
         private int selectTileItemLevel;
 
-        [SerializeField]
-        private int tileEventButton;
-
         private void Start()
         {
-            checkTileState();
+            OnTileInformation();
         }
 
         // Update is called once per frame
@@ -64,31 +73,88 @@ namespace RedTheSettlers.UI
         {
         }
 
-        //input이 나와야 함 ㅠㅠㅠㅠㅠㅠㅠㅠ
-
-        private void checkTileState()
+        private void CheckTilePossession()
         {
-            if (selectTileState == 0) //플레이어 타일
+            if (selectTileOwner == 0) //플레이어 타일
             {
-            }
-
-            if (selectTileState == 1) //AI1 타일
-            {
-            }
-
-            if (selectTileState == 2) //AI2 타일
-            {
-            }
-
-            if (selectTileState == 3) //AI3 타일
-            {
-            }
-            else //미개척 타일 datamanager에서 값 가져와야 함.
-            {
-                tileOwnerImage[0].SetActive(true);
-                tileItemLevel.text = "Lv." + selectTileItemLevel.ToString();
+                tileOwnerImage[0].tilePlayerImage.SetActive(true);
                 tileActionButton[0].SetActive(true);
             }
+            else if (selectTileOwner == 1) //AI1 타일
+            {
+                tileOwnerImage[0].tileAIFirstImage.SetActive(true);
+                tileActionButton[1].SetActive(true);
+            }
+            else if (selectTileOwner == 2) //AI2 타일
+            {
+                tileOwnerImage[0].tileAISecondImage.SetActive(true);
+                tileActionButton[1].SetActive(true);
+            }
+            else if (selectTileOwner == 3) //AI3 타일
+            {
+                tileOwnerImage[0].tileAIThirdImage.SetActive(true);
+                tileActionButton[1].SetActive(true);
+            }
+            else //미개척 타일
+            {
+                tileOwnerImage[0].tileUnexploredImage.SetActive(true);
+                tileActionButton[2].SetActive(true);
+            }
+        }
+
+        private void CheckTileProperties()
+        {
+            switch (selectTileProperties) //물 , 밀, 소, 나무, 철, 흙
+            {
+                case 0:
+                    {
+                        tileItemName.text = "물";
+                    }
+                    break;
+
+                case 1:
+                    {
+                        tileItemName.text = "밀";
+                    }
+                    break;
+
+                case 2:
+                    {
+                        tileItemName.text = "소";
+                    }
+                    break;
+
+                case 3:
+                    {
+                        tileItemName.text = "나무";
+                    }
+                    break;
+
+                case 4:
+                    {
+                        tileItemName.text = "철";
+                    }
+                    break;
+
+                case 5:
+                    {
+                        tileItemName.text = "흙";
+                    }
+                    break;
+            }
+        }
+
+        private void OnTileInformation()
+        {
+            //input으로 타일을 선택 했을 때, 뜨는 ... (setActive로 캔버스창도 떠야 함)
+            CheckTilePossession();
+            CheckTileProperties();
+
+            tileItemLevel.text = "Lv." + selectTileItemLevel.ToString();
+        }
+
+        private void OnButton() //버튼 배열 0플레이어 1AI 2미개척
+        {
         }
     }
 }

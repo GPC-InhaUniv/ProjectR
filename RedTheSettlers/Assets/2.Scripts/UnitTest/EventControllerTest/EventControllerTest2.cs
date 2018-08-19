@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using RedTheSettlers.GameSystem;
+using RedTheSettlers.UI;
 
 namespace RedTheSettlers.UnitTest
 {
@@ -48,9 +49,35 @@ namespace RedTheSettlers.UnitTest
         //private void QualifyWeatherSelect(int playerNumber)
         //{
         //    // 해당 플레이어에게 선택 패널을 띄워서 보여준다. >> UI에서 처리
-            
+
         //    int selectedWeather = 0;
         //    datas.InGameData.Weather = selectedWeather;
+        //}
+
+        //public int[] PickWeatherEvent()
+        //{
+        //    int[] weathers = { -1, -1, -1 };
+        //    int pickedNumber;
+
+        //    for (int i = 0; i < weathers.Length; i++)
+        //    {
+        //        pickedNumber = Random.Range(0, (int)Weather.Count);
+
+        //        if (CheckDuplication(weathers, pickedNumber))
+        //            weathers[i] = pickedNumber;
+        //        else i--;
+        //    }
+        //    return weathers;
+        //}
+
+        //private bool CheckDuplication(int[] weathers, int pickedNumber)
+        //{
+        //    for (int i = 0; i < weathers.Length; i++)
+        //    {
+        //        if (weathers[i] == pickedNumber)
+        //            return false;
+        //    }
+        //    return true;
         //}
 
         /// <summary>
@@ -59,29 +86,22 @@ namespace RedTheSettlers.UnitTest
         /// <returns>3의 길이를 갖는 int형 배열</returns>
         public int[] PickWeatherEvent()
         {
-            System.Random random = new System.Random();
-            int[] weathers = { -1, -1, -1 };
+            int[] weathers = new int[3];
             int pickedNumber;
+            int[] weatherList = new int[(int)Weather.Count];
 
             for (int i = 0; i < weathers.Length; i++)
             {
-                pickedNumber = random.Next(0, (int)Weather.Count + 1);
+                pickedNumber = Random.Range(0, (int)Weather.Count);
 
-                if (CheckDuplication(weathers, pickedNumber))
+                if (weatherList[pickedNumber] != 1)
+                {
                     weathers[i] = pickedNumber;
+                    weatherList[pickedNumber] = 1;
+                }
                 else i--;
             }
             return weathers;
-        }
-
-        private bool CheckDuplication(int[] weathers, int pickedNumber)
-        {
-            for (int i = 0; i < weathers.Length; i++)
-            {
-                if (weathers[i] == pickedNumber)
-                    return false;
-            }
-            return true;
         }
 
         private int GetLowestPlayer()

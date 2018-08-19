@@ -8,10 +8,20 @@ namespace RedTheSettlers.UnitTest
     class diffcultyManagertest : Singleton<diffcultyManagertest>
     {
         public ItemType tileType;
+        public int maxEnemyCount;
     }
 
     public class BattleControllerTest2 : MonoBehaviour
     {
+        GameTimer cattlesTimer;
+        float cattleResawnTime = 100000;
+
+        private void Start()
+        {
+            cattlesTimer = GameTimeManager.Instance.PopTimer();
+            cattlesTimer.SetTimer(cattleResawnTime, true);
+        }
+
         public IEnumerator BattleFlow()
         {
             ItemType tileType = diffcultyManagertest.Instance.tileType;
@@ -24,10 +34,10 @@ namespace RedTheSettlers.UnitTest
         }
 
         // 일정 시간마다 소 떼가 등장한다.
-        public IEnumerator SpawnHerdOfCattle()
+        public void SpawnHerdOfCattle()
         {
             //GameTimeManager.Instance.
-            yield return new WaitForSeconds(3);
+            cattlesTimer.StartTimer();
         }
 
         // 일정 시간 경과 후부터 맵타일이 점점 사라진다.
@@ -35,6 +45,11 @@ namespace RedTheSettlers.UnitTest
         {
             //GameTimeManager.Instance.
             yield return new WaitForSeconds(3);
+        }
+
+        public void BattleClear()
+        {
+
         }
     }
 }

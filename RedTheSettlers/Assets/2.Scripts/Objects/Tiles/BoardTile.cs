@@ -1,20 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using RedTheSettlers.GameSystem;
 
 namespace RedTheSettlers.Tiles
 {
     public class BoardTile : Tile, IComparable<BoardTile>
     {
-
-        public bool isPossessed;
-        public int owner;
+        public TileOwner tileOwner;
         public int tileWeight;
-
-        /*
-        private int resourceAmount;
-        private int heuristicDistance;
-        private int resourcePriority;
-        */
 
         public void CalculateTileWeight(Dictionary<TileType, int> resource)
         {

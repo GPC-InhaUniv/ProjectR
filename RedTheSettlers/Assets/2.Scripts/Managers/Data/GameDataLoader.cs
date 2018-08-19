@@ -17,7 +17,6 @@ namespace RedTheSettlers.GameSystem
     {
         private DatabaseReference reference;
         private string jsonData;
-
         public GameDataLoader()
         {
             FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://redthesettlers.firebaseio.com");

@@ -41,7 +41,8 @@ namespace RedTheSettlers.GameSystem
 
             string json = JsonUtility.ToJson(gameData);
             Debug.Log(json);
-            CheckedBundleVersion(AssetBundleNumbers.Player, "01024a35g3b");
+            bool cyheck = CheckedBundleVersion(AssetBundleNumbers.Player, "01024fadg3b");
+            Debug.Log(cyheck);
         }
 
         public void CreateNewAccount(string id, string password)
@@ -52,14 +53,14 @@ namespace RedTheSettlers.GameSystem
         public void Login(string id, string password)
         {
             gameDataLoader.LoadLoginDataFromDB(id, password);
-            
+
         }
 
         public void SaveGameData(GameData gameData, bool ShouldSaveForDB)
         {
             this.gameData = gameData;
 
-            if(ShouldSaveForDB)
+            if (ShouldSaveForDB)
             {
                 gameDataLoader.SetUpdateInDB(gameData);
             }
@@ -73,48 +74,69 @@ namespace RedTheSettlers.GameSystem
 
         public bool CheckedBundleVersion(AssetBundleNumbers bundleNumbers, string assetBundleData)
         {
+            string versionData = stringWrite(bundleNumbers, assetBundleData);
+            
             if (!Directory.Exists(DirectoryName))
             {
                 Directory.CreateDirectory(DirectoryName);
-                LogManager.Instance.UserDebug(LogColor.Magenta, "DataManager", "AssetBundle을 위한 Data폴더 생성");
+                LogManager.Instance.UserDebug(LogColor.Magenta, GetType().Name, "AssetBundle을 위한 Data폴더 생성");
             }
             else
-                LogManager.Instance.UserDebug(LogColor.Magenta, "DataManager", "파일이 이미 존재합니다.");
-
-
-            using (StreamWriter file = new StreamWriter(FilePath))
+                LogManager.Instance.UserDebug(LogColor.Magenta, GetType().Name, "파일이 이미 존재합니다.");
+            FileInfo fileInfo = new FileInfo(FilePath);
+            if (!fileInfo.Exists)
             {
-                FileInfo fileInfo = new FileInfo(FilePath);
-                if (!fileInfo.Exists)
+                File.Create(FilePath);
+            }
+            string[] lines;
+            lines = File.ReadAllLines(FilePath);
+            using (StreamWriter writer = new StreamWriter(FilePath, true))
+            {
+
+                if (lines.Length - 1 < (int)bundleNumbers)
                 {
-                    File.Create(FilePath);
+                    writer.Write(versionData);
+                    LogManager.Instance.UserDebug(LogColor.Magenta, GetType().Name, "기록된 정보가 없으므로 새로 적습니다,");
+                    return true;
                 }
                 else
                 {
-
-                    string[] lines;
-                    lines = File.ReadAllLines(FilePath);
-                    for (int i = 0; i < lines.Length; i ++)
+                    if (lines[(int)bundleNumbers].Equals(versionData))
                     {
-                        
+                        writer.Write(versionData);
+                        LogManager.Instance.UserDebug(LogColor.Magenta, GetType().Name, "기록된 정보와 다르므로 업데이트 요망.");
+                        return false;
                     }
-
                 }
-                
-                
             }
-            
-
-
-
+            LogManager.Instance.UserDebug(LogColor.Magenta, GetType().Name, "기록된 정보와 일치. 업데이트 필요없음");
             return true;
         }
 
-        public void CreateFile()
+        public string stringWrite(AssetBundleNumbers bundleNumbers, string assetBundleData)
         {
-            string url = Application.dataPath;
+            switch (bundleNumbers)
+            {
 
+                case AssetBundleNumbers.Player:
+                    return assetBundleData;
+                case AssetBundleNumbers.Skill:
+                    return "\n" + assetBundleData;
+                case AssetBundleNumbers.Enemy:
+                    return "\n\n" + assetBundleData;
+                case AssetBundleNumbers.MiddleBoss1:
+                    return "\n\n\n" + assetBundleData;
+                case AssetBundleNumbers.MiddleBoss2:
+                    return "\n\n\n\n" + assetBundleData;
+                case AssetBundleNumbers.Boss:
+                    return "\n\n\n\n\n" + assetBundleData;
+                case AssetBundleNumbers.Tile:
+                    return "\n\n\n\n\n\n" + assetBundleData;
+                default:
+                    return "\n\n\n\n\n\n\n" + assetBundleData;
+            }
         }
+
 
 
     }
