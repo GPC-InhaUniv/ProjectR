@@ -16,7 +16,13 @@ namespace RedTheSettlers.GameSystem
 {
     class TitleState : State
     {
+
+       
+
+     
+
         public override State ChangeStage(StageType stageType)
+
         {
             SceneManager.LoadSceneAsync((int)StageType.LoadingStageState);
             return new LoadingState();

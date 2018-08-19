@@ -16,13 +16,13 @@ namespace RedTheSettlers.GameSystem
 {
     class BattleState : State
     {
+
         public override State ChangeStage(StageType stageType)
+
         {
             throw new System.NotImplementedException();
         }
 
-        
-        
     }
 }
 

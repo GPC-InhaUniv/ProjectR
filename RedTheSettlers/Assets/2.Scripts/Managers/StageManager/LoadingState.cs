@@ -18,14 +18,13 @@ namespace RedTheSettlers.GameSystem
 {
     class LoadingState : State
     {
+
         public override State ChangeStage(StageType stageType)
         {
             SceneManager.LoadScene((int)StageType.MainStageState);
             return new MainState();
         }
 
-       
-        
     }
 
 }

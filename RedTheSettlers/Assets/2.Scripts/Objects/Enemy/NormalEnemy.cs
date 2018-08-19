@@ -23,28 +23,51 @@ namespace RedTheSettlers.Enemys
             switch (stateType)
             {
                 case EnemyStateType.Idle:
-                    currentState = new Normal.Idle();
+                    currentState = new Idle(animator, rigidbodyComponent);
                     break;
                 case EnemyStateType.Die:
-                    currentState = new Normal.Die();
+                    currentState = new Die(DeadTimer, TimeToReturn, new DeadTimerCallback(EndDead));
                     break;
                 case EnemyStateType.Damage:
-                    currentState = new Normal.Damage();
+                    currentState = new Damage(animator);
                     break;
                 case EnemyStateType.Attack1:
-                    currentState = new Normal.AttackPattern1();
+                    currentState = new Normal.AttackPattern1(animator);
                     break;
                 case EnemyStateType.Attack2:
-                    currentState = new Normal.AttackPattern2();
+                    currentState = new Normal.AttackPattern2(
+                        PopFireBall(),
+                        FireBallLifeTimer,
+                        animator,
+                        transform,
+                        rigidbodyComponent,
+                        TargetObject,
+                        currentPoint,
+                        FireBallSpeed,
+                        new TimerCallback(PushFireBall),
+                        new ChangeStateCallback(ChangeState));
                     break;
                 case EnemyStateType.Move:
-                    currentState = new Normal.Move();
+                    currentState = new Move(
+                        animator,
+                        transform,
+                        rigidbodyComponent,
+                        destinationPoint,
+                        currentPoint,
+                        MoveSpeed,
+                        currentTile);
                     break;
                 default:
                     break;
             }
             base.ChangeState(stateType);
         }
+
+        private static void executeDelegate(ChangeStateCallback changeStateCallback)
+        {
+            changeStateCallback(EnemyStateType.Idle);
+        }
+
 
         public void SetType(EnemyType enemyType)
         {
@@ -90,10 +113,5 @@ namespace RedTheSettlers.Enemys
         {
             base.SetStatus(ItemNumber);
         }
-
-        //자원량을 매개변수로 받아서 enemy의 스탯 설정
-        //DataManager.Instance.GameData.PlayerData[0].ResourceData.SoilNumber = 123;
-        //게임매니저에서 받으면 ㄷ횐다.
-
     }
 }

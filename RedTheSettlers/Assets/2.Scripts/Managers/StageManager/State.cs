@@ -16,6 +16,7 @@ namespace RedTheSettlers.GameSystem
 {
     abstract class State
     {
+     
         public abstract State ChangeStage(StageType stageType);
         
     }

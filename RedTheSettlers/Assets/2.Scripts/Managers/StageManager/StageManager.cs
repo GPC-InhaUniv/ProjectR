@@ -34,6 +34,7 @@ namespace RedTheSettlers.GameSystem
 
         private void Start()
         {
+            currentState = new TitleState();
             DontDestroyOnLoad(gameObject);
             StartCoroutine("ChangeStageLoad");
         }
@@ -63,9 +64,11 @@ namespace RedTheSettlers.GameSystem
             currentState.ChangeStage(stageType);
         }
 
+
         public IEnumerator ChangeStageLoad(StageType stageType)
         {
             AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(1);
+
 
             asyncOperation.allowSceneActivation = false;
 
