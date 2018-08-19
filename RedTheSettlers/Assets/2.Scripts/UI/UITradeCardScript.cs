@@ -110,6 +110,19 @@ namespace RedTheSettlers.UI
         [SerializeField]
         private Text takeSliderValue, giveSliderValue;
 
+        [SerializeField]
+        private GameObject playerHandGroup;
+
+        enum AnotherPlayerState
+        {
+            Trade,
+            Yes,
+            No
+        }
+
+        [SerializeField]
+        private Text secondPlayer, thirdPlayer, fourthPlayer;
+
         private void Start()
         {
             cowValue = gameData.PlayerData[0].ItemData.CowNumber;
@@ -165,10 +178,6 @@ namespace RedTheSettlers.UI
             giveSliderValue.text = giveItemSlider.value.ToString();
         }
 
-
-        [SerializeField]
-        private GameObject playerHandGroup;
-
         public void ResetCardBoard()
         {
             for (int i = 0; i < cardInfo.Length; i++)
@@ -178,6 +187,13 @@ namespace RedTheSettlers.UI
             takeItemSlider.value = 0;
             giveItemSlider.value = 0;
 
+        }
+
+        public void OnClickedRequestButton()
+        {
+            secondPlayer.text = AnotherPlayerState.Trade.ToString();
+            thirdPlayer.text = AnotherPlayerState.No.ToString();
+            fourthPlayer.text = AnotherPlayerState.Yes.ToString();
         }
     }
 }
