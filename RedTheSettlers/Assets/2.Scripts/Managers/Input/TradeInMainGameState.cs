@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using RedTheSettlers.GameSystem;
 
 /// <summary>
 /// 담당자 : 박상원
@@ -10,38 +11,43 @@ using UnityEngine.UI;
 /// </summary>
 public class TradeInMainStageState : InputState
 {
-    private static GameObject[] beingDragged;
-    private static GameObject[] Slot;
-    private GameObject targetUI;
-    private Image image;
-
+    private static GameObject[] tradeCards;
+    private static GameObject[] cardAreas;
+    private GameObject targetCard;
+    private GameObject targetArea;
     private Transform startParent;
+    private Transform parentToReturnTo = null;
     private Vector3 startPosition;
     private Vector3 clickPoint;
-    private float firstDirection;
-    private float currentDirection;
+    private Vector3 dropPoint;
+    private float cardDistance;
+    private float currentCardDistance;
+    private float areaDistance;
+    private float currentAreaDistance;
 
     public override void OnStartDrag()
     {
         clickPoint = Input.mousePosition;
-        beingDragged = GameObject.FindGameObjectsWithTag("SkillIcon");
-        firstDirection = Vector3.Distance(clickPoint, beingDragged[0].transform.position);
-        foreach (GameObject gameObject in beingDragged)
+        tradeCards = GameObject.FindGameObjectsWithTag("UIIcon");
+        cardDistance = Vector3.Distance(clickPoint, tradeCards[0].transform.position);
+        foreach (GameObject tradeCard in tradeCards)
         {
-            currentDirection = Vector3.Distance(clickPoint, gameObject.transform.position);
-            if (currentDirection <= firstDirection)
+            currentCardDistance = Vector3.Distance(clickPoint, tradeCard.transform.position);
+            if (currentCardDistance <= cardDistance)
             {
-                targetUI = gameObject;
-                firstDirection = currentDirection;
+                targetCard = tradeCard;
+                cardDistance = currentCardDistance;
             }
         }
-        startPosition = targetUI.transform.position;
-        startParent = targetUI.transform.parent;
+        startPosition = targetCard.transform.position;
+        targetCard.gameObject.GetComponent<CanvasGroup>().blocksRaycasts = false;
+        parentToReturnTo = targetCard.transform.parent;
+        targetCard.transform.SetParent(targetCard.transform.parent.parent);
     }
 
     public override void OnDragging()
     {
-        targetUI.transform.position = Input.mousePosition;
+        targetCard.transform.position = Input.mousePosition;
     }
 
     public override void EndStopDrag()
@@ -50,25 +56,41 @@ public class TradeInMainStageState : InputState
         {
             targetUI.transform.position = startPosition;
         }*/
-        targetUI.transform.position = startPosition;
-        targetUI = null;
+        targetCard.transform.SetParent(parentToReturnTo);
+        targetCard.gameObject.GetComponent<CanvasGroup>().blocksRaycasts = true;
+        //targetUI = null;
     }
 
     public override void OnDropSlot()
     {
-        // 마지막 위치 정보를 넘겨주고
-        // 받는 쪽에서 마지막 위치정보와 함께 거리를 계산해서 붙는다면...?
-
-        Slot = GameObject.FindGameObjectsWithTag("Slot");
+        dropPoint = Input.mousePosition;
+        cardAreas = GameObject.FindGameObjectsWithTag("CardArea");
+        areaDistance = Vector3.Distance(dropPoint, cardAreas[0].transform.position);
+        foreach(GameObject cardArea in cardAreas)
+        {
+            currentAreaDistance = Vector3.Distance(dropPoint, cardArea.transform.position);
+            if(currentAreaDistance <= areaDistance)
+            {
+                targetArea = cardArea;
+                areaDistance = currentAreaDistance;
+            }
+        }
+        targetCard.transform.SetParent(targetArea.transform);
+        //Slot = GameObject.FindGameObjectsWithTag("Slot");
+        LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, "OnDrop To " + targetArea);
+        if (parentToReturnTo != null)
+        {
+            parentToReturnTo = targetArea.transform;
+        }
     }
 
     public override void OnInPointer()
     {
-        base.OnInPointer();
+        
     }
 
     public override void OnOutPointer()
     {
-        base.OnOutPointer();
+        
     }
 }
