@@ -158,7 +158,7 @@ namespace RedTheSettlers.Enemys
 
         protected void StopMovement()
         {
-            if (destinationPoint != null)
+            if (destinationPoint != null && currentState != null)
             {
                 if (Vector3.Distance(destinationPoint, currentPoint) <= 1.0f && currentState.ToString().Contains("Move"))
                 {
