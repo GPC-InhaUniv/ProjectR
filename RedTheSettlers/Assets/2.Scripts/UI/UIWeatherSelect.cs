@@ -20,10 +20,13 @@ namespace RedTheSettlers.UI
 
         [Header("Booked Card")]
         [SerializeField]
-        private int firstBookedCard;
+        private GameObject firstCardImage;
 
-        private int secondBookedCard;
-        private int tiredBookedCard;
+        [SerializeField]
+        private GameObject secondCardImage;
+
+        [SerializeField]
+        private GameObject thirdCardImage;
 
         [Serializable]
         private struct ItemImage
@@ -51,12 +54,6 @@ namespace RedTheSettlers.UI
         [SerializeField]
         private GameObject rightCardImage;
 
-        [SerializeField]
-        private GameObject moveLeftImage;
-
-        [SerializeField]
-        private GameObject moveRightImage;
-
         private float speed = 1000f;
 
 
@@ -65,41 +62,23 @@ namespace RedTheSettlers.UI
             //지용님에게 받아서 랜덤으로 뽑힌 해당 값에 따라 이미지 변경
         }
 
-        private void MoveWeatherCard() //으아악 이동이 안돼 ㅠㅠㅠ 왜 이동이 안되냐
+        private void MoveWeatherCard()
         {
-            float moveSpeed = 10 * Time.deltaTime;
+            float moveSpeed = 800 * Time.deltaTime;
 
             Vector3 leftCardPosition;
-            Vector3 startCardPosition;
+            Vector3 middleCardPosition;
             Vector3 rightCardPosition;
 
             leftCardPosition = leftCardImage.transform.position;
-            startCardPosition = startCardImage.transform.position;
+            middleCardPosition = startCardImage.transform.position;
             rightCardPosition = rightCardImage.transform.position;
 
-            moveLeftImage.transform.position = Vector3.MoveTowards(startCardPosition, leftCardPosition, moveSpeed);
+            firstCardImage.transform.position = Vector3.MoveTowards(firstCardImage.transform.position, leftCardPosition, moveSpeed);
+            secondCardImage.transform.position = Vector3.MoveTowards(secondCardImage.transform.position, middleCardPosition, moveSpeed);
+            thirdCardImage.transform.position = Vector3.MoveTowards(thirdCardImage.transform.position, rightCardPosition, moveSpeed);
         }
 
-        private IEnumerator MoveLeftCardCoroutine()
-        {
-            Vector3 leftCardPosition;
-            Vector3 startCardPosition;
-            Vector3 rightCardPosition;
-
-            leftCardPosition = leftCardImage.transform.position;
-            startCardPosition = startCardImage.transform.position;
-            rightCardPosition = rightCardImage.transform.position;
-            
-            while (true)
-            {
-                while (Vector3.Distance (startCardPosition,leftCardPosition)>1f)
-                {
-                    startCardPosition = Vector3.MoveTowards(startCardPosition, leftCardPosition, Time.deltaTime * speed);
-
-                    yield return new WaitForSeconds(0.02f);
-                }
-            }
-        }
 
         private void OnClickWeatherCard()
         {
@@ -107,23 +86,23 @@ namespace RedTheSettlers.UI
 
         private void Start()
         {
-            MoveWeatherCard();
-            MoveLeftCardCoroutine();
+            //StartCoroutine(StartCoroutine());
+        }
+
+        IEnumerator StartCoroutine()
+        {
+            while (true)
+            {
+
+            }
+
+            yield break;
         }
 
         // Update is called once per frame
         private void Update()
         {
-        }
-
-        private void OnEnable()
-        {
-            StartCoroutine("MoveLeftCardCoroutine");
-        }
-
-        private void OnDisable()
-        {
-            StopCoroutine("MoveLeftCardCoroutine");
+            MoveWeatherCard();
         }
     }
 }
