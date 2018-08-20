@@ -1,5 +1,6 @@
 ﻿using RedTheSettlers.GameSystem;
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -56,6 +57,9 @@ namespace RedTheSettlers.UI
         [SerializeField]
         private GameObject moveRightImage;
 
+        private float speed = 1000f;
+
+
         private void ChangeWeatherCard()
         {
             //지용님에게 받아서 랜덤으로 뽑힌 해당 값에 따라 이미지 변경
@@ -76,6 +80,27 @@ namespace RedTheSettlers.UI
             moveLeftImage.transform.position = Vector3.MoveTowards(startCardPosition, leftCardPosition, moveSpeed);
         }
 
+        private IEnumerator MoveLeftCardCoroutine()
+        {
+            Vector3 leftCardPosition;
+            Vector3 startCardPosition;
+            Vector3 rightCardPosition;
+
+            leftCardPosition = leftCardImage.transform.position;
+            startCardPosition = startCardImage.transform.position;
+            rightCardPosition = rightCardImage.transform.position;
+            
+            while (true)
+            {
+                while (Vector3.Distance (startCardPosition,leftCardPosition)>1f)
+                {
+                    startCardPosition = Vector3.MoveTowards(startCardPosition, leftCardPosition, Time.deltaTime * speed);
+
+                    yield return new WaitForSeconds(0.02f);
+                }
+            }
+        }
+
         private void OnClickWeatherCard()
         {
         }
@@ -83,11 +108,22 @@ namespace RedTheSettlers.UI
         private void Start()
         {
             MoveWeatherCard();
+            MoveLeftCardCoroutine();
         }
 
         // Update is called once per frame
         private void Update()
         {
+        }
+
+        private void OnEnable()
+        {
+            StartCoroutine("MoveLeftCardCoroutine");
+        }
+
+        private void OnDisable()
+        {
+            StopCoroutine("MoveLeftCardCoroutine");
         }
     }
 }
