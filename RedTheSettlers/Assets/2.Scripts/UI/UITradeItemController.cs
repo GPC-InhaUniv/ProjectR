@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace RedTheSettlers.UI
 {
-    public class UITradeCardScript : MonoBehaviour
+    public class UITradeItemController : MonoBehaviour
     {
         GameData gameData;
         private void Awake()
@@ -82,8 +82,9 @@ namespace RedTheSettlers.UI
             gameData.PlayerData[3].BossKillCount = 9;
             //<<
         }
+        private int cardNumber;
 
-        int cowValue, ironValue, soilValue, waterValue, wheatValue, woodValue;
+        //int cowValue, ironValue, soilValue, waterValue, wheatValue, woodValue;
 
         [SerializeField]
         private GameObject takeItemPopup, giveItemPopup;
@@ -133,7 +134,7 @@ namespace RedTheSettlers.UI
         [SerializeField]
         private GameObject giveCardGroup, handCardGroup, takeCardGroup;
 
-        enum AnotherPlayerState
+        enum AnotherPlayerState//내꺼
         {
             Trade, //트레이드에서 자원이 구조체로 넘어온다고 생각하자
             Yes,
@@ -163,69 +164,84 @@ namespace RedTheSettlers.UI
 
         private void Start()
         {
-            cowValue = gameData.PlayerData[0].ItemData.CowNumber;
-            ironValue = gameData.PlayerData[0].ItemData.IronNumber;
-            soilValue = gameData.PlayerData[0].ItemData.SoilNumber;
-            waterValue = gameData.PlayerData[0].ItemData.WaterNumber;
-            wheatValue = gameData.PlayerData[0].ItemData.WheatNumber;
-            woodValue = gameData.PlayerData[0].ItemData.WoodNumber;
+            //cowValue = gameData.PlayerData[0].ItemData.CowNumber;
+            //ironValue = gameData.PlayerData[0].ItemData.IronNumber;
+            //soilValue = gameData.PlayerData[0].ItemData.SoilNumber;
+            //waterValue = gameData.PlayerData[0].ItemData.WaterNumber;
+            //wheatValue = gameData.PlayerData[0].ItemData.WheatNumber;
+            //woodValue = gameData.PlayerData[0].ItemData.WoodNumber;
 
-            tradeItemValue.Cow = 4;
-
-
+            tradeItemValue.Cow = 4; //임시 테스트 용
         }
-        private int cardNumber;
+      
 
         public void CheckCards(string cardName)
         {
             for (int i = 0; i < handCardInfo.Length; i++)
             {
-                if (cardName == ((ItemType)i).ToString()) // 지금 현재 마우스가 올라와있는 오브젝트를 알아야하지 않을까
+                if (cardName == ((ItemType)i).ToString()) 
                 {
                     cardNumber = i;
-                   
-                    if (giveCardInfo[i].GiveItemsCard.gameObject.activeSelf == true && 
-                        giveCardInfo[i].GiveItemsCard.gameObject.transform.parent.name == "TradeCardGiveGroup")
+
+                    if (giveCardInfo[i].GiveItemsCard.activeSelf == true &&
+                        giveCardInfo[i].GiveItemsCard.transform.parent.name == "TradeCardGiveGroup")
                     {
                         giveItemPopup.gameObject.SetActive(true);
+                        giveItemSlider.maxValue = ItemsNumber(i);
+                        giveItemSlider.value = 0;
                     }
-                    if (takeCardInfo[i].TakeItemsCard.gameObject.activeSelf==true &&
-                        takeCardInfo[i].TakeItemsCard.gameObject.transform.parent.name == "TradeCardTakeGroup")//구조체는 직접적으로 접근을해야하기떄문에, 즉 i를 사용할 수 없으므로 사용하지 않음
+                    if (takeCardInfo[i].TakeItemsCard.activeSelf == true &&
+                        takeCardInfo[i].TakeItemsCard.transform.parent.name == "TradeCardTakeGroup")//구조체는 직접적으로 접근을해야하기떄문에, 즉 i를 사용할 수 없으므로 사용하지 않음
                     {
                         takeItemPopup.gameObject.SetActive(true);
+                        takeItemSlider.value = 0;
                     }
                 }
             }
-            Debug.Log("값 들어왔음");
         }
 
+        private float ItemsNumber(int Number)
+        {
+            float data = 0;
+            switch (Number)
+            {
+                case 0:
+                    data = gameData.PlayerData[0].ItemData.CowNumber;
+                    break;
+                case 1:
+                    data = gameData.PlayerData[0].ItemData.IronNumber;
+                    break;
+                case 2:
+                    data = gameData.PlayerData[0].ItemData.SoilNumber;
+                    break;
+                case 3:
+                    data = gameData.PlayerData[0].ItemData.WaterNumber;
+                    break;
+                case 4:
+                    data = gameData.PlayerData[0].ItemData.WheatNumber;
+                    break;
+                case 5:
+                    data = gameData.PlayerData[0].ItemData.WoodNumber;
+                    break;
+            }
+            return data;
+        }
+         
         public void OnClickedPopupButton()
         {
-            if (giveCardInfo[cardNumber].GiveItemsCard.gameObject.activeSelf == true &&
-                giveCardInfo[cardNumber].GiveItemsCard.gameObject.transform.parent.name == "TradeCardGiveGroup")
+            if (giveCardInfo[cardNumber].GiveItemsCard.activeSelf == true &&
+                giveCardInfo[cardNumber].GiveItemsCard.transform.parent.name == "TradeCardGiveGroup")
             {
                 tempGiveValue[cardNumber] = giveItemSlider.value;
             }
-            if (takeCardInfo[cardNumber].TakeItemsCard.gameObject.activeSelf == true &&
-                takeCardInfo[cardNumber].TakeItemsCard.gameObject.transform.parent.name == "TradeCardTakeGroup")
+            if (takeCardInfo[cardNumber].TakeItemsCard.activeSelf == true &&
+                takeCardInfo[cardNumber].TakeItemsCard.transform.parent.name == "TradeCardTakeGroup")
             {
                 tempTakeValue[cardNumber] = takeItemSlider.value;
             }
 
             giveCardInfo[cardNumber].GiveItemText.text = tempGiveValue[cardNumber].ToString();
             takeCardInfo[cardNumber].TakeItemText.text = tempTakeValue[cardNumber].ToString();
-
-            //Debug.Log("-----------------기브");
-            //for (int i = 0; i < 6; i++)
-            //{
-            //    Debug.Log(tempGiveValue[i]);
-            //}
-
-            //Debug.Log("-----------------테이크");
-            //for (int i = 0; i < 6; i++)
-            //{
-            //    Debug.Log(tempTakeValue[i]);
-            //}
         }
 
         public void ChangeSliderValue()
@@ -238,7 +254,9 @@ namespace RedTheSettlers.UI
         {
             for (int i = 0; i < handCardInfo.Length; i++)
             {
-                handCardInfo[i].HandItemsCard.gameObject.transform.SetParent(handCardGroup.transform);
+                handCardInfo[i].HandItemsCard.SetActive(true);
+                giveCardInfo[i].GiveItemsCard.SetActive(false);
+                takeCardInfo[i].TakeItemsCard.SetActive(false);
             }
             takeItemSlider.value = 0;
             giveItemSlider.value = 0;
@@ -263,8 +281,8 @@ namespace RedTheSettlers.UI
                     secondPlayer.text = AnotherPlayerState.Trade.ToString() + "원하는 자원의 개수" + tradeItemValue.Cow.ToString();
                 }
             }
-      
-            
         }
+
+        
     }
 }
