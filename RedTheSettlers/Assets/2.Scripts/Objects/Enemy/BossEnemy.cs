@@ -1,9 +1,21 @@
 ﻿using RedTheSettlers.GameSystem;
+using UnityEngine;
 
 namespace RedTheSettlers.Enemys
 {
     public class BossEnemy : Enemy
     {
+        [SerializeField]
+        private FireballExplode explodePrefab;
+        private FireballExplode explode;
+        private GameTimer explodeLifeTimer;
+
+
+        private void Start()
+        {
+            explode = Instantiate(explodePrefab, gameObject.transform);
+            explode.gameObject.SetActive(false);
+        }
 
         public override void ChangeState(EnemyStateType stateType)
         {

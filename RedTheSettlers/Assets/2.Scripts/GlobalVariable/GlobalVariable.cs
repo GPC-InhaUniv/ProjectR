@@ -51,5 +51,14 @@ namespace RedTheSettlers.GameSystem
         public const int MiddleBoss2AppearTurn = 24;
         public const int BossAppearTurn = 36;
         public const int WeatherEventStartTurn = 5;
+
+        public const string TAG_PLAYER = "Player";
+        public const string TAG_GAMECONTROLLER = "GameController";
+        public const string TAG_TILE = "Tile";
+        public const string TAG_FIRE = "Fire";
+        public const string TAG_SKILLICON = "SkillIcon";
+        public const string TAG_WALL = "Wall";
+        public const string TAG_MAINCAMERA = "MainCamera";
+
     }
 }
