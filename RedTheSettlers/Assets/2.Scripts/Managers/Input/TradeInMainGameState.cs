@@ -76,7 +76,6 @@ public class TradeInMainStageState : InputState
             }
         }
         targetCard.transform.SetParent(targetArea.transform);
-        //Slot = GameObject.FindGameObjectsWithTag("Slot");
         LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, "OnDrop To " + targetArea);
         if (parentToReturnTo != null)
         {
