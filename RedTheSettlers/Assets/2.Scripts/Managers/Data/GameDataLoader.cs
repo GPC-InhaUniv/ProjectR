@@ -46,6 +46,7 @@ namespace RedTheSettlers.GameSystem
                         if (id.Equals(datasnapshot.Key))
                         {
                             Debug.Log("이미 계정이 존재합니다");
+                            DataManager.Instance.SignUpResultCallback("이미 계정이 존재합니다");
                             return;
                         }
                     }
@@ -63,7 +64,7 @@ namespace RedTheSettlers.GameSystem
                         else if (signUpTask.IsCompleted)
                         {
                             Debug.Log("회원가입 성공");
-                            //createAccountCallBack(true);
+                            DataManager.Instance.LoginResultCallback("성공");
                             return;
                         }
                     });
@@ -95,20 +96,24 @@ namespace RedTheSettlers.GameSystem
                         Debug.Log(password);
                         if (id.Equals(datasnapshot.Key))
                         {
+
                             Dictionary<string, object> userDataDictionary = (Dictionary<string, object>)datasnapshot.Value;
                             if (password.Equals(datasnapshot.Child("UserPassword").Value))
                             {
                                 DataManager.Instance.SaveGameData(JsonUtility.FromJson<GameData>(datasnapshot.GetRawJsonValue()), false);
+                                DataManager.Instance.LoginResultCallback("성공");
                                 return;
                             }
                             else
                             {
                                 Debug.Log("비밀번호가 틀렸습니다");
+                                DataManager.Instance.LoginResultCallback("비밀번호가 틀렸습니다.");
                                 return;
                             }
                         }
                     }
                     Debug.Log("존재하지 않는 아이디입니다.");
+                    DataManager.Instance.LoginResultCallback("존재하지 않는 아이디입니다.");
                     return;
                 }
             });
