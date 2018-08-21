@@ -4,13 +4,22 @@ using UnityEngine;
 
 namespace RedTheSettlers.GameSystem
 {
-    public class FireballExplode : MonoBehaviour
+    public class Explode : MonoBehaviour
     {
         ParticleSystem particle;
-
+        public GameObject SkillRangeCircle;
+        
         private void Start()
         {
             particle = GetComponent<ParticleSystem>();    
+        }
+
+        private void Update()
+        {
+            if (!particle.isEmitting)
+            {
+                SkillRangeCircle.SetActive(false);
+            }
         }
 
         private void OnTriggerEnter(Collider other)

@@ -5,14 +5,15 @@ namespace RedTheSettlers.Enemys
 {
     public class BossEnemy : Enemy
     {
+        //파이어볼과 폭발은 풀 매니저로 옮겨야 한다.
+        //보스가 체력에 따라 동시에 날리는 공격의 개수가 달라지기 때문
         [SerializeField]
-        private FireballExplode explodePrefab;
-        [SerializeField]
-        private FireballExplode explode;
+        private Explode explodePrefab;
+        private Explode explode;
         [SerializeField]
         private GameTimer explodeLifeTimer;
-        private const float explodeLifeTime = 3.5f;
-        private Vector3 explosionLocation = new Vector3(0.275f, 0f, 1.3f);
+        private const float explodeLifeTime = 10f;
+        private Vector3 explosionLocation = new Vector3( 0.275f, 0f, 1.3f);
         [SerializeField]
         GameObject SkillRangeCircle;
 
@@ -26,6 +27,7 @@ namespace RedTheSettlers.Enemys
         {
             explode = Instantiate(explodePrefab, gameObject.transform);
             explode.gameObject.SetActive(false);
+            explode.SkillRangeCircle = SkillRangeCircle;
             float skillRange = explode.GetComponent<SphereCollider>().radius/5;
             SkillRangeCircle.transform.localScale = new Vector3(skillRange, 0f, skillRange);
             SkillRangeCircle.SetActive(false);
@@ -102,6 +104,7 @@ namespace RedTheSettlers.Enemys
         void UseSkillStart()
         {
             SkillRangeCircle.SetActive(true);
+            explode.SkillRangeCircle.SetActive(true);
             SkillRangeCircle.transform.position = explosionLocation;
         }
 

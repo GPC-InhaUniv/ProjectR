@@ -5,7 +5,7 @@ namespace RedTheSettlers.Enemys.Boss
 {
     public class UseSkill : EnemyState
     {
-        public UseSkill(Animator animator, FireballExplode explode, GameTimer explodeLifeTimer, float Power, float explodeLifeTime, TimerCallback pushFireball)
+        public UseSkill(Animator animator, Explode explode, GameTimer explodeLifeTimer, float Power, float explodeLifeTime, TimerCallback pushFireball)
         {
             this.animator = animator;
             this.explode = explode;

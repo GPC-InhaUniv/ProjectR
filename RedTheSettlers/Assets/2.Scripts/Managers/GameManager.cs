@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using System;
 using System.Collections;
-using RedTheSettlers.Users;
+//using RedTheSettlers.Users;
 using RedTheSettlers.Tiles;
 using RedTheSettlers.UnitTest;
 using RedTheSettlers.UI;
@@ -31,7 +30,7 @@ namespace RedTheSettlers.GameSystem
         public List<TileData>[] PlayerWoodTileData;
 
         //플레이어 정보 안에 보유 타일 데이터가 다 있을 예정
-        public BoardPlayer player;
+        //public BoardPlayer player;
 
         public TurnControllerTest turnCtrl;
         public EventControllerTest eventCtrl;
