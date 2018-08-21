@@ -32,6 +32,12 @@ namespace RedTheSettlers.GameSystem
     }
 
     [Serializable]
+    public struct TradeData
+    {
+        public Dictionary<TileType, int> TradeItems;
+    }
+
+    [Serializable]
     public struct ItemData
     {
         public int CowNumber;
