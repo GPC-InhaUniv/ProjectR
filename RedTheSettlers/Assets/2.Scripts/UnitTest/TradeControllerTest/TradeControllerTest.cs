@@ -101,7 +101,6 @@ namespace RedTheSettlers.UnitTest
     {
         protected IMediatable mediator;
         public ItemData tradeData;
-        public GameObject tradePanel;
 
         /// <summary>
         /// 다른 플레이어들에게 자원 거래를 요청한다.
@@ -121,13 +120,13 @@ namespace RedTheSettlers.UnitTest
 
         public ItemData ShowTradePanel()
         {
-            tradePanel.SetActive(true);
+            //tradePanel.SetActive(true);
             // TradePanel에서 거래 내용 조작
             // 조작이 끝나고 거래를 요청하면 
 
             // 아래 코드는 정상적으로 동작하지 않을것으로 예상됨. 나중에 다른 메소드로 분리할것
             ItemData sendData = GetTradeData();
-            tradePanel.SetActive(false);
+            //tradePanel.SetActive(false);
             return sendData;
         }
 
@@ -155,7 +154,7 @@ namespace RedTheSettlers.UnitTest
         {
             // UI에 어떤 플레이어에게서 온 거래 요청인지 표기해야하므로 requestPlayer 정보 필요
             Debug.Log(requestPlayer + "로부터의 거래 요청입니다.");
-            tradePanel.SetActive(true);
+            // tradePanel.SetActive(true);
             // tradeData를 풀어 UI에서 정보 보여주기
             // GetTradeData() -> RequestAgain(requestPlayer, this.Player);
             // 또는 수락 / 거절
