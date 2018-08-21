@@ -24,13 +24,17 @@ namespace RedTheSettlers.GameSystem
     {
         public const string DirectoryName = "Data";
         public const string FilePath = DirectoryName + "/AssetBundleData.txt";
+        public delegate void LoginResult(string Text);
+        public LoginResult LoginResultCallback;
+        public delegate void SignUpResult(string Text);
+        public LoginResult SignUpResultCallback;
+
         private GameData gameData;
 
         public GameData GameData
         {
             get { return gameData; }
         }
-
 
         private GameDataLoader gameDataLoader;
         // Use this for initialization
@@ -41,7 +45,7 @@ namespace RedTheSettlers.GameSystem
 
             string json = JsonUtility.ToJson(gameData);
             Debug.Log(json);
-            bool cyheck = CheckedBundleVersion(AssetBundleNumbers.Player, "01024fadg3b");
+            bool cyheck = CheckedBundleVersion(AssetBundleNumbers.MiddleBoss1, "MiddleBoss1");
             Debug.Log(cyheck);
         }
 
@@ -53,7 +57,6 @@ namespace RedTheSettlers.GameSystem
         public void Login(string id, string password)
         {
             gameDataLoader.LoadLoginDataFromDB(id, password);
-
         }
 
         public void SaveGameData(GameData gameData, bool ShouldSaveForDB)
@@ -72,73 +75,51 @@ namespace RedTheSettlers.GameSystem
             gameDataLoader.SetUpdateInDB(gameData);
         }
 
+        /// <summary>
+        /// AssetBundle의 키 값을 비교하여 업데이트 유무를 Bool형식으로 리턴함.(사용자는 꼭 Enum순서대로 함수를 사용할것. 
+        /// ex) Player -> Skill(o) , Player -> Enemy(x))
+        /// </summary>
+        /// <param name="bundleNumbers"></param>
+        /// <param name="assetBundleData"></param>
+        /// <returns></returns>
         public bool CheckedBundleVersion(AssetBundleNumbers bundleNumbers, string assetBundleData)
         {
-            string versionData = stringWrite(bundleNumbers, assetBundleData);
-            
             if (!Directory.Exists(DirectoryName))
             {
                 Directory.CreateDirectory(DirectoryName);
                 LogManager.Instance.UserDebug(LogColor.Magenta, GetType().Name, "AssetBundle을 위한 Data폴더 생성");
             }
-            else
-                LogManager.Instance.UserDebug(LogColor.Magenta, GetType().Name, "파일이 이미 존재합니다.");
+
             FileInfo fileInfo = new FileInfo(FilePath);
-            if (!fileInfo.Exists)
+            if(!fileInfo.Exists)
             {
-                File.Create(FilePath);
+                File.Create(FilePath).Dispose();
             }
             string[] lines;
             lines = File.ReadAllLines(FilePath);
-            using (StreamWriter writer = new StreamWriter(FilePath, true))
+            if (lines.Length - 1 < (int)bundleNumbers)
             {
-
-                if (lines.Length - 1 < (int)bundleNumbers)
+                using (StreamWriter writer = new StreamWriter(FilePath, true))
                 {
-                    writer.Write(versionData);
-                    LogManager.Instance.UserDebug(LogColor.Magenta, GetType().Name, "기록된 정보가 없으므로 새로 적습니다,");
-                    return true;
+                    writer.WriteLine(assetBundleData);
+                    LogManager.Instance.UserDebug(LogColor.Magenta, GetType().Name, "기록된 정보가 없음. 새로 입력.");   
                 }
-                else
+            return false;
+            }
+            else if (!lines[(int)bundleNumbers].Equals(assetBundleData))
+            {
+                using (StreamWriter writer = new StreamWriter(FilePath, false))
                 {
-                    if (lines[(int)bundleNumbers].Equals(versionData))
-                    {
-                        writer.Write(versionData);
-                        LogManager.Instance.UserDebug(LogColor.Magenta, GetType().Name, "기록된 정보와 다르므로 업데이트 요망.");
-                        return false;
-                    }
+                    lines[(int)bundleNumbers] = assetBundleData;
+                    for (int i = 0; i < lines.Length; i++)
+                        writer.WriteLine(lines[i]);
+                    LogManager.Instance.UserDebug(LogColor.Magenta, GetType().Name, "기록된 정보와 불일치. 업데이트 필요.");
                 }
+            return false;
             }
             LogManager.Instance.UserDebug(LogColor.Magenta, GetType().Name, "기록된 정보와 일치. 업데이트 필요없음");
             return true;
         }
-
-        public string stringWrite(AssetBundleNumbers bundleNumbers, string assetBundleData)
-        {
-            switch (bundleNumbers)
-            {
-
-                case AssetBundleNumbers.Player:
-                    return assetBundleData;
-                case AssetBundleNumbers.Skill:
-                    return "\n" + assetBundleData;
-                case AssetBundleNumbers.Enemy:
-                    return "\n\n" + assetBundleData;
-                case AssetBundleNumbers.MiddleBoss1:
-                    return "\n\n\n" + assetBundleData;
-                case AssetBundleNumbers.MiddleBoss2:
-                    return "\n\n\n\n" + assetBundleData;
-                case AssetBundleNumbers.Boss:
-                    return "\n\n\n\n\n" + assetBundleData;
-                case AssetBundleNumbers.Tile:
-                    return "\n\n\n\n\n\n" + assetBundleData;
-                default:
-                    return "\n\n\n\n\n\n\n" + assetBundleData;
-            }
-        }
-
-
-
     }
 
 }

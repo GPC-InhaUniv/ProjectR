@@ -98,12 +98,12 @@ namespace RedTheSettlers.GameSystem
 
         public void OnPointerEnter()
         {
-
+            inputState.OnInPointer();
         }
 
         public void OnPointerExit()
         {
-
+            inputState.OnOutPointer();
         }
 
         public void OnBeginDrag()

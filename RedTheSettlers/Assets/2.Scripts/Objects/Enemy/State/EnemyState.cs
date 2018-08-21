@@ -29,9 +29,14 @@ namespace RedTheSettlers.Enemys
         protected float moveSpeed;
         protected int currentHp;
         protected int maxHp;
+        protected float Power;
         protected float timeToReturn;
-        protected float power;
         protected float fireballSpeed;
+
+        protected FireballExplode explodePrefab;
+        protected FireballExplode explode;
+        protected GameTimer explodeLifeTimer;
+        protected float explodeLifeTime;
 
         protected GameTimer deadTimer;
         protected GameTimer pattern1Timer;

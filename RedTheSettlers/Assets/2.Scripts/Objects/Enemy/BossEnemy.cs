@@ -7,14 +7,18 @@ namespace RedTheSettlers.Enemys
     {
         [SerializeField]
         private FireballExplode explodePrefab;
+        [SerializeField]
         private FireballExplode explode;
+        [SerializeField]
         private GameTimer explodeLifeTimer;
-
+        private const float explodeLifeTime = 3.5f;
+        private Vector3 explosionLocation = new Vector3(0.275f, 0f, 1.3f);
 
         private void Start()
         {
             explode = Instantiate(explodePrefab, gameObject.transform);
             explode.gameObject.SetActive(false);
+            Setting();
         }
 
         public override void ChangeState(EnemyStateType stateType)
@@ -34,7 +38,13 @@ namespace RedTheSettlers.Enemys
                     currentState = new Boss.Attack();
                     break;
                 case EnemyStateType.Attack2:
-                    currentState = new Boss.UseSkill();
+                    currentState = new Boss.UseSkill(
+                        animator, 
+                        explode, 
+                        explodeLifeTimer, 
+                        Power, 
+                        explodeLifeTime, 
+                        new TimerCallback(PushTimer));
                     break;
                 case EnemyStateType.Move:
                     currentState = new Move(
@@ -67,9 +77,21 @@ namespace RedTheSettlers.Enemys
 
         }
 
-        void BoomFireExplosion()
+        void EndDamage()
         {
 
+        }
+
+        void BoomFireExplosion()
+        {
+            explode.gameObject.SetActive(true);
+            explode.gameObject.transform.position = explosionLocation;
+        }
+
+        void PushTimer()
+        {
+            explodeLifeTimer = null;
+            explode.gameObject.SetActive(false);
         }
 
         void EndSkill()
