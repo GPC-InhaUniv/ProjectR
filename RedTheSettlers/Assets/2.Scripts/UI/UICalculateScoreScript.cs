@@ -87,7 +87,7 @@ namespace RedTheSettlers.UI
 
         private GameData gameData;
 
-        enum MyEnum
+        enum ItemsEnum
         {
             cowNumber,
             IronNumber,
@@ -245,7 +245,7 @@ namespace RedTheSettlers.UI
                 }
 
                 tempscore = 0;
-                for (int j = 0; j <= PlayerData(MyEnum.TileList, i); j++)
+                for (int j = 0; j <= PlayerData(ItemsEnum.TileList, i); j++)
                 {
                     ShowTentScore(i);
                     tempscore++;
@@ -253,7 +253,7 @@ namespace RedTheSettlers.UI
                 }
 
                 tempscore = 0;
-                for (int j = 0; j <= PlayerData(MyEnum.BossKillCount, i); j++)
+                for (int j = 0; j <= PlayerData(ItemsEnum.BossKillCount, i); j++)
                 {
                     ShowMonsterScore(i);
                     tempscore++;
@@ -275,27 +275,27 @@ namespace RedTheSettlers.UI
 
         private void ShowCardScore(int playerNumber)
         {
-            if (tempscore <= PlayerData(MyEnum.cowNumber, playerNumber))
+            if (tempscore <= PlayerData(ItemsEnum.cowNumber, playerNumber))
             {
                 playersCardInfo[playerNumber].PlayerCow.text = tempscore.ToString("D2");
             }
-            if (tempscore <= PlayerData(MyEnum.IronNumber, playerNumber))
+            if (tempscore <= PlayerData(ItemsEnum.IronNumber, playerNumber))
             {
                 playersCardInfo[playerNumber].PlayerIron.text = tempscore.ToString("D2");
             }
-            if (tempscore <= PlayerData(MyEnum.SoilNunber, playerNumber))
+            if (tempscore <= PlayerData(ItemsEnum.SoilNunber, playerNumber))
             {
                 playersCardInfo[playerNumber].PlayerSoil.text = tempscore.ToString("D2");
             }
-            if (tempscore <= PlayerData(MyEnum.WaterNumber, playerNumber))
+            if (tempscore <= PlayerData(ItemsEnum.WaterNumber, playerNumber))
             {
                 playersCardInfo[playerNumber].PlayerWater.text = tempscore.ToString("D2");
             }
-            if (tempscore <= PlayerData(MyEnum.WheatNumber, playerNumber))
+            if (tempscore <= PlayerData(ItemsEnum.WheatNumber, playerNumber))
             {
                 playersCardInfo[playerNumber].PlayerWheat.text = tempscore.ToString("D2");
             }
-            if (tempscore <= PlayerData(MyEnum.WoodNumber, playerNumber))
+            if (tempscore <= PlayerData(ItemsEnum.WoodNumber, playerNumber))
             {
                 playersCardInfo[playerNumber].PlayerWood.text = tempscore.ToString("D2");
             }
@@ -303,12 +303,12 @@ namespace RedTheSettlers.UI
 
         private void ShowEquipmentScore(int playerNumber)
         {
-            if (tempscore <= PlayerData(MyEnum.WeaponLevel, playerNumber))
+            if (tempscore <= PlayerData(ItemsEnum.WeaponLevel, playerNumber))
             {
                 playersBonusInfos[playerNumber].PlayerWeapon.text = tempscore.ToString("D2");
             }
 
-            if (tempscore <= PlayerData(MyEnum.ShieldLevel, playerNumber))
+            if (tempscore <= PlayerData(ItemsEnum.ShieldLevel, playerNumber))
             {
                 playersBonusInfos[playerNumber].PlayerShield.text = tempscore.ToString("D2");
             }
@@ -316,7 +316,7 @@ namespace RedTheSettlers.UI
 
         private void ShowTentScore(int playerNumber)
         {
-            if (tempscore <= PlayerData(MyEnum.TileList, playerNumber))
+            if (tempscore <= PlayerData(ItemsEnum.TileList, playerNumber))
             {
                 playersBonusInfos[playerNumber].PlayerTent.text = tempscore.ToString("D2");
             }
@@ -324,7 +324,7 @@ namespace RedTheSettlers.UI
 
         private void ShowMonsterScore(int playerNumber)
         {
-            if (tempscore <= PlayerData(MyEnum.BossKillCount, playerNumber))
+            if (tempscore <= PlayerData(ItemsEnum.BossKillCount, playerNumber))
             {
                 playersBonusInfos[playerNumber].PlayerKillMonster.text = tempscore.ToString("D2");
             }
@@ -353,39 +353,39 @@ namespace RedTheSettlers.UI
 
         }
 
-        private int PlayerData(MyEnum tileType, int playerNumber)
+        private int PlayerData(ItemsEnum tileType, int playerNumber)
         {
             int data = 0;
             switch (tileType)
             {
-                case MyEnum.cowNumber:
+                case ItemsEnum.cowNumber:
                     data = gameData.PlayerData[playerNumber].ItemData.CowNumber;
                     break;
-                case MyEnum.IronNumber:
+                case ItemsEnum.IronNumber:
                     data = gameData.PlayerData[playerNumber].ItemData.IronNumber;
                     break;
-                case MyEnum.SoilNunber:
+                case ItemsEnum.SoilNunber:
                     data = gameData.PlayerData[playerNumber].ItemData.SoilNumber;
                     break;
-                case MyEnum.WaterNumber:
+                case ItemsEnum.WaterNumber:
                     data = gameData.PlayerData[playerNumber].ItemData.WaterNumber;
                     break;
-                case MyEnum.WheatNumber:
+                case ItemsEnum.WheatNumber:
                     data = gameData.PlayerData[playerNumber].ItemData.WheatNumber;
                     break;
-                case MyEnum.WoodNumber:
+                case ItemsEnum.WoodNumber:
                     data = gameData.PlayerData[playerNumber].ItemData.WoodNumber;
                     break;
-                case MyEnum.WeaponLevel:
+                case ItemsEnum.WeaponLevel:
                     data = gameData.PlayerData[playerNumber].StatData.WeaponLevel;
                     break;
-                case MyEnum.ShieldLevel:
+                case ItemsEnum.ShieldLevel:
                     data = gameData.PlayerData[playerNumber].StatData.ShieldLevel;
                     break;
-                case MyEnum.TileList:
+                case ItemsEnum.TileList:
                     data = gameData.PlayerData[playerNumber].TileList.Count;
                     break;
-                case MyEnum.BossKillCount:
+                case ItemsEnum.BossKillCount:
                     data = gameData.PlayerData[playerNumber].BossKillCount;
                     break;
             }

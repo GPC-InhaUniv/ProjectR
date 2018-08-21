@@ -2,46 +2,47 @@
 using System.Collections;
 using RedTheSettlers.GameSystem;
 using UnityEngine.UI;
+using System.Collections.Generic;
+using UnityEngine.EventSystems;
 
 namespace RedTheSettlers.UI
 {
     public class UITradeCardScript : MonoBehaviour
     {
-        GameData gameData;
-        private void Awake()
+        public GameData gameData;
+
+        void TESTLoadData(GameData data)
         {
-            gameData = new GameData(4);
-
             //>>Resource<<
-            gameData.PlayerData[0].ItemData.CowNumber = 1;
-            gameData.PlayerData[1].ItemData.CowNumber = 2;
-            gameData.PlayerData[2].ItemData.CowNumber = 3;
-            gameData.PlayerData[3].ItemData.CowNumber = 4;
+            data.PlayerData[0].ItemData.CowNumber = 1;
+            data.PlayerData[1].ItemData.CowNumber = 2;
+            data.PlayerData[2].ItemData.CowNumber = 3;
+            data.PlayerData[3].ItemData.CowNumber = 4;
 
-            gameData.PlayerData[0].ItemData.WaterNumber = 5;
-            gameData.PlayerData[1].ItemData.WaterNumber = 15;
-            gameData.PlayerData[2].ItemData.WaterNumber = 20;
-            gameData.PlayerData[3].ItemData.WaterNumber = 25;
+            data.PlayerData[0].ItemData.WaterNumber = 5;
+            data.PlayerData[1].ItemData.WaterNumber = 15;
+            data.PlayerData[2].ItemData.WaterNumber = 20;
+            data.PlayerData[3].ItemData.WaterNumber = 25;
 
-            gameData.PlayerData[0].ItemData.WheatNumber = 5;
-            gameData.PlayerData[1].ItemData.WheatNumber = 6;
-            gameData.PlayerData[2].ItemData.WheatNumber = 7;
-            gameData.PlayerData[3].ItemData.WheatNumber = 8;
+            data.PlayerData[0].ItemData.WheatNumber = 5;
+            data.PlayerData[1].ItemData.WheatNumber = 6;
+            data.PlayerData[2].ItemData.WheatNumber = 7;
+            data.PlayerData[3].ItemData.WheatNumber = 8;
 
-            gameData.PlayerData[0].ItemData.WoodNumber = 2;
-            gameData.PlayerData[1].ItemData.WoodNumber = 4;
-            gameData.PlayerData[2].ItemData.WoodNumber = 6;
-            gameData.PlayerData[3].ItemData.WoodNumber = 8;
+            data.PlayerData[0].ItemData.WoodNumber = 2;
+            data.PlayerData[1].ItemData.WoodNumber = 4;
+            data.PlayerData[2].ItemData.WoodNumber = 6;
+            data.PlayerData[3].ItemData.WoodNumber = 8;
 
-            gameData.PlayerData[0].ItemData.IronNumber = 4;
-            gameData.PlayerData[1].ItemData.IronNumber = 8;
-            gameData.PlayerData[2].ItemData.IronNumber = 12;
-            gameData.PlayerData[3].ItemData.IronNumber = 16;
+            data.PlayerData[0].ItemData.IronNumber = 4;
+            data.PlayerData[1].ItemData.IronNumber = 8;
+            data.PlayerData[2].ItemData.IronNumber = 12;
+            data.PlayerData[3].ItemData.IronNumber = 16;
 
-            gameData.PlayerData[0].ItemData.SoilNumber = 3;
-            gameData.PlayerData[1].ItemData.SoilNumber = 6;
-            gameData.PlayerData[2].ItemData.SoilNumber = 9;
-            gameData.PlayerData[3].ItemData.SoilNumber = 12;
+            data.PlayerData[0].ItemData.SoilNumber = 3;
+            data.PlayerData[1].ItemData.SoilNumber = 6;
+            data.PlayerData[2].ItemData.SoilNumber = 9;
+            data.PlayerData[3].ItemData.SoilNumber = 12;
             //<<
 
             //>>Equipement
@@ -82,6 +83,11 @@ namespace RedTheSettlers.UI
             gameData.PlayerData[3].BossKillCount = 9;
             //<<
         }
+        private void Awake()
+        {
+            gameData = new GameData(4);
+            TESTLoadData(gameData);
+        }
 
         private int giveCardNumber, takeCardNumber;
 
@@ -99,10 +105,12 @@ namespace RedTheSettlers.UI
         private CardInfo[] cardInfo;
 
         private float[] tempGiveValue = new float[6]
-        {0,0,0,0,0,0};  //순서대로 Cow,Iron,SOil,Water,Wheat,Wood
+        {0,0,0,0,0,0};  //순서대로 Cow,Iron,Soil,Water,Wheat,Wood
 
         private float[] tempTakeValue = new float[6]
-        {0,0,0,0,0,0};  //순서대로 Cow,Iron,SOil,Water,Wheat,Wood
+        {0,0,0,0,0,0};  //순서대로 Cow,Iron,Soil,Water,Wheat,Wood
+
+       
 
         [SerializeField]
         private Slider takeItemSlider, giveItemSlider;
@@ -111,35 +119,53 @@ namespace RedTheSettlers.UI
         private Text takeSliderValue, giveSliderValue;
 
         [SerializeField]
-        private GameObject playerHandGroup;
+        private GameObject playerGiveGroup, playerHandGroup, playerTakeGroup;
 
-        enum AnotherPlayerState
+        public enum AnotherPlayerState
         {
             Trade,
+            No,
             Yes,
-            No
         }
+        [SerializeField]
+        AnotherPlayerState anotherPlayerstate;
+
+        private void Start()
+        {
+            
+        }
+
+        struct TradeItemValue//임시 값.
+        {
+            public int TradeCow;
+            public int TradeIron;
+            public int TradeSoil;
+            public int TradeWater;
+            public int TradeWheat;
+            public int TradeWood;
+        }
+        TradeItemValue tradeItemValue;
 
         [SerializeField]
         private Text secondPlayer, thirdPlayer, fourthPlayer;
 
-        public void CheckCards(string cardName)
+        public void CheckCards(int cardNumber) //int로 들어오게하기
         {
             for (int i = 0; i < cardInfo.Length; i++)
             {
-                if (cardName == ((ItemType)i).ToString())
+                if (cardNumber == i)  //0=소/ 1=철/ 2=흙/ 3=물/ 4=밀/ 5=나무
                 {
-                    
+
                     if (cardInfo[i].ItemsCard.activeSelf == true &&
-                        cardInfo[i].ItemsCard.transform.parent.name == "TradeCardGiveGroup")
+                        string.Equals(cardInfo[i].ItemsCard.transform.parent.name, playerGiveGroup.name))
                     {
                         giveCardNumber = i;
                         giveItemPopup.gameObject.SetActive(true);
-                        giveItemSlider.maxValue = ItemsNumber(i);
+                        giveItemSlider.maxValue = SetItemsNumber(i);
                         giveItemSlider.value = 0;
                     }
                     if (cardInfo[i].ItemsCard.activeSelf == true &&
-                        cardInfo[i].ItemsCard.transform.parent.name == "TradeCardTakeGroup")//구조체는 직접적으로 접근을해야하기떄문에, 즉 i를 사용할 수 없으므로 사용하지 않음
+                        string.Equals(cardInfo[i].ItemsCard.transform.parent.name, playerTakeGroup.name))
                     {
                         takeCardNumber = i;
                         takeItemPopup.gameObject.SetActive(true);
@@ -147,11 +173,11 @@ namespace RedTheSettlers.UI
                     }
                 }
             }
-            Debug.Log("기브카드넘버" + giveCardNumber);
-            Debug.Log("테이크카드넘버" + takeCardNumber);
+            //Debug.Log("기브카드넘버" + giveCardNumber);
+            //Debug.Log("테이크카드넘버" + takeCardNumber);
         }
 
-        private float ItemsNumber(int Number)
+        private float SetItemsNumber(int Number)
         {
             float data = 0;
             switch (Number)
@@ -181,13 +207,13 @@ namespace RedTheSettlers.UI
         public void OnClickedPopupButton()
         {
             if (cardInfo[giveCardNumber].ItemsCard.activeSelf == true &&
-                cardInfo[giveCardNumber].ItemsCard.transform.parent.name == "TradeCardGiveGroup")
+                string.Equals(cardInfo[giveCardNumber].ItemsCard.transform.parent.name, playerGiveGroup.name))   //이름 직접비교는 피하자. Equals 사용
             {
                 tempGiveValue[giveCardNumber] = giveItemSlider.value;
                 cardInfo[giveCardNumber].TempitemsCount.text = tempGiveValue[giveCardNumber].ToString();
             }
             if (cardInfo[takeCardNumber].ItemsCard.activeSelf == true &&
-                cardInfo[takeCardNumber].ItemsCard.transform.parent.name == "TradeCardTakeGroup")
+                string.Equals(cardInfo[takeCardNumber].ItemsCard.transform.parent.name, playerTakeGroup.name))
             {
                 tempTakeValue[takeCardNumber] = takeItemSlider.value;
                 cardInfo[takeCardNumber].TempitemsCount.text = tempTakeValue[takeCardNumber].ToString();
@@ -218,7 +244,7 @@ namespace RedTheSettlers.UI
             if (tempTotalvalue > 50)
             {
                 overItemPopup.SetActive(true);
-                cardInfo[takeCardNumber].ItemsCard.gameObject.transform.SetParent(playerHandGroup.transform);
+                cardInfo[takeCardNumber].ItemsCard.transform.SetParent(playerHandGroup.transform);
                 cardInfo[takeCardNumber].TempitemsCount.text = "";
                 tempTakeValue[takeCardNumber] = 0;
             }
@@ -234,7 +260,7 @@ namespace RedTheSettlers.UI
         {
             for (int i = 0; i < cardInfo.Length; i++)
             {
-                cardInfo[i].ItemsCard.gameObject.transform.SetParent(playerHandGroup.transform);
+                cardInfo[i].ItemsCard.transform.SetParent(playerHandGroup.transform);
                 cardInfo[i].TempitemsCount.text = "";
                 tempGiveValue[i] = 0;
                 tempTakeValue[i] = 0;
@@ -243,9 +269,30 @@ namespace RedTheSettlers.UI
             giveItemSlider.value = 0;
         }
 
-        public void OnClickedRequestButton()
+        public void OnClickedRequestButton(AnotherPlayerState state)
         {
+            switch (state)
+            {
+                case AnotherPlayerState.Yes:
+
+                default:
+                    break;
+            }
+        }
+
+        private void CalculatePlayerItems(GameData data, int ItemNumber)
+        {
+          
+            data.PlayerData[0].ItemData.CowNumber -= (int)tempTakeValue[ItemNumber];
+            data.PlayerData[0].ItemData.IronNumber -= (int)tempTakeValue[ItemNumber];
+            data.PlayerData[0].ItemData.SoilNumber -= (int)tempTakeValue[ItemNumber];
+            data.PlayerData[0].ItemData.WaterNumber -= (int)tempTakeValue[ItemNumber];
+            data.PlayerData[0].ItemData.WheatNumber -= (int)tempTakeValue[ItemNumber];
+            data.PlayerData[0].ItemData.WoodNumber -= (int)tempTakeValue[ItemNumber];
+
 
         }
+
+       
     }
 }
