@@ -1,10 +1,12 @@
-﻿using RedTheSettlers.Players;
-using System.Collections.Generic;
-using RedTheSettlers.Tiles;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using RedTheSettlers.UnitTest;
 using System;
 using System.Collections;
+using RedTheSettlers.Players;
+using RedTheSettlers.Tiles;
+using RedTheSettlers.UnitTest;
+using RedTheSettlers.AI;
+using RedTheSettlers.UI;
 
 namespace RedTheSettlers.GameSystem
 {
@@ -28,6 +30,9 @@ namespace RedTheSettlers.GameSystem
         public List<TileData>[] PlayerWaterTileData;
         public List<TileData>[] PlayerWheatTileData;
         public List<TileData>[] PlayerWoodTileData;
+
+        //플레이어 정보 안에 보유 타일 데이터가 다 있을 예정
+        public BoardPlayer player;
 
         public TurnControllerTest turnCtrl;
         public EventControllerTest eventCtrl;
@@ -173,17 +178,19 @@ namespace RedTheSettlers.GameSystem
         }
 
         /// <summary>
-        /// 클릭한 타일을 반환합니다.
+        /// 클릭한 타일을 반환합니다.(임시 기능)
         /// </summary>
         /// <returns></returns>
         public BoardTile GetClickedTile()
         {
+
+            //인풋으로부터 입력을 받게 수정해야 한다.
             BoardTile tile;
             if (Input.GetMouseButtonUp(0))
             {
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 RaycastHit hitInfo;
-                if (Physics.Raycast(ray, out hitInfo, 1f) && (hitInfo.collider.tag == "Tile"))
+                if (Physics.Raycast(ray, out hitInfo, 1f) && (hitInfo.collider.tag == GlobalVariables.TAG_TILE))
                 {
                     tile = hitInfo.collider.GetComponent<BoardTile>();
                 }
@@ -194,4 +201,9 @@ namespace RedTheSettlers.GameSystem
             return tile;
         }
     }
+    //추가해야 될 거
+    //날씨 카드에서 무엇을 골랐는지 이벤트 컨트롤러에게
+    //트레이드 패널에서 ItemData을 트레이드 컨트롤러에게
+    //다른 player와의 거래 결과를 패널에게 다시 전달
+
 }

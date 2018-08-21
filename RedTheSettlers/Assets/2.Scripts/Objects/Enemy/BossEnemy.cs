@@ -13,12 +13,22 @@ namespace RedTheSettlers.Enemys
         private GameTimer explodeLifeTimer;
         private const float explodeLifeTime = 3.5f;
         private Vector3 explosionLocation = new Vector3(0.275f, 0f, 1.3f);
+        [SerializeField]
+        GameObject SkillRangeCircle;
 
         private void Start()
         {
+            Setting();
+            base.Setting();
+        }
+
+        protected override void Setting()
+        {
             explode = Instantiate(explodePrefab, gameObject.transform);
             explode.gameObject.SetActive(false);
-            Setting();
+            float skillRange = explode.GetComponent<SphereCollider>().radius/5;
+            SkillRangeCircle.transform.localScale = new Vector3(skillRange, 0f, skillRange);
+            SkillRangeCircle.SetActive(false);
         }
 
         public override void ChangeState(EnemyStateType stateType)
@@ -62,10 +72,17 @@ namespace RedTheSettlers.Enemys
             base.ChangeState(stateType);
         }
 
-        protected override void SetStatus(int ItemNumber)
+        /// <summary>
+        /// 보스 전용 스탯 설정 메서드
+        /// </summary>
+        /// <param name="HP"></param>
+        /// <param name="Power"></param>
+        protected override void SetStatus(int HP, int Power)
         {
-            base.SetStatus(ItemNumber);
+            MaxHp = HP;
+            this.Power = Power;
         }
+        protected override void SetStatus(int ItemNumber) { }
 
         void ShotFireball()
         {
@@ -82,6 +99,12 @@ namespace RedTheSettlers.Enemys
 
         }
 
+        void UseSkillStart()
+        {
+            SkillRangeCircle.SetActive(true);
+            SkillRangeCircle.transform.position = explosionLocation;
+        }
+
         void BoomFireExplosion()
         {
             explode.gameObject.SetActive(true);
@@ -92,6 +115,7 @@ namespace RedTheSettlers.Enemys
         {
             explodeLifeTimer = null;
             explode.gameObject.SetActive(false);
+            SkillRangeCircle.SetActive(false);
         }
 
         void EndSkill()

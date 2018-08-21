@@ -87,7 +87,7 @@ namespace RedTheSettlers.Enemys
             UpdatePosition();
         }
 
-        protected void Setting()
+        protected virtual void Setting()
         {
             typeRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
             animator = GetComponent<Animator>();
@@ -120,12 +120,8 @@ namespace RedTheSettlers.Enemys
             currentState.DoAction();
         }
 
-        protected virtual void SetStatus(int ItemNumber)
-        {
-            MaxHp = 10 + ItemNumber * 3;
-            Power = 2 + ItemNumber * 0.5f;
-            CurrentHp = MaxHp;
-        }
+        protected abstract void SetStatus(int ItemNumber);
+        protected abstract void SetStatus(int HP,int Power);
 
         //피격 처리를 담당하는 메서드
         public void Damaged(int damage)
