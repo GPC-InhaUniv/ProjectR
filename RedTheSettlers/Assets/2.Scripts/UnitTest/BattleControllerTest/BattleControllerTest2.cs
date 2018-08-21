@@ -13,43 +13,45 @@ namespace RedTheSettlers.UnitTest
 
     public class BattleControllerTest2 : MonoBehaviour
     {
-        GameTimer cattlesTimer;
-        float cattleResawnTime = 100000;
+        GameTimer cattlesTimer, battleTimer;
+        float cattleResawnTime = 100; // second
 
         private void Start()
         {
             cattlesTimer = GameTimeManager.Instance.PopTimer();
             cattlesTimer.SetTimer(cattleResawnTime, true);
+            cattlesTimer.Callback = new TimerCallback(SpawnHerdOfCattle);
+
+            battleTimer = GameTimeManager.Instance.PopTimer();
+            //battleTimer.SetTimer()
+
+
+            cattlesTimer.StartTimer();
         }
 
         public IEnumerator BattleFlow()
         {
             ItemType tileType = diffcultyManagertest.Instance.tileType;
             if (tileType == ItemType.Cow) SpawnHerdOfCattle();
-
-            DisappearMapTile();
             
             // DataManager에 전투 결과 반영
             yield return new WaitForSeconds(3);
         }
 
         // 일정 시간마다 소 떼가 등장한다.
-        public void SpawnHerdOfCattle()
+        private void SpawnHerdOfCattle()
         {
             //GameTimeManager.Instance.
-            cattlesTimer.StartTimer();
+            
         }
-
-        // 일정 시간 경과 후부터 맵타일이 점점 사라진다.
-        public IEnumerator DisappearMapTile()
-        {
-            //GameTimeManager.Instance.
-            yield return new WaitForSeconds(3);
-        }
-
+        
+        /// <summary>
+        /// 적을 모두 쓰러트리면 전투가 종료된다. 
+        /// </summary>
         public void BattleClear()
         {
-
+            cattlesTimer.StopTimer();
+            GameTimeManager.Instance.PushTimer(cattlesTimer);
         }
     }
 }

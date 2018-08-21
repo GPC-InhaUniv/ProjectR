@@ -91,7 +91,7 @@ ModelImporter:
     400080: root
     400082: //RootNode
     400084: WP_Bone
-    7400000: Idle
+    7400000: BossIdle
     9500000: //RootNode
     11100000: //RootNode
   materials:
@@ -118,7 +118,7 @@ ModelImporter:
     extraExposedTransformPaths: []
     clipAnimations:
     - serializedVersion: 16
-      name: Idle
+      name: BossIdle
       takeName: Wizard_Idle
       firstFrame: 0
       lastFrame: 30

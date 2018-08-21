@@ -54,7 +54,7 @@ namespace RedTheSettlers.UI
         private GameObject leftCardImage;
 
         [SerializeField]
-        private GameObject startCardImage;
+        private GameObject middleCardImage;
 
         [SerializeField]
         private GameObject rightCardImage;
@@ -63,13 +63,14 @@ namespace RedTheSettlers.UI
 
         private int leftCardNum;
 
-
-
-        private void ChangeWeatherCard() //left, middel, right 카드에 랜덤으로 들어온 카드를 넣어줘야 하는데.. ㅠㅠ 어떻게 해야할지 모르겠음...
+        private void ChangeWeatherCard(int[] SelectCards)
         {
+            GameObject[] itemImages = new GameObject[12]; //흐아악 못하겠다아아
+
             if (leftCardNum == 0)
             {
-                itemImage[0].goodEventCowCardImage = leftCardImage;
+                leftCardImage = itemImage[0].goodEventCowCardImage; //지용님이 넘겨주신 값 넣어주면 댐 itemImage[0].goodEventCowCardImage; 여기
+                itemImage[0].goodEventWaterCardImage = leftCardImage;
                 //지용님에게 받아서 랜덤으로 뽑힌 해당 값에 따라 이미지 변경
             }
         }
@@ -83,14 +84,13 @@ namespace RedTheSettlers.UI
             Vector3 rightCardPosition;
 
             leftCardPosition = leftCardImage.transform.position;
-            middleCardPosition = startCardImage.transform.position;
+            middleCardPosition = middleCardImage.transform.position;
             rightCardPosition = rightCardImage.transform.position;
 
             firstCardImage.transform.position = Vector3.MoveTowards(firstCardImage.transform.position, leftCardPosition, moveSpeed);
             secondCardImage.transform.position = Vector3.MoveTowards(secondCardImage.transform.position, middleCardPosition, moveSpeed);
             thirdCardImage.transform.position = Vector3.MoveTowards(thirdCardImage.transform.position, rightCardPosition, moveSpeed);
         }
-
 
         private void OnClickWeatherCard()
         {

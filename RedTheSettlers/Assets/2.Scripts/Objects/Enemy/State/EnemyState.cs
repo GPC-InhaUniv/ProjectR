@@ -1,5 +1,4 @@
-﻿using RedTheSettlers.AI;
-using RedTheSettlers.GameSystem;
+﻿using RedTheSettlers.GameSystem;
 using RedTheSettlers.Tiles;
 using UnityEngine;
 
@@ -33,8 +32,8 @@ namespace RedTheSettlers.Enemys
         protected float timeToReturn;
         protected float fireballSpeed;
 
-        protected FireballExplode explodePrefab;
-        protected FireballExplode explode;
+        protected Explode explodePrefab;
+        protected Explode explode;
         protected GameTimer explodeLifeTimer;
         protected float explodeLifeTime;
 

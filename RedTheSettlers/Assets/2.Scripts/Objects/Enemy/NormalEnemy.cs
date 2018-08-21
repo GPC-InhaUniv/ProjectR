@@ -10,7 +10,6 @@ namespace RedTheSettlers.Enemys
         private void Start()
         {
             Setting();
-            //SetStatus();
         }
 
         private void Update()
@@ -63,7 +62,7 @@ namespace RedTheSettlers.Enemys
             base.ChangeState(stateType);
         }
 
-        private static void executeDelegate(ChangeStateCallback changeStateCallback)
+        private static void ExecuteDelegate(ChangeStateCallback changeStateCallback)
         {
             changeStateCallback(EnemyStateType.Idle);
         }
@@ -109,9 +108,17 @@ namespace RedTheSettlers.Enemys
             ObjectPoolManager.Instance.FireballQueue.Enqueue(enemyFireBall);
         }
 
+        /// <summary>
+        /// 일반 몹 전용 스텟 설정 메서드
+        /// </summary>
+        /// <param name="ItemNumber"></param>
         protected override void SetStatus(int ItemNumber)
         {
-            base.SetStatus(ItemNumber);
+            MaxHp = 10 + ItemNumber * 3;
+            Power = 2 + ItemNumber * 0.5f;
+            CurrentHp = MaxHp;
         }
+
+        protected override void SetStatus(int HP, int Power) { }
     }
 }

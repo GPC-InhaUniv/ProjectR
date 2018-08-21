@@ -83,10 +83,10 @@ namespace RedTheSettlers.UI
             //<<
         }
 
-        int cowValue, ironValue, soilValue, waterValue, wheatValue, woodValue;
+        private int giveCardNumber, takeCardNumber;
 
         [SerializeField]
-        private GameObject takeItemPopup, giveItemPopup;
+        private GameObject takeItemPopup, giveItemPopup, overItemPopup;
 
         [System.Serializable]
         struct CardInfo
@@ -123,54 +123,104 @@ namespace RedTheSettlers.UI
         [SerializeField]
         private Text secondPlayer, thirdPlayer, fourthPlayer;
 
-        private void Start()
-        {
-            cowValue = gameData.PlayerData[0].ItemData.CowNumber;
-            ironValue = gameData.PlayerData[0].ItemData.IronNumber;
-            soilValue = gameData.PlayerData[0].ItemData.SoilNumber;
-            waterValue = gameData.PlayerData[0].ItemData.WaterNumber;
-            wheatValue = gameData.PlayerData[0].ItemData.WheatNumber;
-            woodValue = gameData.PlayerData[0].ItemData.WoodNumber;
-        }
-        private int cardNumber;
-
         public void CheckCards(string cardName)
         {
             for (int i = 0; i < cardInfo.Length; i++)
             {
                 if (cardName == ((ItemType)i).ToString())
                 {
-                    cardNumber = i;
-                    if (cardInfo[i].ItemsCard.gameObject.transform.parent.name == "TradeCardGiveGroup")
+                    
+                    if (cardInfo[i].ItemsCard.activeSelf == true &&
+                        cardInfo[i].ItemsCard.transform.parent.name == "TradeCardGiveGroup")
                     {
+                        giveCardNumber = i;
                         giveItemPopup.gameObject.SetActive(true);
-                        
+                        giveItemSlider.maxValue = ItemsNumber(i);
+                        giveItemSlider.value = 0;
                     }
-                    else if (cardInfo[i].ItemsCard.gameObject.transform.parent.name == "TradeCardTakeGroup")//구조체는 직접적으로 접근을해야하기떄문에, 즉 i를 사용할 수 없으므로 사용하지 않음
+                    if (cardInfo[i].ItemsCard.activeSelf == true &&
+                        cardInfo[i].ItemsCard.transform.parent.name == "TradeCardTakeGroup")//구조체는 직접적으로 접근을해야하기떄문에, 즉 i를 사용할 수 없으므로 사용하지 않음
                     {
+                        takeCardNumber = i;
                         takeItemPopup.gameObject.SetActive(true);
-                         
+                        takeItemSlider.value = 0;
                     }
                 }
             }
-            Debug.Log(cardInfo[cardNumber].ItemsCard.name);
+            Debug.Log("기브카드넘버" + giveCardNumber);
+            Debug.Log("테이크카드넘버" + takeCardNumber);
+        }
+
+        private float ItemsNumber(int Number)
+        {
+            float data = 0;
+            switch (Number)
+            {
+                case 0:
+                    data = gameData.PlayerData[0].ItemData.CowNumber;
+                    break;
+                case 1:
+                    data = gameData.PlayerData[0].ItemData.IronNumber;
+                    break;
+                case 2:
+                    data = gameData.PlayerData[0].ItemData.SoilNumber;
+                    break;
+                case 3:
+                    data = gameData.PlayerData[0].ItemData.WaterNumber;
+                    break;
+                case 4:
+                    data = gameData.PlayerData[0].ItemData.WheatNumber;
+                    break;
+                case 5:
+                    data = gameData.PlayerData[0].ItemData.WoodNumber;
+                    break;
+            }
+            return data;
         }
 
         public void OnClickedPopupButton()
         {
-            tempGiveValue[cardNumber] = giveItemSlider.value;
-            tempTakeValue[cardNumber] = takeItemSlider.value;
-
-            Debug.Log("-----------------기브");
-            for (int i = 0; i < 6; i++)
+            if (cardInfo[giveCardNumber].ItemsCard.activeSelf == true &&
+                cardInfo[giveCardNumber].ItemsCard.transform.parent.name == "TradeCardGiveGroup")
             {
-                Debug.Log(tempGiveValue[i]);
+                tempGiveValue[giveCardNumber] = giveItemSlider.value;
+                cardInfo[giveCardNumber].TempitemsCount.text = tempGiveValue[giveCardNumber].ToString();
+            }
+            if (cardInfo[takeCardNumber].ItemsCard.activeSelf == true &&
+                cardInfo[takeCardNumber].ItemsCard.transform.parent.name == "TradeCardTakeGroup")
+            {
+                tempTakeValue[takeCardNumber] = takeItemSlider.value;
+                cardInfo[takeCardNumber].TempitemsCount.text = tempTakeValue[takeCardNumber].ToString();
+                CheckTakeCardLimit();
             }
 
-            Debug.Log("-----------------테이크");
-            for (int i = 0; i < 6; i++)
+            //Debug.Log("-----------------기브");
+            //for (int i = 0; i < 6; i++)
+            //{
+            //    Debug.Log(tempGiveValue[i]);
+            //}
+
+            //Debug.Log("-----------------테이크");
+            //for (int i = 0; i < 6; i++)
+            //{
+            //    Debug.Log(tempTakeValue[i]);
+            //}
+        }
+
+        public void CheckTakeCardLimit()
+        {
+            float tempTotalvalue = 0;
+            for (int i = 0; i < cardInfo.Length; i++)
             {
-                Debug.Log(tempTakeValue[i]);
+                tempTotalvalue += tempTakeValue[i];
+            }
+            Debug.Log("tempTotalvalue" + tempTotalvalue);
+            if (tempTotalvalue > 50)
+            {
+                overItemPopup.SetActive(true);
+                cardInfo[takeCardNumber].ItemsCard.gameObject.transform.SetParent(playerHandGroup.transform);
+                cardInfo[takeCardNumber].TempitemsCount.text = "";
+                tempTakeValue[takeCardNumber] = 0;
             }
         }
 
@@ -185,17 +235,17 @@ namespace RedTheSettlers.UI
             for (int i = 0; i < cardInfo.Length; i++)
             {
                 cardInfo[i].ItemsCard.gameObject.transform.SetParent(playerHandGroup.transform);
+                cardInfo[i].TempitemsCount.text = "";
+                tempGiveValue[i] = 0;
+                tempTakeValue[i] = 0;
             }
             takeItemSlider.value = 0;
             giveItemSlider.value = 0;
-
         }
 
         public void OnClickedRequestButton()
         {
-            secondPlayer.text = AnotherPlayerState.Trade.ToString();
-            thirdPlayer.text = AnotherPlayerState.No.ToString();
-            fourthPlayer.text = AnotherPlayerState.Yes.ToString();
+
         }
     }
 }

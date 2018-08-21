@@ -1,11 +1,10 @@
 ﻿using UnityEngine;
-using RedTheSettlers.Enemys;
 using RedTheSettlers.Tiles;
 using System.Collections;
 using System.Collections.Generic;
 using RedTheSettlers.GameSystem;
 
-namespace RedTheSettlers.AI
+namespace RedTheSettlers.Enemys
 {
     /// <summary>
     /// enemy의 행동 규칙이 정의된 클래스

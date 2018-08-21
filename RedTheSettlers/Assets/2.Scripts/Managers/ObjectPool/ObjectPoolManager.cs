@@ -13,12 +13,17 @@ namespace RedTheSettlers.GameSystem
         public GameObject[] TileObjects;
         public GameObject[] CloneSet;
         public GameObject SkillObject;
+        //Enemy only prefabs
         //public EnemyFireBall FireballPrefab;
+        //public Explode ExplodePrefab;
 
         [HideInInspector]
         public GameObject[] TileSet;
         public Queue<GameObject> SkillQueue;
+
+        //Enemy only queues
         public Queue<EnemyFireBall> FireballQueue;
+        public Queue<Explode> ExplodeQueue;
 
         private void Awake()
         {
