@@ -24,7 +24,7 @@ ModelImporter:
     400014: StoneMonster
     400016: //RootNode
     4300000: StoneMonster
-    7400000: Anim_Run
+    7400000: EnemyRun
     9500000: //RootNode
     11100000: //RootNode
     13700000: StoneMonster
@@ -52,7 +52,7 @@ ModelImporter:
     extraExposedTransformPaths: []
     clipAnimations:
     - serializedVersion: 16
-      name: Anim_Run
+      name: EnemyRun
       takeName: Anim_Run
       firstFrame: 7
       lastFrame: 30

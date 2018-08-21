@@ -18,11 +18,13 @@ namespace RedTheSettlers.GameSystem
     {
         public override State Enter()
         {
+            //배틀장면으로 갈때 메인 카메라를 꺼준다
             throw new System.NotImplementedException();
         }
 
         public override State Exit()
         {
+            // 배틀카메라를 카메라를 낀다
             throw new System.NotImplementedException();
         }
     }

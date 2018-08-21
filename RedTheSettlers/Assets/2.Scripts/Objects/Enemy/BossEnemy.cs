@@ -5,20 +5,32 @@ namespace RedTheSettlers.Enemys
 {
     public class BossEnemy : Enemy
     {
+        //파이어볼과 폭발은 풀 매니저로 옮겨야 한다.
+        //보스가 체력에 따라 동시에 날리는 공격의 개수가 달라지기 때문
         [SerializeField]
-        private FireballExplode explodePrefab;
-        [SerializeField]
-        private FireballExplode explode;
+        private Explode explodePrefab;
+        private Explode explode;
         [SerializeField]
         private GameTimer explodeLifeTimer;
-        private const float explodeLifeTime = 3.5f;
-        private Vector3 explosionLocation = new Vector3(0.275f, 0f, 1.3f);
+        private const float explodeLifeTime = 10f;
+        private Vector3 explosionLocation = new Vector3( 0.275f, 0f, 1.3f);
+        [SerializeField]
+        GameObject SkillRangeCircle;
 
         private void Start()
         {
+            Setting();
+            base.Setting();
+        }
+
+        protected override void Setting()
+        {
             explode = Instantiate(explodePrefab, gameObject.transform);
             explode.gameObject.SetActive(false);
-            Setting();
+            explode.SkillRangeCircle = SkillRangeCircle;
+            float skillRange = explode.GetComponent<SphereCollider>().radius/5;
+            SkillRangeCircle.transform.localScale = new Vector3(skillRange, 0f, skillRange);
+            SkillRangeCircle.SetActive(false);
         }
 
         public override void ChangeState(EnemyStateType stateType)
@@ -62,10 +74,17 @@ namespace RedTheSettlers.Enemys
             base.ChangeState(stateType);
         }
 
-        protected override void SetStatus(int ItemNumber)
+        /// <summary>
+        /// 보스 전용 스탯 설정 메서드
+        /// </summary>
+        /// <param name="HP"></param>
+        /// <param name="Power"></param>
+        protected override void SetStatus(int HP, int Power)
         {
-            base.SetStatus(ItemNumber);
+            MaxHp = HP;
+            this.Power = Power;
         }
+        protected override void SetStatus(int ItemNumber) { }
 
         void ShotFireball()
         {
@@ -74,12 +93,19 @@ namespace RedTheSettlers.Enemys
 
         void EndAttack()
         {
-
+            ChangeState(EnemyStateType.Idle);
         }
 
         void EndDamage()
         {
+            ChangeState(EnemyStateType.Idle);
+        }
 
+        void UseSkillStart()
+        {
+            SkillRangeCircle.SetActive(true);
+            explode.SkillRangeCircle.SetActive(true);
+            SkillRangeCircle.transform.position = explosionLocation;
         }
 
         void BoomFireExplosion()
@@ -92,11 +118,12 @@ namespace RedTheSettlers.Enemys
         {
             explodeLifeTimer = null;
             explode.gameObject.SetActive(false);
+            SkillRangeCircle.SetActive(false);
         }
 
         void EndSkill()
         {
-
+            ChangeState(EnemyStateType.Idle);
         }
     }
 }

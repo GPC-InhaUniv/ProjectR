@@ -18,6 +18,7 @@ namespace RedTheSettlers.GameSystem
     {
         public override State Enter()
         {
+            //배틀이 종료되면 
             throw new System.NotImplementedException();
         }
 
@@ -25,6 +26,6 @@ namespace RedTheSettlers.GameSystem
         {
             throw new System.NotImplementedException();
         }
+
     }
 }
-

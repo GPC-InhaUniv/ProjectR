@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 /// <summary>
 /// 담당자 : 이재환
@@ -20,13 +21,16 @@ namespace RedTheSettlers.GameSystem
     {
         public override State Enter()
         {
+            //없나?
             throw new System.NotImplementedException();
         }
 
         public override State Exit()
         {
+             //로딩스테이지에서 메인스테이지로 이동한다
             throw new System.NotImplementedException();
         }
+
     }
 
 }

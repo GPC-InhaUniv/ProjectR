@@ -14,11 +14,9 @@ using UnityEngine;
 
 namespace RedTheSettlers.GameSystem
 {
-    abstract class State
+    abstract public class State
     {
-
         public abstract State Enter();
         public abstract State Exit();
-
     }
 }

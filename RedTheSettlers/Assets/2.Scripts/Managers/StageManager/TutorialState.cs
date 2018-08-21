@@ -18,12 +18,15 @@ namespace RedTheSettlers.GameSystem
     {
         public override State Enter()
         {
+            //
             throw new System.NotImplementedException();
         }
 
         public override State Exit()
         {
+            //
             throw new System.NotImplementedException();
         }
+
     }
 }

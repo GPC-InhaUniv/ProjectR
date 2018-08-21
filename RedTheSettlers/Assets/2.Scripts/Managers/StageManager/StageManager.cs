@@ -30,51 +30,53 @@ namespace RedTheSettlers.GameSystem
     public class StageManager : Singleton<StageManager>
     {
 
-        private State currentState;
+        private StageStateMachine stageStateMachine;
+        private float _loadingProgress;
 
         private void Start()
         {
-            
             DontDestroyOnLoad(gameObject);
-          
         }
 
-
-        public void ChangeState(StageType stageType)
+        public void ChangeStage(StageType stageType)
         {
             switch (stageType)
             {
-                case StageType.LoadingStageState:
-                    currentState = new TitleState();
 
+                case StageType.TitleStageState:
+                    SceneManager.LoadSceneAsync((int)StageType.LoadingStageState);
+                    break;
+                case StageType.LoadingStageState:
+                    SceneManager.LoadScene((int)StageType.MainStageState);
                     break;
                 case StageType.MainStageState:
-                    currentState = new LoadingState();
-
+                    SceneManager.LoadScene((int)StageType.MainStageState);
                     break;
-                case StageType.BattleStageState:
-                    currentState = new MainState();
-
-                    break;
-                case StageType.TutorialStageState:
-                    currentState = new MainState();
-
-                    break;
+               
             }
-         
-        }
 
+        }
 
         public IEnumerator ChangeStageLoad(StageType stageType)
         {
-            AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(1);
-
-
+            AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(stageType.ToString());
+            
             asyncOperation.allowSceneActivation = false;
 
-            yield return asyncOperation;
+            while (!asyncOperation.isDone)
+            {
+                _loadingProgress = Mathf.Clamp01(asyncOperation.progress / 0.9f) * 100;
 
-            asyncOperation.allowSceneActivation = true;
+                yield return new WaitForSeconds(0.1f);
+
+                if (asyncOperation.progress >= 0.9f)
+                {
+                    asyncOperation.allowSceneActivation = true;
+                }
+                yield return SceneManager.LoadSceneAsync(stageType.ToString());
+
+            }
+            
         }
     }
 
