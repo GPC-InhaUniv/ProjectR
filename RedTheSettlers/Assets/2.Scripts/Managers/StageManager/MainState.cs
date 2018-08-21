@@ -16,25 +16,15 @@ namespace RedTheSettlers.GameSystem
 {
     class MainState : State
     {
-
-        public override State ChangeStage(StageType stageType)
-
+        public override State Enter()
         {
-            switch (stageType)
-            {
-                case StageType.TutorialStageState:
-
-                    return new TutorialState();
-
-                case StageType.BattleStageState:
-
-                    return new BattleState();
-
-                default:
-                    return null;
-            }
+            throw new System.NotImplementedException();
         }
-        
+
+        public override State Exit()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
 

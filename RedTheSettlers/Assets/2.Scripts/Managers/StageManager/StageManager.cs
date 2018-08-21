@@ -34,9 +34,9 @@ namespace RedTheSettlers.GameSystem
 
         private void Start()
         {
-            currentState = new TitleState();
+            
             DontDestroyOnLoad(gameObject);
-            StartCoroutine("ChangeStageLoad");
+          
         }
 
 
@@ -61,7 +61,7 @@ namespace RedTheSettlers.GameSystem
 
                     break;
             }
-            currentState.ChangeStage(stageType);
+         
         }
 
 
