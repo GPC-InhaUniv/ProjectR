@@ -91,12 +91,12 @@ namespace RedTheSettlers.Enemys
 
         void EndAttack()
         {
-
+            ChangeState(EnemyStateType.Idle);
         }
 
         void EndDamage()
         {
-
+            ChangeState(EnemyStateType.Idle);
         }
 
         void UseSkillStart()
@@ -120,7 +120,7 @@ namespace RedTheSettlers.Enemys
 
         void EndSkill()
         {
-
+            ChangeState(EnemyStateType.Idle);
         }
     }
 }
