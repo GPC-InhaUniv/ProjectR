@@ -8,11 +8,11 @@ namespace RedTheSettlers.AI
 {
     public class BoardAI : MonoBehaviour
     {
-
         private List<BoardTile> possessedTiles;
         private PriorityQueue<BoardTile> tileQueue;
         private IAIStrategy myStrategy;
         private Dictionary<TileType, int> resource;
+        private ItemData itemData;
 
         private IEnumerator Start()
         {
@@ -30,10 +30,16 @@ namespace RedTheSettlers.AI
 
             yield return new WaitForSeconds(0.5f);
 
-            PossessTile(TileManager.Instance.TileGrid[4, 4].GetComponent<BoardTile>());
+            //PossessTile(TileManager.Instance.TileGrid[4, 4].GetComponent<BoardTile>());
         }
+        
+        public Dictionary<TileType, int> SendTradeData()
+        {
+            Dictionary<TileType, int> tradeData = new Dictionary<TileType, int>();
 
-
+            return tradeData;
+        }
+        
         public void FindOptimizedPath()
         {
             BoardTile targetTile = null;

@@ -183,15 +183,15 @@ namespace RedTheSettlers.UI
                 {
                     cardNumber = i;
 
-                    if (giveCardInfo[i].GiveItemsCard.activeSelf == true &&
-                        giveCardInfo[i].GiveItemsCard.transform.parent.name == "TradeCardGiveGroup")
+                    if (handCardInfo[i].HandItemsCard.activeSelf == true &&
+                        handCardInfo[i].HandItemsCard.transform.parent.name == "TradeCardGiveGroup")
                     {
                         giveItemPopup.gameObject.SetActive(true);
                         giveItemSlider.maxValue = ItemsNumber(i);
                         giveItemSlider.value = 0;
                     }
-                    if (takeCardInfo[i].TakeItemsCard.activeSelf == true &&
-                        takeCardInfo[i].TakeItemsCard.transform.parent.name == "TradeCardTakeGroup")//구조체는 직접적으로 접근을해야하기떄문에, 즉 i를 사용할 수 없으므로 사용하지 않음
+                    if (handCardInfo[i].HandItemsCard.activeSelf == true &&
+                        handCardInfo[i].HandItemsCard.transform.parent.name == "TradeCardTakeGroup")//구조체는 직접적으로 접근을해야하기떄문에, 즉 i를 사용할 수 없으므로 사용하지 않음
                     {
                         takeItemPopup.gameObject.SetActive(true);
                         takeItemSlider.value = 0;
