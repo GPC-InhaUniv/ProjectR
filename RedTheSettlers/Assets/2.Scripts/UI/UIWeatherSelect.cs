@@ -6,8 +6,8 @@ using UnityEngine.UI;
 
 /// <summary>
 /// 작성자 : 강다희
-/// 날씨카드 등장 시 랜덤으로 받은 이미지가 좌우로 배치되며,
-/// 선택 시 나머지 카드들이 사라지는 연출이 일어남.
+/// 날씨이벤트 등장 시 랜덤으로 받은 카드 3장이 배치되며,
+/// 선택 시 나머지 카드들이 사라짐.
 /// </summary>
 
 namespace RedTheSettlers.UI
@@ -31,13 +31,18 @@ namespace RedTheSettlers.UI
         [Serializable]
         private struct ItemImage
         {
-            public Button defaultImage;
-            public Button cowCardImage;
-            public Button waterCardImage;
-            public Button wheatCardImage;
-            public Button woodCardImage;
-            public Button ironCardImage;
-            public Button soilCardImage;
+            public GameObject goodEventCowCardImage;
+            public GameObject goodEventWaterCardImage;
+            public GameObject goodEventWheatCardImage;
+            public GameObject goodEventWoodCardImage;
+            public GameObject goodEventIronCardImage;
+            public GameObject goodEventSoilCardImage;
+            public GameObject badEventCowCardImage;
+            public GameObject badEventWaterCardImage;
+            public GameObject badEventWheatCardImage;
+            public GameObject badEventWoodCardImage;
+            public GameObject badEventIronCardImage;
+            public GameObject badEventSoilCardImage;
         }
 
         [Header("Select Button")]
@@ -56,13 +61,20 @@ namespace RedTheSettlers.UI
 
         private float speed = 1000f;
 
+        private int leftCardNum;
 
-        private void ChangeWeatherCard()
+
+
+        private void ChangeWeatherCard() //left, middel, right 카드에 랜덤으로 들어온 카드를 넣어줘야 하는데.. ㅠㅠ 어떻게 해야할지 모르겠음...
         {
-            //지용님에게 받아서 랜덤으로 뽑힌 해당 값에 따라 이미지 변경
+            if (leftCardNum == 0)
+            {
+                itemImage[0].goodEventCowCardImage = leftCardImage;
+                //지용님에게 받아서 랜덤으로 뽑힌 해당 값에 따라 이미지 변경
+            }
         }
 
-        private void MoveWeatherCard()
+        private void MoveWeatherCard() //코루틴으로 바꾸면 더 부드러울텐데..
         {
             float moveSpeed = 800 * Time.deltaTime;
 
@@ -86,17 +98,6 @@ namespace RedTheSettlers.UI
 
         private void Start()
         {
-            //StartCoroutine(StartCoroutine());
-        }
-
-        IEnumerator StartCoroutine()
-        {
-            while (true)
-            {
-
-            }
-
-            yield break;
         }
 
         // Update is called once per frame
