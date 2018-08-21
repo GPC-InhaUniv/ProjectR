@@ -8,20 +8,12 @@ namespace RedTheSettlers.Tiles
 
         private void Start()
         {
-            StartCoroutine(DropTile());
+
         }
 
         private IEnumerator DropTile()
         {
-            int suddenDeathTimecount = 0;
-
-            while (suddenDeathTimecount < 10)
-            {
-                suddenDeathTimecount++;
-                yield return new WaitForSeconds(0.1f);
-            }
-
-            gameObject.GetComponent<Collider>().enabled = false;
+            yield return null;
         }
     }
 }

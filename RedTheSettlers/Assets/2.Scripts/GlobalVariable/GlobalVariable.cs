@@ -11,7 +11,7 @@ namespace RedTheSettlers.GameSystem
         Soil = 2,
         Water = 3,
         Wheat = 4,
-        Wood = 5,
+        Wood = 5
     }
 
     public enum TileOwner
@@ -21,6 +21,21 @@ namespace RedTheSettlers.GameSystem
         AI2 = 2,
         AI3 = 3,
         None = 4
+    }
+
+    public enum User
+    {
+        Player = 0,
+        AI1 = 1,
+        AI2 = 2,
+        AI3 = 3,
+    }
+
+    public enum QuickSlot
+    {
+        First = 0,
+        Second = 1,
+        Third = 2,
     }
 
     public enum AssetBundleNumbers
@@ -37,7 +52,7 @@ namespace RedTheSettlers.GameSystem
 
     static class GlobalVariables
     {
-        public const int tileGridSize = 9;
+        public const int TileGridSize = 9;
         public const int minZIntercept = 11;
         public const int maxZIntercept = 21;
         public const int maxItemNum = 30;
@@ -53,6 +68,7 @@ namespace RedTheSettlers.GameSystem
         public const int WeatherEventStartTurn = 5;
 
         public const string TAG_PLAYER = "Player";
+        public const string TAG_ENEMY = "Enemy";
         public const string TAG_GAMECONTROLLER = "GameController";
         public const string TAG_TILE = "Tile";
         public const string TAG_FIRE = "Fire";

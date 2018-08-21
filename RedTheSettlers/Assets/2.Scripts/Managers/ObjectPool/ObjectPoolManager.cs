@@ -13,7 +13,7 @@ namespace RedTheSettlers.GameSystem
         public GameObject[] TileObjects;
         public GameObject[] CloneSet;
         public GameObject SkillObject;
-        public EnemyFireBall FireballPrefab;
+        //public EnemyFireBall FireballPrefab;
 
         [HideInInspector]
         public GameObject[] TileSet;
@@ -22,11 +22,13 @@ namespace RedTheSettlers.GameSystem
 
         private void Awake()
         {
+            /*
             FireballQueue = new Queue<EnemyFireBall>(FireballSize);
             for (int i = 0; i < FireballSize; i++)
             {
                 FireballQueue.Enqueue(Instantiate(FireballPrefab));
             }
+            */
 
             TileSet = new GameObject[TilePoolSize];
 
@@ -36,7 +38,10 @@ namespace RedTheSettlers.GameSystem
 
                 TileSet[i] = Instantiate(TileObjects[randomTileIndex]);
                 TileSet[i].transform.parent = CloneSet[randomTileIndex].transform;
+
             }
+
+            TileManager.Instance.IntializeTileSet();
 
             SkillQueue = new Queue<GameObject>(6);
             for (int i = 0; i < 6; i++)
