@@ -229,7 +229,7 @@ namespace RedTheSettlers.UI
             for (int i = 0; i < GlobalVariables.maxPlayerNumber; i++)
             {
                 tempscore = 0;
-                for (int j = 0; j <= gameData.PlayerData[i].ItemData.GetMaxItemNumber(); j++)
+                for (int j = 0; j <= GetMaxItemNumber(i); j++)
                 {
                     ShowCardScore(i);
                     tempscore++;
@@ -336,6 +336,21 @@ namespace RedTheSettlers.UI
             {
                 playersBonusInfos[playerNumber].PlayerTotalScore.text = tempscore.ToString("D2");
             }
+        }
+
+        private int[] itemList;
+        public int GetMaxItemNumber(int playerNumber)
+        {
+            itemList = new int[6];
+            itemList[0] = gameData.PlayerData[playerNumber].ItemData.CowNumber;
+            itemList[1] = gameData.PlayerData[playerNumber].ItemData.IronNumber;
+            itemList[2] = gameData.PlayerData[playerNumber].ItemData.SoilNumber;
+            itemList[3] = gameData.PlayerData[playerNumber].ItemData.WaterNumber;
+            itemList[4] = gameData.PlayerData[playerNumber].ItemData.WheatNumber;
+            itemList[5] = gameData.PlayerData[playerNumber].ItemData.WoodNumber;
+            Array.Sort(itemList);
+            return itemList[5];
+
         }
 
         private int PlayerData(MyEnum tileType, int playerNumber)

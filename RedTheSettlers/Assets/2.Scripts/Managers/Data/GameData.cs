@@ -51,20 +51,6 @@ namespace RedTheSettlers.GameSystem
         {
             get { return CowNumber + WaterNumber + WheatNumber + WoodNumber + IronNumber + SoilNumber; }
         }
-        private int[] itemList;
-        public int GetMaxItemNumber()
-        {
-            itemList = new int[6];
-            itemList[0] = CowNumber;
-            itemList[1] = WaterNumber;
-            itemList[2] = WheatNumber;
-            itemList[3] = WoodNumber;
-            itemList[4] = IronNumber;
-            itemList[5] = SoilNumber;
-            Array.Sort(itemList);
-            return itemList[5];
-
-        }  
     }
 
     [Serializable]
