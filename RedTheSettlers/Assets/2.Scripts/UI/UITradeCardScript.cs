@@ -89,14 +89,14 @@ namespace RedTheSettlers.UI
         private GameObject takeItemPopup, giveItemPopup;
 
         [System.Serializable]
-        struct MyStruct
+        struct CardInfo
         {
             public string InspectorName;
             public GameObject ItemsCard;
             public Text TempitemsCount;
         }
         [SerializeField]
-        private MyStruct[] cardInfo;
+        private CardInfo[] cardInfo;
 
         private float[] tempGiveValue = new float[6]
         {0,0,0,0,0,0};  //순서대로 Cow,Iron,SOil,Water,Wheat,Wood
@@ -140,18 +140,20 @@ namespace RedTheSettlers.UI
             {
                 if (cardName == ((ItemType)i).ToString())
                 {
+                    cardNumber = i;
                     if (cardInfo[i].ItemsCard.gameObject.transform.parent.name == "TradeCardGiveGroup")
                     {
                         giveItemPopup.gameObject.SetActive(true);
-                        cardNumber = i;
+                        
                     }
                     else if (cardInfo[i].ItemsCard.gameObject.transform.parent.name == "TradeCardTakeGroup")//구조체는 직접적으로 접근을해야하기떄문에, 즉 i를 사용할 수 없으므로 사용하지 않음
                     {
                         takeItemPopup.gameObject.SetActive(true);
-                        cardNumber = i;
+                         
                     }
                 }
             }
+            Debug.Log(cardInfo[cardNumber].ItemsCard.name);
         }
 
         public void OnClickedPopupButton()
