@@ -1,6 +1,6 @@
 ﻿using RedTheSettlers.Tiles;
 
-namespace RedTheSettlers.AI
+namespace RedTheSettlers.Enemys
 {
     public class BattleTileNode
     {

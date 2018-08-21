@@ -2,10 +2,9 @@
 using UnityEngine;
 using System;
 using System.Collections;
-using RedTheSettlers.Players;
+using RedTheSettlers.Users;
 using RedTheSettlers.Tiles;
 using RedTheSettlers.UnitTest;
-using RedTheSettlers.AI;
 using RedTheSettlers.UI;
 
 namespace RedTheSettlers.GameSystem
