@@ -1,5 +1,4 @@
-﻿using RedTheSettlers.AI;
-using RedTheSettlers.GameSystem;
+﻿using RedTheSettlers.GameSystem;
 using RedTheSettlers.Tiles;
 using UnityEngine;
 
