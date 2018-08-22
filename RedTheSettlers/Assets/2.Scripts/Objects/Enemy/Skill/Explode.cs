@@ -1,17 +1,21 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace RedTheSettlers.GameSystem
 {
     public class Explode : MonoBehaviour
     {
-        ParticleSystem particle;
-        public GameObject SkillRangeCircle;
-        
+        [SerializeField]
+        private GameObject SkillRangeCircle;
+        private ParticleSystem particle;
+        private float skillRange;
+
         private void Start()
         {
-            particle = GetComponent<ParticleSystem>();    
+            particle = GetComponent<ParticleSystem>();
+            skillRange = GetComponent<SphereCollider>().radius / 5;
+            SkillRangeCircle.transform.localScale = new Vector3(skillRange, 0f, skillRange);
+            SkillRangeCircle.SetActive(false);
+            gameObject.SetActive(false);
         }
 
         private void Update()
@@ -31,4 +35,3 @@ namespace RedTheSettlers.GameSystem
         }
     }
 }
-

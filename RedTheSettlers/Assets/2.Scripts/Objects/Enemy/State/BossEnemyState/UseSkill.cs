@@ -18,6 +18,7 @@ namespace RedTheSettlers.Enemys.Boss
         public override void DoAction()
         {
             animator.SetTrigger("UseSkill");
+            explode = ObjectPoolManager.Instance.ExplodeQueue.Dequeue();
             explodeLifeTimer = GameTimeManager.Instance.PopTimer();
             explodeLifeTimer.SetTimer(explodeLifeTime, false);
             explodeLifeTimer.Callback = pushFireball;
