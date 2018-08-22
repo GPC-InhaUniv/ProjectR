@@ -9,7 +9,7 @@ using RedTheSettlers.GameSystem;
 /// 담당자 : 박상원
 /// 거래 화면 입력 부분
 /// </summary>
-public class TradeInMainStageState : InputState
+public class TradeInMainStageState : MonoBehaviour,IInputState
 {
     private static GameObject[] tradeCards;
     private static GameObject[] cardAreas;
@@ -25,7 +25,7 @@ public class TradeInMainStageState : InputState
     private float areaDistance;
     private float currentAreaDistance;
 
-    public override void OnStartDrag()
+    public void OnStartDrag()
     {
         clickPoint = Input.mousePosition;
         // FindGameObjectWithTag는 임시방편으로 UI및 패널을 찾기 위해 작성한 코드로 추후 수정 예정
@@ -46,18 +46,18 @@ public class TradeInMainStageState : InputState
         targetCard.transform.SetParent(targetCard.transform.parent.parent);
     }
 
-    public override void OnDragging(float speed)
+    public void OnDragging(float speed)
     {
         targetCard.transform.position = Input.mousePosition;
     }
 
-    public override void EndStopDrag()
+    public void EndStopDrag()
     {
         targetCard.transform.SetParent(parentToReturnTo);
         targetCard.gameObject.GetComponent<CanvasGroup>().blocksRaycasts = true;
     }
 
-    public override void OnDropSlot()
+    public void OnDropSlot()
     {
         dropPoint = Input.mousePosition;
         // FindGameObjectWithTag는 임시방편으로 UI및 패널을 찾기 위해 작성한 코드로 추후 수정 예정
@@ -76,5 +76,50 @@ public class TradeInMainStageState : InputState
         {
             parentToReturnTo = targetArea.transform;
         }
+    }
+
+    public void DragMove(float speed)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void SkillDirection()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void ZoomInOut(float speed)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void TileInfo()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void OnInPointer()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void OnOutPointer()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void TouchOrClickButton(InputButtonType inputButtonType)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void DirectionKey(Vector3 direction)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void BattleAttack()
+    {
+        throw new System.NotImplementedException();
     }
 }
