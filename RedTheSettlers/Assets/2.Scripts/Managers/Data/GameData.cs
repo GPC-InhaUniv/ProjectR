@@ -31,7 +31,6 @@ namespace RedTheSettlers.GameSystem
     }
 
     [Serializable]
-<<<<<<< HEAD
     public struct TradeData
     {
         public ItemType Item;
@@ -39,8 +38,6 @@ namespace RedTheSettlers.GameSystem
     }
 
     [Serializable]
-=======
->>>>>>> 635f7e5863ac9c9f837df1d6676f4ba8ac449e1e
     public struct ItemData
     {
         public ItemType ItemType;
