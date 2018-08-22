@@ -1,9 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using RedTheSettlers.GameSystem;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class EquipSkillInMainStageState : InputState
+public class EquipSkillInMainStageState : MonoBehaviour,IInputState
 {
     private static GameObject[] skills;
     private static GameObject[] skillSlots;
@@ -21,7 +22,7 @@ public class EquipSkillInMainStageState : InputState
     private float firstSlotDistance;
     private float nearSlotDistance;
 
-    public override void OnStartDrag()
+    public void OnStartDrag()
     {
         clickPoint = Input.mousePosition;
         skills = GameObject.FindGameObjectsWithTag("SkillIcon");
@@ -39,12 +40,12 @@ public class EquipSkillInMainStageState : InputState
         //startParent = targetSkill.transform.parent;
     }
 
-    public override void OnDragging(float speed)
+    public void OnDragging(float speed)
     {
         targetSkill.transform.position = Input.mousePosition;
     }
 
-    public override void EndStopDrag()
+    public void EndStopDrag()
     {
         if (targetSkill.transform.parent != startParent)
         {
@@ -53,7 +54,7 @@ public class EquipSkillInMainStageState : InputState
         targetSkill = null;
     }
 
-    public override void OnDropSlot()
+    public void OnDropSlot()
     {
         skillSlots = GameObject.FindGameObjectsWithTag("SkillSlot");
         dropPoint = Input.mousePosition;
@@ -69,5 +70,50 @@ public class EquipSkillInMainStageState : InputState
         }
         slotEmptyImage = targetSlot.gameObject.GetComponent<Image>().sprite;
         slotChangeImage = targetSkill.gameObject.GetComponent<Image>().sprite;
+    }
+
+    public void DragMove(float speed)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void SkillDirection()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void ZoomInOut(float speed)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void TileInfo()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void OnInPointer()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void OnOutPointer()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void TouchOrClickButton(InputButtonType inputButtonType)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void DirectionKey(Vector3 direction)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void BattleAttack()
+    {
+        throw new System.NotImplementedException();
     }
 }

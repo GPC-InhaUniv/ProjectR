@@ -23,7 +23,7 @@ namespace RedTheSettlers.GameSystem
         None = 4
     }
 
-    public enum User
+    public enum UserType
     {
         Player = 0,
         AI1 = 1,

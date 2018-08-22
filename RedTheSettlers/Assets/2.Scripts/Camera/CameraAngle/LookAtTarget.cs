@@ -9,7 +9,8 @@ namespace RedTheSettlers.GameSystem
     public class LookAtTarget : CameraAngle
     {
         public Transform targetTransform;
-        private void Awake()
+        
+        public LookAtTarget(GameObject gameObject)
         {
             cameraObject = gameObject;
         }
@@ -19,10 +20,13 @@ namespace RedTheSettlers.GameSystem
             if (targetTransform == null)
             {
                 targetTransform = target;
+                Debug.Log("타겟이 없음");
                 return;
             }
-
-            cameraObject.transform.LookAt(targetTransform);
+            if(targetTransform != null)
+            {
+                cameraObject.transform.LookAt(targetTransform);
+            }
         }
     } 
 }

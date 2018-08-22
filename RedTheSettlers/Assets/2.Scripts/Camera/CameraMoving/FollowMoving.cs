@@ -8,24 +8,49 @@ namespace RedTheSettlers.GameSystem
 {
     public class FollowMoving : CameraMoving
     {
+        Transform targetTransform;
+        Vector3 cameraOffset;
+        
+        [SerializeField]
+        [Range(0.01f, 1.0f)]
+        float smooth = 0.1f;
+
         ICameraState cameraState;
-        Animation animation;
+
         public FollowMoving(GameObject cameraObject)
         {
             this.cameraObject = cameraObject;
-            cameraState = new CameraNomalState(this.cameraObject);
+            FindTarget();
+            cameraOffset = cameraObject.transform.position - targetTransform.position;
+
+
+            cameraState = new CameraNomalState();
         }
-        //private void Awake()
-        //{
-        //    cameraObject = gameObject;
-        //    cameraState = new CameraShakeState(cameraObject);
-        //}
 
         public override void Moving(Vector3 vector3)
         {
+            if (targetTransform == null)
+            {
+                Debug.Log("타겟이 없어서 타겟을 찾는다");
+                FindTarget();
+            }
+            else
+            {
+                Vector3 newPos = targetTransform.position + cameraOffset;
+                cameraObject.transform.position = Vector3.Slerp(cameraObject.transform.position, newPos, smooth);
+            }
             cameraState.CameraBehavior(vector3);
-            animation.Play();
         }
+        
+
+        private void FindTarget()
+        {
+            targetTransform = GameObject.FindGameObjectWithTag("Player").transform;
+        }
+
+
+
+
 
         private void StateTest()
         {
@@ -39,7 +64,7 @@ namespace RedTheSettlers.GameSystem
         {
             cameraState = new CameraShakeState(cameraObject);
             yield return new WaitForSeconds(1f);
-            cameraState = new CameraNomalState(cameraObject);
+            cameraState = new CameraNomalState();
         }
         //StartCoroutine(MobileAttack());
         //IEnumerator MobileAttack()

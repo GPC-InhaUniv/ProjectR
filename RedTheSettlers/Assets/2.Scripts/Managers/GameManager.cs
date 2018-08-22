@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using System.Collections;
-//using RedTheSettlers.Users;
 using RedTheSettlers.Tiles;
 using RedTheSettlers.UnitTest;
 using RedTheSettlers.UI;
+using RedTheSettlers.Users;
 
 namespace RedTheSettlers.GameSystem
 {
@@ -13,40 +13,25 @@ namespace RedTheSettlers.GameSystem
     /// </summary>
     public class GameManager : Singleton<GameManager>
     {
-        public List<TileData>[] PlayerCowTileData;
-        public List<TileData>[] PlayerIronTileData;
-        public List<TileData>[] PlayerSoilTileData;
-        public List<TileData>[] PlayerWaterTileData;
-        public List<TileData>[] PlayerWheatTileData;
-        public List<TileData>[] PlayerWoodTileData;
-
-        //플레이어 정보 안에 보유 타일 데이터가 다 있을 예정
-        //public BoardPlayer player;
+        public User[] Players;
 
         public TurnControllerTest turnCtrl;
         public EventControllerTest eventCtrl;
         public ItemControllerTest itemCtrl;
         public TradeControllerTest tradeCtrl;
         public BattleControllerTest battleCtrl;
-
+        public CameraController cameraCtrl;
+        
         public GameState state = GameState.TurnController;
 
         private void Start()
         {
-            PlayerCowTileData = new List<TileData>[GlobalVariables.maxPlayerNumber];
-            PlayerIronTileData = new List<TileData>[GlobalVariables.maxPlayerNumber];
-            PlayerSoilTileData = new List<TileData>[GlobalVariables.maxPlayerNumber];
-            PlayerWaterTileData = new List<TileData>[GlobalVariables.maxPlayerNumber];
-            PlayerWheatTileData = new List<TileData>[GlobalVariables.maxPlayerNumber];
-            PlayerWoodTileData = new List<TileData>[GlobalVariables.maxPlayerNumber];
-
-            
-
             turnCtrl.Callback = new TurnCallback(TurnFinish);
             eventCtrl.Callback = new EventCallback(EventFinish);
             itemCtrl.Callback = new ItemCallback(ItemFinish);
             tradeCtrl.Callback = new TradeCallback(TradeFinish);
             battleCtrl.Callback = new BattleCallback(BattleFinish);
+            
         }
 
         //어떻게 턴의 흐름을 제어 할 것인지 고민
@@ -97,40 +82,11 @@ namespace RedTheSettlers.GameSystem
         /// 모든 타일을 검색해서 각 플레이어가 가진 타일을 자원별로 분류합니다.
         /// </summary>
         /// <param name="playerNumber"></param>
-        public void SortItemList(int playerNumber)
+        public void SortItemList(UserType player, ItemType itemType)
         {
-            for (int i = 0; i < DataManager.Instance.GameData.PlayerData[playerNumber].TileList.Count; i++)
+            //for (int i = 0; i < Players[(int)player].p; i++)
             {
-                if (DataManager.Instance.GameData.PlayerData[playerNumber].TileList[i].TileType == ItemType.Cow)
-                {
-                    //소
-                    PlayerCowTileData[playerNumber].Add(DataManager.Instance.GameData.PlayerData[playerNumber].TileList[i]);
-                }
-                else if (DataManager.Instance.GameData.PlayerData[playerNumber].TileList[i].TileType == ItemType.Iron)
-                {
-                    //강철
-                    PlayerIronTileData[playerNumber].Add(DataManager.Instance.GameData.PlayerData[playerNumber].TileList[i]);
-                }
-                else if (DataManager.Instance.GameData.PlayerData[playerNumber].TileList[i].TileType == ItemType.Soil)
-                {
-                    //모레
-                    PlayerSoilTileData[playerNumber].Add(DataManager.Instance.GameData.PlayerData[playerNumber].TileList[i]);
-                }
-                else if (DataManager.Instance.GameData.PlayerData[playerNumber].TileList[i].TileType == ItemType.Water)
-                {
-                    //물
-                    PlayerWaterTileData[playerNumber].Add(DataManager.Instance.GameData.PlayerData[playerNumber].TileList[i]);
-                }
-                else if (DataManager.Instance.GameData.PlayerData[playerNumber].TileList[i].TileType == ItemType.Wheat)
-                {
-                    //밀
-                    PlayerWheatTileData[playerNumber].Add(DataManager.Instance.GameData.PlayerData[playerNumber].TileList[i]);
-                }
-                else if (DataManager.Instance.GameData.PlayerData[playerNumber].TileList[i].TileType == ItemType.Wood)
-                {
-                    //나무
-                    PlayerWoodTileData[playerNumber].Add(DataManager.Instance.GameData.PlayerData[playerNumber].TileList[i]);
-                }
+                
             }
         }
 
@@ -142,30 +98,7 @@ namespace RedTheSettlers.GameSystem
         /// <param name="addItem"></param>
         public void SetItemByType(int playerNumber, ItemType itemType, int addItem)
         {
-            switch (itemType)
-            {
-                case ItemType.Cow:
-                    DataManager.Instance.GameData.PlayerData[playerNumber].ItemData.CowNumber += addItem;
-                    break;
-                case ItemType.Iron:
-                    DataManager.Instance.GameData.PlayerData[playerNumber].ItemData.IronNumber += addItem;
-                    break;
-                case ItemType.Soil:
-                    DataManager.Instance.GameData.PlayerData[playerNumber].ItemData.SoilNumber += addItem;
-                    break;
-                case ItemType.Water:
-                    DataManager.Instance.GameData.PlayerData[playerNumber].ItemData.WaterNumber += addItem;
-                    break;
-                case ItemType.Wheat:
-                    DataManager.Instance.GameData.PlayerData[playerNumber].ItemData.WheatNumber += addItem;
-                    break;
-                case ItemType.Wood:
-                    DataManager.Instance.GameData.PlayerData[playerNumber].ItemData.WoodNumber += addItem;
-                    break;
-                default:
-                    Debug.Log("GameManager : 올바르지 않은 ItemType");
-                    break;
-            }
+            DataManager.Instance.GameData.PlayerData[playerNumber].ItemList[(int)itemType].Count += addItem;
         }
 
         /// <summary>

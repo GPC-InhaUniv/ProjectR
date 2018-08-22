@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using RedTheSettlers.UnitTest;
 
 /// <summary>
 /// 작성자 : 강다희
@@ -14,40 +15,10 @@ namespace RedTheSettlers.UI
 {
     public class UIWeatherSelect : MonoBehaviour
     {
-        [Header("Select Button")]
-        [SerializeField]
-        private Button selectImageButton;
-
-        [Header("Booked Card")]
-        [SerializeField]
-        private GameObject firstCardImage;
+        private EventControllerTest2 eventControllerTest2; //게임매니저 함수 구현 시 삭제 예정
 
         [SerializeField]
-        private GameObject secondCardImage;
-
-        [SerializeField]
-        private GameObject thirdCardImage;
-
-        [Serializable]
-        private struct ItemImage
-        {
-            public GameObject goodEventCowCardImage;
-            public GameObject goodEventWaterCardImage;
-            public GameObject goodEventWheatCardImage;
-            public GameObject goodEventWoodCardImage;
-            public GameObject goodEventIronCardImage;
-            public GameObject goodEventSoilCardImage;
-            public GameObject badEventCowCardImage;
-            public GameObject badEventWaterCardImage;
-            public GameObject badEventWheatCardImage;
-            public GameObject badEventWoodCardImage;
-            public GameObject badEventIronCardImage;
-            public GameObject badEventSoilCardImage;
-        }
-
-        [Header("Select Button")]
-        [SerializeField]
-        private ItemImage[] itemImage;
+        private GameObject[] EventItemCardImage;
 
         [Header("Card Image Position")]
         [SerializeField]
@@ -59,37 +30,62 @@ namespace RedTheSettlers.UI
         [SerializeField]
         private GameObject rightCardImage;
 
+        private int[] eventArray;
+        private GameObject[] selectedCard;
         private float speed = 1000f;
 
-        private int leftCardNum;
+        public float smoothing = 1f;
 
-        private void ChangeWeatherCard(int[] SelectCards)
+        private void ChangeWeatherCard()
         {
-            GameObject[] itemImages = new GameObject[12]; //흐아악 못하겠다아아
+            eventArray = eventControllerTest2.PickWeatherEvent();  //게임매니저 함수 구현 시 삭제 예정
 
-            if (leftCardNum == 0)
+            /*int count = 0;
+             for (int i = 0; i < EventItemCardImage.Length; i++)
             {
-                leftCardImage = itemImage[0].goodEventCowCardImage; //지용님이 넘겨주신 값 넣어주면 댐 itemImage[0].goodEventCowCardImage; 여기
-                itemImage[0].goodEventWaterCardImage = leftCardImage;
-                //지용님에게 받아서 랜덤으로 뽑힌 해당 값에 따라 이미지 변경
+                if (eventArray[count] == i)
+                {
+                    selectedCard[count] = EventItemCardImage[i];
+                    selectedCard[count].SetActive(true);
+                    i = 0;
+                    count++;
+                }
+                if (count == 3)
+                    break;
+            }*/
+
+            for (int i = 0; i < eventArray.Length; i++)
+            {
+                selectedCard[i] = EventItemCardImage[eventArray[i]];
+                selectedCard[i].SetActive(true);
             }
         }
 
-        private void MoveWeatherCard() //코루틴으로 바꾸면 더 부드러울텐데..
+        private IEnumerator MoveWeatherCard() //코루틴으로 바꾸면 더 부드러울텐데..
         {
-            float moveSpeed = 800 * Time.deltaTime;
+            while (true)
+            {
+                float moveSpeed = 800 * Time.deltaTime;
 
-            Vector3 leftCardPosition;
-            Vector3 middleCardPosition;
-            Vector3 rightCardPosition;
+                Vector3 leftCardPosition;
+                Vector3 middleCardPosition;
+                Vector3 rightCardPosition;
 
-            leftCardPosition = leftCardImage.transform.position;
-            middleCardPosition = middleCardImage.transform.position;
-            rightCardPosition = rightCardImage.transform.position;
+                leftCardPosition = leftCardImage.transform.position;
+                middleCardPosition = middleCardImage.transform.position;
+                rightCardPosition = rightCardImage.transform.position;
 
-            firstCardImage.transform.position = Vector3.MoveTowards(firstCardImage.transform.position, leftCardPosition, moveSpeed);
-            secondCardImage.transform.position = Vector3.MoveTowards(secondCardImage.transform.position, middleCardPosition, moveSpeed);
-            thirdCardImage.transform.position = Vector3.MoveTowards(thirdCardImage.transform.position, rightCardPosition, moveSpeed);
+                selectedCard[0].transform.position = Vector3.MoveTowards(selectedCard[0].transform.position, leftCardPosition, moveSpeed);
+                selectedCard[1].transform.position = Vector3.MoveTowards(selectedCard[1].transform.position, middleCardPosition, moveSpeed);
+                selectedCard[2].transform.position = Vector3.MoveTowards(selectedCard[2].transform.position, rightCardPosition, moveSpeed);
+
+                if (selectedCard[0].transform.position == leftCardPosition)
+                {
+                    break;
+                }
+                Debug.Log("코루틴아 돌아라");
+                yield return null;
+            }
         }
 
         private void OnClickWeatherCard()
@@ -98,12 +94,15 @@ namespace RedTheSettlers.UI
 
         private void Start()
         {
+            eventControllerTest2 = GetComponent<EventControllerTest2>();  //게임매니저 함수 구현 시 삭제 예정
+            selectedCard = new GameObject[3];
+            ChangeWeatherCard();
+            StartCoroutine(MoveWeatherCard());
         }
 
         // Update is called once per frame
         private void Update()
         {
-            MoveWeatherCard();
         }
     }
 }

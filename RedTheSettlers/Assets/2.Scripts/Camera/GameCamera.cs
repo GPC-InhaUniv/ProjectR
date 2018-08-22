@@ -38,9 +38,9 @@ namespace RedTheSettlers.GameSystem
         {
             abstractCamera.MovingCamera(vector3);
         }
-        public void ZoomInOutCamera()
+        public void ZoomInOutCamera(float value)
         {
-            abstractCamera.ZoomInOutCamera();
+            abstractCamera.ZoomInOutCamera(value);
         }
         public void Looking(Transform target)
         {
