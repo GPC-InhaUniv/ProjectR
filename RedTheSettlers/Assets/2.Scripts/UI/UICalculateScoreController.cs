@@ -14,7 +14,7 @@ using System;
 /// </summary>
 namespace RedTheSettlers.UI
 {
-    public class UICalculateScoreScript : MonoBehaviour
+    public class UICalculateScoreController : MonoBehaviour
     {
         int tempscore;
         const int TotalCountNumber = 10000;

@@ -104,13 +104,13 @@ namespace RedTheSettlers.UI
         [SerializeField]
         private CardInfo[] cardInfo;
 
-        private float[] tempGiveValue = new float[6]
+        private int[] tempGiveValue = new int[6]
         {0,0,0,0,0,0};  //순서대로 Cow,Iron,Soil,Water,Wheat,Wood
 
-        private float[] tempTakeValue = new float[6]
+        private int[] tempTakeValue = new int[6]
         {0,0,0,0,0,0};  //순서대로 Cow,Iron,Soil,Water,Wheat,Wood
 
-       
+
 
         [SerializeField]
         private Slider takeItemSlider, giveItemSlider;
@@ -132,7 +132,7 @@ namespace RedTheSettlers.UI
 
         private void Start()
         {
-            
+
         }
 
         struct TradeItemValue//임시 값.
@@ -209,13 +209,13 @@ namespace RedTheSettlers.UI
             if (cardInfo[giveCardNumber].ItemsCard.activeSelf == true &&
                 string.Equals(cardInfo[giveCardNumber].ItemsCard.transform.parent.name, playerGiveGroup.name))   //이름 직접비교는 피하자. Equals 사용
             {
-                tempGiveValue[giveCardNumber] = giveItemSlider.value;
+                tempGiveValue[giveCardNumber] = (int)giveItemSlider.value;
                 cardInfo[giveCardNumber].TempitemsCount.text = tempGiveValue[giveCardNumber].ToString();
             }
             if (cardInfo[takeCardNumber].ItemsCard.activeSelf == true &&
                 string.Equals(cardInfo[takeCardNumber].ItemsCard.transform.parent.name, playerTakeGroup.name))
             {
-                tempTakeValue[takeCardNumber] = takeItemSlider.value;
+                tempTakeValue[takeCardNumber] = (int)takeItemSlider.value;
                 cardInfo[takeCardNumber].TempitemsCount.text = tempTakeValue[takeCardNumber].ToString();
                 CheckTakeCardLimit();
             }
@@ -269,30 +269,53 @@ namespace RedTheSettlers.UI
             giveItemSlider.value = 0;
         }
 
-        public void OnClickedRequestButton(AnotherPlayerState state)
+
+        public void OnClickedRequestButton()
+        {
+            ActState(AnotherPlayerState.Yes);
+        }
+
+
+        private void ActState(AnotherPlayerState state)
         {
             switch (state)
             {
                 case AnotherPlayerState.Yes:
-
-                default:
+                    CalculatePlayerItems(gameData);
+                    Debug.Log("Yes케이스 실행됐음");
+                    break;
+                case AnotherPlayerState.No:
+                    Debug.Log("No케이스 실행됐음");
+                    break;
+                case AnotherPlayerState.Trade:
+                    Debug.Log("Trade케이스 실행됐음");
                     break;
             }
         }
 
-        private void CalculatePlayerItems(GameData data, int ItemNumber)
+        private void CalculatePlayerItems(GameData data)
         {
-          
-            data.PlayerData[0].ItemData.CowNumber -= (int)tempTakeValue[ItemNumber];
-            data.PlayerData[0].ItemData.IronNumber -= (int)tempTakeValue[ItemNumber];
-            data.PlayerData[0].ItemData.SoilNumber -= (int)tempTakeValue[ItemNumber];
-            data.PlayerData[0].ItemData.WaterNumber -= (int)tempTakeValue[ItemNumber];
-            data.PlayerData[0].ItemData.WheatNumber -= (int)tempTakeValue[ItemNumber];
-            data.PlayerData[0].ItemData.WoodNumber -= (int)tempTakeValue[ItemNumber];
+            data.PlayerData[0].ItemData.CowNumber -= tempGiveValue[(int)ItemType.Cow];
+            data.PlayerData[0].ItemData.IronNumber -= tempGiveValue[(int)ItemType.Iron];
+            data.PlayerData[0].ItemData.SoilNumber -= tempGiveValue[(int)ItemType.Soil];
+            data.PlayerData[0].ItemData.WaterNumber -= tempGiveValue[(int)ItemType.Water];
+            data.PlayerData[0].ItemData.WheatNumber -= tempGiveValue[(int)ItemType.Wheat];
+            data.PlayerData[0].ItemData.WoodNumber -= tempGiveValue[(int)ItemType.Wood];
 
+            data.PlayerData[0].ItemData.CowNumber += tempTakeValue[(int)ItemType.Cow];
+            data.PlayerData[0].ItemData.IronNumber += tempTakeValue[(int)ItemType.Iron];
+            data.PlayerData[0].ItemData.SoilNumber += tempTakeValue[(int)ItemType.Soil];
+            data.PlayerData[0].ItemData.WaterNumber += tempTakeValue[(int)ItemType.Water];
+            data.PlayerData[0].ItemData.WheatNumber += tempTakeValue[(int)ItemType.Wheat];
+            data.PlayerData[0].ItemData.WoodNumber += tempTakeValue[(int)ItemType.Wood];
 
+            Debug.Log(data.PlayerData[0].ItemData.CowNumber +
+            data.PlayerData[0].ItemData.IronNumber +
+            data.PlayerData[0].ItemData.SoilNumber +
+            data.PlayerData[0].ItemData.WaterNumber +
+            data.PlayerData[0].ItemData.WheatNumber +
+            data.PlayerData[0].ItemData.WoodNumber);
         }
 
-       
     }
 }
