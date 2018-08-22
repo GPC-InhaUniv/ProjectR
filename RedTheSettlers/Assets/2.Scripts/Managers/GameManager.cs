@@ -84,7 +84,7 @@ namespace RedTheSettlers.GameSystem
         /// <param name="playerNumber"></param>
         public void SortItemList(UserType player, ItemType itemType)
         {
-            //for (int i = 0; i < Players[(int)player].p; i++)
+            //for (int i = 0; i < Players[(int)player].?; i++)
             {
                 
             }
@@ -96,7 +96,7 @@ namespace RedTheSettlers.GameSystem
         /// <param name="playerNumber"></param>
         /// <param name="itemType"></param>
         /// <param name="addItem"></param>
-        public void SetItemByType(int playerNumber, ItemType itemType, int addItem)
+        public void AddItemByType(int playerNumber, ItemType itemType, int addItem)
         {
             DataManager.Instance.GameData.PlayerData[playerNumber].ItemList[(int)itemType].Count += addItem;
         }
@@ -124,10 +124,29 @@ namespace RedTheSettlers.GameSystem
 
             return tile;
         }
+
+        //추가해야 될 거
+        //날씨 카드에서 무엇을 골랐는지 이벤트 컨트롤러에게
+        //트레이드 패널에서 ItemData을 트레이드 컨트롤러에게
+        //다른 player와의 거래 결과를 패널에게 다시 전달
+
+        /// <summary>
+        /// 선택 된 날씨 카드를 반환합니다.
+        /// </summary>
+        public void SelectedWeatherCard()
+        {
+            
+        }
+
+        /// <summary>
+        /// 거래 정보를 가져옵니다.
+        /// </summary>
+        public void GetTradeData()
+        {
+            
+        }
     }
-    //추가해야 될 거
-    //날씨 카드에서 무엇을 골랐는지 이벤트 컨트롤러에게
-    //트레이드 패널에서 ItemData을 트레이드 컨트롤러에게
-    //다른 player와의 거래 결과를 패널에게 다시 전달
+
+    
 
 }
