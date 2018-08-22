@@ -45,7 +45,7 @@ namespace RedTheSettlers.GameSystem
 
             string json = JsonUtility.ToJson(gameData);
             Debug.Log(json);
-            bool cyheck = CheckedBundleVersion(AssetBundleNumbers.MiddleBoss1, "MiddleBoss1");
+            bool cyheck = CheckedBundleVersion(AssetBundleNumbers.MiddleBoss1, "2f234a3s65d");
             Debug.Log(cyheck);
         }
 

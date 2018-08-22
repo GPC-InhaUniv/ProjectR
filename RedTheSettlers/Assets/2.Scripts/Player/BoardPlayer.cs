@@ -12,11 +12,11 @@ namespace RedTheSettlers.Users
     {
         private int WeaponLevel;
         private int ShieldLevel;
-        private Dictionary<Skill, QuickSlot> skillSet;
+        private SkillData[] SkillData;
 
         public void MoveToTargetTile(BoardTile targetTile)
         {
-
+            PossessTile(targetTile);
         }
 
         public void PossessTile(BoardTile targetTile)
@@ -24,22 +24,12 @@ namespace RedTheSettlers.Users
             PossessingTile.Add(targetTile);
         }
 
-        public void ShowInformation()
-        {
-
-        }
-
-        protected override void ReceiveTrade(User requestPlayer, TradeData tradeData)
+        protected override void GiveItem(TradeData tradeData)
         {
             throw new System.NotImplementedException();
         }
 
-        protected override void RegisterPlayer(User player)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        protected override void RequestAgain(User respondPlayer, TradeData tradeData)
+        protected override void TakeItem(TradeData tradeData)
         {
             throw new System.NotImplementedException();
         }
