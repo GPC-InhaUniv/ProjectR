@@ -7,7 +7,7 @@ using System;
 
 namespace RedTheSettlers.UI
 {
-    public class UIEquipmentScript : MonoBehaviour
+    public class UIEquipmentController : MonoBehaviour
     {
         public int PlayerWood;
         public int PlayerIron;

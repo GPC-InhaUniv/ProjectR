@@ -3,9 +3,13 @@ using RedTheSettlers.UnitTest;
 
 namespace RedTheSettlers.Enemys
 {
+    /// <summary>
+    /// 일반 몬스터 클래스 생성과 동시에 SetType와 SetStatus를 같이 실행해야한다.
+    /// 작업자 : 최대원
+    /// </summary>
     public class NormalEnemy : Enemy
     {
-        EnemyFireBall enemyFireBall;
+        
 
         private void Start()
         {
@@ -67,12 +71,6 @@ namespace RedTheSettlers.Enemys
             changeStateCallback(EnemyStateType.Idle);
         }
 
-
-        public void SetType(EnemyType enemyType)
-        {
-            typeRenderer.material = materials[(int)enemyType];
-        }
-
         private void StartAttack1()
         {
             attackArea.AttackCollider.enabled = true;
@@ -94,20 +92,6 @@ namespace RedTheSettlers.Enemys
             ChangeState(EnemyStateType.Idle);
         }
 
-        public EnemyFireBall PopFireBall()
-        {
-            enemyFireBall = ObjectPoolManager.Instance.FireballQueue.Dequeue();
-            enemyFireBall.gameObject.SetActive(true);
-            return enemyFireBall;
-        }
-
-        public void PushFireBall()
-        {
-            FireBallLifeTimer = null;
-            enemyFireBall.gameObject.SetActive(false);
-            ObjectPoolManager.Instance.FireballQueue.Enqueue(enemyFireBall);
-        }
-
         /// <summary>
         /// 일반 몹 전용 스텟 설정 메서드
         /// </summary>
@@ -118,7 +102,6 @@ namespace RedTheSettlers.Enemys
             Power = 2 + ItemNumber * 0.5f;
             CurrentHp = MaxHp;
         }
-
-        protected override void SetStatus(int HP, int Power) { }
+        protected override void SetStatus(int HP, int Power, bool IsLastBoss) { }
     }
 }
