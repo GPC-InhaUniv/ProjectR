@@ -12,7 +12,7 @@ public class MainStageState : IInputState
     private Vector3 firstClick;
     private Vector3 dragPosition;
     private Vector3 dragDirection;
-    private GameObject tileInformation;
+    private BoardTile tileInformation;
     private float cameraZoom;
     private float touchDistance;
     private float firstDistance;
@@ -107,8 +107,8 @@ public class MainStageState : IInputState
             {
                 if (hitPoint.collider.tag == "Tile")
                 {
-                    hitPoint.collider.gameObject.GetComponent<BoardTile>().tileType.GetType();
-                    TemporaryGameManager.Instance.TileInfo(hitPoint.collider.gameObject.GetComponent<BoardTile>().tileType);
+                    tileInformation = hitPoint.collider.gameObject.GetComponent<BoardTile>();
+                    TemporaryGameManager.Instance.TileInfo(tileInformation);
                 }
             }
         }
