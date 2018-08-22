@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine.EventSystems;
 using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 /// 담당자 : 박상원
 /// 화면 또는 아이콘 드래그, 이동 방향 전달, UI 버튼 입력시
 /// 해당 UI 버튼 해야 하는 일을 받아서 전달
+/// 최대한 커밋시 다른 코드와 오류가 나지 않도록 구조 수정 중
 /// </summary>
 namespace RedTheSettlers.GameSystem
 {
@@ -43,7 +45,7 @@ namespace RedTheSettlers.GameSystem
 
     public class InputManager : Singleton<InputManager>
     {
-        private InputState inputState;
+        private IInputState inputState;
 
         [SerializeField]
         private StateType stateType;
@@ -93,8 +95,15 @@ namespace RedTheSettlers.GameSystem
 
         public void CameraZoomInOut()
         {
-            //inputState.DragMove(moveSpeed);
+#if UNITY_EDITOR
             inputState.ZoomInOut(zoomSpeed);
+#endif
+#if UNITY_STANDALONE_WIN
+            inputState.ZoomInOut(zoomSpeed);
+#endif
+#if UNITY_ANDROID
+            LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, "테스트");
+#endif
         }
 
         public void OnPointerEnter()
@@ -168,7 +177,7 @@ namespace RedTheSettlers.GameSystem
             inputState.TileInfo();
         }
 
-        private void ChangeState(InputState state)
+        private void ChangeState(IInputState state)
         {
             inputState = state;
         }

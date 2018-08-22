@@ -1,28 +1,28 @@
 ﻿using RedTheSettlers.GameSystem;
 using UnityEngine;
 
-public abstract class InputState
+public interface IInputState
 {
-    public virtual void DragMove(float speed) { }
-    public virtual void SkillDirection() { }
-    public virtual void ZoomInOut(float speed) { }
-    public virtual void TileInfo() { }
+    void DragMove(float speed);
+    void SkillDirection();
+    void ZoomInOut(float speed);
+    void TileInfo();
 
     //----------------------UI 드래그----------------------
 
-    public virtual void OnStartDrag() { }
-    public virtual void OnDragging(float speed) { }
-    public virtual void EndStopDrag() { }
-    public virtual void OnDropSlot() { }
-    public virtual void OnInPointer() { }
-    public virtual void OnOutPointer() { }
+    void OnStartDrag();
+    void OnDragging(float speed);
+    void EndStopDrag();
+    void OnDropSlot();
+    void OnInPointer();
+    void OnOutPointer();
 
     //----------------------UI 터치 & 클릭----------------------
 
-    public virtual void TouchOrClickButton(InputButtonType inputButtonType) { }
+    void TouchOrClickButton(InputButtonType inputButtonType);
 
     //----------------------PC 용 Battle Phase----------------------
 
-    public virtual void DirectionKey(Vector3 direction) { }
-    public virtual void BattleAttack() { }
+    void DirectionKey(Vector3 direction);
+    void BattleAttack();
 }
