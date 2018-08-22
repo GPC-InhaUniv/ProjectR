@@ -48,14 +48,12 @@ namespace RedTheSettlers.UnitTest
         {
             for(int index = 0; index < Trade.ItemsToSend.Count; index++)
             {
-                if(itemData.ItemType == Trade.ItemsToSend[index].ItemType)
+                if (itemData.ItemType == Trade.ItemsToSend[index].ItemType)
                 {
                     Trade.ItemsToSend[index] = itemData;
 
                     break;
                 }
-
-                if(index == Trade.ItemsToSend.Count - 1 &&)
             }
         }
     }
