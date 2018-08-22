@@ -1,4 +1,5 @@
 ﻿using RedTheSettlers.GameSystem;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace RedTheSettlers.Enemys
@@ -24,6 +25,11 @@ namespace RedTheSettlers.Enemys
         [SerializeField]
         private Explode explodePrefab;
         private Explode explode;
+        public Queue<Explode> explodeList;
+        public Queue<EnemyFireBall> FireballList;
+
+        private Vector3 explosionLocationOffset;
+        private Vector3 fireballPositionOffset;
 
         private void Start()
         {
@@ -34,8 +40,9 @@ namespace RedTheSettlers.Enemys
 
         protected override void Setting()
         {
-            explosionLocation = new Vector3(transform.position.x + 0.275f, 0f, transform.position.z + 1.3f);
-            fireballPosition = new Vector3(transform.position.x + -0.173f, 1.043f, transform.position.z + 1.591f);
+            explosionLocationOffset = new Vector3(0.275f, 0f, 1.3f);
+            fireballPositionOffset = new Vector3(-0.173f, 1f, 1.591f);
+            explodeList = new Queue<Explode>();
         }
 
         public override void ChangeState(EnemyStateType stateType)
@@ -58,17 +65,20 @@ namespace RedTheSettlers.Enemys
                         fireballPosition,
                         bossPhase,
                         fireballLifeTimer,
-                        new TimerCallback(pushFireballTimer)
-                        );
+                        new TimerCallback(pushFireballTimer),
+                        TargetObject,
+                        transform,
+                        TimeToReturn);
                     break;
                 case EnemyStateType.Attack2:
                     currentState = new Boss.UseSkill(
-                        animator, 
-                        explode, 
-                        explodeLifeTimer, 
-                        Power, 
-                        explodeLifeTime, 
-                        new TimerCallback(PushExplodeTimer));
+                        animator,
+                        explode,
+                        explodeLifeTimer,
+                        Power,
+                        explodeLifeTime,
+                        new TimerCallback(UseSkillEnd),
+                        bossPhase);
                     break;
                 case EnemyStateType.Move:
                     currentState = new Move(
@@ -138,20 +148,30 @@ namespace RedTheSettlers.Enemys
 
         void UseSkillStart()
         {
-
+            if(currentState is Boss.UseSkill)
+            {
+                explodeList.Enqueue(currentState.explode);
+                currentState.explode.SkillRangeCircle.SetActive(true);
+                currentState.explode.gameObject.transform.position = explosionLocation;
+                currentState.explode.isViewingCircle = true;
+            }
         }
 
-        void BoomFireExplosion()
+        void UsingSkill()
         {
-            currentState.explode.gameObject.SetActive(true);
-            currentState.explode.gameObject.transform.position = explosionLocation;
+            if (currentState is Boss.UseSkill)
+            {
+                currentState.explode.particle.gameObject.SetActive(true);
+                currentState.explode.isViewingCircle = false;
+            }
         }
 
-        void PushExplodeTimer()
+        void UseSkillEnd()
         {
-            explodeLifeTimer = null;
-            ObjectPoolManager.Instance.ExplodeQueue.Enqueue(currentState.explode);
-            currentState.explode = null;
+            Explode tempExplode = explodeList.Dequeue();
+            ObjectPoolManager.Instance.ExplodeQueue.Enqueue(tempExplode);
+            tempExplode.gameObject.SetActive(false);
+
         }
 
         void pushFireballTimer()
@@ -160,7 +180,7 @@ namespace RedTheSettlers.Enemys
         }
 
         void EndSkill()
-        {
+        {   //애니메이션 처리용 메소드
             ChangeState(EnemyStateType.Idle);
         }
     }
