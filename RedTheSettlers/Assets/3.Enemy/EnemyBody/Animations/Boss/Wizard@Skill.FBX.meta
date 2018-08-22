@@ -142,7 +142,7 @@ ModelImporter:
       curves: []
       events:
       - time: 0.6855469
-        functionName: BoomFireExplosion
+        functionName: UsingSkill
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
