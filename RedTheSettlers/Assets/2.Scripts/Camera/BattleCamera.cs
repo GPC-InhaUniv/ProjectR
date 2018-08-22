@@ -14,8 +14,8 @@ namespace RedTheSettlers.GameSystem
             //cameraZoomInOut = cameraObject.AddComponent<DragZoom>();
             //cameraAngle = cameraObject.AddComponent<LookAtTarget>();
             cameraMoving = new FollowMoving(cameraObject);
-            cameraZoomInOut = new DragZoom();
-            cameraAngle = new LookAtTarget();
+            cameraZoomInOut = new DragZoom(camera);
+            cameraAngle = new LookAtTarget(cameraObject);
 
         }
     } 
