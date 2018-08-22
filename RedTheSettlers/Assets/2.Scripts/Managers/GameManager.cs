@@ -13,15 +13,6 @@ namespace RedTheSettlers.GameSystem
     /// </summary>
     public class GameManager : Singleton<GameManager>
     {
-        /*
-        각 플레이어(보드4 + 전투1)를 가지고 있음
-
-        컨트롤러로 부터 작업이 끝났다는 요청를 받는다.
-        다음 컨트롤러로 작업을 넘겨준다.
-        이 과정에서 데이터와 연동
-        
-        임시적 데이터 저장 및 ui 매니저로의 전달(presenter)
-         */
         public List<TileData>[] PlayerCowTileData;
         public List<TileData>[] PlayerIronTileData;
         public List<TileData>[] PlayerSoilTileData;
@@ -48,6 +39,8 @@ namespace RedTheSettlers.GameSystem
             PlayerWaterTileData = new List<TileData>[GlobalVariables.maxPlayerNumber];
             PlayerWheatTileData = new List<TileData>[GlobalVariables.maxPlayerNumber];
             PlayerWoodTileData = new List<TileData>[GlobalVariables.maxPlayerNumber];
+
+            
 
             turnCtrl.Callback = new TurnCallback(TurnFinish);
             eventCtrl.Callback = new EventCallback(EventFinish);

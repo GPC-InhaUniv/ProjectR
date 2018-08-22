@@ -6,17 +6,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace RedTheSettlers.Players
+namespace RedTheSettlers.Users
 {
-    public class BoardPlayer
+    public class BoardPlayer : User
     {
-        private Tile tileSteppingOn;
-        private List<Tile> PossessingTile;
         private int WeaponLevel;
         private int ShieldLevel;
-        private Dictionary<ItemType, int> inventory;
         private Dictionary<Skill, QuickSlot> skillSet;
-        private IMediatable mediatable;
 
         public void MoveToTargetTile(BoardTile targetTile)
         {
@@ -33,6 +29,19 @@ namespace RedTheSettlers.Players
 
         }
 
+        protected override void ReceiveTrade(User requestPlayer, TradeData tradeData)
+        {
+            throw new System.NotImplementedException();
+        }
 
+        protected override void RegisterPlayer(User player)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        protected override void RequestAgain(User respondPlayer, TradeData tradeData)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
