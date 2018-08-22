@@ -45,29 +45,41 @@ namespace RedTheSettlers.UnitTest
 
         private int GetItemfromCampLevel(int playerNumber, ItemType type, int weatherBonus)
         {
-            int playerCampCount = datas.PlayerData[playerNumber].TileList.Count;
+            //int playerCampCount = datas.PlayerData[playerNumber].TileList.Count;
             int getItemCount = 0;
 
             int loopCount = 0;
-            switch(type)
+            switch (type)
             {
                 case ItemType.Cow:
                     loopCount = GameManager.Instance.PlayerCowTileData[playerNumber].Count;
+                    for (int i = 0; i < loopCount; i++)
+                        getItemCount += GameManager.Instance.PlayerCowTileData[playerNumber][i].TileLevel + weatherBonus;
                     break;
                 case ItemType.Iron:
                     loopCount = GameManager.Instance.PlayerIronTileData[playerNumber].Count;
+                    for (int i = 0; i < loopCount; i++)
+                        getItemCount += GameManager.Instance.PlayerIronTileData[playerNumber][i].TileLevel + weatherBonus;
                     break;
                 case ItemType.Soil:
                     loopCount = GameManager.Instance.PlayerSoilTileData[playerNumber].Count;
+                    for (int i = 0; i < loopCount; i++)
+                        getItemCount += GameManager.Instance.PlayerSoilTileData[playerNumber][i].TileLevel + weatherBonus;
                     break;
                 case ItemType.Water:
                     loopCount = GameManager.Instance.PlayerWaterTileData[playerNumber].Count;
+                    for (int i = 0; i < loopCount; i++)
+                        getItemCount += GameManager.Instance.PlayerWaterTileData[playerNumber][i].TileLevel + weatherBonus;
                     break;
                 case ItemType.Wheat:
                     loopCount = GameManager.Instance.PlayerWheatTileData[playerNumber].Count;
+                    for (int i = 0; i < loopCount; i++)
+                        getItemCount += GameManager.Instance.PlayerWheatTileData[playerNumber][i].TileLevel + weatherBonus;
                     break;
                 case ItemType.Wood:
                     loopCount = GameManager.Instance.PlayerWoodTileData[playerNumber].Count;
+                    for (int i = 0; i < loopCount; i++)
+                        getItemCount += GameManager.Instance.PlayerWoodTileData[playerNumber][i].TileLevel + weatherBonus;
                     break;
             }
 
