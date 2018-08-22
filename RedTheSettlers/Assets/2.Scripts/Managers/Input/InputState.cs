@@ -11,7 +11,7 @@ public abstract class InputState
     //----------------------UI 드래그----------------------
 
     public virtual void OnStartDrag() { }
-    public virtual void OnDragging() { }
+    public virtual void OnDragging(float speed) { }
     public virtual void EndStopDrag() { }
     public virtual void OnDropSlot() { }
     public virtual void OnInPointer() { }

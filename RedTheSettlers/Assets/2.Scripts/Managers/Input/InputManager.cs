@@ -48,9 +48,10 @@ namespace RedTheSettlers.GameSystem
         [SerializeField]
         private StateType stateType;
         private bool enableInputKey = false;
-        [SerializeField,Range(1,100)]
+        private bool enableInputCameraDrag = false;
+        [SerializeField, Range(1, 100)]
         private float moveSpeed;
-        [SerializeField,Range(1,100)]
+        [SerializeField, Range(1, 100)]
         private float zoomSpeed;
 
         private void Awake()
@@ -66,13 +67,13 @@ namespace RedTheSettlers.GameSystem
 
         private void Update()
         {
-            if(enableInputKey)
+            if (enableInputKey)
             {
                 InteractionKey();
             }
-            if(!enableInputKey)
+            if (!enableInputKey && enableInputCameraDrag)
             {
-                MainStageDragAndZoom();
+                CameraZoomInOut();
                 RayHitInfo();
             }
         }
@@ -90,9 +91,9 @@ namespace RedTheSettlers.GameSystem
             inputState.TouchOrClickButton(inputButtonType);
         }
 
-        public void MainStageDragAndZoom()
+        public void CameraZoomInOut()
         {
-            inputState.DragMove(moveSpeed);
+            //inputState.DragMove(moveSpeed);
             inputState.ZoomInOut(zoomSpeed);
         }
 
@@ -113,7 +114,7 @@ namespace RedTheSettlers.GameSystem
 
         public void OnDrag()
         {
-            inputState.OnDragging();
+            inputState.OnDragging(moveSpeed);
         }
 
         public void EndDrag()
@@ -179,22 +180,27 @@ namespace RedTheSettlers.GameSystem
                 case StateType.MainStageState:
                     ChangeState(new MainStageState());
                     enableInputKey = false;
+                    enableInputCameraDrag = true;
                     break;
                 case StateType.BattleStageState:
                     ChangeState(new BattleStageState());
                     enableInputKey = true;
+                    enableInputCameraDrag = false;
                     break;
                 case StateType.TradeInMainStageState:
                     ChangeState(new TradeInMainStageState());
                     enableInputKey = false;
-                    break;
-                case StateType.WeatherInMainStageState:
-                    ChangeState(new WeatherInMainStageState());
-                    enableInputKey = false;
+                    enableInputCameraDrag = false;
                     break;
                 case StateType.TitleStageState:
                     ChangeState(new TitleStageState());
                     enableInputKey = false;
+                    enableInputCameraDrag = false;
+                    break;
+                case StateType.EquipSkillInMainStageState:
+                    ChangeState(new EquipSkillInMainStageState());
+                    enableInputKey = false;
+                    enableInputCameraDrag = false;
                     break;
                 default:
                     LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, "해당되는 상태가 존재하지 않습니다.");

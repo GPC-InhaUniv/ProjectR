@@ -1,53 +1,73 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EquipSkillInMainStageState : InputState
 {
-    private static GameObject[] beingDragged;
-    private static GameObject[] Slot;
-    private GameObject targetUI;
-
+    private static GameObject[] skills;
+    private static GameObject[] skillSlots;
+    private GameObject targetSkill;
+    private GameObject targetSlot;
+    private Sprite skillImage;
+    private Sprite slotEmptyImage;
+    private Sprite slotChangeImage;
     private Transform startParent;
     private Vector3 startPosition;
     private Vector3 clickPoint;
-    private float firstDirection;
-    private float currentDirection;
+    private Vector3 dropPoint;
+    private float startDistance;
+    private float currentDistance;
+    private float firstSlotDistance;
+    private float nearSlotDistance;
 
     public override void OnStartDrag()
     {
         clickPoint = Input.mousePosition;
-        beingDragged = GameObject.FindGameObjectsWithTag("SkillIcon");
-        firstDirection = Vector3.Distance(clickPoint, beingDragged[0].transform.position);
-        foreach (GameObject gameObject in beingDragged)
+        skills = GameObject.FindGameObjectsWithTag("SkillIcon");
+        startDistance = Vector3.Distance(clickPoint, skills[0].transform.position);
+        foreach (GameObject skill in skills)
         {
-            currentDirection = Vector3.Distance(clickPoint, gameObject.transform.position);
-            if (currentDirection <= firstDirection)
+            currentDistance = Vector3.Distance(clickPoint, skill.transform.position);
+            if (currentDistance <= startDistance)
             {
-                targetUI = gameObject;
-                firstDirection = currentDirection;
+                targetSkill = skill;
+                startDistance = currentDistance;
             }
         }
-        startPosition = targetUI.transform.position;
-        startParent = targetUI.transform.parent;
+        startPosition = targetSkill.transform.position;
+        //startParent = targetSkill.transform.parent;
     }
 
-    public override void OnDragging()
+    public override void OnDragging(float speed)
     {
-        targetUI.transform.position = Input.mousePosition;
+        targetSkill.transform.position = Input.mousePosition;
     }
 
     public override void EndStopDrag()
     {
-        if (targetUI.transform.parent != startParent)
+        if (targetSkill.transform.parent != startParent)
         {
-            targetUI.transform.position = startPosition;
+            targetSkill.transform.position = startPosition;
         }
-        targetUI = null;
+        targetSkill = null;
     }
 
     public override void OnDropSlot()
     {
-        Slot = GameObject.FindGameObjectsWithTag("Slot");
+        skillSlots = GameObject.FindGameObjectsWithTag("SkillSlot");
+        dropPoint = Input.mousePosition;
+        firstSlotDistance = Vector3.Distance(dropPoint, skillSlots[0].transform.position);
+        foreach (GameObject skillSlot in skillSlots)
+        {
+            nearSlotDistance = Vector3.Distance(dropPoint, skillSlot.transform.position);
+            if(nearSlotDistance <= firstSlotDistance)
+            {
+                targetSlot = skillSlot;
+                firstSlotDistance = nearSlotDistance;
+            }
+        }
+        slotEmptyImage = targetSlot.gameObject.GetComponent<Image>().sprite;
+        slotChangeImage = targetSkill.gameObject.GetComponent<Image>().sprite;
     }
 }

@@ -34,36 +34,30 @@ public class MainStageState : InputState
                 break;
         }
     }
-    public override void DragMove(float speed)
+    public override void OnStartDrag()
     {
-        //TemporaryGameManager.Instance.CameraMove();
-        //LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, "넘어왔나");
-
+        firstClick = Input.mousePosition;
+    }
+    public override void OnDragging(float speed)
+    {
+        dragPosition = Input.mousePosition;
+        dragDirection = (((dragPosition - firstClick).normalized * speed) * reversValue) * Time.deltaTime;
+        TemporaryGameManager.Instance.CameraMove(dragDirection);
+    }
+    public override void EndStopDrag()
+    {
+        dragPosition = Vector3.zero;
+        firstClick = Vector3.zero;
+        dragDirection = (dragPosition - firstClick).normalized;
+    }
+    /*public override void DragMove(float speed)
+    {
         if (Input.GetMouseButtonDown(0))
         {
-            /*Ray rayPoint = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit checkCollision;
-
-            if (Physics.Raycast(rayPoint, out checkCollision, Mathf.Infinity))
-            {
-                firstClick = new Vector3(rayPoint.origin.x, rayPoint.origin.y ,rayPoint.origin.z);
-                LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, "클릭 위치 : " + firstClick);
-            }*/
             firstClick = Input.mousePosition;
         }
         else if (Input.GetMouseButton(0))
         {
-            /*Ray rayPoint = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit checkCollision;
-
-            if (Physics.Raycast(rayPoint, out checkCollision, Mathf.Infinity))
-            {
-                dragPosition = new Vector3(rayPoint.origin.x, rayPoint.origin.y, rayPoint.origin.z);
-                dragDirection = (dragPosition - firstClick).normalized * Speed * Time.deltaTime;
-                //GameManager.Instance.CameraMove(dragDirection);
-                //TemporaryGameManager.Instance.CameraMove(dragDirection);
-                LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, "좌표 : " + dragPosition);
-            }*/
             dragPosition = Input.mousePosition;
             dragDirection = (((dragPosition - firstClick).normalized * speed) * reversValue) * Time.deltaTime;
             TemporaryGameManager.Instance.CameraMove(dragDirection);
@@ -74,7 +68,7 @@ public class MainStageState : InputState
             firstClick = Vector3.zero;
             dragDirection = (dragPosition - firstClick).normalized;
         }
-    }
+    }*/
     public override void ZoomInOut(float speed)
     {
         if(Input.GetAxis("Mouse ScrollWheel") * reversValue < 0)

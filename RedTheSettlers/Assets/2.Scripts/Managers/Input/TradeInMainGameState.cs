@@ -28,6 +28,7 @@ public class TradeInMainStageState : InputState
     public override void OnStartDrag()
     {
         clickPoint = Input.mousePosition;
+        // FindGameObjectWithTag는 임시방편으로 UI및 패널을 찾기 위해 작성한 코드로 추후 수정 예정
         tradeCards = GameObject.FindGameObjectsWithTag("UIIcon");
         cardDistance = Vector3.Distance(clickPoint, tradeCards[0].transform.position);
         foreach (GameObject tradeCard in tradeCards)
@@ -45,25 +46,21 @@ public class TradeInMainStageState : InputState
         targetCard.transform.SetParent(targetCard.transform.parent.parent);
     }
 
-    public override void OnDragging()
+    public override void OnDragging(float speed)
     {
         targetCard.transform.position = Input.mousePosition;
     }
 
     public override void EndStopDrag()
     {
-        /*if (targetUI.transform.parent != startParent)
-        {
-            targetUI.transform.position = startPosition;
-        }*/
         targetCard.transform.SetParent(parentToReturnTo);
         targetCard.gameObject.GetComponent<CanvasGroup>().blocksRaycasts = true;
-        //targetUI = null;
     }
 
     public override void OnDropSlot()
     {
         dropPoint = Input.mousePosition;
+        // FindGameObjectWithTag는 임시방편으로 UI및 패널을 찾기 위해 작성한 코드로 추후 수정 예정
         cardAreas = GameObject.FindGameObjectsWithTag("CardArea");
         areaDistance = Vector3.Distance(dropPoint, cardAreas[0].transform.position);
         foreach(GameObject cardArea in cardAreas)
@@ -75,21 +72,9 @@ public class TradeInMainStageState : InputState
                 areaDistance = currentAreaDistance;
             }
         }
-        targetCard.transform.SetParent(targetArea.transform);
-        LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, "OnDrop To " + targetArea);
         if (parentToReturnTo != null)
         {
             parentToReturnTo = targetArea.transform;
         }
-    }
-
-    public override void OnInPointer()
-    {
-        
-    }
-
-    public override void OnOutPointer()
-    {
-        
     }
 }
