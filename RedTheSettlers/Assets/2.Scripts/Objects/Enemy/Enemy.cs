@@ -11,7 +11,6 @@ namespace RedTheSettlers.Enemys
     public delegate void Pattern1TimerCallback();
     public delegate void Pattern2TimerCallback();
 
-
     public enum EnemyType
     {
         Iron = 0,
@@ -39,9 +38,12 @@ namespace RedTheSettlers.Enemys
     public abstract class Enemy : MonoBehaviour
     {
         public EnemyState currentState;
-        protected Material[] materials;
+        protected Material[] Materials;
+        [SerializeField]
+        protected Material[] bossMaterials;
         public GameObject FireBall;
         protected BattleAI battleAI;
+        EnemyFireBall enemyFireBall;
 
         [Header("Compoenets")]
         public Animator animator;
@@ -64,6 +66,7 @@ namespace RedTheSettlers.Enemys
         public int MaxHp;
         public float TimeToReturn = 3.0f;
         public float Power;
+        public bool IsLastBoss;
         [ReadOnly]
         public float FireBallSpeed = 4.0f;
 
@@ -120,7 +123,7 @@ namespace RedTheSettlers.Enemys
         }
 
         protected abstract void SetStatus(int ItemNumber);
-        protected abstract void SetStatus(int HP,int Power);
+        protected abstract void SetStatus(int HP, int Power, bool IsLastBoss);
 
         //피격 처리를 담당하는 메서드
         public void Damaged(int damage)
@@ -149,6 +152,36 @@ namespace RedTheSettlers.Enemys
             {
                 CurrentHp = MaxHp;
             }
+        }
+
+        public void SetType(EnemyType enemyType)
+        {
+            typeRenderer.material = Materials[(int)enemyType];
+        }
+        public void SetType(bool IsLastBoss)
+        {
+            if (IsLastBoss)
+            {
+                typeRenderer.material = bossMaterials[0];
+            }
+            else
+            {
+                typeRenderer.material = bossMaterials[1];
+            }
+        }
+
+        public EnemyFireBall PopFireBall()
+        {
+            enemyFireBall = ObjectPoolManager.Instance.FireballQueue.Dequeue();
+            enemyFireBall.gameObject.SetActive(true);
+            return enemyFireBall;
+        }
+
+        public void PushFireBall()
+        {
+            FireBallLifeTimer = null;
+            enemyFireBall.gameObject.SetActive(false);
+            ObjectPoolManager.Instance.FireballQueue.Enqueue(enemyFireBall);
         }
 
         protected void StopMovement()

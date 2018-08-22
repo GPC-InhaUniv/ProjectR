@@ -33,7 +33,7 @@ namespace RedTheSettlers.Enemys
         protected float fireballSpeed;
 
         protected Explode explodePrefab;
-        protected Explode explode;
+        public Explode explode;
         protected GameTimer explodeLifeTimer;
         protected float explodeLifeTime;
 
