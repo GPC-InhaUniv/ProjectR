@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace RedTheSettlers.GameSystem
 {
-    public abstract class CameraAngle : MonoBehaviour
+    public abstract class CameraAngle
     {
         public GameObject cameraObject;
         public abstract void Looking(Transform target);

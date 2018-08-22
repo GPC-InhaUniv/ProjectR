@@ -8,7 +8,7 @@ namespace RedTheSettlers.GameSystem
 {
     public class LookAtManual : CameraAngle
     {
-        private void Awake()
+        public LookAtManual(GameObject gameObject)
         {
             cameraObject = gameObject;
         }

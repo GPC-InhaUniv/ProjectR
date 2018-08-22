@@ -10,14 +10,14 @@
   <Class Name="RedTheSettlers.GameSystem.DragMoving" Collapsed="true">
     <Position X="2.25" Y="2.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAABAAIEA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAABAAIAA=</HashCode>
       <FileName>Assets\2.Scripts\Camera\CameraMoving\DragMoving.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="RedTheSettlers.GameSystem.FollowMoving" Collapsed="true">
     <Position X="2.25" Y="3.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAQABAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAIAAIEA=</HashCode>
+      <HashCode>AAQABAAAAACAAAAAAAAAAIAAAAAAAAAAIAAAAAAAIAA=</HashCode>
       <FileName>Assets\2.Scripts\Camera\CameraMoving\FollowMoving.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -60,7 +60,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="RedTheSettlers.GameSystem.AbstractCamera" Collapsed="true">
-    <Position X="8" Y="2" Width="1.5" />
+    <Position X="8.25" Y="2" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AhAQAAAQAgAAAAAAQAAAAEAAAAAAAAAAQAAAAAAAAAI=</HashCode>
       <FileName>Assets\2.Scripts\Camera\AbstractCamera.cs</FileName>
@@ -88,7 +88,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="RedTheSettlers.GameSystem.GameCamera" Collapsed="true">
-    <Position X="10" Y="2" Width="1.5" />
+    <Position X="10.25" Y="2" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAABAAAQAAAAAACIQAAAAAAIAAAAAAAAAAAAAAAAAEA=</HashCode>
       <FileName>Assets\2.Scripts\Camera\GameCamera.cs</FileName>
