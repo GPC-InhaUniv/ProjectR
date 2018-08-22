@@ -31,13 +31,6 @@ namespace RedTheSettlers.GameSystem
     }
 
     [Serializable]
-    public struct TradeData
-    {
-        public ItemType Item;
-        public int ItemCount;
-    }
-
-    [Serializable]
     public struct ItemData
     {
         public ItemType ItemType;
