@@ -7,12 +7,12 @@ using UnityEngine;
 
 namespace RedTheSettlers.GameSystem
 {
-    public abstract class CameraZoomInOut : MonoBehaviour
+    public abstract class CameraZoomInOut
     {
         public Camera camera;
-        public float zoomSpeed = 5.0f;
-        public float cameraFOV;
-
-        public abstract void ZoomInOut();
+        //public float zoomSpeed = 5.0f;
+        //public float cameraFOV;
+        
+        public abstract void ZoomInOut(float value);
     } 
 }

@@ -8,8 +8,8 @@ namespace RedTheSettlers.GameSystem
 {
     public class AssetBundleManager : Singleton<AssetBundleManager>
     {
-        private string assetBundleDirectory = AssetBundleSettings.assetBundleDirectory;
-        private int HashCodeLine = AssetBundleSettings.HashCodeLine;
+        private string assetBundleDirectory = AssetBundleSettings.ASSETBUNDLEDIRECTORY;
+        private int hashCodeLine = AssetBundleSettings.HASHCODELINE;
 
         public Dictionary<int, string> WebPaths = new Dictionary<int, string>();
         public Dictionary<int, string> WebManifest = new Dictionary<int, string>();
@@ -43,7 +43,7 @@ namespace RedTheSettlers.GameSystem
         /// </summary>
         public void LocalLoadAssetBundle(AssetBundleNumbers bundleNumber)
         {
-
+            LoadAssetBundleFromLocalDisk(bundleNumber);
         }
 
         private string GetAssetBundlePath(AssetBundleNumbers key)
@@ -91,17 +91,19 @@ namespace RedTheSettlers.GameSystem
                 LogManager.Instance.UserDebug(LogColor.Orange, "AssetBundleManager", "해당 폴더가 이미 존재합니다.");
             }
 
-            FileStream fs = new FileStream(assetBundleDirectory + assetBundleName, FileMode.Create); // Create는 있으면 덮어씀, CreateNew는 새로 생성;
-            fs.Write(request.downloadHandler.data, 0, (int)request.downloadedBytes);
-            fs.Close();
-
+            using (FileStream fs = new FileStream(assetBundleDirectory + assetBundleName, FileMode.Create)) // Create는 있으면 덮어씀, CreateNew는 새로 생성;
+            {
+                fs.Write(request.downloadHandler.data, 0, (int)request.downloadedBytes);
+                fs.Close();
+            }
             LogManager.Instance.UserDebug(LogColor.Orange, "AssetBundleManager", "다운로드 완료" + " " + request.downloadedBytes + "Bytes");
         }
 
         private IEnumerator LoadAssetBundleFromLocalDisk(AssetBundleNumbers bundleNumber)
         {
             string assetBundleName = GetAssetBundleName(bundleNumber);
-            string uri = "file:///" + Application.dataPath + "/0.AssetBundles/" + assetBundleName;
+            //string uri = "file:///" + Application.dataPath + "/0.AssetBundles/" + assetBundleName;
+            string uri = "file:///" + assetBundleDirectory + assetBundleName;
 
             UnityWebRequest request = UnityWebRequest.GetAssetBundle(uri);
             yield return request.Send();
@@ -141,29 +143,26 @@ namespace RedTheSettlers.GameSystem
                 LogManager.Instance.UserDebug(LogColor.Orange, "AssetBundleManager", "해당 폴더가 이미 존재합니다.");
             }
 
-            FileStream fs = new FileStream(assetBundleDirectory + assetBundleName, FileMode.Create); // Create는 있으면 덮어씀, CreateNew는 새로 생성;
-            fs.Write(request.downloadHandler.data, 0, (int)request.downloadedBytes);
-            fs.Close();
-
+            using (FileStream fs = new FileStream(assetBundleDirectory + assetBundleName, FileMode.Create)) // Create는 있으면 덮어씀, CreateNew는 새로 생성;
+            {
+                fs.Write(request.downloadHandler.data, 0, (int)request.downloadedBytes);
+                fs.Close();
+            }
             LogManager.Instance.UserDebug(LogColor.Orange, "AssetBundleManager", "다운로드 완료" + " " + request.downloadedBytes + "Bytes");
 
-
             string newManifest = string.Empty;
-            //string nowManifest = string.Empty; // DataManager에서 받아옴
-            string tempHash = "e8e649b24e98b76009451b3b64b5e42e";
 
-
-            fs = new FileStream(assetBundleDirectory + assetBundleName, FileMode.Open);
-            StreamReader sr = new StreamReader(fs);
-
-
-            for (int i = 0; i < HashCodeLine; i++)
+            using (FileStream fs = new FileStream(assetBundleDirectory + assetBundleName, FileMode.Open))
             {
-                newManifest = sr.ReadLine();
-                Debug.Log(i + ": " + newManifest);
-            }
-            sr.Close(); fs.Close();
+                StreamReader sr = new StreamReader(fs);
 
+                for (int i = 0; i < hashCodeLine; i++)
+                {
+                    newManifest = sr.ReadLine();
+                    Debug.Log(i + ": " + newManifest);
+                }
+                sr.Close(); fs.Close();
+            }
             string[] split = newManifest.Split(' ');
             newManifest = split[split.Length - 1];
             Debug.Log(newManifest);

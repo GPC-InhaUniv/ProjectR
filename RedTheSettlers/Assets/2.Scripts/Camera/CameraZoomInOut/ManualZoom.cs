@@ -12,12 +12,11 @@ namespace RedTheSettlers.GameSystem
         bool isZoom;
         float zoomIn = 30f;
 
-        private void Awake()
+        public ManualZoom(Camera camera)
         {
-            camera = gameObject.GetComponent<Camera>();
-            cameraFOV = camera.fieldOfView;
+            this.camera = camera;
         }
-        public override void ZoomInOut()
+        public override void ZoomInOut(float value)
         {
             Debug.Log(isZoom);
             if (!isZoom)
@@ -34,35 +33,35 @@ namespace RedTheSettlers.GameSystem
             }
 
         }
-        private float ZoomIn(float zoomIn)
+        private void ZoomIn(float zoomIn)
         {
-            while (true)
-            {
-                if (camera.fieldOfView <= zoomIn)
-                {
-                    camera.fieldOfView = Mathf.Lerp(camera.fieldOfView, zoomIn, Time.deltaTime * zoomSpeed);
-                }
-                else
-                {
-                    break;
-                }
-            }
-            //yield return new WaitForSeconds(1f);//WaitForEndOfFrame();
-            return camera.fieldOfView;
+            //while (true)
+            //{
+            //    if (camera.fieldOfView <= zoomIn)
+            //    {
+            //        camera.fieldOfView = Mathf.Lerp(camera.fieldOfView, zoomIn, Time.deltaTime * zoomSpeed);
+            //    }
+            //    else
+            //    {
+            //        break;
+            //    }
+            //}
+            ////yield return new WaitForSeconds(1f);//WaitForEndOfFrame();
+            //return camera.fieldOfView;
         }
-        private IEnumerator ZoomOut(float cameraFOV)
-        {
-            while (true)
-            {
-                if (camera.fieldOfView >= cameraFOV)
-                {
-                    camera.fieldOfView = Mathf.Lerp(camera.fieldOfView, cameraFOV, Time.deltaTime * zoomSpeed);
-                    yield return new WaitForSeconds(0.5f);
-                }
-                else break;
+        //private IEnumerator ZoomOut(float cameraFOV)
+        //{
+        //    while (true)
+        //    {
+        //        if (camera.fieldOfView >= cameraFOV)
+        //        {
+        //            camera.fieldOfView = Mathf.Lerp(camera.fieldOfView, cameraFOV, Time.deltaTime * zoomSpeed);
+        //            yield return new WaitForSeconds(0.5f);
+        //        }
+        //        else break;
 
-            }
-            yield return new WaitForSeconds(1f);
-        }
+        //    }
+        //    yield return new WaitForSeconds(1f);
+        //}
     }
 }
