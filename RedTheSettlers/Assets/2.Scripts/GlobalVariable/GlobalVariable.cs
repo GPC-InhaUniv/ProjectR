@@ -48,6 +48,7 @@ namespace RedTheSettlers.GameSystem
         Boss,
         Tile, // unload(false)
         UI,
+        Count,
     }
 
     static class GlobalVariables

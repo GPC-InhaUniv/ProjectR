@@ -32,16 +32,16 @@ namespace RedTheSettlers.GameSystem
         /// 정해진 웹주소에서 에셋번들을 다운 받는다. 
         /// 실사용시에는 매개변수에 AssetBundleNumbers를 받아 구분한다.
         /// </summary>
-        public void DownLoadAssetBundle()
+        public void DownLoadAssetBundle(AssetBundleNumbers bundleNumber)
         {
-
+            SaveAssetBundleOnDisk(AssetBundleNumbers.Player);
         }
 
         /// <summary>
         /// 로컬 드라이브에서 에셋번들을 불러온다.
         /// 실사용시에는 매개변수에 AssetBundleNumbers를 받아 구분한다.
         /// </summary>
-        public void LocalLoadAssetBundle()
+        public void LocalLoadAssetBundle(AssetBundleNumbers bundleNumber)
         {
 
         }
@@ -56,7 +56,7 @@ namespace RedTheSettlers.GameSystem
             }
             return bundleName;
         }
-
+            
         private string GetManifestPath(AssetBundleNumbers key)
         {
             string bundleName = string.Empty;
@@ -68,15 +68,15 @@ namespace RedTheSettlers.GameSystem
             return bundleName;
         }
 
-        private string GetAssetBundleName(AssetBundleNumbers number)
+        private string GetAssetBundleName(AssetBundleNumbers bundleNumber)
         {
-            return number.ToString();
+            return bundleNumber.ToString();
         }
 
-        private IEnumerator SaveAssetBundleOnDisk(AssetBundleNumbers number)
+        private IEnumerator SaveAssetBundleOnDisk(AssetBundleNumbers bundleNumber)
         {
-            string assetBundleName = GetAssetBundleName(number);
-            string uri = GetAssetBundlePath(number);
+            string assetBundleName = GetAssetBundleName(bundleNumber);
+            string uri = GetAssetBundlePath(bundleNumber);
 
             UnityWebRequest request = UnityWebRequest.Get(uri);
             yield return request.Send();
@@ -98,25 +98,33 @@ namespace RedTheSettlers.GameSystem
             LogManager.Instance.UserDebug(LogColor.Orange, "AssetBundleManager", "다운로드 완료" + " " + request.downloadedBytes + "Bytes");
         }
 
-        private IEnumerator LoadAssetBundleFromLocalDisk(AssetBundleNumbers number)
+        private IEnumerator LoadAssetBundleFromLocalDisk(AssetBundleNumbers bundleNumber)
         {
-            string assetBundleName = GetAssetBundleName(number);
+            string assetBundleName = GetAssetBundleName(bundleNumber);
             string uri = "file:///" + Application.dataPath + "/0.AssetBundles/" + assetBundleName;
 
             UnityWebRequest request = UnityWebRequest.GetAssetBundle(uri);
             yield return request.Send();
 
             AssetBundle bundle = DownloadHandlerAssetBundle.GetContent(request);
-            AddBundles(number, bundle);
+            AddBundles(bundleNumber, bundle);
         }
 
         /// <summary>
-        /// 현재 에셋번들이 최신버전인지 체크한다. 
+        /// 현재 에셋번들들이 최신버전인지 체크한다. 최신 버전이 아니면 다운받는다. 
         /// </summary>
-        public IEnumerator CheckAssetBundleVersion(AssetBundleNumbers number)
+        public void CheckAssetBundleVersions()
         {
-            string assetBundleName = GetAssetBundleName(number) + ".manifest";
-            string uri = GetManifestPath(number);
+            for (int i = 0; i < (int)AssetBundleNumbers.Count; i++)
+            {
+                CheckAssetBundleVersion((AssetBundleNumbers)i);
+            }
+        }
+
+        private IEnumerator CheckAssetBundleVersion(AssetBundleNumbers bundleNumbers)
+        {
+            string assetBundleName = GetAssetBundleName(bundleNumbers) + ".manifest";
+            string uri = GetManifestPath(bundleNumbers);
 
             Debug.Log(uri);
 
@@ -139,7 +147,6 @@ namespace RedTheSettlers.GameSystem
 
             LogManager.Instance.UserDebug(LogColor.Orange, "AssetBundleManager", "다운로드 완료" + " " + request.downloadedBytes + "Bytes");
 
-            /////////////////////////////////////////////////////////////
 
             string newManifest = string.Empty;
             //string nowManifest = string.Empty; // DataManager에서 받아옴
@@ -161,8 +168,12 @@ namespace RedTheSettlers.GameSystem
             newManifest = split[split.Length - 1];
             Debug.Log(newManifest);
 
-            if (newManifest.CompareTo(tempHash) == 0) Debug.Log("같은 파일");
-            else Debug.Log("다른 파일. 에셋번들 다운로드");
+            if (DataManager.Instance.CheckedBundleVersion(bundleNumbers, newManifest)) Debug.Log("같은 파일");
+            else
+            {
+                DownLoadAssetBundle(bundleNumbers);
+                Debug.Log("다른 파일. 에셋번들 다운로드");
+            }
         }
     }
 }
