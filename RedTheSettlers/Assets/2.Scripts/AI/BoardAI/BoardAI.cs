@@ -4,7 +4,7 @@ using UnityEngine;
 using RedTheSettlers.Tiles;
 using RedTheSettlers.GameSystem;
 
-namespace RedTheSettlers.AI
+namespace RedTheSettlers.Users
 {
     public class BoardAI : MonoBehaviour
     {

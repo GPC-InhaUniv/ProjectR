@@ -3,11 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HardStrategy : IAIStrategy{
-
-    public BoardTile CalculateTileWeight(BoardTile boardTile, Dictionary<TileType, int> resource)
+namespace RedTheSettlers.Users
+{
+    public class HardStrategy : IAIStrategy
     {
-        throw new System.NotImplementedException();
+
+        public BoardTile CalculateTileWeight(BoardTile boardTile, Dictionary<TileType, int> resource)
+        {
+            throw new System.NotImplementedException();
+        }
+
     }
-    
 }

@@ -1,16 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using RedTheSettlers.Tiles;
+using RedTheSettlers.GameSystem;
+using RedTheSettlers.UnitTest;
 
-public class User : MonoBehaviour {
+namespace RedTheSettlers.Users
+{
+    public abstract class User : MonoBehaviour
+    {
+        protected Tile tileSteppingOn;
+        protected List<Tile> PossessingTile;
+        protected Dictionary<ItemType, int> inventory;
+        protected IMediatable mediatable;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+        protected abstract void RegisterPlayer(User player);
+        protected abstract void ReceiveTrade(User requestPlayer, TradeData tradeData);
+        protected abstract void RequestAgain(User respondPlayer, TradeData tradeData);
+    }
 }
