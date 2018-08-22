@@ -6,8 +6,8 @@ namespace RedTheSettlers.GameSystem
 {
     public class AssetBundleSettings : MonoBehaviour
     {
-        public const int HashCodeLine = 6; //6번째 ReadLine에 Manifest의 Hash코드 라인을 읽게 된다.
-        public const string assetBundleDirectory = "Bundle";
+        public const int HASHCODELINE = 6; //6번째 ReadLine에 Manifest의 Hash코드 라인을 읽게 된다.
+        public const string ASSETBUNDLEDIRECTORY = "Bundle";
 
         private void Start()
         {
