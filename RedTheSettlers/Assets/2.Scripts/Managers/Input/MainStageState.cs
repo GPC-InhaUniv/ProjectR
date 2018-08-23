@@ -20,7 +20,7 @@ public class MainStageState : IInputState
     private const int reversValue = -1;
     private const int touchMaxCount = 2;
 
-    public void TouchOrClickButton(InputButtonType inputButtonType)
+    /*public void TouchOrClickButton(InputButtonType inputButtonType)
     {
         switch (inputButtonType)
         {
@@ -37,7 +37,7 @@ public class MainStageState : IInputState
             case InputButtonType.EquipAndSkill:
                 break;
         }
-    }
+    }*/
     public void OnStartDrag()
     {
         firstClick = Input.mousePosition;
@@ -52,27 +52,8 @@ public class MainStageState : IInputState
     {
         dragPosition = Vector3.zero;
         firstClick = Vector3.zero;
-        dragDirection = (dragPosition - firstClick).normalized;
+        dragDirection = Vector3.zero;
     }
-    /*public override void DragMove(float speed)
-    {
-        if (Input.GetMouseButtonDown(0))
-        {
-            firstClick = Input.mousePosition;
-        }
-        else if (Input.GetMouseButton(0))
-        {
-            dragPosition = Input.mousePosition;
-            dragDirection = (((dragPosition - firstClick).normalized * speed) * reversValue) * Time.deltaTime;
-            TemporaryGameManager.Instance.CameraMove(dragDirection);
-        }
-        else if (!Input.GetMouseButton(0))
-        {
-            dragPosition = Vector3.zero;
-            firstClick = Vector3.zero;
-            dragDirection = (dragPosition - firstClick).normalized;
-        }
-    }*/
     public void ZoomInOut(float speed)
     {
 #if UNITY_STANDALONE_WIN
@@ -88,13 +69,21 @@ public class MainStageState : IInputState
         }
 #endif
 #if UNITY_ANDROID
-            
-#endif
         if (Input.touchCount == touchMaxCount)
         {
-            touchDistance = Vector2.Distance(Input.touches[0].position, Input.touches[1].position);
-            firstDistance = touchDistance;
+            Touch firstTouchPoint = Input.GetTouch(0);
+            Touch secondTouchPoint = Input.GetTouch(1);
+
+            Vector2 firstTouchPrevPoint = firstTouchPoint.position - firstTouchPoint.deltaPosition;
+            Vector2 secondTouchPrevPoint = secondTouchPoint.position - secondTouchPoint.deltaPosition;
+
+            float prevTouchDeltaPoint = (firstTouchPrevPoint - secondTouchPrevPoint).magnitude;
+            float currentTouchDeltaPoint = (firstTouchPoint.position - secondTouchPoint.position).magnitude;
+
+            float deltaMagnitude = prevTouchDeltaPoint - currentTouchDeltaPoint;
+            TemporaryGameManager.Instance.CameraZoom(deltaMagnitude);
         }
+#endif
     }
     public void TileInfo()
     {
@@ -108,6 +97,7 @@ public class MainStageState : IInputState
                 if (hitPoint.collider.tag == "Tile")
                 {
                     tileInformation = hitPoint.collider.gameObject.GetComponent<BoardTile>();
+                    LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, "타일 정보 : " + tileInformation);
                     TemporaryGameManager.Instance.TileInfo(tileInformation);
                 }
             }

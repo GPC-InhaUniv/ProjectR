@@ -7,6 +7,7 @@ public class TemporaryGameManager : Singleton<TemporaryGameManager>
     //private Transform transformCamera;
     private Camera camera;
     private TemporaryCameraController tempCameraController;
+    private CameraController cameraCtrl;
     //private new Transform Player;
     private new Rigidbody Player;
     //public Vector3 moveDirection;
@@ -16,6 +17,7 @@ public class TemporaryGameManager : Singleton<TemporaryGameManager>
         //transformCamera = GameObject.FindWithTag("MainCamera").GetComponent<Transform>();
         //camera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
         tempCameraController = GameObject.FindObjectOfType<TemporaryCameraController>();
+        cameraCtrl = GameObject.FindObjectOfType<CameraController>();
         //Player = GameObject.FindWithTag("Player").GetComponent<Transform>();
         //Player = GameObject.FindWithTag("Player").GetComponent<Rigidbody>();
         DontDestroyOnLoad(gameObject);
@@ -35,6 +37,7 @@ public class TemporaryGameManager : Singleton<TemporaryGameManager>
         //transformCamera.transform.Translate(new Vector3(direction.x,0,direction.y),Space.World);
         //camera.transform.Translate(new Vector3(direction.x, 0, direction.y), Space.World);
         tempCameraController.CameraMove(direction);
+        cameraCtrl.CameraMoving(direction);
         //LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, "이동 좌표 : " + direction);
     }
 

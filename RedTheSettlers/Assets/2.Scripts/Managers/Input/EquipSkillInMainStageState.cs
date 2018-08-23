@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using RedTheSettlers.GameSystem;
+﻿using RedTheSettlers.GameSystem;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -98,11 +96,6 @@ public class EquipSkillInMainStageState : MonoBehaviour,IInputState
     }
 
     public void OnOutPointer()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public void TouchOrClickButton(InputButtonType inputButtonType)
     {
         throw new System.NotImplementedException();
     }

@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine.EventSystems;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
 
 /// <summary>
 /// 담당자 : 박상원
@@ -22,7 +18,7 @@ namespace RedTheSettlers.GameSystem
         WeatherInMainStageState,
     }
     // 추후 버튼 명칭 확정 후 그에 맞춰 수정
-    public enum InputButtonType
+    /*public enum InputButtonType
     {
         PressToStart,
         SignUp,
@@ -41,7 +37,7 @@ namespace RedTheSettlers.GameSystem
         Item1,
         Item2,
         Pause,
-    }
+    }*/
 
     public class InputManager : Singleton<InputManager>
     {
@@ -88,10 +84,10 @@ namespace RedTheSettlers.GameSystem
             }
         }
 
-        public void InputButton(InputButtonType inputButtonType)
+        /*public void InputButton(InputButtonType inputButtonType)
         {
             inputState.TouchOrClickButton(inputButtonType);
-        }
+        }*/
 
         public void CameraZoomInOut()
         {
@@ -104,16 +100,6 @@ namespace RedTheSettlers.GameSystem
 #if UNITY_ANDROID
             LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, "테스트");
 #endif
-        }
-
-        public void OnPointerEnter()
-        {
-            inputState.OnInPointer();
-        }
-
-        public void OnPointerExit()
-        {
-            inputState.OnOutPointer();
         }
 
         public void OnBeginDrag()

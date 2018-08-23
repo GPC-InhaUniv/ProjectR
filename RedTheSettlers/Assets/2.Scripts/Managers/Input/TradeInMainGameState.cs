@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
+﻿using UnityEngine;
 using RedTheSettlers.GameSystem;
 
 /// <summary>
@@ -104,11 +100,6 @@ public class TradeInMainStageState : MonoBehaviour,IInputState
     }
 
     public void OnOutPointer()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public void TouchOrClickButton(InputButtonType inputButtonType)
     {
         throw new System.NotImplementedException();
     }

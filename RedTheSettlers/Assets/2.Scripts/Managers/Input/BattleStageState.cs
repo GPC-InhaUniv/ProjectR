@@ -1,6 +1,6 @@
 ﻿using RedTheSettlers.GameSystem;
+using UnityEngine.EventSystems;
 using UnityEngine;
-using UnityEngine.UI;
 
 /// <summary>
 /// 담당자 : 박상원
@@ -10,13 +10,20 @@ using UnityEngine.UI;
 public class BattleStageState : MonoBehaviour,IInputState
 {
     private Vector3 skillDirection;
+    private Vector3 dragDirection;
     private Vector2 startDragPosition;
     private Vector2 currentDragPosition;
-    private Vector3 dragDirection;
+    private Touch firstTouch;
+    private Touch secondTouch;
+    private bool TouchMoveActive = false;
 
-    private void Start()
+    private void Update()
     {
-
+        if(TouchMoveActive)
+        {
+            //GameManager.Instance.PlayerBattle.MoveTo(direction);
+            TemporaryGameManager.Instance.PlayerMove(dragDirection);
+        }
     }
 
     public void DirectionKey(Vector3 direction)
@@ -28,13 +35,15 @@ public class BattleStageState : MonoBehaviour,IInputState
     public void OnStartDrag()
     {
         startDragPosition = Input.mousePosition;
+        TouchMoveActive = true;
     }
 
     public void OnDragging(float speed)
     {
+        firstTouch = Input.GetTouch(0);
+        secondTouch = Input.GetTouch(1);
         currentDragPosition = Input.mousePosition;
         dragDirection = (currentDragPosition - startDragPosition).normalized;
-        TemporaryGameManager.Instance.PlayerMove(dragDirection);
     }
 
     public void EndStopDrag()
@@ -42,6 +51,7 @@ public class BattleStageState : MonoBehaviour,IInputState
         startDragPosition = Vector3.zero;
         currentDragPosition = Vector3.zero;
         dragDirection = Vector3.zero;
+        TouchMoveActive = false;
     }
 
     public void BattleAttack()
@@ -81,11 +91,6 @@ public class BattleStageState : MonoBehaviour,IInputState
     }
 
     public void OnOutPointer()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public void TouchOrClickButton(InputButtonType inputButtonType)
     {
         throw new System.NotImplementedException();
     }

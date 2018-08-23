@@ -19,7 +19,7 @@ public interface IInputState
 
     //----------------------UI 터치 & 클릭----------------------
 
-    void TouchOrClickButton(InputButtonType inputButtonType);
+    //void TouchOrClickButton(InputButtonType inputButtonType);
 
     //----------------------PC 용 Battle Phase----------------------
 

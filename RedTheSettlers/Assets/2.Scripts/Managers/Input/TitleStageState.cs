@@ -66,11 +66,6 @@ namespace RedTheSettlers
             throw new System.NotImplementedException();
         }
 
-        public void TouchOrClickButton(InputButtonType inputButtonType)
-        {
-            throw new System.NotImplementedException();
-        }
-
         public void ZoomInOut(float speed)
         {
             throw new System.NotImplementedException();
