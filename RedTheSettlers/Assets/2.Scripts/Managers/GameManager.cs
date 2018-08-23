@@ -79,15 +79,29 @@ namespace RedTheSettlers.GameSystem
         }
 
         /// <summary>
-        /// 모든 타일을 검색해서 각 플레이어가 가진 타일을 자원별로 분류합니다.
+        /// 플레이어가 보유한 자원량의 합을 반환합니다.
         /// </summary>
-        /// <param name="playerNumber"></param>
-        public void SortItemList(UserType player, ItemType itemType)
+        /// <param name="userType"></param>
+        /// <returns></returns>
+        public int GetPlayerItemCountAll(UserType userType)
         {
-            //for (int i = 0; i < Players[(int)player].?; i++)
+            int countSum = 0;
+            for (int i = 0; i < GlobalVariables.MaxItemNumber; i++)
             {
-                
+                countSum += Players[(int)userType].inventory[i].Count;
             }
+            return countSum;
+        }
+
+        /// <summary>
+        /// 플레이어가 보유한 특정 자원의 개수를 반환합니다.
+        /// </summary>
+        /// <param name="userType"></param>
+        /// <param name="itemType"></param>
+        /// <returns></returns>
+        public int GetPlayerItemCount(UserType userType, ItemType itemType)
+        {
+            return Players[(int)userType].inventory[(int)itemType].Count;
         }
 
         /// <summary>
@@ -146,7 +160,4 @@ namespace RedTheSettlers.GameSystem
             
         }
     }
-
-    
-
 }
