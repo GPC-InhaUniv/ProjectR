@@ -14,7 +14,7 @@ namespace RedTheSettlers.UnitTest
     {
         GameData datas = DataManager.Instance.GameData;
 
-        public IEnumerator EventFlow()
+        public void EventFlow()
         {
             int turnCount = GetTurnCount();
 
@@ -27,6 +27,9 @@ namespace RedTheSettlers.UnitTest
                 int playerNumber = GetLowestPlayer();
                 if (playerNumber == 1)
                 {
+                    // 게임 매니저로 PickWeatherEvent를 넘기는 함수 동작
+                    //GameManager.Instance.(PickWeatherEvent());
+
                     // 유저의 날씨 선택
                     // UI 기다려야 하니 코루틴으로 동작
                     //yield return PlayerSelect();
@@ -38,7 +41,7 @@ namespace RedTheSettlers.UnitTest
                 //QualifyWeatherSelect(playerNumber);
             }
 
-            yield return new WaitForSeconds(3);
+            //yield return new WaitForSeconds(3);
         }
 
         public int GetTurnCount()
