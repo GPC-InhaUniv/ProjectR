@@ -23,13 +23,6 @@ namespace RedTheSettlers.Users
             //PossessTile(TileManager.Instance.TileGrid[4, 4].GetComponent<BoardTile>());
         }
         
-        public Dictionary<TileType, int> SendTradeData()
-        {
-            Dictionary<TileType, int> tradeData = new Dictionary<TileType, int>();
-
-            return tradeData;
-        }
-        
         public void FindOptimizedPath()
         {
             BoardTile targetTile = null;
