@@ -36,9 +36,7 @@ public class TemporaryGameManager : Singleton<TemporaryGameManager>
     {
         //transformCamera.transform.Translate(new Vector3(direction.x,0,direction.y),Space.World);
         //camera.transform.Translate(new Vector3(direction.x, 0, direction.y), Space.World);
-        tempCameraController.CameraMove(direction);
-        cameraCtrl.CameraMoving(direction);
-        //LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, "이동 좌표 : " + direction);
+        //cameraCtrl.CameraMoving(direction);
     }
 
     public void CameraZoom(float value)

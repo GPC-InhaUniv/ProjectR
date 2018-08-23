@@ -34,16 +34,16 @@ public class BattleStageState : MonoBehaviour,IInputState
 
     public void OnStartDrag()
     {
+        
         startDragPosition = Input.mousePosition;
         TouchMoveActive = true;
     }
 
     public void OnDragging(float speed)
     {
-        firstTouch = Input.GetTouch(0);
-        secondTouch = Input.GetTouch(1);
         currentDragPosition = Input.mousePosition;
         dragDirection = (currentDragPosition - startDragPosition).normalized;
+        
     }
 
     public void EndStopDrag()
