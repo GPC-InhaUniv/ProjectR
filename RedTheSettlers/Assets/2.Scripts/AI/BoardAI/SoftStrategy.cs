@@ -17,7 +17,7 @@ namespace RedTheSettlers.Users
 
             for (int i = 0; i < 6; i++)
             {
-                BoardTile comparerTile = TileManager.Instance.TileGrid[boardTile.coordinate.x + coordX[i], boardTile.coordinate.z + coordZ[i]].GetComponent<BoardTile>();
+                BoardTile comparerTile = TileManager.Instance.TileGrid[boardTile.TileCoordinate.x + coordX[i], boardTile.TileCoordinate.z + coordZ[i]].GetComponent<BoardTile>();
 
                 if (comparerTile.tileOwner != TileOwner.None)
                 {

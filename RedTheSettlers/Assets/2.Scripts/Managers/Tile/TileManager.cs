@@ -31,7 +31,7 @@ namespace RedTheSettlers.GameSystem
                         float zCoord = CalculateZcoord(z);
                         TileGrid[x, z] = ObjectPoolManager.Instance.TileSet[index].gameObject;
                         TileGrid[x, z].transform.position = new Vector3(xCoord, 0.05f, zCoord);
-                        TileGrid[x, z].GetComponent<BoardTile>().coordinate = new Coordinate(x, z);
+                        TileGrid[x, z].GetComponent<BoardTile>().TileCoordinate = new Coordinate(x, z);
                         index++;
                     }
                 }

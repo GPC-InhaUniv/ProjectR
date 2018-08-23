@@ -13,7 +13,7 @@ namespace RedTheSettlers.Tiles
         {
             int userResourceAmount;
 
-            userResourceAmount = itemData[(int)tileType].Count;
+            userResourceAmount = itemData[(int)TileType].Count;
 
             tileWeight = userResourceAmount;
         }
