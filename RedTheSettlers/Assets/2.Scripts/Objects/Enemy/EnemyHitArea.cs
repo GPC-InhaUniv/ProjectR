@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using RedTheSettlers.GameSystem;
 
 namespace RedTheSettlers.Enemys
 {
@@ -17,7 +18,7 @@ namespace RedTheSettlers.Enemys
             {
                 enemy.ChangeState(EnemyStateType.Damage);
             }
-            else if (other.tag == "Wall")
+            else if (other.CompareTag(GlobalVariables.TAG_WALL))
             {
                 enemy.rigidbodyComponent.velocity = Vector3.zero;
                 enemy.ChangeState(EnemyStateType.Idle);

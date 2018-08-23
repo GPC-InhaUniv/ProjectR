@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using RedTheSettlers.GameSystem;
+using RedTheSettlers.Users;
 
 namespace RedTheSettlers.Enemys
 {
@@ -13,8 +15,9 @@ namespace RedTheSettlers.Enemys
 
         private void OnTriggerEnter(Collider other)
         {
-            if (other.tag == "Player")
+            if (other.CompareTag(GlobalVariables.TAG_PLAYER))
             {
+                User player = GetComponent<User>();
                 //플레이어에게 타격을 준다.
             }
         }

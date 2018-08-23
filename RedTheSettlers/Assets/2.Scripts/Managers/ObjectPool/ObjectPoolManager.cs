@@ -64,8 +64,6 @@ namespace RedTheSettlers.GameSystem
             {
                 SkillQueue.Enqueue(SkillObject);
             }
-
-            
         }
     }
 }

@@ -34,7 +34,7 @@ namespace RedTheSettlers.GameSystem
         private Stack<GameTimer> TimerStack;
         [SerializeField]
         private GameTimer gameTimerPrefab;
-        const int timerAmount = 10;
+        const int timerAmount = 30;
 
         private void Awake()
         {
