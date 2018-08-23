@@ -9,12 +9,11 @@ namespace RedTheSettlers.Users
 {
     public abstract class User : MonoBehaviour
     {
-        protected Tile tileSteppingOn;
-        protected List<Tile> PossessingTile;
-        protected Dictionary<ItemType, int> inventory;
+        public Tile tileSteppingOn;
+        public List<Tile> PossessingTile;
+        public ItemData[] inventory;
         protected IMediatable mediatable;
 
-        protected abstract void TakeItem(TradeData tradeData);
-        protected abstract void GiveItem(TradeData tradeData);
+        protected abstract void ChangeItemCount(ItemData[] itemList);
     }
 }

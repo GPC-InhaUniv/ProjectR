@@ -13,6 +13,7 @@ namespace RedTheSettlers.Users
         private int WeaponLevel;
         private int ShieldLevel;
         private SkillData[] SkillData;
+        private User user;
 
         public void MoveToTargetTile(BoardTile targetTile)
         {
@@ -24,14 +25,12 @@ namespace RedTheSettlers.Users
             PossessingTile.Add(targetTile);
         }
 
-        protected override void GiveItem(TradeData tradeData)
+        protected override void ChangeItemCount(ItemData[] itemList)
         {
-            throw new System.NotImplementedException();
-        }
-
-        protected override void TakeItem(TradeData tradeData)
-        {
-            throw new System.NotImplementedException();
+            for (int i = 0; i < GlobalVariables.MaxItemNumber; i++)
+            {
+                inventory[i].Count += itemList[i].Count;
+            }
         }
     }
 }
