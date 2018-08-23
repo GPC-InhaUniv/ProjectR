@@ -37,6 +37,8 @@ namespace RedTheSettlers.Tiles
         public Coordinate coordinate;
         [HideInInspector]
         public GameObject[] TileBorder = new GameObject[6];
+        [HideInInspector]
+        public int TileLevel;
 
         private void Start()
         {
