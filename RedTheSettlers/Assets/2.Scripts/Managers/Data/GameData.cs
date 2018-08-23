@@ -31,6 +31,13 @@ namespace RedTheSettlers.GameSystem
     }
 
     [Serializable]
+    public struct TradeData
+    {
+        public ItemType Item;
+        public int ItemCount;
+    }
+
+    [Serializable]
     public struct ItemData
     {
         public ItemType ItemType;
@@ -51,16 +58,13 @@ namespace RedTheSettlers.GameSystem
     public class PlayerData
     {
         public StatData StatData;
-        public List<SkillData> SkillList;
-        public List<TileData> TileList;
-        public ItemData[] ItemList;
+        public List<SkillData> SkillList = new List<SkillData>();
+        public List<TileData> TileList = new List<TileData>();
+        public ItemData[] ItemList = new ItemData[6];
         public int BossKillCount;
         public PlayerData()
         {
-            SkillList = new List<SkillData>();
-            TileList = new List<TileData>();
-            ItemList = new ItemData[6];
-            for (int i = 0; i < 6; i++)
+            for (int i = 0; i < GlobalVariables.MaxItemNumber; i++)
             {
                 ItemList[i].ItemType = (ItemType)i;
             }

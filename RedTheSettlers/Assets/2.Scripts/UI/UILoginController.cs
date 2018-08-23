@@ -32,6 +32,8 @@ namespace RedTheSettlers
             private GameObject createResultObject;
             [SerializeField]
             private GameObject loginResultObject;
+            [SerializeField]
+            private GameObject ContinueGameObject;
 
             // Use this for initialization
             void Start()
@@ -50,6 +52,7 @@ namespace RedTheSettlers
             public void OnClickedLoginButton()
             {
                 DataManager.Instance.Login(playerID.text, playerPassword.text);
+
             }
 
             public void ChangeLoginAlertText(string Text)
@@ -58,6 +61,10 @@ namespace RedTheSettlers
                 {
                     loginResultObject.SetActive(true);
                     loginAlertText.text = "";
+                    if (DataManager.Instance.GameData.InGameData.TurnCount != 0)
+                    {
+                        ContinueGameObject.SetActive(true);
+                    }
                 }
                 else
                     loginAlertText.text = Text;
