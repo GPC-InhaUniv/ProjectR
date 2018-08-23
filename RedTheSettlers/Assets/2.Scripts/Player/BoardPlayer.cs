@@ -24,7 +24,7 @@ namespace RedTheSettlers.Users
             PossessingTile.Add(targetTile);
         }
 
-        protected override void ChangeItemCount(ItemData[] itemList)
+        public override void ChangeItemCount(ItemData[] itemList)
         {
             for (int i = 0; i < GlobalVariables.MaxItemNumber; i++)
             {
