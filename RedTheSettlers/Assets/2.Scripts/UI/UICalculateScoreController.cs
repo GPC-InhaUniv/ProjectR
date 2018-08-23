@@ -83,7 +83,7 @@ namespace RedTheSettlers.UI
         [SerializeField]
         private Text fourthPlayerCardsWeight, fourthPlayerEquipmentWeight, fourthPlayerTendAndMonsterWeight;
 
-        int[] playerTotalScore = new int[GlobalVariables.maxPlayerNumber] { 0, 0, 0, 0 };
+        int[] playerTotalScore = new int[GlobalVariables.MaxPlayerNumber] { 0, 0, 0, 0 };
 
         private GameData gameData;
 
@@ -108,35 +108,35 @@ namespace RedTheSettlers.UI
             gameData = new GameData(4);
 
             //>>Resource<<
-            gameData.PlayerData[0].ItemData.CowNumber = 1;
-            gameData.PlayerData[1].ItemData.CowNumber = 2;
-            gameData.PlayerData[2].ItemData.CowNumber = 3;
-            gameData.PlayerData[3].ItemData.CowNumber = 4;
+            gameData.PlayerData[0].ItemList[(int)ItemType.Cow].Count = 1;
+            gameData.PlayerData[1].ItemList[(int)ItemType.Cow].Count = 2;
+            gameData.PlayerData[2].ItemList[(int)ItemType.Cow].Count = 3;
+            gameData.PlayerData[3].ItemList[(int)ItemType.Cow].Count = 4;
 
-            gameData.PlayerData[0].ItemData.WaterNumber = 5;
-            gameData.PlayerData[1].ItemData.WaterNumber = 15;
-            gameData.PlayerData[2].ItemData.WaterNumber = 20;
-            gameData.PlayerData[3].ItemData.WaterNumber = 25;
+            gameData.PlayerData[0].ItemList[(int)ItemType.Water].Count = 5;
+            gameData.PlayerData[1].ItemList[(int)ItemType.Water].Count = 15;
+            gameData.PlayerData[2].ItemList[(int)ItemType.Water].Count = 20;
+            gameData.PlayerData[3].ItemList[(int)ItemType.Water].Count = 25;
 
-            gameData.PlayerData[0].ItemData.WheatNumber = 5;
-            gameData.PlayerData[1].ItemData.WheatNumber = 6;
-            gameData.PlayerData[2].ItemData.WheatNumber = 7;
-            gameData.PlayerData[3].ItemData.WheatNumber = 8;
+            gameData.PlayerData[0].ItemList[(int)ItemType.Wheat].Count = 5;
+            gameData.PlayerData[1].ItemList[(int)ItemType.Wheat].Count = 6;
+            gameData.PlayerData[2].ItemList[(int)ItemType.Wheat].Count = 7;
+            gameData.PlayerData[3].ItemList[(int)ItemType.Wheat].Count = 8;
 
-            gameData.PlayerData[0].ItemData.WoodNumber = 2;
-            gameData.PlayerData[1].ItemData.WoodNumber = 4;
-            gameData.PlayerData[2].ItemData.WoodNumber = 6;
-            gameData.PlayerData[3].ItemData.WoodNumber = 8;
+            gameData.PlayerData[0].ItemList[(int)ItemType.Wood].Count = 2;
+            gameData.PlayerData[1].ItemList[(int)ItemType.Wood].Count = 4;
+            gameData.PlayerData[2].ItemList[(int)ItemType.Wood].Count = 6;
+            gameData.PlayerData[3].ItemList[(int)ItemType.Wood].Count = 8;
 
-            gameData.PlayerData[0].ItemData.IronNumber = 4;
-            gameData.PlayerData[1].ItemData.IronNumber = 8;
-            gameData.PlayerData[2].ItemData.IronNumber = 12;
-            gameData.PlayerData[3].ItemData.IronNumber = 16;
+            gameData.PlayerData[0].ItemList[(int)ItemType.Iron].Count = 4;
+            gameData.PlayerData[1].ItemList[(int)ItemType.Iron].Count = 8;
+            gameData.PlayerData[2].ItemList[(int)ItemType.Iron].Count = 12;
+            gameData.PlayerData[3].ItemList[(int)ItemType.Iron].Count = 16;
 
-            gameData.PlayerData[0].ItemData.SoilNumber = 3;
-            gameData.PlayerData[1].ItemData.SoilNumber = 6;
-            gameData.PlayerData[2].ItemData.SoilNumber = 9;
-            gameData.PlayerData[3].ItemData.SoilNumber = 12;
+            gameData.PlayerData[0].ItemList[(int)ItemType.Soil].Count = 3;
+            gameData.PlayerData[1].ItemList[(int)ItemType.Soil].Count = 6;
+            gameData.PlayerData[2].ItemList[(int)ItemType.Soil].Count = 9;
+            gameData.PlayerData[3].ItemList[(int)ItemType.Soil].Count = 12;
             //<<
 
             //>>Equipement
@@ -208,10 +208,10 @@ namespace RedTheSettlers.UI
 
         private void CalculateTotalScore()
         {
-            for (int i = 0; i < GlobalVariables.maxPlayerNumber; i++)
+            for (int i = 0; i < GlobalVariables.MaxPlayerNumber; i++)
             {
-                playerTotalScore[i] = (gameData.PlayerData[i].ItemData.SumOfItem * tempCardWeightScore)
-                + ((gameData.PlayerData[i].StatData.WeaponLevel + gameData.PlayerData[i].StatData.ShieldLevel) * tempEquipmentWeightScore) +
+                playerTotalScore[i] = /*(gameData.PlayerData[i].ItemData.SumOfItem * tempCardWeightScore)*/
+                /*+ */((gameData.PlayerData[i].StatData.WeaponLevel + gameData.PlayerData[i].StatData.ShieldLevel) * tempEquipmentWeightScore) +
                 ((gameData.PlayerData[i].TileList.Count + gameData.PlayerData[i].BossKillCount) * tempTendAndMonsterWeightScore);
                 Debug.Log(playerTotalScore[i]);
             }
@@ -226,7 +226,7 @@ namespace RedTheSettlers.UI
 
         IEnumerator ChangeScores()
         {
-            for (int i = 0; i < GlobalVariables.maxPlayerNumber; i++)
+            for (int i = 0; i < GlobalVariables.MaxPlayerNumber; i++)
             {
                 tempscore = 0;
                 for (int j = 0; j <= GetMaxItemNumber(i); j++)
@@ -237,7 +237,7 @@ namespace RedTheSettlers.UI
                 }
 
                 tempscore = 0;
-                for (int j = 0; j <= GlobalVariables.maxEquipmentUpgradeLevel; j++)
+                for (int j = 0; j <= GlobalVariables.MaxEquipmentUpgradeLevel; j++)
                 {
                     ShowEquipmentScore(i);
                     tempscore++;
@@ -342,12 +342,12 @@ namespace RedTheSettlers.UI
         public int GetMaxItemNumber(int playerNumber)
         {
             itemList = new int[6];
-            itemList[0] = gameData.PlayerData[playerNumber].ItemData.CowNumber;
-            itemList[1] = gameData.PlayerData[playerNumber].ItemData.IronNumber;
-            itemList[2] = gameData.PlayerData[playerNumber].ItemData.SoilNumber;
-            itemList[3] = gameData.PlayerData[playerNumber].ItemData.WaterNumber;
-            itemList[4] = gameData.PlayerData[playerNumber].ItemData.WheatNumber;
-            itemList[5] = gameData.PlayerData[playerNumber].ItemData.WoodNumber;
+            itemList[0] = gameData.PlayerData[playerNumber].ItemList[(int)ItemType.Cow].Count;
+            itemList[1] = gameData.PlayerData[playerNumber].ItemList[(int)ItemType.Iron].Count;
+            itemList[2] = gameData.PlayerData[playerNumber].ItemList[(int)ItemType.Soil].Count;
+            itemList[3] = gameData.PlayerData[playerNumber].ItemList[(int)ItemType.Water].Count;
+            itemList[4] = gameData.PlayerData[playerNumber].ItemList[(int)ItemType.Wheat].Count;
+            itemList[5] = gameData.PlayerData[playerNumber].ItemList[(int)ItemType.Wood].Count;
             Array.Sort(itemList);
             return itemList[5];
 
@@ -359,22 +359,22 @@ namespace RedTheSettlers.UI
             switch (tileType)
             {
                 case ItemsEnum.cowNumber:
-                    data = gameData.PlayerData[playerNumber].ItemData.CowNumber;
+                    data = gameData.PlayerData[playerNumber].ItemList[(int)ItemType.Cow].Count;
                     break;
                 case ItemsEnum.IronNumber:
-                    data = gameData.PlayerData[playerNumber].ItemData.IronNumber;
+                    data = gameData.PlayerData[playerNumber].ItemList[(int)ItemType.Iron].Count;
                     break;
                 case ItemsEnum.SoilNunber:
-                    data = gameData.PlayerData[playerNumber].ItemData.SoilNumber;
+                    data = gameData.PlayerData[playerNumber].ItemList[(int)ItemType.Soil].Count;
                     break;
                 case ItemsEnum.WaterNumber:
-                    data = gameData.PlayerData[playerNumber].ItemData.WaterNumber;
+                    data = gameData.PlayerData[playerNumber].ItemList[(int)ItemType.Water].Count;
                     break;
                 case ItemsEnum.WheatNumber:
-                    data = gameData.PlayerData[playerNumber].ItemData.WheatNumber;
+                    data = gameData.PlayerData[playerNumber].ItemList[(int)ItemType.Wheat].Count;
                     break;
                 case ItemsEnum.WoodNumber:
-                    data = gameData.PlayerData[playerNumber].ItemData.WoodNumber;
+                    data = gameData.PlayerData[playerNumber].ItemList[(int)ItemType.Wood].Count;
                     break;
                 case ItemsEnum.WeaponLevel:
                     data = gameData.PlayerData[playerNumber].StatData.WeaponLevel;

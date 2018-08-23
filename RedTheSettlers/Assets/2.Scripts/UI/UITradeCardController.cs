@@ -7,42 +7,42 @@ using UnityEngine.EventSystems;
 
 namespace RedTheSettlers.UI
 {
-    public class UITradeCardScript : MonoBehaviour
+    public class UITradeCardController : MonoBehaviour
     {
-        public GameData gameData;
+        private GameData gameData;
 
         void TESTLoadData(GameData data)
         {
             //>>Resource<<
-            data.PlayerData[0].ItemData.CowNumber = 1;
-            data.PlayerData[1].ItemData.CowNumber = 2;
-            data.PlayerData[2].ItemData.CowNumber = 3;
-            data.PlayerData[3].ItemData.CowNumber = 4;
+            gameData.PlayerData[0].ItemList[(int)ItemType.Cow].Count = 1;
+            gameData.PlayerData[1].ItemList[(int)ItemType.Cow].Count = 2;
+            gameData.PlayerData[2].ItemList[(int)ItemType.Cow].Count = 3;
+            gameData.PlayerData[3].ItemList[(int)ItemType.Cow].Count = 4;
 
-            data.PlayerData[0].ItemData.WaterNumber = 5;
-            data.PlayerData[1].ItemData.WaterNumber = 15;
-            data.PlayerData[2].ItemData.WaterNumber = 20;
-            data.PlayerData[3].ItemData.WaterNumber = 25;
+            gameData.PlayerData[0].ItemList[(int)ItemType.Water].Count = 5;
+            gameData.PlayerData[1].ItemList[(int)ItemType.Water].Count = 15;
+            gameData.PlayerData[2].ItemList[(int)ItemType.Water].Count = 20;
+            gameData.PlayerData[3].ItemList[(int)ItemType.Water].Count = 25;
 
-            data.PlayerData[0].ItemData.WheatNumber = 5;
-            data.PlayerData[1].ItemData.WheatNumber = 6;
-            data.PlayerData[2].ItemData.WheatNumber = 7;
-            data.PlayerData[3].ItemData.WheatNumber = 8;
+            gameData.PlayerData[0].ItemList[(int)ItemType.Wheat].Count = 5;
+            gameData.PlayerData[1].ItemList[(int)ItemType.Wheat].Count = 6;
+            gameData.PlayerData[2].ItemList[(int)ItemType.Wheat].Count = 7;
+            gameData.PlayerData[3].ItemList[(int)ItemType.Wheat].Count = 8;
 
-            data.PlayerData[0].ItemData.WoodNumber = 2;
-            data.PlayerData[1].ItemData.WoodNumber = 4;
-            data.PlayerData[2].ItemData.WoodNumber = 6;
-            data.PlayerData[3].ItemData.WoodNumber = 8;
+            gameData.PlayerData[0].ItemList[(int)ItemType.Wood].Count = 2;
+            gameData.PlayerData[1].ItemList[(int)ItemType.Wood].Count = 4;
+            gameData.PlayerData[2].ItemList[(int)ItemType.Wood].Count = 6;
+            gameData.PlayerData[3].ItemList[(int)ItemType.Wood].Count = 8;
 
-            data.PlayerData[0].ItemData.IronNumber = 4;
-            data.PlayerData[1].ItemData.IronNumber = 8;
-            data.PlayerData[2].ItemData.IronNumber = 12;
-            data.PlayerData[3].ItemData.IronNumber = 16;
+            gameData.PlayerData[0].ItemList[(int)ItemType.Iron].Count = 4;
+            gameData.PlayerData[1].ItemList[(int)ItemType.Iron].Count = 8;
+            gameData.PlayerData[2].ItemList[(int)ItemType.Iron].Count = 12;
+            gameData.PlayerData[3].ItemList[(int)ItemType.Iron].Count = 16;
 
-            data.PlayerData[0].ItemData.SoilNumber = 3;
-            data.PlayerData[1].ItemData.SoilNumber = 6;
-            data.PlayerData[2].ItemData.SoilNumber = 9;
-            data.PlayerData[3].ItemData.SoilNumber = 12;
+            gameData.PlayerData[0].ItemList[(int)ItemType.Soil].Count = 3;
+            gameData.PlayerData[1].ItemList[(int)ItemType.Soil].Count = 6;
+            gameData.PlayerData[2].ItemList[(int)ItemType.Soil].Count = 9;
+            gameData.PlayerData[3].ItemList[(int)ItemType.Soil].Count = 12;
             //<<
 
             //>>Equipement
@@ -110,8 +110,6 @@ namespace RedTheSettlers.UI
         private int[] tempTakeValue = new int[6]
         {0,0,0,0,0,0};  //순서대로 Cow,Iron,Soil,Water,Wheat,Wood
 
-
-
         [SerializeField]
         private Slider takeItemSlider, giveItemSlider;
 
@@ -129,22 +127,6 @@ namespace RedTheSettlers.UI
         }
         [SerializeField]
         AnotherPlayerState anotherPlayerstate;
-
-        private void Start()
-        {
-
-        }
-
-        struct TradeItemValue//임시 값.
-        {
-            public int TradeCow;
-            public int TradeIron;
-            public int TradeSoil;
-            public int TradeWater;
-            public int TradeWheat;
-            public int TradeWood;
-        }
-        TradeItemValue tradeItemValue;
 
         [SerializeField]
         private Text secondPlayer, thirdPlayer, fourthPlayer;
@@ -182,24 +164,24 @@ namespace RedTheSettlers.UI
             float data = 0;
             switch (Number)
             {
-                case 0:
-                    data = gameData.PlayerData[0].ItemData.CowNumber;
-                    break;
-                case 1:
-                    data = gameData.PlayerData[0].ItemData.IronNumber;
-                    break;
-                case 2:
-                    data = gameData.PlayerData[0].ItemData.SoilNumber;
-                    break;
-                case 3:
-                    data = gameData.PlayerData[0].ItemData.WaterNumber;
-                    break;
-                case 4:
-                    data = gameData.PlayerData[0].ItemData.WheatNumber;
-                    break;
-                case 5:
-                    data = gameData.PlayerData[0].ItemData.WoodNumber;
-                    break;
+                //case 0:
+                //    data = gameData.PlayerData[0].ItemData.CowNumber;
+                //    break;
+                //case 1:
+                //    data = gameData.PlayerData[0].ItemData.IronNumber;
+                //    break;
+                //case 2:
+                //    data = gameData.PlayerData[0].ItemData.SoilNumber;
+                //    break;
+                //case 3:
+                //    data = gameData.PlayerData[0].ItemData.WaterNumber;
+                //    break;
+                //case 4:
+                //    data = gameData.PlayerData[0].ItemData.WheatNumber;
+                //    break;
+                //case 5:
+                //    data = gameData.PlayerData[0].ItemData.WoodNumber;
+                //    break;
             }
             return data;
         }
@@ -295,26 +277,26 @@ namespace RedTheSettlers.UI
 
         private void CalculatePlayerItems(GameData data)
         {
-            data.PlayerData[0].ItemData.CowNumber -= tempGiveValue[(int)ItemType.Cow];
-            data.PlayerData[0].ItemData.IronNumber -= tempGiveValue[(int)ItemType.Iron];
-            data.PlayerData[0].ItemData.SoilNumber -= tempGiveValue[(int)ItemType.Soil];
-            data.PlayerData[0].ItemData.WaterNumber -= tempGiveValue[(int)ItemType.Water];
-            data.PlayerData[0].ItemData.WheatNumber -= tempGiveValue[(int)ItemType.Wheat];
-            data.PlayerData[0].ItemData.WoodNumber -= tempGiveValue[(int)ItemType.Wood];
+            data.PlayerData[0].ItemList[(int)ItemType.Cow].Count -= tempGiveValue[(int)ItemType.Cow];
+            data.PlayerData[0].ItemList[(int)ItemType.Iron].Count -= tempGiveValue[(int)ItemType.Iron];
+            data.PlayerData[0].ItemList[(int)ItemType.Soil].Count -= tempGiveValue[(int)ItemType.Soil];
+            data.PlayerData[0].ItemList[(int)ItemType.Water].Count -= tempGiveValue[(int)ItemType.Water];
+            data.PlayerData[0].ItemList[(int)ItemType.Wheat].Count -= tempGiveValue[(int)ItemType.Wheat];
+            data.PlayerData[0].ItemList[(int)ItemType.Wood].Count -= tempGiveValue[(int)ItemType.Wood];
 
-            data.PlayerData[0].ItemData.CowNumber += tempTakeValue[(int)ItemType.Cow];
-            data.PlayerData[0].ItemData.IronNumber += tempTakeValue[(int)ItemType.Iron];
-            data.PlayerData[0].ItemData.SoilNumber += tempTakeValue[(int)ItemType.Soil];
-            data.PlayerData[0].ItemData.WaterNumber += tempTakeValue[(int)ItemType.Water];
-            data.PlayerData[0].ItemData.WheatNumber += tempTakeValue[(int)ItemType.Wheat];
-            data.PlayerData[0].ItemData.WoodNumber += tempTakeValue[(int)ItemType.Wood];
+            //data.PlayerData[0].ItemData.CowNumber += tempTakeValue[(int)ItemType.Cow];
+            //data.PlayerData[0].ItemData.IronNumber += tempTakeValue[(int)ItemType.Iron];
+            //data.PlayerData[0].ItemData.SoilNumber += tempTakeValue[(int)ItemType.Soil];
+            //data.PlayerData[0].ItemData.WaterNumber += tempTakeValue[(int)ItemType.Water];
+            //data.PlayerData[0].ItemData.WheatNumber += tempTakeValue[(int)ItemType.Wheat];
+            //data.PlayerData[0].ItemData.WoodNumber += tempTakeValue[(int)ItemType.Wood];
 
-            Debug.Log(data.PlayerData[0].ItemData.CowNumber +
-            data.PlayerData[0].ItemData.IronNumber +
-            data.PlayerData[0].ItemData.SoilNumber +
-            data.PlayerData[0].ItemData.WaterNumber +
-            data.PlayerData[0].ItemData.WheatNumber +
-            data.PlayerData[0].ItemData.WoodNumber);
+            //Debug.Log(data.PlayerData[0].ItemData.CowNumber +
+            //data.PlayerData[0].ItemData.IronNumber +
+            //data.PlayerData[0].ItemData.SoilNumber +
+            //data.PlayerData[0].ItemData.WaterNumber +
+            //data.PlayerData[0].ItemData.WheatNumber +
+            //data.PlayerData[0].ItemData.WoodNumber);
         }
 
     }
