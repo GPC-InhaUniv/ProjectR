@@ -49,7 +49,7 @@ namespace RedTheSettlers.Users
             boardTile.tileOwner = TileOwner.AI1;
             possessedTiles.Add(boardTile);
 
-            inventory[(int)(boardTile.tileType)].Count++;
+            inventory[(int)(boardTile.TileType)].Count++;
 
             transform.position = new Vector3(boardTile.transform.position.x, transform.position.y, boardTile.transform.position.z);
 
@@ -58,7 +58,7 @@ namespace RedTheSettlers.Users
 
             for (int i = 0; i < 6; i++)
             {
-                BoardTile targetBoardTile = TileManager.Instance.TileGrid[boardTile.coordinate.x + coordX[i], boardTile.coordinate.z + coordZ[i]].GetComponent<BoardTile>();
+                BoardTile targetBoardTile = TileManager.Instance.TileGrid[boardTile.TileCoordinate.x + coordX[i], boardTile.TileCoordinate.z + coordZ[i]].GetComponent<BoardTile>();
 
                 if (targetBoardTile.tileOwner == TileOwner.AI1)
                 {
