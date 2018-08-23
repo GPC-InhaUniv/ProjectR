@@ -56,7 +56,7 @@ public class TemporaryGameManager : Singleton<TemporaryGameManager>
         //Player.MovePosition(Player.position + (direction * 10) * Time.deltaTime);
     }
 
-    public void TileInfo(TileType tileType)
+    public void TileInfo(BoardTile tileType)
     {
         LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, "타일 정보 : " + tileType);
     }
