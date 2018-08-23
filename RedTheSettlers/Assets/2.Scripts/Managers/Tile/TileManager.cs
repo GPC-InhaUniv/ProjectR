@@ -25,7 +25,7 @@ namespace RedTheSettlers.GameSystem
             {
                 for (int x = 0; x < GlobalVariables.TileGridSize + 8; x++)
                 {
-                    if (z > -x + GlobalVariables.minZIntercept && z < -x + GlobalVariables.maxZIntercept)
+                    if (z > -x + GlobalVariables.MinZIntercept && z < -x + GlobalVariables.MaxZIntercept)
                     {
                         float xCoord = CalculateXcoord(x, z);
                         float zCoord = CalculateZcoord(z);
@@ -44,7 +44,7 @@ namespace RedTheSettlers.GameSystem
             {
                 for (int x = 0; x < GlobalVariables.TileGridSize; x++)
                 {
-                    if (z > -x + GlobalVariables.minZIntercept && z < -x + GlobalVariables.maxZIntercept)
+                    if (z > -x + GlobalVariables.MinZIntercept && z < -x + GlobalVariables.MaxZIntercept)
                     {
                         TileGrid[x, z].SetActive(true);
                     }

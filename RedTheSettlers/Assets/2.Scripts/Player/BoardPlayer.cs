@@ -13,7 +13,6 @@ namespace RedTheSettlers.Users
         private int WeaponLevel;
         private int ShieldLevel;
         private SkillData[] SkillData;
-        private User user;
 
         public void MoveToTargetTile(BoardTile targetTile)
         {

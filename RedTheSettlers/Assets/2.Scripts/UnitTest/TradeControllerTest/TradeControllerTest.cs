@@ -23,11 +23,10 @@ namespace RedTheSettlers.UnitTest
         public User RequestSender { get; set; }
         public User RequestReceiver { get; set; }
 
-        public List<ItemData> ItemsToSend;
-        public List<ItemData> ItemsToReceive;
+        public ItemData[] ItemsToTrade;
     }
 
-    public class TradeControllerTest : MonoBehaviour, IMediatable
+    public class TradeControllerTest : MonoBehaviour
     {
         private TradeData Trade;
 
@@ -42,19 +41,13 @@ namespace RedTheSettlers.UnitTest
         {
             Trade.RequestSender = requestSender;
             Trade.RequestReceiver = requestReceiver;
+
+            Trade.ItemsToTrade = new ItemData[6];
         }
 
         public void ChangeTradeData(ItemData itemData)
         {
-            for(int index = 0; index < Trade.ItemsToSend.Count; index++)
-            {
-                if (itemData.ItemType == Trade.ItemsToSend[index].ItemType)
-                {
-                    Trade.ItemsToSend[index] = itemData;
-
-                    break;
-                }
-            }
+            
         }
     }
 }

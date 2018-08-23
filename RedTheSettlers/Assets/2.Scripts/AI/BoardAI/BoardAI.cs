@@ -30,7 +30,7 @@ namespace RedTheSettlers.Users
             return tradeData;
         }
         
-        /*public void FindOptimizedPath()
+        public void FindOptimizedPath()
         {
             BoardTile targetTile = null;
 
@@ -49,7 +49,7 @@ namespace RedTheSettlers.Users
             }
 
             PossessTile(targetTile);
-        }*/
+        }
 
         public void PossessTile(BoardTile boardTile)
         {

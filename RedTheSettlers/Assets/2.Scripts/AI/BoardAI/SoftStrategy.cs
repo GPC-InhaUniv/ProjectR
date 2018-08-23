@@ -8,7 +8,7 @@ namespace RedTheSettlers.Users
 {
     public class SoftStrategy : MonoBehaviour, IAIStrategy
     {
-        public BoardTile CalculateTileWeight(BoardTile boardTile, Dictionary<TileType, int> resource)
+        public BoardTile CalculateTileWeight(BoardTile boardTile, ItemData[] itemData)
         {
             int[] coordX = { 1, 1, 0, -1, -1, 0 };
             int[] coordZ = { 0, -1, -1, 0, 1, 1 };
@@ -24,7 +24,7 @@ namespace RedTheSettlers.Users
                     continue;
                 }
 
-                comparerTile.CalculateTileWeight(resource);
+                comparerTile.CalculateTileWeight(itemData);
 
                 if (targetBoardTile == null)
                 {

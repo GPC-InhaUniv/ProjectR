@@ -9,11 +9,11 @@ namespace RedTheSettlers.Tiles
         public TileOwner tileOwner;
         public int tileWeight;
 
-        public void CalculateTileWeight(Dictionary<TileType, int> resource)
+        public void CalculateTileWeight(ItemData[] itemData)
         {
             int userResourceAmount;
 
-            resource.TryGetValue(tileType, out userResourceAmount);
+            userResourceAmount = itemData[(int)tileType].Count;
 
             tileWeight = userResourceAmount;
         }

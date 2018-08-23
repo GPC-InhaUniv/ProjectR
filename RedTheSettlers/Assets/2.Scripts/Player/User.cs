@@ -12,7 +12,6 @@ namespace RedTheSettlers.Users
         public Tile tileSteppingOn;
         public List<Tile> PossessingTile;
         public ItemData[] inventory;
-        protected IMediatable mediatable;
 
         protected abstract void ChangeItemCount(ItemData[] itemList);
     }
