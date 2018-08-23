@@ -4,6 +4,13 @@ using UnityEngine;
 
 namespace RedTheSettlers.GameSystem
 {
+    public enum BattleLevel
+    {
+        Level1 = 0,
+        Level2 = 1,
+        Level3 = 2,
+    }
+
     public enum ItemType
     {
         Cow = 0,
@@ -60,6 +67,10 @@ namespace RedTheSettlers.GameSystem
         public const int MaxEquipmentUpgradeLevel = 3;
         public const int MaxTileUpgradeLevel = 3;
         public const int MaxTileCount = 39;
+
+        public const int CardWeightValue = 1000;
+        public const int EquipmentWeightValue = 3000;
+        public const int BonusWeightValue = 3000;
 
         public const int MaxPlayerNumber = 4;
         public const int MaxItemNumber = 6;

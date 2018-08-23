@@ -4,7 +4,6 @@ using UnityEngine;
 
 namespace RedTheSettlers.GameSystem
 {
-
     [Serializable]
     public struct AssetBundleData
     {

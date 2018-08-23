@@ -11,11 +11,6 @@ RequestTrade() -> ShowTradePanel() -> GetTradeData() -> ReceiveTrade()_Controlle
 
 namespace RedTheSettlers.UnitTest
 {
-    public interface IMediatable
-    {
-
-    }
-
     public delegate void TradeCallback();
     
     public class TradeData
@@ -47,7 +42,28 @@ namespace RedTheSettlers.UnitTest
 
         public void ChangeTradeData(ItemData itemData)
         {
-            
+            Trade.ItemsToTrade[(int)itemData.ItemType] = itemData;
+        }
+
+        public void DoTrade()
+        {
+            Trade.RequestSender.ChangeItemCount(Trade.ItemsToTrade);
+
+            for(int i = 0; i < GlobalVariables.MaxItemNumber; i++)
+            {
+                Trade.ItemsToTrade[i].Count *= -1;
+            }
+
+            Trade.RequestReceiver.ChangeItemCount(Trade.ItemsToTrade);
+
+            ResetTrade();
+
+            Callback();
+        }
+
+        private void ResetTrade()
+        {
+            Trade.ItemsToTrade = null;
         }
     }
 }

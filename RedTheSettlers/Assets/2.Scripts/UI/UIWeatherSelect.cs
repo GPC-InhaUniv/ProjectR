@@ -30,29 +30,26 @@ namespace RedTheSettlers.UI
         [SerializeField]
         private GameObject rightCardImage;
 
+        [SerializeField]
+        private GameObject cardPositionGroup;
+
         private int[] eventArray;
         private GameObject[] selectedCard;
-        private float speed = 1000f;
+        private int eventNumber;
 
         public float smoothing = 1f;
 
-        private void ChangeWeatherCard()
+        private void Start()
+        {
+            eventControllerTest2 = GetComponent<EventControllerTest2>();  //게임매니저 함수 구현 시 삭제 예정
+            selectedCard = new GameObject[3];
+            ChangeWeatherCard();
+            StartCoroutine(MoveWeatherCard());
+        }
+
+        public void ChangeWeatherCard()
         {
             eventArray = eventControllerTest2.PickWeatherEvent();  //게임매니저 함수 구현 시 삭제 예정
-
-            /*int count = 0;
-             for (int i = 0; i < EventItemCardImage.Length; i++)
-            {
-                if (eventArray[count] == i)
-                {
-                    selectedCard[count] = EventItemCardImage[i];
-                    selectedCard[count].SetActive(true);
-                    i = 0;
-                    count++;
-                }
-                if (count == 3)
-                    break;
-            }*/
 
             for (int i = 0; i < eventArray.Length; i++)
             {
@@ -61,7 +58,7 @@ namespace RedTheSettlers.UI
             }
         }
 
-        private IEnumerator MoveWeatherCard() //코루틴으로 바꾸면 더 부드러울텐데..
+        private IEnumerator MoveWeatherCard()
         {
             while (true)
             {
@@ -83,26 +80,45 @@ namespace RedTheSettlers.UI
                 {
                     break;
                 }
-                Debug.Log("코루틴아 돌아라");
                 yield return null;
             }
         }
 
-        private void OnClickWeatherCard()
+        public void OnClickWeatherCard(int Count)
         {
+            if (selectedCard[0].transform.position == leftCardImage.transform.position)
+            {
+                if (Count == 0)
+                {
+                    Debug.Log("left");
+                    eventNumber = eventArray[Count];
+                    cardPositionGroup.SetActive(false);
+                    selectedCard[1].SetActive(false);
+                    selectedCard[2].SetActive(false);
+                }
+                else if (Count == 1)
+                {
+                    Debug.Log("middle");
+                    eventNumber = eventArray[Count];
+                    cardPositionGroup.SetActive(false);
+                    selectedCard[0].SetActive(false);
+                    selectedCard[2].SetActive(false);
+                }
+                else if (Count == 2)
+                {
+                    Debug.Log("right");
+                    eventNumber = eventArray[Count];
+                    cardPositionGroup.SetActive(false);
+                    selectedCard[0].SetActive(false);
+                    selectedCard[1].SetActive(false);
+                }
+                Invoke("SendEventNumber", 3.0f);
+            }
         }
 
-        private void Start()
+        public void SendEventNumber()
         {
-            eventControllerTest2 = GetComponent<EventControllerTest2>();  //게임매니저 함수 구현 시 삭제 예정
-            selectedCard = new GameObject[3];
-            ChangeWeatherCard();
-            StartCoroutine(MoveWeatherCard());
-        }
-
-        // Update is called once per frame
-        private void Update()
-        {
+            //UIManager.Instance.~~~(eventNumber);
         }
     }
 }

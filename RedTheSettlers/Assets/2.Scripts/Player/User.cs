@@ -13,6 +13,6 @@ namespace RedTheSettlers.Users
         public List<Tile> PossessingTile;
         public ItemData[] inventory;
 
-        protected abstract void ChangeItemCount(ItemData[] itemList);
+        public abstract void ChangeItemCount(ItemData[] itemList);
     }
 }
