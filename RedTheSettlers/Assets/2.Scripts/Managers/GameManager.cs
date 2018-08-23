@@ -120,12 +120,12 @@ namespace RedTheSettlers.GameSystem
         /// <param name="userType"></param>
         /// <param name="tiletype"></param>
         /// <returns></returns>
-        public int GetPlayerTileCount(UserType userType, TileType tiletype)
+        public int GetPlayerTileCount(UserType userType, ItemType itemType)
         {
             int tileTileCount = 0;
             for (int i = 0; i < GetPlayerTileCountAll(userType); i++)
             {
-                if (Players[(int)userType].PossessingTile[i].tileType == tiletype)
+                if (Players[(int)userType].PossessingTile[i].TileType == itemType)
                 {
                     tileTileCount++;
                 }
@@ -139,12 +139,12 @@ namespace RedTheSettlers.GameSystem
         /// <param name="userType"></param>
         /// <param name="tiletype"></param>
         /// <returns></returns>
-        public int GetPlayerTileLevelCount(UserType userType, TileType tiletype)
+        public int GetPlayerTileLevelCount(UserType userType, ItemType itemType)
         {
             int tileLevelCount = 0;
             for (int i = 0; i < GetPlayerTileCountAll(userType); i++)
             {
-                if(Players[(int)userType].PossessingTile[i].tileType == tiletype)
+                if(Players[(int)userType].PossessingTile[i].TileType == itemType)
                 {
                     tileLevelCount += Players[(int)userType].PossessingTile[i].TileLevel;
                 }
