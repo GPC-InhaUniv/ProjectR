@@ -56,6 +56,18 @@ public class MainStageState : IInputState
     }
     public void ZoomInOut(float speed)
     {
+#if UNITY_EDITOR
+        if (Input.GetAxis("Mouse ScrollWheel") * reversValue < 0)
+        {
+            cameraZoom = (Input.GetAxis("Mouse ScrollWheel") * speed) * reversValue;
+            TemporaryGameManager.Instance.CameraZoom(cameraZoom);
+        }
+        else if (Input.GetAxis("Mouse ScrollWheel") * reversValue > 0)
+        {
+            cameraZoom = (Input.GetAxis("Mouse ScrollWheel") * speed) * reversValue;
+            TemporaryGameManager.Instance.CameraZoom(cameraZoom);
+        }
+#endif
 #if UNITY_STANDALONE_WIN
         if (Input.GetAxis("Mouse ScrollWheel") * reversValue < 0)
         {
