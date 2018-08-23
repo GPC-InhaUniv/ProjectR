@@ -90,7 +90,7 @@ namespace RedTheSettlers.UI
 
         private void Start()
         {
-            cardmaxNumber = 50;
+            cardmaxNumber = GlobalVariables.MaxItemNum; //50
             PutItemCount();
             ComputeTotalItem();
         }
