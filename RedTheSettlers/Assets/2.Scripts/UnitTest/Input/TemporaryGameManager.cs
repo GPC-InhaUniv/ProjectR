@@ -36,8 +36,8 @@ public class TemporaryGameManager : Singleton<TemporaryGameManager>
     {
         //transformCamera.transform.Translate(new Vector3(direction.x,0,direction.y),Space.World);
         //camera.transform.Translate(new Vector3(direction.x, 0, direction.y), Space.World);
-        tempCameraController.CameraMove(direction);
-        cameraCtrl.CameraMoving(direction);
+        //tempCameraController.CameraMove(direction);
+        cameraCtrl.CameraDragMoving(direction);
         //LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, "이동 좌표 : " + direction);
     }
 
@@ -45,7 +45,8 @@ public class TemporaryGameManager : Singleton<TemporaryGameManager>
     {
         //transformCamera.transform.Translate(new Vector3(0, value, 0),Space.World);
         //camera.fieldOfView += value;
-        tempCameraController.CameraZoom(value);
+        //tempCameraController.CameraZoom(value);
+        cameraCtrl.ZoomInOut(value);
     }
 
     public void UserTrade(Vector3 position)
