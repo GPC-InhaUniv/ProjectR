@@ -50,7 +50,7 @@ namespace RedTheSettlers.GameSystem
                 default:
                     break;
             }
-            GameFlow(turnCtrl.TurnFlow());
+            //GameFlow(turnCtrl.TurnFlow());
         }
 
         private void BattleFinish()
@@ -102,6 +102,54 @@ namespace RedTheSettlers.GameSystem
         public int GetPlayerItemCount(UserType userType, ItemType itemType)
         {
             return Players[(int)userType].inventory[(int)itemType].Count;
+        }
+
+        /// <summary>
+        /// 플레이어가 보유한 모든 타일의 개수를 반환합니다.
+        /// </summary>
+        /// <param name="userType"></param>
+        /// <returns></returns>
+        public int GetPlayerTileCountAll(UserType userType)
+        {
+            return Players[(int)userType].PossessingTile.Count;
+        }
+
+        /// <summary>
+        /// 플레이어가 보유한 특정 자원 타일의 개수를 반환합니다.
+        /// </summary>
+        /// <param name="userType"></param>
+        /// <param name="tiletype"></param>
+        /// <returns></returns>
+        public int GetPlayerTileCount(UserType userType, TileType tiletype)
+        {
+            int tileTileCount = 0;
+            for (int i = 0; i < GetPlayerTileCountAll(userType); i++)
+            {
+                if (Players[(int)userType].PossessingTile[i].tileType == tiletype)
+                {
+                    tileTileCount++;
+                }
+            }
+            return tileTileCount;
+        }
+
+        /// <summary>
+        /// 플레이어가 보유한 특정 타일의 레벨 합을 반환합니다.
+        /// </summary>
+        /// <param name="userType"></param>
+        /// <param name="tiletype"></param>
+        /// <returns></returns>
+        public int GetPlayerTileLevelCount(UserType userType, TileType tiletype)
+        {
+            int tileLevelCount = 0;
+            for (int i = 0; i < GetPlayerTileCountAll(userType); i++)
+            {
+                if(Players[(int)userType].PossessingTile[i].tileType == tiletype)
+                {
+                    tileLevelCount += Players[(int)userType].PossessingTile[i].TileLevel;
+                }
+            }
+            return tileLevelCount;
         }
 
         /// <summary>
