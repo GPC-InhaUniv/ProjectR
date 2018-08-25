@@ -19,8 +19,8 @@ namespace RedTheSettlers.Enemys
             )
         {
             this.animator = animator;
-            this.transform.rotation = transform.rotation;
-            this.rigidbodyComponent.velocity = rigidbodyComponent.velocity;
+            this.transform = transform;
+            this.rigidbodyComponent = rigidbodyComponent;
             this.destinationPoint = destinationPoint;
             this.currentPoint = currentPoint;
             this.moveSpeed = moveSpeed;

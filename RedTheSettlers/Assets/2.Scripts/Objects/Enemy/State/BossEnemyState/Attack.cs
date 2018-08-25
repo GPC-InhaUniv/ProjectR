@@ -36,19 +36,16 @@ namespace RedTheSettlers.Enemys.Boss
             normalVector.y = 0f;
             transform.rotation = Quaternion.LookRotation(normalVector);
 
-            int ShotCount = bossPhase + 1;
-            float angle = (bossPhase * 0.5f) * AngleOffset;
+            int ShotCount = (2 * bossPhase) + 1;
+            float angle = ((ShotCount - 1) * 0.5f) * AngleOffset;
 
             for (int i = 0; i < ShotCount; i++)
             {
                 EnemyFireBall enemyFireBall = FireballList.Dequeue();
                 LaunchedFireballList.Enqueue(enemyFireBall);
                 enemyFireBall.gameObject.SetActive(true);
+                SetFireball(enemyFireBall, normalVector, angle);
 
-                enemyFireBall.gameObject.transform.position = transform.rotation * Vector3.forward * shotOffset + transform.position;
-                enemyFireBall.gameObject.transform.rotation = Quaternion.Euler(0f, transform.rotation.y + angle, 0f);
-                enemyFireBall.rigidbodyComponent.velocity = enemyFireBall.gameObject.transform.rotation * Vector3.forward * fireballSpeed;
-                
                 fireballTimer = GameTimeManager.Instance.PopTimer();
                 fireballTimer.SetTimer(timeToReturn, false);
                 fireballTimer.Callback = timerCallback;
@@ -56,6 +53,14 @@ namespace RedTheSettlers.Enemys.Boss
 
                 angle -= AngleOffset;
             }
+        }
+
+        private void SetFireball(EnemyFireBall enemyFireBall, Vector3 normalVector, float angle)
+        {
+            enemyFireBall.gameObject.transform.position = (transform.rotation * Vector3.forward * shotOffset) + transform.position;
+            enemyFireBall.transform.rotation = Quaternion.LookRotation(normalVector);
+            enemyFireBall.transform.Rotate(0, angle, 0);
+            enemyFireBall.rigidbodyComponent.velocity = enemyFireBall.gameObject.transform.rotation * Vector3.forward * fireballSpeed;
         }
     }
 }

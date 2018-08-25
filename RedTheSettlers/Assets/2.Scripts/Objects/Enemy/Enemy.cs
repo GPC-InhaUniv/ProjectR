@@ -169,7 +169,7 @@ namespace RedTheSettlers.Enemys
         {
             if (destinationPoint != null && currentState != null)
             {
-                if (Vector3.Distance(destinationPoint, currentPoint) <= 1.0f && currentState.ToString().Contains("Move"))
+                if (Vector3.Distance(destinationPoint, currentPoint) <= 0.5f && currentState is Move)
                 {
                     rigidbodyComponent.velocity = Vector3.zero;
                     ChangeState(EnemyStateType.Idle);

@@ -18,7 +18,7 @@ namespace RedTheSettlers.Enemys
             {
                 enemy.ChangeState(EnemyStateType.Damage);
             }
-            else if (other.CompareTag(GlobalVariables.TAG_WALL))
+            else if (other.tag == GlobalVariables.TAG_WALL)
             {
                 enemy.rigidbodyComponent.velocity = Vector3.zero;
                 enemy.ChangeState(EnemyStateType.Idle);
