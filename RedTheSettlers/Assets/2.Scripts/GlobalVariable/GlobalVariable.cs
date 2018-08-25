@@ -68,6 +68,10 @@ namespace RedTheSettlers.GameSystem
         public const int MaxTileUpgradeLevel = 3;
         public const int MaxTileCount = 39;
 
+        public const int CardWeightValue = 1000;
+        public const int EquipmentWeightValue = 3000;
+        public const int BonusWeightValue = 3000;
+
         public const int MaxPlayerNumber = 4;
         public const int MaxItemNumber = 6;
         public const int MiddleBoss1AppearTurn = 12;
