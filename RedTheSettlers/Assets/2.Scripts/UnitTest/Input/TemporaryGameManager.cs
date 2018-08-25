@@ -6,23 +6,28 @@ public class TemporaryGameManager : Singleton<TemporaryGameManager>
 {
     private TemporaryCameraController tempCameraController;
     private CameraController cameraCtrl;
-    private new Rigidbody Player;
+    private new Rigidbody rigidbody;
+    private Transform player;
+    private Vector3 moveDirection;
+    private float playerRotation;
+    private float moveSpeed;
 
     private void Awake()
     {
-        tempCameraController = GameObject.FindObjectOfType<TemporaryCameraController>();
-        cameraCtrl = GameObject.FindObjectOfType<CameraController>();
         DontDestroyOnLoad(gameObject);
     }
     private void Start()
     {
-
+        tempCameraController = GameObject.FindObjectOfType<TemporaryCameraController>();
+        cameraCtrl = GameObject.FindObjectOfType<CameraController>();
+        player = GameObject.FindWithTag("Player").GetComponent<Transform>();
+        rigidbody = GameObject.FindWithTag("Player").GetComponent<Rigidbody>();
     }
 
-    /*private void FixedUpdate()
+    private void FixedUpdate()
     {
-        PlayerMove(moveDirection);
-    }*/
+        PlayerMove(moveDirection, playerRotation, moveSpeed);
+    }
 
     public void CameraMove(Vector3 direction)
     {
@@ -34,9 +39,14 @@ public class TemporaryGameManager : Singleton<TemporaryGameManager>
         cameraCtrl.ZoomInOut(value);
     }
 
-    public void PlayerMove(Vector3 direction)
+    public void PlayerMove(Vector3 direction, float rotation, float speed)
     {
+        moveDirection = direction;
+        playerRotation = rotation;
+        moveSpeed = speed;
         //Player.MovePosition(Player.position + (direction * 10) * Time.deltaTime);
+        rigidbody.rotation = Quaternion.Euler(0f, rotation, 0f);
+        rigidbody.velocity = (direction * speed) * Time.deltaTime;
     }
 
     public void TileInfo(BoardTile tileType)
