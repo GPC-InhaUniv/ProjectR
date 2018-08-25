@@ -63,7 +63,7 @@ namespace RedTheSettlers.GameSystem
         public const int TileGridSize = 9;
         public const int MinZIntercept = 11;
         public const int MaxZIntercept = 21;
-        public const int MaxItemNum = 30;
+        public const int MaxItemNum = 50;
         public const int MaxEquipmentUpgradeLevel = 3;
         public const int MaxTileUpgradeLevel = 3;
         public const int MaxTileCount = 39;

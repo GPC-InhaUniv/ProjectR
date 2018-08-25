@@ -8,7 +8,6 @@ namespace RedTheSettlers.UI
 {
     /// <summary>
     /// 작성자 : 김하정
-    ///코드가 길때는 스크립트를 나누는게 좋을까? ***************************************
     /// TradeUI에서 Player의 조작에 따른 Value 값의 변화를 처리하는 스크립트
     /// </summary>
     public class UITradeCardController : MonoBehaviour
@@ -28,7 +27,7 @@ namespace RedTheSettlers.UI
         [SerializeField]
         private Text GiveDescriptionText, TakeDescriptionText;
 
-        private int TradeCardNumber;
+        private int tradeCardNumber;
         int giveAndTake = 0;
 
         const string GIVEPANEL = "GivePanel";
@@ -137,40 +136,58 @@ namespace RedTheSettlers.UI
         public void CheckCards(int cardNumber)
         {
             PlayerData data = gameData.PlayerData[0];
+            tradeCardNumber = cardNumber;
 
             if (cardInfo[cardNumber].ItemsCard.transform.parent.name == GIVEPANEL)
             {
-                giveAndTake = 1;
+                giveAndTake = -1;
             }
             if (cardInfo[cardNumber].ItemsCard.transform.parent.name == TAKEPANEL)
             {
-                giveAndTake = -1;
+                giveAndTake = 1;
             }
+            ShowItemPopup(giveAndTake);
 
-            if(giveAndTake == 1)
+            if (cardInfo[cardNumber].ItemsCard.transform.parent.name == giveGroup.name) 
             {
-                GiveDescriptionText.gameObject.SetActive(true);
-                TakeDescriptionText.gameObject.SetActive(false);
-            }
-            else
-            {
-                GiveDescriptionText.gameObject.SetActive(false);
-                TakeDescriptionText.gameObject.SetActive(true);
-            }
-
-            if ((cardInfo[cardNumber].ItemsCard.transform.parent.name == giveGroup.name) || (cardInfo[cardNumber].ItemsCard.transform.parent.name == takeGroup.name))
-            {
-                ItemPopup.gameObject.SetActive(true);
+                ItemPopup.SetActive(true);
                 ItemSlider.maxValue = data.ItemList[cardNumber].Count;
                 ItemSlider.value = 0;
             }
-
+            else if (cardInfo[cardNumber].ItemsCard.transform.parent.name == takeGroup.name)    //MaxValue 때문에 나눔
+            {
+                ItemPopup.SetActive(true);
+                ItemSlider.maxValue = GlobalVariables.MaxItemNum;
+                ItemSlider.value = 0;
+            }
+            else      //핸드그룹에 돌아오는 애들을 초기화 시켜줘야함.
+            {
+                ItemPopup.SetActive(false);
+                cardInfo[cardNumber].TempitemsCount.text = "";
+                tradeItemValue[cardNumber] = 0;
+            }
         }
 
-        public void OnClickedPopupButton()
+        public void ShowItemPopup(int value)
         {
-            tradeItemValue[TradeCardNumber] = (int)ItemSlider.value * giveAndTake;
-            cardInfo[TradeCardNumber].TempitemsCount.text = tradeItemValue[TradeCardNumber].ToString();
+             if (value == 1)    //함수화 하기
+            {
+                ItemPopup.SetActive(true);
+                GiveDescriptionText.gameObject.SetActive(true);
+                TakeDescriptionText.gameObject.SetActive(false);
+            }
+            else if (value == -1)
+            {
+                ItemPopup.SetActive(true);
+                GiveDescriptionText.gameObject.SetActive(false);
+                TakeDescriptionText.gameObject.SetActive(true);
+            }
+        }
+
+        public void OnClickedPopupButton( )
+        {
+            tradeItemValue[tradeCardNumber] = (int)ItemSlider.value * giveAndTake;
+            cardInfo[tradeCardNumber].TempitemsCount.text = Mathf.Abs(tradeItemValue[tradeCardNumber]).ToString();
             CheckTakeCardLimit();
         }
 
@@ -186,17 +203,12 @@ namespace RedTheSettlers.UI
             if (tempTotalvalue > 50)
             {
                 overItemPopup.SetActive(true);
-                cardInfo[TradeCardNumber].ItemsCard.transform.SetParent(handGroup.transform);
-                cardInfo[TradeCardNumber].TempitemsCount.text = "";
-                tradeItemValue[TradeCardNumber] = 0;
+                cardInfo[tradeCardNumber].ItemsCard.transform.SetParent(handGroup.transform);
+                cardInfo[tradeCardNumber].TempitemsCount.text = "";
+                tradeItemValue[tradeCardNumber] = 0;
             }
         }
-
-        public void ChangeSliderValue()
-        {
-            SliderValue.text = ItemSlider.value.ToString();
-        }
-
+      
         public void ResetCardBoard()
         {
             for (int i = 0; i < cardInfo.Length; i++)
@@ -208,9 +220,9 @@ namespace RedTheSettlers.UI
             ItemSlider.value = 0;
         }
 
-        public void OnClickedRequestButton()
+        public void ChangeSliderValue()
         {
-            
+            SliderValue.text = ItemSlider.value.ToString();
         }
 
         //트레이드 컨트롤러에 줄 구조체
@@ -223,7 +235,6 @@ namespace RedTheSettlers.UI
                 sendData[i].ItemType = (ItemType)i;
                 sendData[i].Count = tradeItemValue[i];
             }
-            
             return sendData;
         }
 
