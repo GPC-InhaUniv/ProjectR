@@ -96,6 +96,17 @@ public class MainStageState : IInputState
             TemporaryGameManager.Instance.CameraZoom(deltaMagnitude);
         }
 #endif
+
+        float prevLength = 0;
+        float Length = 0;
+
+        Vector2 a = Input.GetTouch(0).position;
+        Vector2 b = Input.GetTouch(1).position;
+
+        Length = Vector2.Distance(a, b);
+        TemporaryGameManager.Instance.CameraZoom(Length - prevLength);
+        prevLength = Length;
+
     }
     public void TileInfo()
     {

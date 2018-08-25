@@ -10,11 +10,14 @@ namespace RedTheSettlers.Enemys
     /// </summary>
     public class BossEnemy : Enemy
     {
+        //파이어볼과 폭발은 풀 매니저로 옮겨야 한다.
+        //보스가 체력에 따라 동시에 날리는 공격의 개수가 달라지기 때문
+
         private const float explodeLifeTime = 10f;
         private Vector3 explosionLocation;
-        [SerializeField]
         private int bossPhase;
-        private const int MaxFireballNumber = 15;
+        private Vector3 fireballPosition;
+
 
         [SerializeField]
         private GameTimer explodeLifeTimer;
@@ -23,18 +26,23 @@ namespace RedTheSettlers.Enemys
         private Explode explodePrefab;
         private Explode explode;
         public Queue<Explode> explodeList;
-        public Queue<EnemyFireBall> LaunchedFireballList;
+        public Queue<EnemyFireBall> FireballList;
+
+        private Vector3 explosionLocationOffset;
+        private Vector3 fireballPositionOffset;
 
         private void Start()
         {
-            base.Setting(MaxFireballNumber);
-            Setting(MaxFireballNumber);
+            base.Setting();
+            Setting();
+            
         }
 
-        protected override void Setting(int enemyFireballNumber)
+        protected override void Setting()
         {
+            explosionLocationOffset = new Vector3(0.275f, 0f, 1.3f);
+            fireballPositionOffset = new Vector3(-0.173f, 1f, 1.591f);
             explodeList = new Queue<Explode>();
-            LaunchedFireballList = new Queue<EnemyFireBall>();
         }
 
         public override void ChangeState(EnemyStateType stateType)
@@ -53,15 +61,14 @@ namespace RedTheSettlers.Enemys
                 case EnemyStateType.Attack1:
                     currentState = new Boss.Attack(
                         animator,
+                        PopFireBall(),
+                        fireballPosition,
                         bossPhase,
                         fireballLifeTimer,
-                        new TimerCallback(PushFireballTimer),
+                        new TimerCallback(pushFireballTimer),
                         TargetObject,
                         transform,
-                        TimeToReturn,
-                        ObjectPoolManager.Instance.FireballQueue,
-                        FireBallSpeed,
-                        LaunchedFireballList);
+                        TimeToReturn);
                     break;
                 case EnemyStateType.Attack2:
                     currentState = new Boss.UseSkill(
@@ -164,13 +171,12 @@ namespace RedTheSettlers.Enemys
             Explode tempExplode = explodeList.Dequeue();
             ObjectPoolManager.Instance.ExplodeQueue.Enqueue(tempExplode);
             tempExplode.gameObject.SetActive(false);
+
         }
 
-        void PushFireballTimer()
+        void pushFireballTimer()
         {
-            EnemyFireBall tempfireBall = LaunchedFireballList.Dequeue();
-            ObjectPoolManager.Instance.FireballQueue.Enqueue(tempfireBall);
-            tempfireBall.gameObject.SetActive(false);
+
         }
 
         void EndSkill()

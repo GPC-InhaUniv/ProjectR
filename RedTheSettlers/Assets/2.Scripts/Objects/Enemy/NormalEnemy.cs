@@ -4,14 +4,16 @@ using RedTheSettlers.UnitTest;
 namespace RedTheSettlers.Enemys
 {
     /// <summary>
-    /// 일반 몬스터 클래스, 생성과 동시에 SetType와 SetStatus를 같이 실행해야한다.
+    /// 일반 몬스터 클래스 생성과 동시에 SetType와 SetStatus를 같이 실행해야한다.
     /// 작업자 : 최대원
     /// </summary>
     public class NormalEnemy : Enemy
     {
+        
+
         private void Start()
         {
-            Setting(1);
+            Setting();
         }
 
         private void Update()
@@ -89,21 +91,6 @@ namespace RedTheSettlers.Enemys
         {
             ChangeState(EnemyStateType.Idle);
         }
-
-        public EnemyFireBall PopFireBall()
-        {
-            enemyFireBall[0] = ObjectPoolManager.Instance.FireballQueue.Dequeue();
-            enemyFireBall[0].gameObject.SetActive(true);
-            return enemyFireBall[0];
-        }
-
-        public void PushFireBall()
-        {
-            FireBallLifeTimer = null;
-            enemyFireBall[0].gameObject.SetActive(false);
-            ObjectPoolManager.Instance.FireballQueue.Enqueue(enemyFireBall[0]);
-        }
-
 
         /// <summary>
         /// 일반 몹 전용 스텟 설정 메서드

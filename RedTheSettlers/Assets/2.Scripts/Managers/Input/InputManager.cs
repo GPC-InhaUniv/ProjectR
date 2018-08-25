@@ -15,7 +15,6 @@ namespace RedTheSettlers.GameSystem
         BattleStageState,
         TradeInMainStageState,
         EquipSkillInMainStageState,
-        WeatherInMainStageState,
     }
     // 추후 버튼 명칭 확정 후 그에 맞춰 수정
     /*public enum InputButtonType
@@ -47,7 +46,7 @@ namespace RedTheSettlers.GameSystem
         private StateType stateType;
         private bool enableInputKey = false;
         private bool enableInputCameraDrag = false;
-        [SerializeField, Range(1, 100)]
+        [SerializeField, Range(1, 200)]
         private float moveSpeed;
         [SerializeField, Range(1, 100)]
         private float zoomSpeed;
@@ -91,15 +90,7 @@ namespace RedTheSettlers.GameSystem
 
         public void CameraZoomInOut()
         {
-#if UNITY_EDITOR
             inputState.ZoomInOut(zoomSpeed);
-#endif
-#if UNITY_STANDALONE_WIN
-            inputState.ZoomInOut(zoomSpeed);
-#endif
-#if UNITY_ANDROID
-            LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, "테스트");
-#endif
         }
 
         public void OnBeginDrag()

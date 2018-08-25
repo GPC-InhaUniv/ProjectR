@@ -7,51 +7,79 @@ using UnityEngine;
 /// State 패턴 구현부
 /// Battle 씬 유저 캐릭터 이동 및 공격 등
 /// </summary>
-public class BattleStageState : MonoBehaviour,IInputState
+public class BattleStageState : MonoBehaviour, IInputState
 {
     private Vector3 skillDirection;
-    private Vector3 dragDirection;
+    private Vector3 playerDirection;
     private Vector2 startDragPosition;
     private Vector2 currentDragPosition;
+    private Vector2 startSkillDirection;
+    private Vector2 currentSkillDirection;
     private Touch firstTouch;
     private Touch secondTouch;
     private bool TouchMoveActive = false;
+    private int reversValue = -1;
+    private float playerRotate;
+    private float skillRotate;
+    private float moveSpeed;
 
     private void Update()
     {
-        if(TouchMoveActive)
+        /*if (TouchMoveActive)
         {
             //GameManager.Instance.PlayerBattle.MoveTo(direction);
-            TemporaryGameManager.Instance.PlayerMove(dragDirection);
+            //TemporaryGameManager.Instance.PlayerMove(dragDirection, rotateAngle, moveSpeed);
+        }*/
+        MultiTouchCheck();
+    }
+
+    public void MultiTouchCheck()
+    {
+        if(Input.touchCount >= 2)
+        {
+            TouchMoveActive = true;
         }
     }
 
     public void DirectionKey(Vector3 direction)
     {
         //GameManager.Instance.PlayerBattle.MoveTo(direction);
-        TemporaryGameManager.Instance.PlayerMove(direction);
+        //TemporaryGameManager.Instance.PlayerMove(direction);
     }
 
     public void OnStartDrag()
     {
-        
         startDragPosition = Input.mousePosition;
-        TouchMoveActive = true;
+        if(TouchMoveActive==true)
+        {
+            startSkillDirection = Input.mousePosition;
+        }
     }
 
     public void OnDragging(float speed)
     {
+        moveSpeed = speed;
         currentDragPosition = Input.mousePosition;
-        dragDirection = (currentDragPosition - startDragPosition).normalized;
-        
+        Vector3 dragDistance = startDragPosition - currentDragPosition;
+        playerRotate = (Mathf.Atan2(dragDistance.y, dragDistance.x) * Mathf.Rad2Deg) * reversValue - 90f;
+        playerDirection = Quaternion.Euler(0f, playerRotate, 0f) * Vector3.forward;
+        TemporaryGameManager.Instance.PlayerMove(playerDirection, playerRotate, speed);
+        //dragDirection = (currentDragPosition - startDragPosition).normalized;
+
+        if(TouchMoveActive==true)
+        {
+            currentSkillDirection = Input.mousePosition;
+            Vector3 skillDragDistance = startSkillDirection - currentSkillDirection;
+            skillRotate = (Mathf.Atan2(skillDragDistance.y, skillDragDistance.x) * Mathf.Rad2Deg) * reversValue - 90f;
+        }
     }
 
     public void EndStopDrag()
     {
         startDragPosition = Vector3.zero;
         currentDragPosition = Vector3.zero;
-        dragDirection = Vector3.zero;
-        TouchMoveActive = false;
+        playerDirection = Vector3.zero;
+        TemporaryGameManager.Instance.PlayerMove(playerDirection, playerRotate, moveSpeed);
     }
 
     public void BattleAttack()

@@ -25,7 +25,7 @@ namespace RedTheSettlers.Enemys.Normal
             ChangeStateCallback changeStateCallback
             ) : base(animator)
         {
-            this.fireBall[0] = fireBall;
+            this.fireBall = fireBall;
             this.fireballLifeTimer = fireballLifeTimer;
             this.animator = animator;
             this.transform = transform;
@@ -47,8 +47,8 @@ namespace RedTheSettlers.Enemys.Normal
                 transform.rotation = Quaternion.LookRotation(normalVector);
 
                 Vector3 fireRotationposition = transform.rotation * Vector3.forward * 0.2f + transform.position + Vector3.up;
-                fireBall[0].transform.position = fireRotationposition;
-                fireBall[0].rigidbodyComponent.velocity = normalVector * fireballSpeed * GameTimeManager.Instance.DeltaTime * speedCorrection;
+                fireBall.transform.position = fireRotationposition;
+                fireBall.rigidbodyComponent.velocity = normalVector * fireballSpeed * GameTimeManager.Instance.DeltaTime * speedCorrection;
 
                 fireballLifeTimer = GameTimeManager.Instance.PopTimer();
                 fireballLifeTimer.SetTimer(lifeTime, false);

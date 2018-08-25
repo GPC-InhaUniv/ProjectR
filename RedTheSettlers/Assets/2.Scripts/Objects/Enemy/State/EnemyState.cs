@@ -9,7 +9,7 @@ namespace RedTheSettlers.Enemys
     {
         protected EnemyState currentState;
         protected Material[] materials;
-        protected EnemyFireBall[] fireBall;
+        protected EnemyFireBall fireBall;
         protected BattleAI battleAI;
 
         protected Transform transform;
@@ -21,6 +21,7 @@ namespace RedTheSettlers.Enemys
         protected Collider HitColliderComponent;
         protected Rigidbody rigidbodyComponent;
         protected GameObject targetObject;
+        protected int bossPhase;
 
         protected Vector3 destinationPoint;
         protected Vector3 currentPoint;
@@ -32,8 +33,6 @@ namespace RedTheSettlers.Enemys
         protected float Power;
         protected float timeToReturn;
         protected float fireballSpeed;
-        protected Queue<EnemyFireBall> FireballList;
-        protected Queue<EnemyFireBall> LaunchedFireballList;
 
         protected Explode explodePrefab;
         public Explode explode;

@@ -62,7 +62,7 @@ namespace RedTheSettlers.UnitTest
                 case Weather.Deluge:
                     weather = new Deluge(); break;
 
-                default: Debug.Log("존재하지 않는 날씨 상태입니다."); break;
+                default: LogManager.Instance.UserDebug(LogColor.Orange, GetType().ToString(), "존재하지 않는 날씨 상태입니다."); break;
             }
         }
     }

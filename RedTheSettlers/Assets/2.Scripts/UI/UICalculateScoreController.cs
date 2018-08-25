@@ -134,7 +134,7 @@ namespace RedTheSettlers.UI
             {
                 for (int j = 0; j <= playerData.ItemList[i].Count; j++)
                 {
-                    infoTexts.CardTexts[i].text = j.ToString();
+                    infoTexts.CardTexts[i].text = j.ToString("D2");
                     yield return new WaitForSeconds(scoreDelayTime);
                 }
             }
@@ -145,14 +145,14 @@ namespace RedTheSettlers.UI
                 if (scoreCount <= playerData.StatData.WeaponLevel)
                 {
                     scoreCount++;
-                    infoTexts.AttackText.text = scoreCount.ToString();
+                    infoTexts.AttackText.text = scoreCount.ToString("D2");
                     yield return new WaitForSeconds(scoreDelayTime);
                 }
 
                 if (scoreCount <= playerData.StatData.ShieldLevel)
                 {
                     scoreCount++;
-                    infoTexts.ShieldText.text = scoreCount.ToString();
+                    infoTexts.ShieldText.text = scoreCount.ToString("D2");
                     yield return new WaitForSeconds(scoreDelayTime);
                 }
             }
@@ -163,14 +163,14 @@ namespace RedTheSettlers.UI
                 if (scoreCount <= playerData.TileList.Count)
                 {
                     scoreCount++;
-                    infoTexts.TentText.text = scoreCount.ToString();
+                    infoTexts.TentText.text = scoreCount.ToString("D2");
                     yield return new WaitForSeconds(scoreDelayTime);
                 }
 
                 if (scoreCount <= playerData.BossKillCount)
                 {
                     scoreCount++;
-                    infoTexts.monsterKillText.text = scoreCount.ToString();
+                    infoTexts.monsterKillText.text = scoreCount.ToString("D2");
                     yield return new WaitForSeconds(scoreDelayTime);
                 }
             }
@@ -197,6 +197,5 @@ namespace RedTheSettlers.UI
             equipmentWeight.text = "X" + GlobalVariables.EquipmentWeightValue.ToString();
             bonusWeight.text = "X" + GlobalVariables.BonusWeightValue.ToString();
         }
-
     }
 }

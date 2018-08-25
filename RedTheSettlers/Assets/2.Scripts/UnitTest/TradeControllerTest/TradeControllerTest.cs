@@ -42,6 +42,7 @@ namespace RedTheSettlers.UnitTest
 
         public void ChangeTradeData(ItemData itemData)
         {
+            Debug.Log(itemData.ItemType);
             Trade.ItemsToTrade[(int)itemData.ItemType] = itemData;
         }
 

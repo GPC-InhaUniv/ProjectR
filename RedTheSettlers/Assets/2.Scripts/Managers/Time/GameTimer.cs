@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using RedTheSettlers.Enemys;
 
 namespace RedTheSettlers.GameSystem
 {
