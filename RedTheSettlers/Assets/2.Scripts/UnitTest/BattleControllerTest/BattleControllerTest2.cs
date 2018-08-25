@@ -18,15 +18,14 @@ namespace RedTheSettlers.UnitTest
 
         private void Start()
         {
-            cattlesTimer = GameTimeManager.Instance.PopTimer();
-            cattlesTimer.SetTimer(cattleResawnTime, true);
-            cattlesTimer.Callback = new TimerCallback(SpawnHerdOfCattle);
+            //cattlesTimer = GameTimeManager.Instance.PopTimer();
+            //cattlesTimer.SetTimer(cattleResawnTime, true);
+            //cattlesTimer.Callback = new TimerCallback(SpawnHerdOfCattle);
 
-            battleTimer = GameTimeManager.Instance.PopTimer();
-            //battleTimer.SetTimer()
+            //battleTimer = GameTimeManager.Instance.PopTimer();
 
 
-            cattlesTimer.StartTimer();
+            //cattlesTimer.StartTimer();
         }
 
         public IEnumerator BattleFlow()
@@ -41,7 +40,7 @@ namespace RedTheSettlers.UnitTest
         // 일정 시간마다 소 떼가 등장한다.
         private void SpawnHerdOfCattle()
         {
-            //GameTimeManager.Instance.
+            //ObjectPoolManager.Instance.SkillQueue.Enqueue();
             
         }
         
