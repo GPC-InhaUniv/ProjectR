@@ -18,7 +18,6 @@ namespace RedTheSettlers.Enemys
         private int bossPhase;
         private Vector3 fireballPosition;
 
-
         [SerializeField]
         private GameTimer explodeLifeTimer;
         private GameTimer fireballLifeTimer;
@@ -27,9 +26,7 @@ namespace RedTheSettlers.Enemys
         private Explode explode;
         public Queue<Explode> explodeList;
         public Queue<EnemyFireBall> FireballList;
-
-        private Vector3 explosionLocationOffset;
-        private Vector3 fireballPositionOffset;
+        public Queue<EnemyFireBall> LaunchedFireballList;
 
         private void Start()
         {
@@ -40,9 +37,9 @@ namespace RedTheSettlers.Enemys
 
         protected override void Setting()
         {
-            explosionLocationOffset = new Vector3(0.275f, 0f, 1.3f);
-            fireballPositionOffset = new Vector3(-0.173f, 1f, 1.591f);
             explodeList = new Queue<Explode>();
+            FireballList = new Queue<EnemyFireBall>();
+            LaunchedFireballList = new Queue<EnemyFireBall>();
         }
 
         public override void ChangeState(EnemyStateType stateType)
@@ -61,14 +58,16 @@ namespace RedTheSettlers.Enemys
                 case EnemyStateType.Attack1:
                     currentState = new Boss.Attack(
                         animator,
-                        PopFireBall(),
-                        fireballPosition,
                         bossPhase,
                         fireballLifeTimer,
-                        new TimerCallback(pushFireballTimer),
+                        new TimerCallback(PushFireballTimer),
                         TargetObject,
                         transform,
-                        TimeToReturn);
+                        TimeToReturn,
+                        FireballList,
+                        FireBallSpeed,
+                        LaunchedFireballList
+                        );
                     break;
                 case EnemyStateType.Attack2:
                     currentState = new Boss.UseSkill(
@@ -174,7 +173,7 @@ namespace RedTheSettlers.Enemys
 
         }
 
-        void pushFireballTimer()
+        void PushFireballTimer()
         {
 
         }

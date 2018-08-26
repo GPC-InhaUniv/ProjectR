@@ -8,11 +8,12 @@ namespace RedTheSettlers.Enemys.Boss
     public class Attack : EnemyState
     {
         private Vector3 fireBallPosition;
-        private int bossPhase;
         private GameTimer fireballTimer;
         private TimerCallback timerCallback;
         private const float shotOffset = 1.2f;
         private const float AngleOffset = 15f;
+        private Queue<EnemyFireBall> FireballList;
+        private Queue<EnemyFireBall> LaunchedFireballList;
 
         public Attack(Animator animator, int bossPhase, GameTimer fireballTimer, TimerCallback timerCallback, GameObject targetObject, Transform transform, float TimeToReturn, Queue<EnemyFireBall> fireballList, float FireBallSpeed, Queue<EnemyFireBall> LaunchedFireballList)
         {
