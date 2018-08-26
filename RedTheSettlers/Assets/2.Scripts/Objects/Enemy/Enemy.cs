@@ -8,8 +8,6 @@ namespace RedTheSettlers.Enemys
     public delegate EnemyFireBall FireballCallback(EnemyFireBall enemyFireBall);
     public delegate void ChangeStateCallback(EnemyStateType stateType);
     public delegate void DeadTimerCallback();
-    public delegate void Pattern1TimerCallback();
-    public delegate void Pattern2TimerCallback();
 
     public enum EnemyType
     {
@@ -71,10 +69,11 @@ namespace RedTheSettlers.Enemys
         public float FireBallSpeed = 4.0f;
 
         [Header("Timers")]
-        public GameTimer DeadTimer;
-        public GameTimer Pattern1Timer;
-        public GameTimer Pattern2Timer;
-        public GameTimer FireBallLifeTimer;
+        protected GameTimer DeadTimer;
+        protected GameTimer Pattern1Timer;
+        protected GameTimer Pattern2Timer;
+        protected GameTimer FireBallLifeTimer;
+        protected bool[] isAttackable;
 
         [SerializeField, Header("test fields")]
         testEnemyController testEnemyController;
@@ -96,6 +95,7 @@ namespace RedTheSettlers.Enemys
             attackArea = GetComponentInChildren<EnemyAttackArea>();
             hitArea = GetComponentInChildren<EnemyHitArea>();
             rigidbodyComponent = GetComponent<Rigidbody>();
+            isAttackable = new bool[2] { true, true };
 
             ChangeState(EnemyStateType.Idle);
         }
@@ -108,7 +108,6 @@ namespace RedTheSettlers.Enemys
 
         public virtual void ChangeState(EnemyStateType stateType)
         {
-            Debug.Log("currentState : " + currentState);
             ReQuest();
         }
 
@@ -194,6 +193,16 @@ namespace RedTheSettlers.Enemys
                     ChangeState(EnemyStateType.Idle);
                 }
             }
-        }        
+        }
+        
+        protected void SetAttackable1()
+        {
+            isAttackable[0] = true;
+        }
+
+        protected void SetAttackable2()
+        {
+            isAttackable[1] = true;
+        }
     }
 }

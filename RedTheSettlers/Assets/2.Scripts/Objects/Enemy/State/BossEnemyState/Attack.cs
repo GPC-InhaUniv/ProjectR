@@ -11,7 +11,7 @@ namespace RedTheSettlers.Enemys.Boss
         private GameTimer fireballTimer;
         private TimerCallback timerCallback;
         private const float shotOffset = 1.2f;
-        private const float AngleOffset = 15f;
+        private const float AngleOffset = 25f;
         private Queue<EnemyFireBall> FireballList;
         private Queue<EnemyFireBall> LaunchedFireballList;
 
