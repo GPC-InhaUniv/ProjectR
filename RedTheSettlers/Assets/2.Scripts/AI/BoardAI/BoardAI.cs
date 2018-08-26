@@ -4,15 +4,13 @@ using UnityEngine;
 using RedTheSettlers.Tiles;
 using RedTheSettlers.GameSystem;
 
-namespace RedTheSettlers.AI
+namespace RedTheSettlers.Users
 {
-    public class BoardAI : MonoBehaviour
+    public class BoardAI : User
     {
-
         private List<BoardTile> possessedTiles;
         private PriorityQueue<BoardTile> tileQueue;
         private IAIStrategy myStrategy;
-        private Dictionary<TileType, int> resource;
 
         private IEnumerator Start()
         {
@@ -20,27 +18,18 @@ namespace RedTheSettlers.AI
             possessedTiles = new List<BoardTile>();
             tileQueue = new PriorityQueue<BoardTile>();
 
-            resource = new Dictionary<TileType, int>();
-            resource.Add(TileType.Cow, 1);
-            resource.Add(TileType.Iron, 2);
-            resource.Add(TileType.Soil, 3);
-            resource.Add(TileType.Water, 4);
-            resource.Add(TileType.Wheat, 5);
-            resource.Add(TileType.Wood, 6);
-
             yield return new WaitForSeconds(0.5f);
 
-            PossessTile(TileManager.Instance.TileGrid[4, 4].GetComponent<BoardTile>());
+            //PossessTile(TileManager.Instance.TileGrid[4, 4].GetComponent<BoardTile>());
         }
-
-
+        
         public void FindOptimizedPath()
         {
             BoardTile targetTile = null;
 
             foreach (BoardTile boardTile in possessedTiles)
             {
-                BoardTile searchedTile = myStrategy.CalculateTileWeight(boardTile, resource);
+                BoardTile searchedTile = myStrategy.CalculateTileWeight(boardTile, inventory);
 
                 if (targetTile == null)
                 {
@@ -60,7 +49,7 @@ namespace RedTheSettlers.AI
             boardTile.tileOwner = TileOwner.AI1;
             possessedTiles.Add(boardTile);
 
-            resource[boardTile.tileType]++;
+            inventory[(int)(boardTile.TileType)].Count++;
 
             transform.position = new Vector3(boardTile.transform.position.x, transform.position.y, boardTile.transform.position.z);
 
@@ -69,7 +58,7 @@ namespace RedTheSettlers.AI
 
             for (int i = 0; i < 6; i++)
             {
-                BoardTile targetBoardTile = TileManager.Instance.TileGrid[boardTile.coordinate.x + coordX[i], boardTile.coordinate.z + coordZ[i]].GetComponent<BoardTile>();
+                BoardTile targetBoardTile = TileManager.Instance.TileGrid[boardTile.TileCoordinate.x + coordX[i], boardTile.TileCoordinate.z + coordZ[i]].GetComponent<BoardTile>();
 
                 if (targetBoardTile.tileOwner == TileOwner.AI1)
                 {
@@ -81,7 +70,14 @@ namespace RedTheSettlers.AI
                     boardTile.TileBorder[i].SetActive(true);
                 }
             }
+        }
 
+        public override void ChangeItemCount(ItemData[] itemList)
+        {
+            for(int i = 0; i < GlobalVariables.MaxItemNumber; i++)
+            {
+                inventory[i].Count += itemList[i].Count;
+            }
         }
     }
 }

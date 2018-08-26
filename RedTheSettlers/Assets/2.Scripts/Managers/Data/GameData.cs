@@ -4,7 +4,6 @@ using RedTheSettlers.Tiles;
 
 namespace RedTheSettlers.GameSystem
 {
-
     [Serializable]
     public struct StatData
     {
@@ -18,47 +17,31 @@ namespace RedTheSettlers.GameSystem
     [Serializable]
     public struct SkillData
     {
-        public int skillNumber;
-        public int slotNumber;
+        public int SkillNumber;
+        public QuickSlot SlotNumber;
     }
 
     [Serializable]
     public struct TileData
     {
-        public ItemType TileType;            
+        public ItemType TileType;
         public float LocationX;
         public float LocationY;
         public int TileLevel;
     }
 
     [Serializable]
+    public struct TradeData
+    {
+        public ItemType Item;
+        public int ItemCount;
+    }
+
+    [Serializable]
     public struct ItemData
     {
-        public int CowNumber;
-        public int WaterNumber;
-        public int WheatNumber;
-        public int WoodNumber;
-        public int IronNumber;
-        public int SoilNumber;
-        public int MaxItemNumber;
-        public int SumOfItem
-        {
-            get { return CowNumber + WaterNumber + WheatNumber + WoodNumber + IronNumber + SoilNumber; }
-        }
-        private int[] itemList;
-        public int GetMaxItemNumber()
-        {
-            itemList = new int[6];
-            itemList[0] = CowNumber;
-            itemList[1] = WaterNumber;
-            itemList[2] = WheatNumber;
-            itemList[3] = WoodNumber;
-            itemList[4] = IronNumber;
-            itemList[5] = SoilNumber;
-            Array.Sort(itemList);
-            return itemList[5];
-
-        }  
+        public ItemType ItemType;
+        public int Count;
     }
 
     [Serializable]
@@ -68,7 +51,6 @@ namespace RedTheSettlers.GameSystem
         public int Weather;
     }
 
-
     /// <summary>
     /// 작성자 : 박준명
     /// </summary>
@@ -76,16 +58,16 @@ namespace RedTheSettlers.GameSystem
     public class PlayerData
     {
         public StatData StatData;
-        public List<SkillData> SkillList;
-        public List<TileData> TileList;
-        public ItemData ItemData;
+        public List<SkillData> SkillList = new List<SkillData>();
+        public List<TileData> TileList = new List<TileData>();
+        public ItemData[] ItemList = new ItemData[6];
         public int BossKillCount;
-
-
         public PlayerData()
         {
-            SkillList = new List<SkillData>();
-            TileList = new List<TileData>();
+            for (int i = 0; i < GlobalVariables.MaxItemNumber; i++)
+            {
+                ItemList[i].ItemType = (ItemType)i;
+            }
         }
     }
 
@@ -95,7 +77,6 @@ namespace RedTheSettlers.GameSystem
     [Serializable]
     public class GameData
     {
-
         public string UserId;
         public string UserPassword;
         public InGameData InGameData;
@@ -104,7 +85,6 @@ namespace RedTheSettlers.GameSystem
         public GameData(int numberOfPlayer)
         {
             PlayerData = new PlayerData[numberOfPlayer];
-
             for (int i = 0; i < PlayerData.Length; i++)
             {
                 PlayerData[i] = new PlayerData();

@@ -4,59 +4,52 @@ using UnityEngine;
 
 public class TemporaryGameManager : Singleton<TemporaryGameManager>
 {
-    //private Transform transformCamera;
-    private Camera camera;
     private TemporaryCameraController tempCameraController;
-    //private new Transform Player;
-    private new Rigidbody Player;
-    //public Vector3 moveDirection;
+    private CameraController cameraCtrl;
+    private new Rigidbody rigidbody;
+    private Transform player;
+    private Vector3 moveDirection;
+    private float playerRotation;
+    private float moveSpeed;
 
     private void Awake()
     {
-        //transformCamera = GameObject.FindWithTag("MainCamera").GetComponent<Transform>();
-        //camera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
-        tempCameraController = GameObject.FindObjectOfType<TemporaryCameraController>();
-        //Player = GameObject.FindWithTag("Player").GetComponent<Transform>();
-        //Player = GameObject.FindWithTag("Player").GetComponent<Rigidbody>();
         DontDestroyOnLoad(gameObject);
     }
     private void Start()
     {
-
+        tempCameraController = GameObject.FindObjectOfType<TemporaryCameraController>();
+        cameraCtrl = GameObject.FindObjectOfType<CameraController>();
+        player = GameObject.FindWithTag("Player").GetComponent<Transform>();
+        rigidbody = GameObject.FindWithTag("Player").GetComponent<Rigidbody>();
     }
 
-    /*private void FixedUpdate()
+    private void FixedUpdate()
     {
-        PlayerMove(moveDirection);
-    }*/
+        PlayerMove(moveDirection, playerRotation, moveSpeed);
+    }
 
     public void CameraMove(Vector3 direction)
     {
-        //transformCamera.transform.Translate(new Vector3(direction.x,0,direction.y),Space.World);
-        //camera.transform.Translate(new Vector3(direction.x, 0, direction.y), Space.World);
-        tempCameraController.CameraMove(direction);
-        //LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, "이동 좌표 : " + direction);
+        cameraCtrl.CameraDragMoving(direction);
     }
 
     public void CameraZoom(float value)
     {
-        //transformCamera.transform.Translate(new Vector3(0, value, 0),Space.World);
-        //camera.fieldOfView += value;
-        tempCameraController.CameraZoom(value);
+        cameraCtrl.ZoomInOut(value);
     }
 
-    public void UserTrade(Vector3 position)
+    public void PlayerMove(Vector3 direction, float rotation, float speed)
     {
-        TemporaryTradeManager.Instance.Trade(position);
-        LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, "트레이드");
-    }
-
-    public void PlayerMove(Vector3 direction)
-    {
+        moveDirection = direction;
+        playerRotation = rotation;
+        moveSpeed = speed;
         //Player.MovePosition(Player.position + (direction * 10) * Time.deltaTime);
+        rigidbody.rotation = Quaternion.Euler(0f, rotation, 0f);
+        rigidbody.velocity = (direction * speed) * Time.deltaTime;
     }
 
-    public void TileInfo(TileType tileType)
+    public void TileInfo(BoardTile tileType)
     {
         LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, "타일 정보 : " + tileType);
     }

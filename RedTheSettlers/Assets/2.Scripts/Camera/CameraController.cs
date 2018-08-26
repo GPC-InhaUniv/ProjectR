@@ -10,18 +10,30 @@ using UnityEngine;
 */
 namespace RedTheSettlers.GameSystem
 {
+    public enum CameraStateType
+    {
+        Idle = 0,
+        Damage = 1,
+        Skill1 = 3,
+        Skill2 = 4
+    }
     public class CameraController : MonoBehaviour
     {
 
         [SerializeField]
         GameCamera BoardGameCamera, BattleGameCamera, ActiveCamera;
-        Transform target;
+        Transform targetTransform;
 
+        [SerializeField]
+        Transform playerTransform;
+        float ZoomValue;
         Vector3 vector3; //카메라 이동할때 사용하는 백터(보드는 드래그용, 배틀은 )
+
         private void Start()
         {
-            BoardGameCamera = GameObject.Find("Board Camera").GetComponent<GameCamera>();
-            BattleGameCamera = GameObject.Find("Battle Camera").GetComponent<GameCamera>();
+            BoardGameCamera = GameObject.FindWithTag("BoardCamera").GetComponent<GameCamera>();
+            BattleGameCamera = GameObject.FindWithTag("BattleCamera").GetComponent<GameCamera>();
+            playerTransform = GameObject.FindWithTag("Player").transform;
             ActiveCamera = BoardGameCamera;
         }
 
@@ -35,37 +47,57 @@ namespace RedTheSettlers.GameSystem
             if (Input.GetKeyDown(KeyCode.C))
             {
                 Debug.Log("c");
-                ZoomInOut(ActiveCamera);
+                ZoomInOut(ZoomValue);//ActiveCamera,
             }
+
+
+            
+
             //피치줌인아웃 들어갈자리(현재 DragZoom : CameraZoomInOut 안에 있음
+
+            //GameManager에게 현재 상태를 받아와서 카메라를 스위치 해준다(미구현)
         }
 
         private void FixedUpdate()
         {
-            ActiveCamera.MovingCamera(vector3);
-            ActiveCamera.Looking(target);
+            if(ActiveCamera == BattleGameCamera)
+            {
+                ActiveCamera.MovingCamera(vector3);
+            }
         }
-
-        private void ZoomInOut(GameCamera activeCamera)
-        {
-            activeCamera.ZoomInOutCamera();
-        }
-
+        
         void SwichingCamera(GameCamera activeCamera)
         {
             ActiveCamera.TrunOffCamera();
             if (activeCamera == BoardGameCamera)
             {
-                target = GameObject.FindGameObjectWithTag("Player").transform;
+                targetTransform = playerTransform.transform;
                 ActiveCamera = BattleGameCamera;
             }
             else
             {
-                target = null;
+                targetTransform = null;
                 ActiveCamera = BoardGameCamera;
             }
             ActiveCamera.TrunOnCamera();
         }
+
+
+
+        public void ZoomInOut(float ZoomValue)
+        {
+            ActiveCamera.ZoomInOutCamera(ZoomValue);
+        }
+        public void CameraDragMoving(Vector3 direction)
+        {
+            Debug.Log("카메라컨트롤러 카메라 무빙!");
+            ActiveCamera.MovingCamera(direction);
+        }
+
+
+
+
+
         //드레그카메라에 들어가는 vector3을 계산하는 조건
         //    //Debug.Log("보드카메라 무빙카메라()");
         //        if (Input.GetMouseButtonDown(0))
@@ -79,77 +111,77 @@ namespace RedTheSettlers.GameSystem
 
 
 
-    //public Camera BattleCamera, BoardCamera, ActiveCamera;
-    //GameCamera gameCamera;
-    //public bool IsZoom = false;
-    //public float ZoomSpeed = 15f;
-    //private void Start()
-    //{
-    //    gameCamera = new GameCamera();
-    //    BoardCameraTest(gameCamera);
+        //public Camera BattleCamera, BoardCamera, ActiveCamera;
+        //GameCamera gameCamera;
+        //public bool IsZoom = false;
+        //public float ZoomSpeed = 15f;
+        //private void Start()
+        //{
+        //    gameCamera = new GameCamera();
+        //    BoardCameraTest(gameCamera);
 
-    //    BoardCamera = GameObject.Find("Board Camera").GetComponent<Camera>();
-    //    BattleCamera = GameObject.Find("Battle Camera").GetComponent<Camera>();
+        //    BoardCamera = GameObject.Find("Board Camera").GetComponent<Camera>();
+        //    BattleCamera = GameObject.Find("Battle Camera").GetComponent<Camera>();
 
-    //    //BoardCamera.enabled = false;
-    //    //BattleCamera.enabled = false;
-    //    //InitializeingCamera();
-    //}
-    //void BoardCameraTest(GameCamera gameCamera)
-    //{
+        //    //BoardCamera.enabled = false;
+        //    //BattleCamera.enabled = false;
+        //    //InitializeingCamera();
+        //}
+        //void BoardCameraTest(GameCamera gameCamera)
+        //{
 
-    //    //ICamera module = new ~();
-    //    AbstractCamera abstractCamera = new BoardCamera();
-    //    //abstractCamera.addModule(module);
-    //    //gameCamera.putInCamera(abstractCamera);
-    //    BoardCamera = abstractCamera.camera;
+        //    //ICamera module = new ~();
+        //    AbstractCamera abstractCamera = new BoardCamera();
+        //    //abstractCamera.addModule(module);
+        //    //gameCamera.putInCamera(abstractCamera);
+        //    BoardCamera = abstractCamera.camera;
 
-    //}
+        //}
 
-    //private void Update()
-    //{
+        //private void Update()
+        //{
 
-    //    //if (Input.GetKeyDown(KeyCode.X))
-    //    //{
-    //    //    StartCoroutine(CameraTransition());
-    //    //}
-    //    //if (IsZoom==true)
-    //    //{
-    //    //    BoardCamera br = ActiveCamera.GetComponent<BoardCamera>();
-    //    //    br.ZoomInOut(IsZoom);
-    //    //}
-    //}
+        //    //if (Input.GetKeyDown(KeyCode.X))
+        //    //{
+        //    //    StartCoroutine(CameraTransition());
+        //    //}
+        //    //if (IsZoom==true)
+        //    //{
+        //    //    BoardCamera br = ActiveCamera.GetComponent<BoardCamera>();
+        //    //    br.ZoomInOut(IsZoom);
+        //    //}
+        //}
 
-    //void InitializeingCamera()
-    //{
-    //    ActiveCamera = BoardCamera;
-    //    ActiveCamera.enabled = true;
-    //}
-
-
-
-    //IEnumerator CameraTransition()
-    //{
-    //    Debug.Log("코루틴");
-    //    //while (true)
-    //    //{
-    //    //    if (BoardCamera.fieldOfView > 1)
-    //    //    {
-    //    //        BoardCamera.fieldOfView -= ZoomSpeed;
-    //    //        yield return new WaitForSeconds(0.06f);
-    //    //    }
-    //    //    else
-    //    //    {
-    //    //        break;
-    //    //    }
-    //    //}
-    //    //yield return new WaitForSeconds(1f);
-    //    SwichingCamera(ActiveCamera);
-    //    Debug.Log("애니메이션끝");
-    //    yield return new WaitForSeconds(1f);
-    //}
+        //void InitializeingCamera()
+        //{
+        //    ActiveCamera = BoardCamera;
+        //    ActiveCamera.enabled = true;
+        //}
 
 
 
-} 
+        //IEnumerator CameraTransition()
+        //{
+        //    Debug.Log("코루틴");
+        //    //while (true)
+        //    //{
+        //    //    if (BoardCamera.fieldOfView > 1)
+        //    //    {
+        //    //        BoardCamera.fieldOfView -= ZoomSpeed;
+        //    //        yield return new WaitForSeconds(0.06f);
+        //    //    }
+        //    //    else
+        //    //    {
+        //    //        break;
+        //    //    }
+        //    //}
+        //    //yield return new WaitForSeconds(1f);
+        //    SwichingCamera(ActiveCamera);
+        //    Debug.Log("애니메이션끝");
+        //    yield return new WaitForSeconds(1f);
+        //}
+
+
+
+    } 
 }

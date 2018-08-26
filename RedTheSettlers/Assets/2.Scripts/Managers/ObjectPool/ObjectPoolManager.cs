@@ -9,24 +9,42 @@ namespace RedTheSettlers.GameSystem
     {
         public const int TilePoolSize = 200;
         public const int CloneSetSize = 6;
-        public const int FireballSize = 10;
+        public const int FireballSize = 20;
+        public const int ExplodeSize = 5;
+
+        [Header("Tiles")]
         public GameObject[] TileObjects;
         public GameObject[] CloneSet;
+
+        [Header("Player Skill")]
         public GameObject SkillObject;
+
+        [Header("Enemy Skills")]
         public EnemyFireBall FireballPrefab;
+        public Explode ExplodePrefab;
 
         [HideInInspector]
         public GameObject[] TileSet;
         public Queue<GameObject> SkillQueue;
         public Queue<EnemyFireBall> FireballQueue;
+        public Queue<Explode> ExplodeQueue;
 
         private void Awake()
         {
+            //enemy only -----------
             FireballQueue = new Queue<EnemyFireBall>(FireballSize);
             for (int i = 0; i < FireballSize; i++)
             {
-                FireballQueue.Enqueue(Instantiate(FireballPrefab));
+                FireballQueue.Enqueue(Instantiate(FireballPrefab, gameObject.transform));
             }
+
+            ExplodeQueue = new Queue<Explode>(ExplodeSize);
+            for (int i = 0; i < FireballSize; i++)
+            {
+                ExplodeQueue.Enqueue(Instantiate(ExplodePrefab, gameObject.transform));
+            }
+            //-----------------------
+
 
             TileSet = new GameObject[TilePoolSize];
 
@@ -36,7 +54,10 @@ namespace RedTheSettlers.GameSystem
 
                 TileSet[i] = Instantiate(TileObjects[randomTileIndex]);
                 TileSet[i].transform.parent = CloneSet[randomTileIndex].transform;
+
             }
+
+            TileManager.Instance.IntializeTileSet();
 
             SkillQueue = new Queue<GameObject>(6);
             for (int i = 0; i < 6; i++)
@@ -46,6 +67,5 @@ namespace RedTheSettlers.GameSystem
 
             
         }
-
     }
 }

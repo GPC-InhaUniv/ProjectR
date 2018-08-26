@@ -1,15 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
+﻿using UnityEngine;
 using RedTheSettlers.GameSystem;
 
 /// <summary>
 /// 담당자 : 박상원
 /// 거래 화면 입력 부분
 /// </summary>
-public class TradeInMainStageState : InputState
+public class TradeInMainStageState : MonoBehaviour,IInputState
 {
     private static GameObject[] tradeCards;
     private static GameObject[] cardAreas;
@@ -25,9 +21,10 @@ public class TradeInMainStageState : InputState
     private float areaDistance;
     private float currentAreaDistance;
 
-    public override void OnStartDrag()
+    public void OnStartDrag()
     {
         clickPoint = Input.mousePosition;
+        // FindGameObjectWithTag는 임시방편으로 UI및 패널을 찾기 위해 작성한 코드로 추후 수정 예정
         tradeCards = GameObject.FindGameObjectsWithTag("UIIcon");
         cardDistance = Vector3.Distance(clickPoint, tradeCards[0].transform.position);
         foreach (GameObject tradeCard in tradeCards)
@@ -45,25 +42,21 @@ public class TradeInMainStageState : InputState
         targetCard.transform.SetParent(targetCard.transform.parent.parent);
     }
 
-    public override void OnDragging()
+    public void OnDragging(float speed)
     {
         targetCard.transform.position = Input.mousePosition;
     }
 
-    public override void EndStopDrag()
+    public void EndStopDrag()
     {
-        /*if (targetUI.transform.parent != startParent)
-        {
-            targetUI.transform.position = startPosition;
-        }*/
         targetCard.transform.SetParent(parentToReturnTo);
         targetCard.gameObject.GetComponent<CanvasGroup>().blocksRaycasts = true;
-        //targetUI = null;
     }
 
-    public override void OnDropSlot()
+    public void OnDropSlot()
     {
         dropPoint = Input.mousePosition;
+        // FindGameObjectWithTag는 임시방편으로 UI및 패널을 찾기 위해 작성한 코드로 추후 수정 예정
         cardAreas = GameObject.FindGameObjectsWithTag("CardArea");
         areaDistance = Vector3.Distance(dropPoint, cardAreas[0].transform.position);
         foreach(GameObject cardArea in cardAreas)
@@ -75,21 +68,49 @@ public class TradeInMainStageState : InputState
                 areaDistance = currentAreaDistance;
             }
         }
-        targetCard.transform.SetParent(targetArea.transform);
-        LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, "OnDrop To " + targetArea);
         if (parentToReturnTo != null)
         {
             parentToReturnTo = targetArea.transform;
         }
     }
 
-    public override void OnInPointer()
+    public void DragMove(float speed)
     {
-        
+        throw new System.NotImplementedException();
     }
 
-    public override void OnOutPointer()
+    public void SkillDirection()
     {
-        
+        throw new System.NotImplementedException();
+    }
+
+    public void ZoomInOut(float speed)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void TileInfo()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void OnInPointer()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void OnOutPointer()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void DirectionKey(Vector3 direction)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void BattleAttack()
+    {
+        throw new System.NotImplementedException();
     }
 }

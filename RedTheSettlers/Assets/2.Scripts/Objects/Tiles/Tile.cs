@@ -1,19 +1,10 @@
-﻿using System.Collections;
+﻿using RedTheSettlers.GameSystem;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace RedTheSettlers.Tiles
 {
-    public enum TileType
-    {
-        Cow,
-        Iron,
-        Soil,
-        Water,
-        Wheat,
-        Wood,
-    }
-
     [System.Serializable]
     public struct Coordinate
     {
@@ -32,11 +23,13 @@ namespace RedTheSettlers.Tiles
     {
         private const int tileTypeAmount = 6;
 
-        public TileType tileType;
+        public ItemType TileType;
         [HideInInspector]
-        public Coordinate coordinate;
+        public Coordinate TileCoordinate;
         [HideInInspector]
         public GameObject[] TileBorder = new GameObject[6];
+        [HideInInspector]
+        public int TileLevel;
 
         private void Start()
         {

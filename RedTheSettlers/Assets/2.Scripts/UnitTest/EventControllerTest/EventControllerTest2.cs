@@ -14,7 +14,7 @@ namespace RedTheSettlers.UnitTest
     {
         GameData datas = DataManager.Instance.GameData;
 
-        public IEnumerator EventFlow()
+        public void EventFlow()
         {
             int turnCount = GetTurnCount();
 
@@ -27,6 +27,9 @@ namespace RedTheSettlers.UnitTest
                 int playerNumber = GetLowestPlayer();
                 if (playerNumber == 1)
                 {
+                    // 게임 매니저로 PickWeatherEvent를 넘기는 함수 동작
+                    //GameManager.Instance.(PickWeatherEvent());
+
                     // 유저의 날씨 선택
                     // UI 기다려야 하니 코루틴으로 동작
                     //yield return PlayerSelect();
@@ -38,7 +41,7 @@ namespace RedTheSettlers.UnitTest
                 //QualifyWeatherSelect(playerNumber);
             }
 
-            yield return new WaitForSeconds(3);
+            //yield return new WaitForSeconds(3);
         }
 
         public int GetTurnCount()
@@ -107,18 +110,18 @@ namespace RedTheSettlers.UnitTest
         private int GetLowestPlayer()
         {
             int lowestPlayerNumber = 0;
-            int tempCampCount = GlobalVariables.maxTileCount;
+            int tempCampCount = GlobalVariables.MaxTileCount;
 
-            for (int i = 0; i < GlobalVariables.maxPlayerNumber; i++)
+            for (int i = 0; i < GlobalVariables.MaxPlayerNumber; i++)
             {
                 // 캠프 수가 같으면, 자원 수가 적은 사람이 우선권, 그것도 같으면 번호순
-                if (tempCampCount > datas.PlayerData[i].TileList.Count)
+                if (tempCampCount > datas.PlayerData[i].TileList.Count) // 수정
                 {
                     lowestPlayerNumber = i;
                 }
-                else if(tempCampCount == datas.PlayerData[i].TileList.Count)
+                else if(tempCampCount == datas.PlayerData[i].TileList.Count) // 수정
                 {
-                    if (datas.PlayerData[lowestPlayerNumber].ItemData.SumOfItem > datas.PlayerData[i].ItemData.SumOfItem)
+                    if (GameManager.Instance.GetPlayerItemCountAll((UserType)lowestPlayerNumber) > GameManager.Instance.GetPlayerItemCountAll((UserType)i))
                         lowestPlayerNumber = i;
                 }
             }

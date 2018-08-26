@@ -12,7 +12,7 @@ namespace RedTheSettlers.Enemys
 
         public override void DoAction()
         {
-            animator.SetFloat("Speed", rigidbodyComponent.velocity.magnitude);
+            animator.SetBool("IsMoving", false);
         }
     }
 }

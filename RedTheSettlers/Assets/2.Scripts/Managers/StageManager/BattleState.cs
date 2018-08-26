@@ -16,13 +16,16 @@ namespace RedTheSettlers.GameSystem
 {
     class BattleState : State
     {
+        public override State Enter()
+        {
+            //배틀이 종료되면 
+            throw new System.NotImplementedException();
+        }
 
-        public override State ChangeStage(StageType stageType)
-
+        public override State Exit()
         {
             throw new System.NotImplementedException();
         }
 
     }
 }
-

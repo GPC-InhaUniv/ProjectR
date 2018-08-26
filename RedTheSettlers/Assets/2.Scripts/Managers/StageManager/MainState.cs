@@ -16,25 +16,17 @@ namespace RedTheSettlers.GameSystem
 {
     class MainState : State
     {
-
-        public override State ChangeStage(StageType stageType)
-
+        public override State Enter()
         {
-            switch (stageType)
-            {
-                case StageType.TutorialStageState:
-
-                    return new TutorialState();
-
-                case StageType.BattleStageState:
-
-                    return new BattleState();
-
-                default:
-                    return null;
-            }
+            //배틀장면으로 갈때 메인 카메라를 꺼준다
+            throw new System.NotImplementedException();
         }
-        
+
+        public override State Exit()
+        {
+            // 배틀카메라를 카메라를 낀다
+            throw new System.NotImplementedException();
+        }
     }
 }
 

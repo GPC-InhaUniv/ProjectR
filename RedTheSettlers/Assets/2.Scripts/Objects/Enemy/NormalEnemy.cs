@@ -3,14 +3,18 @@ using RedTheSettlers.UnitTest;
 
 namespace RedTheSettlers.Enemys
 {
+    /// <summary>
+    /// 일반 몬스터 클래스 생성과 동시에 SetType와 SetStatus를 같이 실행해야한다.
+    /// 작업자 : 최대원
+    /// </summary>
     public class NormalEnemy : Enemy
     {
-        EnemyFireBall enemyFireBall;
+        private const float attack1Tick = 1.6f;
+        private const float attack2Tick = 3.3f;
 
         private void Start()
         {
             Setting();
-            //SetStatus();
         }
 
         private void Update()
@@ -32,10 +36,21 @@ namespace RedTheSettlers.Enemys
                     currentState = new Damage(animator);
                     break;
                 case EnemyStateType.Attack1:
-                    currentState = new Normal.AttackPattern1(animator);
+                    if (isAttackable[0])
+                    {
+                        currentState = new Normal.AttackPattern1(animator);
+
+                        isAttackable[0] = false;
+                        Pattern1Timer = GameTimeManager.Instance.PopTimer();
+                        Pattern1Timer.SetTimer(attack1Tick, false);
+                        Pattern1Timer.Callback = new TimerCallback(SetAttackable1);
+                        Pattern1Timer.StartTimer();
+                    }
                     break;
                 case EnemyStateType.Attack2:
-                    currentState = new Normal.AttackPattern2(
+                    if (isAttackable[1])
+                    {
+                        currentState = new Normal.AttackPattern2(
                         PopFireBall(),
                         FireBallLifeTimer,
                         animator,
@@ -46,6 +61,13 @@ namespace RedTheSettlers.Enemys
                         FireBallSpeed,
                         new TimerCallback(PushFireBall),
                         new ChangeStateCallback(ChangeState));
+
+                        isAttackable[1] = false;
+                        Pattern1Timer = GameTimeManager.Instance.PopTimer();
+                        Pattern1Timer.SetTimer(attack1Tick, false);
+                        Pattern1Timer.Callback = new TimerCallback(SetAttackable2);
+                        Pattern1Timer.StartTimer();
+                    }
                     break;
                 case EnemyStateType.Move:
                     currentState = new Move(
@@ -63,15 +85,9 @@ namespace RedTheSettlers.Enemys
             base.ChangeState(stateType);
         }
 
-        private static void executeDelegate(ChangeStateCallback changeStateCallback)
+        private static void ExecuteDelegate(ChangeStateCallback changeStateCallback)
         {
             changeStateCallback(EnemyStateType.Idle);
-        }
-
-
-        public void SetType(EnemyType enemyType)
-        {
-            typeRenderer.material = materials[(int)enemyType];
         }
 
         private void StartAttack1()
@@ -85,33 +101,21 @@ namespace RedTheSettlers.Enemys
             attackArea.AttackCollider.enabled = false;
         }
 
-        public void StartAttack2()
-        {
-            ChangeState(EnemyStateType.Attack2);
-        }
-
         private void EndDamage()
         {
             ChangeState(EnemyStateType.Idle);
         }
 
-        public EnemyFireBall PopFireBall()
-        {
-            enemyFireBall = ObjectPoolManager.Instance.FireballQueue.Dequeue();
-            enemyFireBall.gameObject.SetActive(true);
-            return enemyFireBall;
-        }
-
-        public void PushFireBall()
-        {
-            FireBallLifeTimer = null;
-            enemyFireBall.gameObject.SetActive(false);
-            ObjectPoolManager.Instance.FireballQueue.Enqueue(enemyFireBall);
-        }
-
+        /// <summary>
+        /// 일반 몹 전용 스텟 설정 메서드
+        /// </summary>
+        /// <param name="ItemNumber"></param>
         protected override void SetStatus(int ItemNumber)
         {
-            base.SetStatus(ItemNumber);
+            MaxHp = 10 + ItemNumber * 3;
+            Power = 2 + ItemNumber * 0.5f;
+            CurrentHp = MaxHp;
         }
+        protected override void SetStatus(int HP, int Power, bool IsLastBoss) { }
     }
 }

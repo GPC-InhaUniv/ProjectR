@@ -4,11 +4,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace RedTheSettlers.AI
+namespace RedTheSettlers.Users
 {
     public class SoftStrategy : MonoBehaviour, IAIStrategy
     {
-        public BoardTile CalculateTileWeight(BoardTile boardTile, Dictionary<TileType, int> resource)
+        public BoardTile CalculateTileWeight(BoardTile boardTile, ItemData[] itemData)
         {
             int[] coordX = { 1, 1, 0, -1, -1, 0 };
             int[] coordZ = { 0, -1, -1, 0, 1, 1 };
@@ -17,14 +17,14 @@ namespace RedTheSettlers.AI
 
             for (int i = 0; i < 6; i++)
             {
-                BoardTile comparerTile = TileManager.Instance.TileGrid[boardTile.coordinate.x + coordX[i], boardTile.coordinate.z + coordZ[i]].GetComponent<BoardTile>();
+                BoardTile comparerTile = TileManager.Instance.TileGrid[boardTile.TileCoordinate.x + coordX[i], boardTile.TileCoordinate.z + coordZ[i]].GetComponent<BoardTile>();
 
                 if (comparerTile.tileOwner != TileOwner.None)
                 {
                     continue;
                 }
 
-                comparerTile.CalculateTileWeight(resource);
+                comparerTile.CalculateTileWeight(itemData);
 
                 if (targetBoardTile == null)
                 {

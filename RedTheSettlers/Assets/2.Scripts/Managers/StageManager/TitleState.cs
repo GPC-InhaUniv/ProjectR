@@ -16,32 +16,18 @@ namespace RedTheSettlers.GameSystem
 {
     class TitleState : State
     {
-
-       
-
-     
-
-        public override State ChangeStage(StageType stageType)
-
+        public override State Enter()
         {
-            SceneManager.LoadSceneAsync((int)StageType.LoadingStageState);
-            return new LoadingState();
+            throw new System.NotImplementedException();
+            //확인 버튼을 누르면
+
         }
 
-        
-
-        //public IEnumerator ChangeStage()
-        //{
-        //    AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(1);
-
-        //    asyncOperation.allowSceneActivation = false;
-
-        //    yield return asyncOperation;
-
-        //    asyncOperation.allowSceneActivation = true;
-        //}
-
-       
+        public override State Exit()
+        {
+            throw new System.NotImplementedException();
+            // 로그인이 성공이라면 로딩장면 상태로 넘어간다.
+        }
     }
 
 }

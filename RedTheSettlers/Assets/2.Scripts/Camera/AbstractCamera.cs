@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace RedTheSettlers.GameSystem
 {
-    public class AbstractCamera
+    public abstract class AbstractCamera
     {
         //추상적 개념에 대한 인터페이스를 제공하고 객체 구현자(ICamera)에 대한 참조자를 관리한다
         //카메라에 뭐가 있어야할까 생각해보자
@@ -36,9 +36,9 @@ namespace RedTheSettlers.GameSystem
         {
             cameraMoving.Moving(vector3);
         }
-        public void ZoomInOutCamera()
+        public void ZoomInOutCamera(float value)
         {
-            cameraZoomInOut.ZoomInOut();
+            cameraZoomInOut.ZoomInOut(value);
         }
         public void LookAt(Transform target)
         {

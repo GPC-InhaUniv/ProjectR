@@ -24,7 +24,7 @@ ModelImporter:
     400014: StoneMonster
     400016: //RootNode
     4300000: StoneMonster
-    7400000: Attack
+    7400000: EnemyAttack
     9500000: //RootNode
     11100000: //RootNode
     13700000: StoneMonster
@@ -52,7 +52,7 @@ ModelImporter:
     extraExposedTransformPaths: []
     clipAnimations:
     - serializedVersion: 16
-      name: Attack
+      name: EnemyAttack
       takeName: Anim_Attack
       firstFrame: 1
       lastFrame: 30

@@ -1,9 +1,11 @@
-﻿using RedTheSettlers.Tiles;
-using System.Collections;
+﻿using RedTheSettlers.GameSystem;
+using RedTheSettlers.Tiles;
 using System.Collections.Generic;
-using UnityEngine;
 
-public interface IAIStrategy {
-
-    BoardTile CalculateTileWeight(BoardTile boardTile, Dictionary<TileType, int> resource);
+namespace RedTheSettlers.Users
+{
+    public interface IAIStrategy
+    {
+        BoardTile CalculateTileWeight(BoardTile boardTile, ItemData[] itemData);
+    }
 }

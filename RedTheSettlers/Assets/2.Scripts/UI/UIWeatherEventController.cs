@@ -36,7 +36,7 @@ namespace RedTheSettlers.UI
 
             switch (whatEvent) //gameData
             {
-                //text 부분 enum 처리? 아니면 json으로 준명님이 만들어주시면 매개변수를 가져옴.
+                //[수정시] text 부분 enum 처리? 아니면 json으로 준명님이 만들어주시면 매개변수를 가져온다던가.
                 case 0:
                     {
                         currentEventTitle.text = "현재 날씨는 맑습니다";

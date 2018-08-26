@@ -3,106 +3,122 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using RedTheSettlers.UnitTest;
 
 /// <summary>
 /// 작성자 : 강다희
-/// 날씨카드 등장 시 랜덤으로 받은 이미지가 좌우로 배치되며,
-/// 선택 시 나머지 카드들이 사라지는 연출이 일어남.
+/// 날씨이벤트 등장 시 랜덤으로 받은 카드 3장이 배치되며,
+/// 선택 시 나머지 카드들이 사라짐.
 /// </summary>
 
 namespace RedTheSettlers.UI
 {
     public class UIWeatherSelect : MonoBehaviour
     {
-        [Header("Select Button")]
-        [SerializeField]
-        private Button selectImageButton;
-
-        [Header("Booked Card")]
-        [SerializeField]
-        private GameObject firstCardImage;
+        private EventControllerTest2 eventControllerTest2; //게임매니저 함수 구현 시 삭제 예정
 
         [SerializeField]
-        private GameObject secondCardImage;
-
-        [SerializeField]
-        private GameObject thirdCardImage;
-
-        [Serializable]
-        private struct ItemImage
-        {
-            public Button defaultImage;
-            public Button cowCardImage;
-            public Button waterCardImage;
-            public Button wheatCardImage;
-            public Button woodCardImage;
-            public Button ironCardImage;
-            public Button soilCardImage;
-        }
-
-        [Header("Select Button")]
-        [SerializeField]
-        private ItemImage[] itemImage;
+        private GameObject[] EventItemCardImage;
 
         [Header("Card Image Position")]
         [SerializeField]
         private GameObject leftCardImage;
 
         [SerializeField]
-        private GameObject startCardImage;
+        private GameObject middleCardImage;
 
         [SerializeField]
         private GameObject rightCardImage;
 
-        private float speed = 1000f;
+        [SerializeField]
+        private GameObject cardPositionGroup;
 
+        private int[] eventArray;
+        private GameObject[] selectedCard;
+        private int eventNumber;
 
-        private void ChangeWeatherCard()
-        {
-            //지용님에게 받아서 랜덤으로 뽑힌 해당 값에 따라 이미지 변경
-        }
-
-        private void MoveWeatherCard()
-        {
-            float moveSpeed = 800 * Time.deltaTime;
-
-            Vector3 leftCardPosition;
-            Vector3 middleCardPosition;
-            Vector3 rightCardPosition;
-
-            leftCardPosition = leftCardImage.transform.position;
-            middleCardPosition = startCardImage.transform.position;
-            rightCardPosition = rightCardImage.transform.position;
-
-            firstCardImage.transform.position = Vector3.MoveTowards(firstCardImage.transform.position, leftCardPosition, moveSpeed);
-            secondCardImage.transform.position = Vector3.MoveTowards(secondCardImage.transform.position, middleCardPosition, moveSpeed);
-            thirdCardImage.transform.position = Vector3.MoveTowards(thirdCardImage.transform.position, rightCardPosition, moveSpeed);
-        }
-
-
-        private void OnClickWeatherCard()
-        {
-        }
+        public float smoothing = 1f;
 
         private void Start()
         {
-            //StartCoroutine(StartCoroutine());
+            eventControllerTest2 = GetComponent<EventControllerTest2>();  //게임매니저 함수 구현 시 삭제 예정
+            selectedCard = new GameObject[3];
+            ChangeWeatherCard();
+            StartCoroutine(MoveWeatherCard());
         }
 
-        IEnumerator StartCoroutine()
+        public void ChangeWeatherCard()
+        {
+            eventArray = eventControllerTest2.PickWeatherEvent();  //게임매니저 함수 구현 시 삭제 예정
+
+            for (int i = 0; i < eventArray.Length; i++)
+            {
+                selectedCard[i] = EventItemCardImage[eventArray[i]];
+                selectedCard[i].SetActive(true);
+            }
+        }
+
+        private IEnumerator MoveWeatherCard()
         {
             while (true)
             {
+                float moveSpeed = 800 * Time.deltaTime;
 
+                Vector3 leftCardPosition;
+                Vector3 middleCardPosition;
+                Vector3 rightCardPosition;
+
+                leftCardPosition = leftCardImage.transform.position;
+                middleCardPosition = middleCardImage.transform.position;
+                rightCardPosition = rightCardImage.transform.position;
+
+                selectedCard[0].transform.position = Vector3.MoveTowards(selectedCard[0].transform.position, leftCardPosition, moveSpeed);
+                selectedCard[1].transform.position = Vector3.MoveTowards(selectedCard[1].transform.position, middleCardPosition, moveSpeed);
+                selectedCard[2].transform.position = Vector3.MoveTowards(selectedCard[2].transform.position, rightCardPosition, moveSpeed);
+
+                if (selectedCard[0].transform.position == leftCardPosition)
+                {
+                    break;
+                }
+                yield return null;
             }
-
-            yield break;
         }
 
-        // Update is called once per frame
-        private void Update()
+        public void OnClickWeatherCard(int Count)
         {
-            MoveWeatherCard();
+            if (selectedCard[0].transform.position == leftCardImage.transform.position)
+            {
+                if (Count == 0)
+                {
+                    Debug.Log("left");
+                    eventNumber = eventArray[Count];
+                    cardPositionGroup.SetActive(false);
+                    selectedCard[1].SetActive(false);
+                    selectedCard[2].SetActive(false);
+                }
+                else if (Count == 1)
+                {
+                    Debug.Log("middle");
+                    eventNumber = eventArray[Count];
+                    cardPositionGroup.SetActive(false);
+                    selectedCard[0].SetActive(false);
+                    selectedCard[2].SetActive(false);
+                }
+                else if (Count == 2)
+                {
+                    Debug.Log("right");
+                    eventNumber = eventArray[Count];
+                    cardPositionGroup.SetActive(false);
+                    selectedCard[0].SetActive(false);
+                    selectedCard[1].SetActive(false);
+                }
+                Invoke("SendEventNumber", 3.0f);
+            }
+        }
+
+        public void SendEventNumber()
+        {
+            //UIManager.Instance.~~~(eventNumber);
         }
     }
 }

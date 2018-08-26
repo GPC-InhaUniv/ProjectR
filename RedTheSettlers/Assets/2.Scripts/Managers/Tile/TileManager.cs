@@ -7,45 +7,44 @@ namespace RedTheSettlers.GameSystem
 {
     public class TileManager : Singleton<TileManager>
     {
-
         public GameObject[,] TileGrid;
 
-        void Start()
+        public void IntializeTileSet()
         {
-            TileGrid = new GameObject[GlobalVariables.tileGridSize + 8, GlobalVariables.tileGridSize + 8];
+            TileGrid = new GameObject[GlobalVariables.TileGridSize + 8, GlobalVariables.TileGridSize + 8];
 
             CreateTileGrid();
             ShowTile();
         }
 
-        void CreateTileGrid()
+        private void CreateTileGrid()
         {
             int index = 0;
 
-            for (int z = 0; z < GlobalVariables.tileGridSize + 8; z++)
+            for (int z = 0; z < GlobalVariables.TileGridSize + 8; z++)
             {
-                for (int x = 0; x < GlobalVariables.tileGridSize + 8; x++)
+                for (int x = 0; x < GlobalVariables.TileGridSize + 8; x++)
                 {
-                    if (z > -x + GlobalVariables.minZIntercept && z < -x + GlobalVariables.maxZIntercept)
+                    if (z > -x + GlobalVariables.MinZIntercept && z < -x + GlobalVariables.MaxZIntercept)
                     {
                         float xCoord = CalculateXcoord(x, z);
                         float zCoord = CalculateZcoord(z);
                         TileGrid[x, z] = ObjectPoolManager.Instance.TileSet[index].gameObject;
                         TileGrid[x, z].transform.position = new Vector3(xCoord, 0.05f, zCoord);
-                        TileGrid[x, z].GetComponent<BoardTile>().coordinate = new Coordinate(x, z);
+                        TileGrid[x, z].GetComponent<BoardTile>().TileCoordinate = new Coordinate(x, z);
                         index++;
                     }
                 }
             }
         }
 
-        void ShowTile()
+        private void ShowTile()
         {
-            for (int z = 0; z < GlobalVariables.tileGridSize; z++)
+            for (int z = 0; z < GlobalVariables.TileGridSize; z++)
             {
-                for (int x = 0; x < GlobalVariables.tileGridSize; x++)
+                for (int x = 0; x < GlobalVariables.TileGridSize; x++)
                 {
-                    if (z > -x + GlobalVariables.minZIntercept && z < -x + GlobalVariables.maxZIntercept)
+                    if (z > -x + GlobalVariables.MinZIntercept && z < -x + GlobalVariables.MaxZIntercept)
                     {
                         TileGrid[x, z].SetActive(true);
                     }

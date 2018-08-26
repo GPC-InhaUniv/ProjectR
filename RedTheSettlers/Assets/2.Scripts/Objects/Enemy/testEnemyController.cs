@@ -22,8 +22,8 @@ namespace RedTheSettlers.UnitTest
                 if (Physics.Raycast(ray, out hitInfo, 100f))
                 {
                     Debug.Log("hit point : " + hitInfo.point);
-                    //enemy.destinationPoint = new Vector3(hitInfo.point.x, 0, hitInfo.point.z);
-                    //enemy.ChangeState(EnemyStateType.Move);
+                    enemy.destinationPoint = new Vector3(hitInfo.point.x, 0, hitInfo.point.z);
+                    enemy.ChangeState(EnemyStateType.Move);
                 }
             }
         }

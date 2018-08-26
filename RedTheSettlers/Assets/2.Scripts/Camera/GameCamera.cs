@@ -13,8 +13,8 @@ namespace RedTheSettlers.GameSystem
         string cameraName;
         private void Awake()
         {
-            cameraName = gameObject.name;
-            if (cameraName == "Board Camera")
+            cameraName = gameObject.tag;
+            if (cameraName == "BoardCamera")
             {
                 abstractCamera = new BoardCamera(gameObject);
             }
@@ -22,7 +22,6 @@ namespace RedTheSettlers.GameSystem
             {
                 abstractCamera = new BattleCamera(gameObject);
             }
-            //abstractCamera = gameObject.GetComponent<Camera>();
         }
 
 
@@ -38,9 +37,9 @@ namespace RedTheSettlers.GameSystem
         {
             abstractCamera.MovingCamera(vector3);
         }
-        public void ZoomInOutCamera()
+        public void ZoomInOutCamera(float value)
         {
-            abstractCamera.ZoomInOutCamera();
+            abstractCamera.ZoomInOutCamera(value);
         }
         public void Looking(Transform target)
         {

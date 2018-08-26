@@ -1,6 +1,6 @@
-﻿using RedTheSettlers.AI;
-using RedTheSettlers.GameSystem;
+﻿using RedTheSettlers.GameSystem;
 using RedTheSettlers.Tiles;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace RedTheSettlers.Enemys
@@ -21,6 +21,7 @@ namespace RedTheSettlers.Enemys
         protected Collider HitColliderComponent;
         protected Rigidbody rigidbodyComponent;
         protected GameObject targetObject;
+        protected int bossPhase;
 
         protected Vector3 destinationPoint;
         protected Vector3 currentPoint;
@@ -33,8 +34,8 @@ namespace RedTheSettlers.Enemys
         protected float timeToReturn;
         protected float fireballSpeed;
 
-        protected FireballExplode explodePrefab;
-        protected FireballExplode explode;
+        protected Explode explodePrefab;
+        public Explode explode;
         protected GameTimer explodeLifeTimer;
         protected float explodeLifeTime;
 

@@ -7,6 +7,8 @@ using UnityEngine.UI;
 /// 작성자 : 강다희
 /// Tile 선택 시, 미개척/개척(플레이어)/개척(AI)인지 체크하고,
 /// 해당 값을 출력해 주며 캠프짓기/캠프뺏기/업그레이드가 가능함.
+/// 
+/// [참고] 타일을 인풋으로 선택 했을 때 UI가 setactive되는 것은 UIManager에서 해야함.
 /// </summary>
 
 namespace RedTheSettlers.UI

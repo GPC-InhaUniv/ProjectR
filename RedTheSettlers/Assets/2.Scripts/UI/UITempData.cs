@@ -12,35 +12,35 @@ public class UITempData : MonoBehaviour {
         gameData = new GameData(4);
 
         //>>Resource<<
-        gameData.PlayerData[0].ItemData.CowNumber = 1;
-        gameData.PlayerData[1].ItemData.CowNumber = 2;
-        gameData.PlayerData[2].ItemData.CowNumber = 3;
-        gameData.PlayerData[3].ItemData.CowNumber = 4;
+        gameData.PlayerData[0].ItemList[(int)ItemType.Cow].Count = 1;
+        gameData.PlayerData[1].ItemList[(int)ItemType.Cow].Count = 2;
+        gameData.PlayerData[2].ItemList[(int)ItemType.Cow].Count = 3;
+        gameData.PlayerData[3].ItemList[(int)ItemType.Cow].Count = 4;
 
-        gameData.PlayerData[0].ItemData.WaterNumber = 5;
-        gameData.PlayerData[1].ItemData.WaterNumber = 15;
-        gameData.PlayerData[2].ItemData.WaterNumber = 20;
-        gameData.PlayerData[3].ItemData.WaterNumber = 25;
+        gameData.PlayerData[0].ItemList[(int)ItemType.Water].Count = 5;
+        gameData.PlayerData[1].ItemList[(int)ItemType.Water].Count = 15;
+        gameData.PlayerData[2].ItemList[(int)ItemType.Water].Count = 20;
+        gameData.PlayerData[3].ItemList[(int)ItemType.Water].Count = 25;
 
-        gameData.PlayerData[0].ItemData.WheatNumber = 5;
-        gameData.PlayerData[1].ItemData.WheatNumber = 6;
-        gameData.PlayerData[2].ItemData.WheatNumber = 7;
-        gameData.PlayerData[3].ItemData.WheatNumber = 8;
+        gameData.PlayerData[0].ItemList[(int)ItemType.Wheat].Count = 5;
+        gameData.PlayerData[1].ItemList[(int)ItemType.Wheat].Count = 6;
+        gameData.PlayerData[2].ItemList[(int)ItemType.Wheat].Count = 7;
+        gameData.PlayerData[3].ItemList[(int)ItemType.Wheat].Count = 8;
 
-        gameData.PlayerData[0].ItemData.WoodNumber = 2;
-        gameData.PlayerData[1].ItemData.WoodNumber = 4;
-        gameData.PlayerData[2].ItemData.WoodNumber = 6;
-        gameData.PlayerData[3].ItemData.WoodNumber = 8;
+        gameData.PlayerData[0].ItemList[(int)ItemType.Wood].Count = 2;
+        gameData.PlayerData[1].ItemList[(int)ItemType.Wood].Count = 4;
+        gameData.PlayerData[2].ItemList[(int)ItemType.Wood].Count = 6;
+        gameData.PlayerData[3].ItemList[(int)ItemType.Wood].Count = 8;
 
-        gameData.PlayerData[0].ItemData.IronNumber = 4;
-        gameData.PlayerData[1].ItemData.IronNumber = 8;
-        gameData.PlayerData[2].ItemData.IronNumber = 12;
-        gameData.PlayerData[3].ItemData.IronNumber = 16;
+        gameData.PlayerData[0].ItemList[(int)ItemType.Iron].Count = 4;
+        gameData.PlayerData[1].ItemList[(int)ItemType.Iron].Count = 8;
+        gameData.PlayerData[2].ItemList[(int)ItemType.Iron].Count = 12;
+        gameData.PlayerData[3].ItemList[(int)ItemType.Iron].Count = 16;
 
-        gameData.PlayerData[0].ItemData.SoilNumber = 3;
-        gameData.PlayerData[1].ItemData.SoilNumber = 6;
-        gameData.PlayerData[2].ItemData.SoilNumber = 9;
-        gameData.PlayerData[3].ItemData.SoilNumber = 12;
+        gameData.PlayerData[0].ItemList[(int)ItemType.Soil].Count = 3;
+        gameData.PlayerData[1].ItemList[(int)ItemType.Soil].Count = 6;
+        gameData.PlayerData[2].ItemList[(int)ItemType.Soil].Count = 9;
+        gameData.PlayerData[3].ItemList[(int)ItemType.Soil].Count = 12;
         //<<
 
         //>>Equipement
