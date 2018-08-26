@@ -15,30 +15,28 @@ namespace RedTheSettlers.Enemys
 
         private const float explodeLifeTime = 10f;
         private Vector3 explosionLocation;
+        [SerializeField]
         private int bossPhase;
         private Vector3 fireballPosition;
-
-        [SerializeField]
         private GameTimer explodeLifeTimer;
         private GameTimer fireballLifeTimer;
         [SerializeField]
         private Explode explodePrefab;
         private Explode explode;
         public Queue<Explode> explodeList;
-        public Queue<EnemyFireBall> FireballList;
         public Queue<EnemyFireBall> LaunchedFireballList;
+        private const float attack1Tick = 1.0f;
+        private const float attack2Tick = 8.0f;
 
         private void Start()
         {
             base.Setting();
             Setting();
-            
         }
 
         protected override void Setting()
         {
             explodeList = new Queue<Explode>();
-            FireballList = new Queue<EnemyFireBall>();
             LaunchedFireballList = new Queue<EnemyFireBall>();
         }
 
@@ -56,7 +54,9 @@ namespace RedTheSettlers.Enemys
                     currentState = new Damage(animator);
                     break;
                 case EnemyStateType.Attack1:
-                    currentState = new Boss.Attack(
+                    if (isAttackable[0])
+                    {
+                        currentState = new Boss.Attack(
                         animator,
                         bossPhase,
                         fireballLifeTimer,
@@ -64,13 +64,21 @@ namespace RedTheSettlers.Enemys
                         TargetObject,
                         transform,
                         TimeToReturn,
-                        FireballList,
+                        ObjectPoolManager.Instance.FireballQueue,
                         FireBallSpeed,
-                        LaunchedFireballList
-                        );
+                        LaunchedFireballList);
+
+                        isAttackable[0] = false;
+                        Pattern1Timer = GameTimeManager.Instance.PopTimer();
+                        Pattern1Timer.SetTimer(attack1Tick, false);
+                        Pattern1Timer.Callback = new TimerCallback(SetAttackable1);
+                        Pattern1Timer.StartTimer();
+                    }
                     break;
                 case EnemyStateType.Attack2:
-                    currentState = new Boss.UseSkill(
+                    if (isAttackable[1])
+                    {
+                        currentState = new Boss.UseSkill(
                         animator,
                         explode,
                         explodeLifeTimer,
@@ -78,6 +86,13 @@ namespace RedTheSettlers.Enemys
                         explodeLifeTime,
                         new TimerCallback(UseSkillEnd),
                         bossPhase);
+
+                        isAttackable[1] = false;
+                        Pattern1Timer = GameTimeManager.Instance.PopTimer();
+                        Pattern1Timer.SetTimer(attack2Tick, false);
+                        Pattern1Timer.Callback = new TimerCallback(SetAttackable2);
+                        Pattern1Timer.StartTimer();
+                    }
                     break;
                 case EnemyStateType.Move:
                     currentState = new Move(
@@ -170,12 +185,13 @@ namespace RedTheSettlers.Enemys
             Explode tempExplode = explodeList.Dequeue();
             ObjectPoolManager.Instance.ExplodeQueue.Enqueue(tempExplode);
             tempExplode.gameObject.SetActive(false);
-
         }
 
         void PushFireballTimer()
         {
-
+            EnemyFireBall fireBall = LaunchedFireballList.Dequeue();
+            ObjectPoolManager.Instance.FireballQueue.Enqueue(fireBall);
+            fireBall.gameObject.SetActive(false);
         }
 
         void EndSkill()

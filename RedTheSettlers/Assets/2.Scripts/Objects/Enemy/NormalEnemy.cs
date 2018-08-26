@@ -9,7 +9,8 @@ namespace RedTheSettlers.Enemys
     /// </summary>
     public class NormalEnemy : Enemy
     {
-        
+        private const float attack1Tick = 1.6f;
+        private const float attack2Tick = 3.3f;
 
         private void Start()
         {
@@ -35,10 +36,21 @@ namespace RedTheSettlers.Enemys
                     currentState = new Damage(animator);
                     break;
                 case EnemyStateType.Attack1:
-                    currentState = new Normal.AttackPattern1(animator);
+                    if (isAttackable[0])
+                    {
+                        currentState = new Normal.AttackPattern1(animator);
+
+                        isAttackable[0] = false;
+                        Pattern1Timer = GameTimeManager.Instance.PopTimer();
+                        Pattern1Timer.SetTimer(attack1Tick, false);
+                        Pattern1Timer.Callback = new TimerCallback(SetAttackable1);
+                        Pattern1Timer.StartTimer();
+                    }
                     break;
                 case EnemyStateType.Attack2:
-                    currentState = new Normal.AttackPattern2(
+                    if (isAttackable[1])
+                    {
+                        currentState = new Normal.AttackPattern2(
                         PopFireBall(),
                         FireBallLifeTimer,
                         animator,
@@ -49,6 +61,13 @@ namespace RedTheSettlers.Enemys
                         FireBallSpeed,
                         new TimerCallback(PushFireBall),
                         new ChangeStateCallback(ChangeState));
+
+                        isAttackable[1] = false;
+                        Pattern1Timer = GameTimeManager.Instance.PopTimer();
+                        Pattern1Timer.SetTimer(attack1Tick, false);
+                        Pattern1Timer.Callback = new TimerCallback(SetAttackable2);
+                        Pattern1Timer.StartTimer();
+                    }
                     break;
                 case EnemyStateType.Move:
                     currentState = new Move(
@@ -80,11 +99,6 @@ namespace RedTheSettlers.Enemys
         {
             ChangeState(EnemyStateType.Idle);
             attackArea.AttackCollider.enabled = false;
-        }
-
-        public void StartAttack2()
-        {
-            ChangeState(EnemyStateType.Attack2);
         }
 
         private void EndDamage()
