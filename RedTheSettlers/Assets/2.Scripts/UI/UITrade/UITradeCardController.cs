@@ -53,6 +53,7 @@ namespace RedTheSettlers.UI
         private int[] tradeItemValue = new int[6]
         {0,0,0,0,0,0};  //순서대로 Cow,Iron,Soil,Water,Wheat,Wood
 
+        private ItemData[] receiveTradeData;
         //임시데이터 나중에 삭제할 예정
         GameData gameData;
         public void TestLoadData(GameData data)
@@ -244,6 +245,11 @@ namespace RedTheSettlers.UI
             {
                 Debug.Log(tradeItemValue[i]);
             }
+        }
+
+        public void SetTradeData(ItemData[] itemData)
+        {
+            receiveTradeData = itemData;
         }
     }
 }

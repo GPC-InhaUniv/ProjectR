@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using RedTheSettlers.GameSystem;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -43,6 +44,11 @@ namespace RedTheSettlers.UI
         {
             tradeUI.SetActive(true);
             playerTurnUI.SetActive(false);
+        }
+
+        public void ReceiveTradeData(ItemData[] itemData)
+        {
+            tradeUI.GetComponent<UITradeCardController>().SetTradeData(itemData);
         }
 
         public void OnClickedTurnCloseButton()
