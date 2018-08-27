@@ -188,7 +188,7 @@ namespace RedTheSettlers.GameSystem
         /// </summary>
         public void SendWeatherCard(int[] weathers)
         {
-            
+            UIManager.Instance.ShowWheatherEvent(weathers);
         }
 
         /// <summary>
