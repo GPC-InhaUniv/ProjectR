@@ -29,7 +29,7 @@ namespace RedTheSettlers.UnitTest
 
                 if (playerNumber == 1)
                 {
-                    GameManager.Instance.SelectedWeatherCard(weathers);
+                    GameManager.Instance.SendWeatherCard(weathers);
                 }
                 else
                 {

@@ -184,11 +184,11 @@ namespace RedTheSettlers.GameSystem
         }
 
         /// <summary>
-        /// 선택 된 날씨 카드를 반환합니다.
+        /// 선택된 날씨 정보를 UI로 전달합니다.
         /// </summary>
-        public void SendWeatherCard(int item, int count)
+        public void SendWeatherCard(int[] weathers)
         {
-            //날씨 카드에서 무엇을 골랐는지 이벤트 컨트롤러에게
+            
         }
 
         /// <summary>
