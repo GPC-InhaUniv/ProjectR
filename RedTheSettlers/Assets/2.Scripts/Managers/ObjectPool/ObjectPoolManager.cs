@@ -48,13 +48,14 @@ namespace RedTheSettlers.GameSystem
 
             TileSet = new GameObject[TilePoolSize];
 
-            for (int i = 0; i < 200; i++)
+            for (int i = 0; i < 100; i++)
             {
-                int randomTileIndex = Random.Range(0, 0);
+                //int randomTileIndex = DataManager.Instance.GameData.TileData[i];
+                int randomTileIndex = Random.Range(0, 6);
 
                 TileSet[i] = Instantiate(TileObjects[randomTileIndex]);
+                TileSet[i].SetActive(false);
                 TileSet[i].transform.parent = CloneSet[randomTileIndex].transform;
-
             }
 
             TileManager.Instance.IntializeTileSet();

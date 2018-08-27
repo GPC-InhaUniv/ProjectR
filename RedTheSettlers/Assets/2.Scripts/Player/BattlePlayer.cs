@@ -88,13 +88,12 @@ namespace RedTheSettlers.Players
                 }
 
                 isAttacking = false;
-
             }
         }
 
-        public IEnumerator HittedByEnemy(int damage)
+        public void HittedByEnemy(int damage)
         {
-            yield return null;
+
         }
 
         public IEnumerator UseSkill(int skillSlotNum)

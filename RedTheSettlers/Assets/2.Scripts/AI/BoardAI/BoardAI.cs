@@ -56,7 +56,7 @@ namespace RedTheSettlers.Users
 
             for (int i = 0; i < 6; i++)
             {
-                BoardTile targetBoardTile = TileManager.Instance.TileGrid[boardTile.TileCoordinate.x + coordX[i], boardTile.TileCoordinate.z + coordZ[i]].GetComponent<BoardTile>();
+                BoardTile targetBoardTile = TileManager.Instance.BoardTileGrid[boardTile.TileCoordinate.x + coordX[i], boardTile.TileCoordinate.z + coordZ[i]].GetComponent<BoardTile>();
 
                 if (targetBoardTile.tileOwner == TileOwner.AI1)
                 {

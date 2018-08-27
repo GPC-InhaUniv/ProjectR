@@ -60,9 +60,14 @@ namespace RedTheSettlers.GameSystem
 
     static class GlobalVariables
     {
-        public const int TileGridSize = 9;
-        public const int MinZIntercept = 11;
-        public const int MaxZIntercept = 21;
+        public const int BoardTileGridSize = 9;
+        public const int BoardTileMinZIntercept = 3;
+        public const int BoardTileMaxZIntercept = 13;
+
+        public const int BattleTileGridSize = 15;
+        public const int BattleTileMinZIntercept = 3;
+        public const int BattleTileMaxZIntercept = 13;
+
         public const int MaxItemNum = 50;
         public const int MaxEquipmentUpgradeLevel = 3;
         public const int MaxTileUpgradeLevel = 3;
@@ -79,6 +84,8 @@ namespace RedTheSettlers.GameSystem
         public const int MiddleBoss2AppearTurn = 24;
         public const int BossAppearTurn = 36;
         public const int WeatherEventStartTurn = 5;
+
+        public const int BattleAreaOriginCoord = 100;
 
         public const string TAG_PLAYER = "Player";
         public const string TAG_ENEMY = "Enemy";

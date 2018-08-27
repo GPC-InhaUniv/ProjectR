@@ -1,21 +1,31 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using RedTheSettlers.GameSystem;
 
 namespace RedTheSettlers.UnitTest
 {
     public class CattleMove : MonoBehaviour
     {
-        public GameObject Cattle;
-        
-        public void SpawnCattle()
-        {
+        [SerializeField]
+        private float speed = 10f;
+        private int hitDamage = 20;
 
-            Quaternion angle = Quaternion.Euler(0f, Random.Range(0,360f), 0f);
-            GameObject tempCow = Instantiate(Cattle);
-            tempCow.transform.position = new Vector3(0f, 0f, 0f);
-            tempCow.transform.rotation = angle;
-            tempCow.GetComponent<Rigidbody>().AddForce(Vector3.forward);
+        private void FixedUpdate()
+        {
+            transform.Translate(Vector3.forward * speed * Time.deltaTime);
+        }
+
+        private void OnCollisionEnter(Collision collision)
+        {
+            if(collision.gameObject.tag == GlobalVariables.TAG_ENEMY)
+            {
+                Debug.Log("충돌 에너미");
+                //collision.gameObject.GetComponent<Enemy>().Damaged(hitDamage);
+            }
+            else if(collision.gameObject.tag == GlobalVariables.TAG_PLAYER)
+            {
+                //collision.gameObject.GetComponent<BattlePlayer>().HittedByEnemy(hitDamage);
+                Debug.Log("충돌 플레이어");
+            }
         }
     }
 }
