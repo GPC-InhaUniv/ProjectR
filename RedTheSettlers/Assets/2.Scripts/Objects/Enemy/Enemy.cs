@@ -75,7 +75,7 @@ namespace RedTheSettlers.Enemys
         protected GameTimer Pattern1Timer;
         protected GameTimer Pattern2Timer;
         protected GameTimer FireBallLifeTimer;
-        protected bool[] isAttackable;
+        public bool[] isAttackable;
 
         private void Update()
         {
