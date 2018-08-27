@@ -3,21 +3,62 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIManager : Singleton<UIManager>
+namespace RedTheSettlers.UI
 {
-    [SerializeField]
-    private GameObject gameResultCalculateUI;
-
-    [SerializeField]
-    private GameObject equipmentAndSkillUI;
-
-    private void Start()
+    public class UIManager : Singleton<UIManager>
     {
-        equipmentAndSkillUI.gameObject.SetActive(true);
-    }
+        [SerializeField]
+        private GameObject playerTurnUI;
+        [SerializeField]
+        private GameObject tradeUI, equipmentAndSkillUI, stateUI;
+        [SerializeField]
+        private GameObject battleUI;
+        [SerializeField]
+        private GameObject BossWarningUI;
 
-    public void OnClickedBuildCamp()
-    {
-        gameResultCalculateUI.gameObject.SetActive(true);
+
+        private void ShowBoardUI()
+        {
+            playerTurnUI.SetActive(true);
+        }
+
+        public void OnClickedEquipAndSkillButton()
+        {
+            equipmentAndSkillUI.SetActive(true);
+            stateUI.SetActive(false);
+            tradeUI.SetActive(false);
+        }
+
+        public void OnClickedStateButton()
+        {
+            stateUI.SetActive(true);
+            tradeUI.SetActive(false);
+            equipmentAndSkillUI.SetActive(false);
+        }
+
+        public void OnClickedTradeButton()
+        {
+            tradeUI.SetActive(true);
+            stateUI.SetActive(false);
+            equipmentAndSkillUI.SetActive(false);
+        }
+
+        public void OnClickedTurnCloseButton()
+        {
+            playerTurnUI.SetActive(false);
+            equipmentAndSkillUI.SetActive(false);
+            stateUI.SetActive(false);
+            tradeUI.SetActive(false);
+        }
+
+        public void ShowBattleUI()
+        {
+            battleUI.SetActive(true);
+        }
+
+        public void ShowBossWarningUI()
+        {
+            BossWarningUI.SetActive(true);
+        }
     }
 }
