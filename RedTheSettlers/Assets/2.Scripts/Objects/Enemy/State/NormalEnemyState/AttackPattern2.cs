@@ -1,4 +1,5 @@
 ﻿using RedTheSettlers.GameSystem;
+using RedTheSettlers.Players;
 using UnityEngine;
 
 namespace RedTheSettlers.Enemys.Normal
@@ -12,18 +13,9 @@ namespace RedTheSettlers.Enemys.Normal
         const float speedCorrection = 50f;
         const float Yoffset = 0.55f;
 
-        public AttackPattern2(
-            EnemyFireBall fireBall,
-            GameTimer fireballLifeTimer,
-            Animator animator,
-            Transform transform,
-            Rigidbody rigidbodyComponent,
-            GameObject targetObject,
-            Vector3 position,
-            float fireballSpeed,
-            TimerCallback pushFireball,
-            ChangeStateCallback changeStateCallback
-            ) : base(animator)
+        public AttackPattern2(EnemyFireBall fireBall, GameTimer fireballLifeTimer, Animator animator, 
+            Transform transform, Rigidbody rigidbodyComponent, BattlePlayer targetObject, Vector3 position, 
+            float fireballSpeed, TimerCallback pushFireball, ChangeStateCallback changeStateCallback) : base(animator)
         {
             this.fireBall = fireBall;
             this.fireballLifeTimer = fireballLifeTimer;

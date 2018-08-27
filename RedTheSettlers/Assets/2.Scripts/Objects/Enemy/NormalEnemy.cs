@@ -17,11 +17,6 @@ namespace RedTheSettlers.Enemys
             Setting();
         }
 
-        private void Update()
-        {
-            UpdatePosition();
-        }
-
         public override void ChangeState(EnemyStateType stateType)
         {
             switch (stateType)

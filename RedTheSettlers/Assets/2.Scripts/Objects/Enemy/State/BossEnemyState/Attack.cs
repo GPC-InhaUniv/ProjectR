@@ -1,4 +1,5 @@
 ﻿using RedTheSettlers.GameSystem;
+using RedTheSettlers.Players;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,7 +16,9 @@ namespace RedTheSettlers.Enemys.Boss
         private Queue<EnemyFireBall> FireballList;
         private Queue<EnemyFireBall> LaunchedFireballList;
 
-        public Attack(Animator animator, int bossPhase, GameTimer fireballTimer, TimerCallback timerCallback, GameObject targetObject, Transform transform, float TimeToReturn, Queue<EnemyFireBall> fireballList, float FireBallSpeed, Queue<EnemyFireBall> LaunchedFireballList)
+        public Attack(Animator animator, int bossPhase, GameTimer fireballTimer, TimerCallback timerCallback, 
+            BattlePlayer targetObject, Transform transform, float TimeToReturn, Queue<EnemyFireBall> fireballList, 
+            float FireBallSpeed, Queue<EnemyFireBall> LaunchedFireballList)
         {
             this.animator = animator;
             this.fireballTimer = fireballTimer;

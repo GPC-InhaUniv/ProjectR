@@ -10,9 +10,6 @@ namespace RedTheSettlers.Enemys
     /// </summary>
     public class BossEnemy : Enemy
     {
-        //파이어볼과 폭발은 풀 매니저로 옮겨야 한다.
-        //보스가 체력에 따라 동시에 날리는 공격의 개수가 달라지기 때문
-
         private const float explodeLifeTime = 10f;
         private Vector3 explosionLocation;
         [SerializeField]

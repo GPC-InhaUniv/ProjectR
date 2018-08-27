@@ -2,6 +2,7 @@
 using RedTheSettlers.UnitTest;
 using RedTheSettlers.GameSystem;
 using RedTheSettlers.Tiles;
+using RedTheSettlers.Players;
 
 namespace RedTheSettlers.Enemys
 {
@@ -51,7 +52,8 @@ namespace RedTheSettlers.Enemys
         protected Collider AttackColliderComponent;
         protected Collider HitColliderComponent;
         public Rigidbody rigidbodyComponent;
-        public GameObject TargetObject;
+        public BattlePlayer TargetObject;
+        protected SphereCollider TargetFindCollider;
 
         [Header("Moving Points")]
         public Vector3 destinationPoint;
@@ -75,17 +77,10 @@ namespace RedTheSettlers.Enemys
         protected GameTimer FireBallLifeTimer;
         protected bool[] isAttackable;
 
-        [SerializeField, Header("test fields")]
-        testEnemyController testEnemyController;
-
-        private void Start()
-        {
-            Setting();
-        }
-
         private void Update()
         {
             UpdatePosition();
+            battleAI.AIUpdate();
         }
 
         protected virtual void Setting()
@@ -95,8 +90,9 @@ namespace RedTheSettlers.Enemys
             attackArea = GetComponentInChildren<EnemyAttackArea>();
             hitArea = GetComponentInChildren<EnemyHitArea>();
             rigidbodyComponent = GetComponent<Rigidbody>();
+            TargetFindCollider = GetComponent<SphereCollider>();
             isAttackable = new bool[2] { true, true };
-
+            battleAI = new BattleAI(this);
             ChangeState(EnemyStateType.Idle);
         }
 
@@ -105,6 +101,9 @@ namespace RedTheSettlers.Enemys
             currentPoint = transform.position;
             StopMovement();
         }
+
+        protected abstract void SetStatus(int ItemNumber);
+        protected abstract void SetStatus(int HP, int Power, bool IsLastBoss);
 
         public virtual void ChangeState(EnemyStateType stateType)
         {
@@ -119,25 +118,6 @@ namespace RedTheSettlers.Enemys
         protected void ReQuest()
         {
             currentState.DoAction();
-        }
-
-        protected abstract void SetStatus(int ItemNumber);
-        protected abstract void SetStatus(int HP, int Power, bool IsLastBoss);
-
-        //피격 처리를 담당하는 메서드
-        public void Damaged(int damage)
-        {
-            rigidbodyComponent.velocity = Vector3.zero;
-            CurrentHp -= damage;
-            CheckHp();
-        }
-
-        public void EndDead()
-        {
-            DeadTimer = null;
-            //추가 될 내용
-            //자기 자신을 풀로 반환한다.
-            Debug.Log("enemy return to pool");
         }
 
         protected void CheckHp()
@@ -157,6 +137,7 @@ namespace RedTheSettlers.Enemys
         {
             typeRenderer.material = Materials[(int)enemyType];
         }
+
         public void SetType(bool IsLastBoss)
         {
             if (IsLastBoss)
@@ -167,6 +148,16 @@ namespace RedTheSettlers.Enemys
             {
                 typeRenderer.material = bossMaterials[1];
             }
+        }
+
+        protected void SetAttackable1()
+        {
+            isAttackable[0] = true;
+        }
+
+        protected void SetAttackable2()
+        {
+            isAttackable[1] = true;
         }
 
         public EnemyFireBall PopFireBall()
@@ -194,15 +185,47 @@ namespace RedTheSettlers.Enemys
                 }
             }
         }
-        
-        protected void SetAttackable1()
+
+        //피격 처리를 담당하는 메서드
+        public void Damaged(int damage)
         {
-            isAttackable[0] = true;
+            rigidbodyComponent.velocity = Vector3.zero;
+            CurrentHp -= damage;
+            CheckHp();
         }
 
-        protected void SetAttackable2()
+        public void EndDead()
         {
-            isAttackable[1] = true;
+            DeadTimer = null;
+            //자기 자신을 풀로 반환한다.
+            Debug.Log("enemy return to pool");
+        }
+
+        public BattleTile GetCurrentTile(Vector3 position)
+        {
+            RaycastHit hitInfo;
+
+            if (Physics.Raycast(position, Vector3.down, out hitInfo))
+            {
+                return hitInfo.collider.GetComponent<BattleTile>();
+            }
+            else return null;
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if(other.tag == GlobalVariables.TAG_PLAYER)
+            {
+                TargetObject = other.GetComponent<BattlePlayer>();
+            }
+        }
+
+        private void OnTriggerExit(Collider other)
+        {
+            if (other.tag == GlobalVariables.TAG_PLAYER)
+            {
+                TargetObject = null;
+            }
         }
     }
 }
