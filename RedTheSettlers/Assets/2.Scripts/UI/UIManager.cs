@@ -14,7 +14,9 @@ namespace RedTheSettlers.UI
         [SerializeField]
         private GameObject battleUI;
         [SerializeField]
-        private GameObject BossWarningUI;
+        private GameObject bossWarningUI;
+        [SerializeField]
+        private GameObject weatherEventSelectUI;
 
 
         private void ShowBoardUI()
@@ -25,22 +27,19 @@ namespace RedTheSettlers.UI
         public void OnClickedEquipAndSkillButton()
         {
             equipmentAndSkillUI.SetActive(true);
-            stateUI.SetActive(false);
-            tradeUI.SetActive(false);
+            playerTurnUI.SetActive(false);
         }
 
         public void OnClickedStateButton()
         {
             stateUI.SetActive(true);
-            tradeUI.SetActive(false);
-            equipmentAndSkillUI.SetActive(false);
+            playerTurnUI.SetActive(false);
         }
 
         public void OnClickedTradeButton()
         {
             tradeUI.SetActive(true);
-            stateUI.SetActive(false);
-            equipmentAndSkillUI.SetActive(false);
+            playerTurnUI.SetActive(false);
         }
 
         public void OnClickedTurnCloseButton()
@@ -58,7 +57,12 @@ namespace RedTheSettlers.UI
 
         public void ShowBossWarningUI()
         {
-            BossWarningUI.SetActive(true);
+            bossWarningUI.SetActive(true);
+        }
+
+        public void ShowWheatherEvent()
+        {
+            weatherEventSelectUI.SetActive(true);
         }
     }
 }
