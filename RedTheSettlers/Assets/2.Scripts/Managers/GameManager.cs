@@ -195,9 +195,9 @@ namespace RedTheSettlers.GameSystem
         /// <summary>
         /// 선택 된 날씨 카드를 반환합니다.
         /// </summary>
-        public void SelectedWeatherCard()
+        public int[] SelectedWeatherCard(int[] weathers)
         {
-            
+            return weathers;
         }
 
         /// <summary>
