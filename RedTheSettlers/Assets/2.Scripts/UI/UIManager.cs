@@ -9,15 +9,18 @@ namespace RedTheSettlers.UI
     {
         [SerializeField]
         private GameObject playerTurnUI;
+
         [SerializeField]
         private GameObject tradeUI, equipmentAndSkillUI, stateUI;
+
         [SerializeField]
         private GameObject battleUI;
+
         [SerializeField]
         private GameObject bossWarningUI;
+
         [SerializeField]
         private GameObject weatherEventSelectUI;
-
 
         private void ShowBoardUI()
         {
@@ -60,9 +63,10 @@ namespace RedTheSettlers.UI
             bossWarningUI.SetActive(true);
         }
 
-        public void ShowWheatherEvent()
+        public void ShowWheatherEvent(int[] weathers)
         {
             weatherEventSelectUI.SetActive(true);
+            weatherEventSelectUI.GetComponentInChildren<UIWeatherSelect>().ReceiveEventNumbers(weathers);
         }
     }
 }

@@ -15,8 +15,6 @@ namespace RedTheSettlers.UI
 {
     public class UIWeatherSelect : MonoBehaviour
     {
-        private EventControllerTest2 eventControllerTest2; //게임매니저 함수 구현 시 삭제 예정
-
         [SerializeField]
         private GameObject[] EventItemCardImage;
 
@@ -41,16 +39,13 @@ namespace RedTheSettlers.UI
 
         private void Start()
         {
-            eventControllerTest2 = GetComponent<EventControllerTest2>();  //게임매니저 함수 구현 시 삭제 예정
-            selectedCard = new GameObject[3];
             ChangeWeatherCard();
             StartCoroutine(MoveWeatherCard());
         }
 
         public void ChangeWeatherCard()
         {
-            eventArray = eventControllerTest2.PickWeatherEvent();  //게임매니저 함수 구현 시 삭제 예정
-
+            selectedCard = new GameObject[3];
             for (int i = 0; i < eventArray.Length; i++)
             {
                 selectedCard[i] = EventItemCardImage[eventArray[i]];
@@ -114,6 +109,11 @@ namespace RedTheSettlers.UI
                 }
                 Invoke("SendEventNumber", 3.0f);
             }
+        }
+
+        public void ReceiveEventNumbers(int[] weathers)
+        {
+            eventArray = weathers;
         }
 
         public void SendEventNumber()
