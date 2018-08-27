@@ -19,7 +19,7 @@ namespace RedTheSettlers.UnitTest
             ChangeWeather();
             weather.GetItems();
 
-            yield return new WaitForSeconds(3);
+            yield break;
         }
 
         public void ChangeWeather()
