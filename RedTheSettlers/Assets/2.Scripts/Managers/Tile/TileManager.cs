@@ -13,11 +13,11 @@ namespace RedTheSettlers.GameSystem
         {
             TileGrid = new GameObject[GlobalVariables.TileGridSize + 8, GlobalVariables.TileGridSize + 8];
 
-            CreateTileGrid();
+            CreateBoardTileGrid();
             ShowTile();
         }
 
-        private void CreateTileGrid()
+        public void CreateBoardTileGrid()
         {
             int index = 0;
 
@@ -38,7 +38,12 @@ namespace RedTheSettlers.GameSystem
             }
         }
 
-        private void ShowTile()
+        public void CreateBattleTileGrid()
+        {
+
+        }
+
+        public void ShowTile()
         {
             for (int z = 0; z < GlobalVariables.TileGridSize; z++)
             {
@@ -52,12 +57,12 @@ namespace RedTheSettlers.GameSystem
             }
         }
 
-        float CalculateXcoord(float x, float z)
+        public float CalculateXcoord(float x, float z)
         {
             return (x + z * 0.5f) * 1.74f;
         }
 
-        float CalculateZcoord(float z)
+        public float CalculateZcoord(float z)
         {
             return z * 1.5f + 0.1f;
         }

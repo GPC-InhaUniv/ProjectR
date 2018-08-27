@@ -8,14 +8,12 @@ namespace RedTheSettlers.Users
 {
     public class BoardAI : User
     {
-        private List<BoardTile> possessedTiles;
         private PriorityQueue<BoardTile> tileQueue;
         private IAIStrategy myStrategy;
 
         private IEnumerator Start()
         {
             myStrategy = gameObject.AddComponent<SoftStrategy>();
-            possessedTiles = new List<BoardTile>();
             tileQueue = new PriorityQueue<BoardTile>();
 
             yield return new WaitForSeconds(0.5f);
@@ -27,7 +25,7 @@ namespace RedTheSettlers.Users
         {
             BoardTile targetTile = null;
 
-            foreach (BoardTile boardTile in possessedTiles)
+            foreach (BoardTile boardTile in PossessingTile)
             {
                 BoardTile searchedTile = myStrategy.CalculateTileWeight(boardTile, inventory);
 
@@ -47,7 +45,7 @@ namespace RedTheSettlers.Users
         public void PossessTile(BoardTile boardTile)
         {
             boardTile.tileOwner = TileOwner.AI1;
-            possessedTiles.Add(boardTile);
+            PossessingTile.Add(boardTile);
 
             inventory[(int)(boardTile.TileType)].Count++;
 

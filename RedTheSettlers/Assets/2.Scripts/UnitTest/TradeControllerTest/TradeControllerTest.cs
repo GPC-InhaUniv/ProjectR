@@ -64,6 +64,8 @@ namespace RedTheSettlers.UnitTest
 
         private void ResetTrade()
         {
+            Trade.RequestSender = null;
+            Trade.RequestReceiver = null;
             Trade.ItemsToTrade = null;
         }
     }
