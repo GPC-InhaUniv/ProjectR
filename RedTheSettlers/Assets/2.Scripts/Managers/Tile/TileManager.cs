@@ -18,7 +18,7 @@ namespace RedTheSettlers.GameSystem
             //CreateBoardTileGrid();
             //ShowBoardTile();
 
-            CreateBattleTileGrid();
+            CreateBattleTileGrid(ItemType.Cow, 1);
             ShowBattleTile();
         }
 
@@ -43,7 +43,7 @@ namespace RedTheSettlers.GameSystem
             }
         }
 
-        public void CreateBattleTileGrid()
+        public void CreateBattleTileGrid(ItemType itemType, int difficulty)
         {
             int index = 0;
 

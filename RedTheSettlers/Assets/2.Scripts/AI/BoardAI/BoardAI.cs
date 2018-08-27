@@ -18,7 +18,7 @@ namespace RedTheSettlers.Users
 
             yield return new WaitForSeconds(0.5f);
 
-            //PossessTile(TileManager.Instance.TileGrid[4, 4].GetComponent<BoardTile>());
+            PossessTile(TileManager.Instance.BoardTileGrid[4, 4].GetComponent<BoardTile>());
         }
         
         public void FindOptimizedPath()
