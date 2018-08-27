@@ -66,11 +66,17 @@ public class BattleStageState : MonoBehaviour, IInputState
         TemporaryGameManager.Instance.PlayerMove(playerDirection, playerRotate, speed);
         //dragDirection = (currentDragPosition - startDragPosition).normalized;
 
+        if(TouchMoveActive==false)
+        {
+            TemporaryGameManager.Instance.PlayerMove(playerDirection, playerRotate, speed);
+        }
+
         if(TouchMoveActive==true)
         {
-            currentSkillDirection = Input.mousePosition;
+            TemporaryGameManager.Instance.PlayerRotate(playerRotate);
+            /*currentSkillDirection = Input.mousePosition;
             Vector3 skillDragDistance = startSkillDirection - currentSkillDirection;
-            skillRotate = (Mathf.Atan2(skillDragDistance.y, skillDragDistance.x) * Mathf.Rad2Deg) * reversValue - 90f;
+            skillRotate = (Mathf.Atan2(skillDragDistance.y, skillDragDistance.x) * Mathf.Rad2Deg) * reversValue - 90f;*/
         }
     }
 
@@ -92,6 +98,9 @@ public class BattleStageState : MonoBehaviour, IInputState
         skillDirection = Input.mousePosition;
         LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, "방향 : " + skillDirection);
     }
+
+    // 이 밑으로 해당 클래스에서는 사용하지 않음.
+    // 추후 구조 변경시 필요치 않은 메서드들은 해당 클래스에서 사라질 예정
 
     public void DragMove(float speed)
     {

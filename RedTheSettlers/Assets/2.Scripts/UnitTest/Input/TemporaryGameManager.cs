@@ -49,6 +49,11 @@ public class TemporaryGameManager : Singleton<TemporaryGameManager>
         rigidbody.velocity = (direction * speed) * Time.deltaTime;
     }
 
+    public void PlayerRotate(float rotation)
+    {
+
+    }
+
     public void TileInfo(BoardTile tileType)
     {
         LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, "타일 정보 : " + tileType);
