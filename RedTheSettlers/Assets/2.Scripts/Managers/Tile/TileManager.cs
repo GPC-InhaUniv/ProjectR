@@ -13,9 +13,13 @@ namespace RedTheSettlers.GameSystem
         public void IntializeTileSet()
         {
             BoardTileGrid = new GameObject[GlobalVariables.BoardTileGridSize, GlobalVariables.BoardTileGridSize];
+            BattleTileGrid = new GameObject[GlobalVariables.BattleTileGridSize, GlobalVariables.BattleTileGridSize];
 
-            CreateBoardTileGrid();
-            ShowTileBoardTile();
+            //CreateBoardTileGrid();
+            //ShowBoardTile();
+
+            CreateBattleTileGrid();
+            ShowBattleTile();
         }
 
         public void CreateBoardTileGrid()
@@ -39,12 +43,28 @@ namespace RedTheSettlers.GameSystem
             }
         }
 
-        public void CreateBattleTileGrid(ItemType itemType, int difficulty)
+        public void CreateBattleTileGrid()
         {
-            
+            int index = 0;
+
+            for (int z = 0; z < GlobalVariables.BattleTileGridSize; z++)
+            {
+                for (int x = 0; x < GlobalVariables.BattleTileGridSize; x++)
+                {
+                    if (z > - x + GlobalVariables.BattleTileMinZIntercept && z < - x + GlobalVariables.BattleTileMaxZIntercept)
+                    {
+                        float xCoord = CalculateXcoord(x, z) + GlobalVariables.BattleAreaOriginCoord;
+                        float zCoord = CalculateZcoord(z) + GlobalVariables.BattleAreaOriginCoord;
+                        BattleTileGrid[x, z] = ObjectPoolManager.Instance.TileSet[index].gameObject;
+                        BattleTileGrid[x, z].transform.position = new Vector3(xCoord, 0.05f, zCoord);
+                        BattleTileGrid[x, z].GetComponent<BoardTile>().TileCoordinate = new Coordinate(x, z);
+                        index++;
+                    }
+                }
+            }
         }
 
-        public void ShowTileBoardTile()
+        public void ShowBoardTile()
         {
             for (int z = 0; z < GlobalVariables.BoardTileGridSize; z++)
             {
@@ -56,6 +76,25 @@ namespace RedTheSettlers.GameSystem
                     }
                 }
             }
+        }
+
+        public void ShowBattleTile()
+        {
+            for (int z = 0; z < GlobalVariables.BattleTileGridSize; z++)
+            {
+                for (int x = 0; x < GlobalVariables.BattleTileGridSize; x++)
+                {
+                    if (z > -x + GlobalVariables.BattleTileMinZIntercept && z < -x + GlobalVariables.BattleTileMaxZIntercept)
+                    {
+                        BattleTileGrid[x, z].SetActive(true);
+                    }
+                }
+            }
+        }
+
+        public void ClearBattleTileGrid()
+        {
+
         }
 
         public float CalculateXcoord(float x, float z)

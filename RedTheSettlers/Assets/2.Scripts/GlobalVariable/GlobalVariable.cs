@@ -65,8 +65,8 @@ namespace RedTheSettlers.GameSystem
         public const int BoardTileMaxZIntercept = 13;
 
         public const int BattleTileGridSize = 15;
-        public const int BattleTileMinZIntercept = 3;
-        public const int BattleTileMaxZIntercept = 13;
+        public const int BattleTileMinZIntercept = 9;
+        public const int BattleTileMaxZIntercept = 19;
 
         public const int MaxItemNum = 50;
         public const int MaxEquipmentUpgradeLevel = 3;
@@ -85,7 +85,7 @@ namespace RedTheSettlers.GameSystem
         public const int BossAppearTurn = 36;
         public const int WeatherEventStartTurn = 5;
 
-        public const int BattleAreaOriginCoord = 100;
+        public const int BattleAreaOriginCoord = 50;
 
         public const string TAG_PLAYER = "Player";
         public const string TAG_ENEMY = "Enemy";

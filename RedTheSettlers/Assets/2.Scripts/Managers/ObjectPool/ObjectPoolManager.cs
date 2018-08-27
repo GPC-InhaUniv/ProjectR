@@ -7,7 +7,9 @@ namespace RedTheSettlers.GameSystem
 {
     public class ObjectPoolManager : Singleton<ObjectPoolManager>
     {
-        public const int TilePoolSize = 200;
+        public const int TilePoolSize = 400;
+        public const int TileListSize = 6;
+        public const int TileQueueSize = 60;
         public const int CloneSetSize = 6;
         public const int FireballSize = 20;
         public const int ExplodeSize = 5;
@@ -25,6 +27,9 @@ namespace RedTheSettlers.GameSystem
 
         [HideInInspector]
         public GameObject[] TileSet;
+        public List<Queue<GameObject>> BoardTileQueueList;
+        public List<Queue<GameObject>> BattleTileQueueList;
+        public List<Queue<GameObject>> EnemyQueueList;
         public Queue<GameObject> SkillQueue;
         public Queue<EnemyFireBall> FireballQueue;
         public Queue<Explode> ExplodeQueue;
@@ -45,10 +50,16 @@ namespace RedTheSettlers.GameSystem
             }
             //-----------------------
 
+            BoardTileQueueList = new List<Queue<GameObject>>(TileListSize);
+
+            for(int i = 0; i < TileListSize; i++)
+            {
+
+            }
 
             TileSet = new GameObject[TilePoolSize];
 
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < TilePoolSize; i++)
             {
                 //int randomTileIndex = DataManager.Instance.GameData.TileData[i];
                 int randomTileIndex = Random.Range(0, 6);
@@ -64,9 +75,7 @@ namespace RedTheSettlers.GameSystem
             for (int i = 0; i < 6; i++)
             {
                 SkillQueue.Enqueue(SkillObject);
-            }
-
-            
+            }            
         }
     }
 }
