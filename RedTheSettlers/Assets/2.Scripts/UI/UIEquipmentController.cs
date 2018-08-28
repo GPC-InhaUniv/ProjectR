@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using RedTheSettlers.GameSystem;
 using System;
@@ -9,6 +7,22 @@ namespace RedTheSettlers.UI
 {
     public class UIEquipmentController : MonoBehaviour
     {
+        public const int AttackUpgradeOneWood = 3;
+        public const int AttackUpgradeOneIron = 5;
+        public const int AttackUpgradeOneSoil = 5;
+
+        public const int AttackUpgradeTwoWood = 10;
+        public const int AttackUpgradeTwoIron = 15;
+        public const int AttackUpgradeTwoSoil = 15;
+
+        public const int DefenseUpgradeOneWood = 5;
+        public const int DefenseUpgradeOneIron = 3;
+        public const int DefenseUpgradeOneSoil = 3;
+
+        public const int DefenseUpgradeTwoWood = 15;
+        public const int DefenseUpgradeTwoIron = 10;
+        public const int DefenseUpgradeTwoSoil = 10;
+
         public int PlayerWood;
         public int PlayerIron;
         public int PlayerSoil;
@@ -47,24 +61,6 @@ namespace RedTheSettlers.UI
         int playerWeaponLevel = 0;
         int playerShieldLevel = 0;
 
-        const int ItemsNumber = 3;
-
-        const int attackOneWoodValue = 3;
-        const int attackOneIronValue = 5;
-        const int attackOneSoilValue = 5;
-
-        const int attackTwoWoodValue = 10;
-        const int attackTwoIronValue = 15;
-        const int attackTwoSoilValue = 15;
-
-        const int shieldOneWoodValue = 5;
-        const int shieldOneIronValue = 3;
-        const int shieldOneSoilValue = 3;
-
-        const int shieldTwoWoodValue = 15;
-        const int shieldTwoIronValue = 10;
-        const int shieldTwoSoilValue = 10;
-
         UpgradeRequestItems WeaponLevelOne;
         UpgradeRequestItems WeaponLevelTwo;
         UpgradeRequestItems ShieldLevelOne;
@@ -91,21 +87,21 @@ namespace RedTheSettlers.UI
             secondAttackButton.interactable = false;
             secondShieldButton.interactable = false;
 
-            attackOneWood.text = attackOneWoodValue.ToString();
-            attackOneIron.text = attackOneIronValue.ToString();
-            attackOneSoil.text = attackOneSoilValue.ToString();
+            attackOneWood.text = AttackUpgradeOneWood.ToString();
+            attackOneIron.text = AttackUpgradeOneIron.ToString();
+            attackOneSoil.text = AttackUpgradeOneSoil.ToString();
 
-            attackTwoWood.text = attackTwoWoodValue.ToString();
-            attackTwoIron.text = attackTwoIronValue.ToString();
-            attackTwoSoil.text = attackTwoSoilValue.ToString();
+            attackTwoWood.text = AttackUpgradeTwoWood.ToString();
+            attackTwoIron.text = AttackUpgradeTwoIron.ToString();
+            attackTwoSoil.text = AttackUpgradeTwoSoil.ToString();
 
-            shieldOneWood.text = shieldOneWoodValue.ToString();
-            shieldOneIron.text = shieldOneIronValue.ToString();
-            shieldOneSoil.text = shieldOneSoilValue.ToString();
+            shieldOneWood.text = DefenseUpgradeOneWood.ToString();
+            shieldOneIron.text = DefenseUpgradeOneIron.ToString();
+            shieldOneSoil.text = DefenseUpgradeOneSoil.ToString();
 
-            shieldTwoWood.text = shieldTwoWoodValue.ToString();
-            shieldTwoIron.text = shieldTwoIronValue.ToString();
-            shieldTwoSoil.text = shieldTwoSoilValue.ToString();
+            shieldTwoWood.text = DefenseUpgradeTwoWood.ToString();
+            shieldTwoIron.text = DefenseUpgradeTwoIron.ToString();
+            shieldTwoSoil.text = DefenseUpgradeTwoSoil.ToString();
 
             WeaponLevelOne = new UpgradeRequestItems
             {
@@ -116,7 +112,7 @@ namespace RedTheSettlers.UI
 
             WeaponLevelTwo = new UpgradeRequestItems
             {
-                Wood = PlayerWood,//플레이어 자원
+                Wood = PlayerWood, 
                 Iron = PlayerIron,
                 Soil = PlayerSoil,
             };
@@ -138,15 +134,16 @@ namespace RedTheSettlers.UI
         public void OnclickedButton(int buttonValue)
         {
             UpgradeItems upgradeItems;
+
             if (buttonValue == 0) //0일때는 무기 1일때는 방어구
             {
                 if (playerWeaponLevel == 0)
                 {
-                    upgradeItems = WeaponLevelOne.CheckForItems(attackOneWoodValue, attackOneIronValue, attackOneSoilValue);
+                    upgradeItems = WeaponLevelOne.CheckForItems(AttackUpgradeOneWood, AttackUpgradeOneIron, AttackUpgradeOneSoil);
                 }
                 else    //playerWeaponLevel == 1
                 {
-                    upgradeItems = WeaponLevelTwo.CheckForItems(attackTwoWoodValue, attackTwoIronValue, attackTwoSoilValue);
+                    upgradeItems = WeaponLevelTwo.CheckForItems(AttackUpgradeTwoWood, AttackUpgradeTwoIron, AttackUpgradeTwoSoil);
                 }
                 EquipmentUpgrade(playerWeaponLevel, buttonValue, upgradeItems);
             }
@@ -154,11 +151,11 @@ namespace RedTheSettlers.UI
             {
                 if (playerShieldLevel == 0)
                 {
-                    upgradeItems = ShieldLevelOne.CheckForItems(shieldOneWoodValue, shieldOneIronValue, shieldOneSoilValue);
+                    upgradeItems = ShieldLevelOne.CheckForItems(DefenseUpgradeOneWood, DefenseUpgradeOneIron, DefenseUpgradeOneSoil);
                 }
                 else     //playerShieldLevel == 1
                 {
-                    upgradeItems = ShieldLevelTwo.CheckForItems(shieldTwoWoodValue, shieldTwoIronValue, shieldTwoSoilValue);
+                    upgradeItems = ShieldLevelTwo.CheckForItems(DefenseUpgradeTwoWood, DefenseUpgradeTwoIron, DefenseUpgradeTwoSoil);
                 }
                 EquipmentUpgrade(playerShieldLevel, buttonValue, upgradeItems);
             }
@@ -176,7 +173,7 @@ namespace RedTheSettlers.UI
                 {
                     if (level == 0 )
                     {
-                        attackOneWood.color = textColor; //빠..빠..빨간색!
+                        attackOneWood.color = textColor; //빨간색!
                         firstAttackButton.interactable = false;
                     }
                     else /*if(level == 1)*/
@@ -189,7 +186,7 @@ namespace RedTheSettlers.UI
                 {
                     if (level == 0 )
                     {
-                        shieldOneWood.color = textColor; //빠..빠..빨간색!
+                        shieldOneWood.color = textColor; 
                         firstShieldButton.interactable = false;
                     }
                     else/* if (level == 1)*/
@@ -206,7 +203,7 @@ namespace RedTheSettlers.UI
                 {
                     if (level == 0)
                     {
-                        attackOneIron.color = textColor; //빠..빠..빨간색!
+                        attackOneIron.color = textColor; //빨간색!
                         firstAttackButton.interactable = false;
                     }
                     else  //level == 1
@@ -219,7 +216,7 @@ namespace RedTheSettlers.UI
                 {
                     if (level == 0)
                     {
-                        shieldOneIron.color = textColor; //빠..빠..빨간색!
+                        shieldOneIron.color = textColor;
                         firstShieldButton.interactable = false;
                     }
                     else  //level == 1
@@ -236,7 +233,7 @@ namespace RedTheSettlers.UI
                 {
                     if (level == 0)
                     {
-                        attackOneSoil.color = textColor; //빠..빠..빨간색!
+                        attackOneSoil.color = textColor;//빨간색!
                         firstAttackButton.interactable = false;
                     }
                     else  //level == 1
@@ -249,7 +246,7 @@ namespace RedTheSettlers.UI
                 {
                     if (level == 0)
                     {
-                        shieldOneSoil.color = textColor; //빠..빠..빨간색!
+                        shieldOneSoil.color = textColor; 
                         firstShieldButton.interactable = false;
                     }
                     else  //level == 1
@@ -267,9 +264,9 @@ namespace RedTheSettlers.UI
                 {
                     if (level == 0)
                     {
-                        PlayerWood -= attackOneWoodValue;
-                        PlayerIron -= attackOneIronValue;
-                        PlayerSoil -= attackOneSoilValue;
+                        PlayerWood -= AttackUpgradeOneWood;
+                        PlayerIron -= AttackUpgradeOneIron;
+                        PlayerSoil -= AttackUpgradeOneSoil;
                         firstAttackGroup.SetActive(false);
                         firstAttackButton.interactable = false;
                         secondAttackButton.interactable = true;
@@ -277,9 +274,9 @@ namespace RedTheSettlers.UI
                     }
                     else if (level == 1)
                     {
-                        PlayerWood -= attackTwoWoodValue;
-                        PlayerIron -= attackTwoIronValue;
-                       PlayerSoil -= attackTwoSoilValue;
+                        PlayerWood -= AttackUpgradeTwoWood;
+                        PlayerIron -= AttackUpgradeTwoIron;
+                        PlayerSoil -= AttackUpgradeTwoSoil;
                         secondAttackGroup.SetActive(false);
                         secondAttackButton.interactable = false;
                         playerWeaponLevel++;
@@ -289,9 +286,9 @@ namespace RedTheSettlers.UI
                 {
                     if (level == 0)
                     {
-                        PlayerWood -= shieldOneWoodValue;
-                        PlayerIron -= shieldOneIronValue;
-                        PlayerSoil -= shieldOneSoilValue;
+                        PlayerWood -= DefenseUpgradeOneWood;
+                        PlayerIron -= DefenseUpgradeOneIron;
+                        PlayerSoil -= DefenseUpgradeOneSoil;
                         secondShieldButton.interactable = true;
                         firstShieldGroup.SetActive(false);
                         firstShieldButton.interactable = false;
@@ -299,9 +296,9 @@ namespace RedTheSettlers.UI
                     }
                     else if (level == 1)
                     {
-                        PlayerWood -= shieldTwoWoodValue;
-                        PlayerIron -= shieldTwoIronValue;
-                        PlayerSoil -= shieldTwoSoilValue;
+                        PlayerWood -= DefenseUpgradeTwoWood;
+                        PlayerIron -= DefenseUpgradeTwoIron;
+                        PlayerSoil -= DefenseUpgradeTwoSoil;
                         secondShieldGroup.SetActive(false);
                         secondShieldButton.interactable = false;
                         playerShieldLevel++;
