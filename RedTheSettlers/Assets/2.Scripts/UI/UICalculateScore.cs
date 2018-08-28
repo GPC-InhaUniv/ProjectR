@@ -185,10 +185,8 @@ namespace RedTheSettlers.UI
 
         public void TotalScore()
         {
-            totalScore = 100000;
-
-            //    GameManager.Instance.GetPlayerItemCountAll((UserType)playerIndex)
-            //* (GlobalVariables.CardWeightValue + GlobalVariables.EquipmentWeightValue + GlobalVariables.BonusWeightValue);
+            totalScore = GameManager.Instance.GetPlayerItemCountAll((UserType)playerIndex)
+            * (GlobalVariables.CardWeightValue + GlobalVariables.EquipmentWeightValue + GlobalVariables.BonusWeightValue);
         }
 
         private void ShowWeightValue()
