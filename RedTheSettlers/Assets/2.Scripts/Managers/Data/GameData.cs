@@ -8,7 +8,9 @@ namespace RedTheSettlers.GameSystem
     public struct StatData
     {
         public int HealthPoint;
+        public int MaxHealthPoint;
         public int MagicPoint;
+        public int MaxMagicPoint;
         public int StaminaPoint;
         public int WeaponLevel;
         public int ShieldLevel;
