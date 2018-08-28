@@ -74,5 +74,10 @@ namespace RedTheSettlers.UI
             weatherEventSelectUI.SetActive(true);
             weatherEventSelectUI.GetComponentInChildren<UIWeatherSelect>().ReceiveEventNumbers(weathers);
         }
+
+        public void RequestStorageEventNumber(int eventNumber)
+        {
+            GameManager.Instance.SetWeatherEventNumber(eventNumber);
+        }
     }
 }
