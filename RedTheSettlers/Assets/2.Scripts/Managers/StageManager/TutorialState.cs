@@ -16,16 +16,20 @@ namespace RedTheSettlers.GameSystem
 {
     class TutorialState : State
     {
-        public override State Enter()
+        public override void ContinueGame(bool canLoadData)
         {
-            //
-            throw new System.NotImplementedException();
+            
         }
 
-        public override State Exit()
+        public override void Enter()
         {
-            //
-            throw new System.NotImplementedException();
+          
+               
+        }
+
+        public override void Exit(StageType stageType)
+        {
+
         }
 
     }
