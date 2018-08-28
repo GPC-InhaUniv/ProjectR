@@ -63,7 +63,8 @@ namespace RedTheSettlers.Enemys
                         TimeToReturn,
                         ObjectPoolManager.Instance.FireballQueue,
                         FireBallSpeed,
-                        LaunchedFireballList);
+                        LaunchedFireballList,
+                        (int)Power);
 
                         isAttackable[0] = false;
                         Pattern1Timer = GameTimeManager.Instance.PopTimer();
@@ -112,13 +113,13 @@ namespace RedTheSettlers.Enemys
         /// </summary>
         /// <param name="HP"></param>
         /// <param name="Power"></param>
-        protected override void SetStatus(int HP, int Power, bool isLastBoss)
+        public override void SetStatus(int HP, int Power, bool isLastBoss)
         {
             MaxHp = HP;
             this.Power = Power;
             this.IsLastBoss = isLastBoss;
         }
-        protected override void SetStatus(int ItemNumber) { }
+        public override void SetStatus(int ItemNumber) { }
 
         public void Damaged(int damaged)
         {

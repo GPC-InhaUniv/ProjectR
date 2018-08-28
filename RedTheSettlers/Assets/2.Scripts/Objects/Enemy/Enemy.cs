@@ -77,6 +77,8 @@ namespace RedTheSettlers.Enemys
         protected GameTimer FireBallLifeTimer;
         public bool[] isAttackable;
 
+        public GameTimer AITimer;
+
         private void Update()
         {
             UpdatePosition();
@@ -88,13 +90,14 @@ namespace RedTheSettlers.Enemys
             typeRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
             animator = GetComponent<Animator>();
             attackArea = GetComponentInChildren<EnemyAttackArea>();
-            attackArea.enemy = this;
+            attackArea.Power = (int)Power;
             hitArea = GetComponentInChildren<EnemyHitArea>();
             hitArea.enemy = this;
             rigidbodyComponent = GetComponent<Rigidbody>();
             TargetFindCollider = GetComponent<SphereCollider>();
             isAttackable = new bool[2] { true, true };
             battleAI = new BattleAI(this);
+            AITimer = battleAI.pathFindTimer;
             ChangeState(EnemyStateType.Idle);
         }
 
@@ -104,8 +107,8 @@ namespace RedTheSettlers.Enemys
             StopMovement();
         }
 
-        protected abstract void SetStatus(int ItemNumber);
-        protected abstract void SetStatus(int HP, int Power, bool IsLastBoss);
+        public abstract void SetStatus(int ItemNumber);
+        public abstract void SetStatus(int HP, int Power, bool IsLastBoss);
 
         public virtual void ChangeState(EnemyStateType stateType)
         {
@@ -180,7 +183,7 @@ namespace RedTheSettlers.Enemys
         {
             if (destinationPoint != null && currentState != null)
             {
-                if (Vector3.Distance(destinationPoint, currentPoint) <= 0.5f && currentState is Move)
+                if (Vector3.Distance(destinationPoint, currentPoint) <= 2.0f && currentState is Move)
                 {
                     rigidbodyComponent.velocity = Vector3.zero;
                     ChangeState(EnemyStateType.Idle);
@@ -205,13 +208,16 @@ namespace RedTheSettlers.Enemys
 
         public BattleTile GetCurrentTile(Vector3 position)
         {
-            RaycastHit hitInfo;
-
-            if (Physics.Raycast(position, Vector3.down, out hitInfo))
+            RaycastHit[] hitInfo = Physics.RaycastAll(position, Vector3.down);
+            foreach (RaycastHit item in hitInfo)
             {
-                return hitInfo.collider.GetComponent<BattleTile>();
+                if(item.collider.GetComponent<BattleTile>() != null)
+                {
+                    return item.collider.GetComponent<BattleTile>();
+                }
             }
-            else return null;
+
+            return null;
         }
 
         private void OnTriggerEnter(Collider other)

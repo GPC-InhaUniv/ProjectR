@@ -15,7 +15,7 @@ namespace RedTheSettlers.Enemys.Normal
 
         public AttackPattern2(EnemyFireBall fireBall, GameTimer fireballLifeTimer, Animator animator, 
             Transform transform, Rigidbody rigidbodyComponent, BattlePlayer targetObject, Vector3 position, 
-            float fireballSpeed, TimerCallback pushFireball, ChangeStateCallback changeStateCallback) : base(animator)
+            float fireballSpeed, TimerCallback pushFireball, ChangeStateCallback changeStateCallback, float Power) : base(animator)
         {
             this.fireBall = fireBall;
             this.fireballLifeTimer = fireballLifeTimer;
@@ -26,6 +26,7 @@ namespace RedTheSettlers.Enemys.Normal
             this.fireballSpeed = fireballSpeed;
             this.pushFireball = pushFireball;
             this.changeStateCallback = changeStateCallback;
+            this.Power = Power;
         }
 
         public override void DoAction()
@@ -41,6 +42,7 @@ namespace RedTheSettlers.Enemys.Normal
                 Vector3 fireRotationposition = transform.rotation * Vector3.forward * 0.2f + transform.position + Vector3.up;
                 fireBall.transform.position = fireRotationposition;
                 fireBall.rigidbodyComponent.velocity = normalVector * fireballSpeed * GameTimeManager.Instance.DeltaTime * speedCorrection;
+                fireBall.AttackArea.Power = (int)Power;
 
                 fireballLifeTimer = GameTimeManager.Instance.PopTimer();
                 fireballLifeTimer.SetTimer(lifeTime, false);

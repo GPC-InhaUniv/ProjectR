@@ -55,7 +55,8 @@ namespace RedTheSettlers.Enemys
                         currentPoint,
                         FireBallSpeed,
                         new TimerCallback(PushFireBall),
-                        new ChangeStateCallback(ChangeState));
+                        new ChangeStateCallback(ChangeState),
+                        Power);
 
                         isAttackable[1] = false;
                         Pattern1Timer = GameTimeManager.Instance.PopTimer();
@@ -105,12 +106,12 @@ namespace RedTheSettlers.Enemys
         /// 일반 몹 전용 스텟 설정 메서드
         /// </summary>
         /// <param name="ItemNumber"></param>
-        protected override void SetStatus(int ItemNumber)
+        public override void SetStatus(int ItemNumber)
         {
             MaxHp = 10 + ItemNumber * 3;
             Power = 2 + ItemNumber * 0.5f;
             CurrentHp = MaxHp;
         }
-        protected override void SetStatus(int HP, int Power, bool IsLastBoss) { }
+        public override void SetStatus(int HP, int Power, bool IsLastBoss) { }
     }
 }

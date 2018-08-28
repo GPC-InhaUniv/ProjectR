@@ -24,6 +24,7 @@ namespace RedTheSettlers.Enemys.Boss
             explode = ObjectPoolManager.Instance.ExplodeQueue.Dequeue();
             explode.Setting(bossPhase+1);
             explode.gameObject.SetActive(true);
+            explode.AttackArea.Power = (int)Power;
 
             explodeLifeTimer = GameTimeManager.Instance.PopTimer();
             explodeLifeTimer.SetTimer(explodeLifeTime, false);

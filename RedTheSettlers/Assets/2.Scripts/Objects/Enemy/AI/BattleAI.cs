@@ -19,10 +19,10 @@ namespace RedTheSettlers.Enemys
         private List<BattleTile> closedSet;
         private Stack<BattleTile> pathTile;
         private BattleTile currnetTile;
-        private GameTimer pathFindTimer;
+        public GameTimer pathFindTimer;
         private const float pathFindTimerTick = 3.0f;
-        private const float longAttackLength = 3.0f;
-        private const float shortAttackLength = 1.0f;
+        private const float longAttackLength = 6.0f;
+        private const float shortAttackLength = 2.0f;
 
         private int[] coordX = { 1, 1, 0, -1, -1, 0 };
         private int[] coordZ = { 0, -1, -1, 0, 1, 1 };
@@ -91,7 +91,7 @@ namespace RedTheSettlers.Enemys
             else if (enemy.TargetObject != null && pathTile != null)
             {
                 //현재 위치가 목적지랑 같은 경우 다음 목적지로 이동
-                if (pathTile.Peek() == currnetTile)
+                if (enemy.currentState is Idle)
                 {
                     MoveChar(pathTile.Pop());
                 }
@@ -113,7 +113,7 @@ namespace RedTheSettlers.Enemys
                     && (GlobalVariables.BattleTileGridSize > ZPos && 0 < ZPos))
                 {
                     battleTile = TileManager.Instance.BattleTileGrid[XPos, ZPos].GetComponent<BattleTile>();
-                    MoveChar(battleTile);
+                    if(battleTile != null) MoveChar(battleTile);
                 }
             }
         }
@@ -125,6 +125,8 @@ namespace RedTheSettlers.Enemys
 
             currnetTile = enemy.GetCurrentTile(enemy.transform.position);
             startTile = currnetTile;
+            startTile.ParentTileXCoord = currnetTile.TileCoordinate.x;
+            startTile.ParentTileZCoord = currnetTile.TileCoordinate.z;
             endTile = destinationTile;
 
             do
@@ -140,26 +142,33 @@ namespace RedTheSettlers.Enemys
                     if ((GlobalVariables.BattleTileGridSize > XPos && 0 < XPos)
                         && (GlobalVariables.BattleTileGridSize > ZPos && 0 < ZPos))
                     {
-                        battleTile = TileManager.Instance.BattleTileGrid[XPos, ZPos].GetComponent<BattleTile>();
+                        if(TileManager.Instance.BattleTileGrid[XPos, ZPos] != null)
+                        {
+                            battleTile = TileManager.Instance.BattleTileGrid[XPos, ZPos].GetComponent<BattleTile>();
+                        }
+                        else
+                        {
+                            battleTile = null;
+                        }
                     }
                     else battleTile = null;                    
 
                     if (battleTile != null)
                     {
-                        battleTile.g = (startTile.TileCoordinate.x - battleTile.TileCoordinate.x) + (startTile.TileCoordinate.z - battleTile.TileCoordinate.z);
-                        battleTile.h = (battleTile.TileCoordinate.x - endTile.TileCoordinate.x) + (battleTile.TileCoordinate.z - endTile.TileCoordinate.z);
-                        battleTile.f = battleTile.g + battleTile.f;
+                        battleTile.g = Mathf.Abs(startTile.TileCoordinate.x - battleTile.TileCoordinate.x) + Mathf.Abs(startTile.TileCoordinate.z - battleTile.TileCoordinate.z);
+                        battleTile.h = Mathf.Abs(battleTile.TileCoordinate.x - endTile.TileCoordinate.x) + Mathf.Abs(battleTile.TileCoordinate.z - endTile.TileCoordinate.z);
 
-                        battleTile.ParentTileXCoord = currnetTile.TileCoordinate.x;
-                        battleTile.ParentTileZCoord = currnetTile.TileCoordinate.z;
-
+                        int tempG = 0;
                         if (battleTile.g < currnetTile.g)
                         {
-                            battleTile.f += currnetTile.g;
+                            tempG = currnetTile.g;
                         }
+                        battleTile.f = battleTile.g + battleTile.h + tempG;
 
-                        if(!closedSet.Contains(battleTile))
+                        if (!closedSet.Contains(battleTile) && !openSet.Contains(battleTile))
                         {
+                            battleTile.ParentTileXCoord = currnetTile.TileCoordinate.x;
+                            battleTile.ParentTileZCoord = currnetTile.TileCoordinate.z;
                             openSet.Add(battleTile);
                         }
 
@@ -171,7 +180,7 @@ namespace RedTheSettlers.Enemys
                                 else if (a.f < b.f) return -1;
                                 return 0;
                             });
-                        }
+                        } 
                     }
                 }
 
@@ -180,27 +189,25 @@ namespace RedTheSettlers.Enemys
                     currnetTile = openSet[0];
                     openSet.Remove(currnetTile);
                 }
-                else break;
-
-                if (currnetTile == endTile)
-                {
-                    pathTile = CreateParh();
-                }
+                else return;
             }
-            while (currnetTile != startTile);
+            while (currnetTile != endTile);
+            pathTile = CreateParh(startTile);
+            return;
         } 
         
-        private Stack<BattleTile> CreateParh()
+        private Stack<BattleTile> CreateParh(BattleTile startTile)
         {
             Stack<BattleTile> tempPathTile = new Stack<BattleTile>();
             tempPathTile.Push(currnetTile);
-
             BattleTile parent = TileManager.Instance.BattleTileGrid[currnetTile.ParentTileXCoord, currnetTile.ParentTileZCoord].GetComponent<BattleTile>();
-            while (parent != null)
+
+            while (parent != startTile)
             {
                 tempPathTile.Push(parent);
                 parent = TileManager.Instance.BattleTileGrid[parent.ParentTileXCoord, parent.ParentTileZCoord].GetComponent<BattleTile>();
             }
+            tempPathTile.Push(startTile);
 
             return tempPathTile;
         }

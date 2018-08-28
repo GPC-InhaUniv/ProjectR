@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using RedTheSettlers.Enemys;
+using UnityEngine;
 
 namespace RedTheSettlers.GameSystem
 {
@@ -11,9 +12,11 @@ namespace RedTheSettlers.GameSystem
         public bool isViewingCircle;
         public SphereCollider SphereColliderConponent;
         public float skillRange;
+        public EnemyAttackArea AttackArea;
 
         private void Start()
         {
+            AttackArea = GetComponent<EnemyAttackArea>();
             particle = GetComponentInChildren<ParticleSystem>();
             SphereColliderConponent = GetComponentInChildren<SphereCollider>();
             Setting(1);
@@ -35,14 +38,6 @@ namespace RedTheSettlers.GameSystem
             if (!isViewingCircle && !particle.isEmitting)
             {
                 SkillRangeCircle.SetActive(false);
-            }
-        }
-
-        private void OnTriggerEnter(Collider other)
-        {
-            if (other.tag == GlobalVariables.TAG_PLAYER && particle.isEmitting)
-            {
-
             }
         }
     }
