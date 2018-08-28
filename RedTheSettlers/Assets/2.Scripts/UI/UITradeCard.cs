@@ -27,8 +27,11 @@ namespace RedTheSettlers.UI
         [SerializeField]
         private Text GiveDescriptionText, TakeDescriptionText;
 
+        [SerializeField]
+        private Text secondPlayerText, thirdPlayerText, forthPlayerText;
+
         private int tradeCardNumber;
-        int giveAndTake = 0;
+        private int giveAndTake = 0;
 
         const string GIVEPANEL = "GivePanel";
         const string TAKEPANEL = "TakePanel";
@@ -43,19 +46,15 @@ namespace RedTheSettlers.UI
         [SerializeField]
         private CardInfo[] cardInfo;
 
-        enum OtherPlayerState
-        {
-            Trade,
-            No,
-            Yes,
-        }
-
+       
         private int[] tradeItemValue = new int[6]
         {0,0,0,0,0,0};  //순서대로 Cow,Iron,Soil,Water,Wheat,Wood
 
         public int playerNumber = 0;
         public int AiNumber = 0;
         public ItemData[] sendData;
+
+        private OtherPlayerState AIState;
 
         //임시데이터 나중에 삭제할 예정
         GameData gameData;
@@ -259,11 +258,19 @@ namespace RedTheSettlers.UI
             SendTradeData(); 
         }
 
-        public void RecieveTradeData()
+        
+        public void RecieveTradeData(OtherPlayerState state)
         {
-            UIManager.Instance.RecieveTradeResult();
+            AIState = state;
         }
 
+        private void ShowAIState()
+        {
+            if (AIState == OtherPlayerState.Yes)
+            {
+
+            }
+        }
 
 
         //테스트임 삭제할 예정
