@@ -10,22 +10,46 @@ namespace RedTheSettlers.GameSystem
         public GameObject[,] BoardTileGrid;
         public GameObject[,] BattleTileGrid;
 
-        public void IntializeTileSet()
+        private void Awake()
         {
             BoardTileGrid = new GameObject[GlobalVariables.BoardTileGridSize, GlobalVariables.BoardTileGridSize];
             BattleTileGrid = new GameObject[GlobalVariables.BattleTileGridSize, GlobalVariables.BattleTileGridSize];
+        }
 
-            //CreateBoardTileGrid();
-            //ShowBoardTile();
-
+        public void InitializeTileSet()
+        {
+            CreateBoardTileGrid();
+            ShowBoardTile();
             CreateBattleTileGrid(ItemType.Cow, 1);
             ShowBattleTile();
+        }
+        
+        public void LoadTileGrid()
+        {
+            int maxCount = DataManager.Instance.GameData.InGameData.BoardTileList.Length;
+
+            PlayerData[] playerData = DataManager.Instance.GameData.PlayerData;
+
+            for(int i = 0; i < maxCount; i++)
+            {
+                TileData tileData = DataManager.Instance.GameData.InGameData.BoardTileList[i];
+
+                int x = tileData.LocationX;
+                int z = tileData.LocationY;
+                BoardTileGrid[x, z] = ObjectPoolManager.Instance.TileObjectPool.PopBoardTile(tileData.TileType);
+                BoardTileGrid[x, z].GetComponent<BoardTile>().TileLevel = tileData.TileLevel;
+                for(int j = 0; j < playerData.Length; j++)
+                {
+                    for(int k = 0; k < playerData[j].TileList.Count; k++)
+                    {
+
+                    }
+                }
+            }
         }
 
         public void CreateBoardTileGrid()
         {
-            int index = 0;
-
             for (int z = 0; z < GlobalVariables.BoardTileGridSize; z++)
             {
                 for (int x = 0; x < GlobalVariables.BoardTileGridSize; x++)
@@ -34,10 +58,9 @@ namespace RedTheSettlers.GameSystem
                     {
                         float xCoord = CalculateXcoord(x, z);
                         float zCoord = CalculateZcoord(z);
-                        BoardTileGrid[x, z] = ObjectPoolManager.Instance.TileSet[index].gameObject;
+                        BoardTileGrid[x, z] = ObjectPoolManager.Instance.TileObjectPool.PopBoardTile((ItemType)Random.Range(0, 6));
                         BoardTileGrid[x, z].transform.position = new Vector3(xCoord, 0.05f, zCoord);
                         BoardTileGrid[x, z].GetComponent<BoardTile>().TileCoordinate = new Coordinate(x, z);
-                        index++;
                     }
                 }
             }
@@ -45,8 +68,6 @@ namespace RedTheSettlers.GameSystem
 
         public void CreateBattleTileGrid(ItemType itemType, int difficulty)
         {
-            int index = 0;
-
             for (int z = 0; z < GlobalVariables.BattleTileGridSize; z++)
             {
                 for (int x = 0; x < GlobalVariables.BattleTileGridSize; x++)
@@ -55,10 +76,9 @@ namespace RedTheSettlers.GameSystem
                     {
                         float xCoord = CalculateXcoord(x, z) + GlobalVariables.BattleAreaOriginCoord;
                         float zCoord = CalculateZcoord(z) + GlobalVariables.BattleAreaOriginCoord;
-                        BattleTileGrid[x, z] = ObjectPoolManager.Instance.TileSet[index].gameObject;
+                        BattleTileGrid[x, z] = ObjectPoolManager.Instance.TileObjectPool.PopBattleTile(itemType);
                         BattleTileGrid[x, z].transform.position = new Vector3(xCoord, 0.05f, zCoord);
-                        BattleTileGrid[x, z].GetComponent<BoardTile>().TileCoordinate = new Coordinate(x, z);
-                        index++;
+                        BattleTileGrid[x, z].GetComponent<BattleTile>().TileCoordinate = new Coordinate(x, z);
                     }
                 }
             }

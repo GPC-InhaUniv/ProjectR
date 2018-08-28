@@ -1,4 +1,5 @@
 ﻿using RedTheSettlers.GameSystem;
+using RedTheSettlers.Tiles;
 using System;
 using UnityEngine;
 using UnityEngine.UI;
@@ -120,6 +121,7 @@ namespace RedTheSettlers.UI
                         tileName.text = "목축지";
                         tileItemName.text = "소";
                         tileItemImage[0].cowTileImage.SetActive(true);
+                        itemAcquireInfomation.text = "'소'는 배고픔(HP)를 채워줍니다.";
                     }
                     break;
 
@@ -128,6 +130,7 @@ namespace RedTheSettlers.UI
                         tileName.text = "오아시스";
                         tileItemName.text = "물";
                         tileItemImage[0].waterTileImage.SetActive(true);
+                        itemAcquireInfomation.text = "'물'은 갈증(MP)를 채워줍니다.";
                     }
                     break;
 
@@ -136,6 +139,7 @@ namespace RedTheSettlers.UI
                         tileName.text = "밀밭";
                         tileItemName.text = "밀";
                         tileItemImage[0].wheatTileImage.SetActive(true);
+                        itemAcquireInfomation.text = "'밀'은 스테미나(Move)를 채워줍니다.";
                     }
                     break;
 
@@ -144,6 +148,7 @@ namespace RedTheSettlers.UI
                         tileName.text = "숲";
                         tileItemName.text = "나무";
                         tileItemImage[0].woodTileImage.SetActive(true);
+                        itemAcquireInfomation.text = "'나무'는 업그레이드에 필요합니다.";
                     }
                     break;
 
@@ -152,6 +157,7 @@ namespace RedTheSettlers.UI
                         tileName.text = "돌산";
                         tileItemName.text = "철";
                         tileItemImage[0].ironTileImage.SetActive(true);
+                        itemAcquireInfomation.text = "'철'은 업그레이드에 필요합니다.";
                     }
                     break;
 
@@ -160,14 +166,21 @@ namespace RedTheSettlers.UI
                         tileName.text = "흙산";
                         tileItemName.text = "흙";
                         tileItemImage[0].soilTileImage.SetActive(true);
+                        itemAcquireInfomation.text = "'흙'은 업그레이드에 필요합니다.";
                     }
                     break;
             }
         }
 
+        public void SetSelectTileInfo(BoardTile selectionTile)
+        {
+            selectTileProperties = (int)selectionTile.TileType;
+            selectTileOwner = (int)selectionTile.tileOwner;
+            selectTileItemLevel = selectionTile.TileLevel;
+        }
+
         private void OnTileInformation()
         {
-            //input으로 타일을 선택 했을 때, 뜨는 ... (setActive로 캔버스창도 떠야 함)
             CheckTilePossession();
             CheckTileProperties();
 
