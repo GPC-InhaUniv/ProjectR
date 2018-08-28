@@ -2,15 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerPool : MonoBehaviour {
+namespace RedTheSettlers.GameSystem
+{
+    public class PlayerPool : MonoBehaviour
+    {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+        [SerializeField]
+        private GameObject player;
+
+        public GameObject GetPlayerObject()
+        {
+            return player;
+        }
+
+        public void SetPlayerObject(GameObject player)
+        {
+            this.player = player;
+        }
+    }
 }
