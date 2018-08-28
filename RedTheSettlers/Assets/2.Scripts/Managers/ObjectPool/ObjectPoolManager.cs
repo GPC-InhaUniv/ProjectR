@@ -27,7 +27,7 @@ namespace RedTheSettlers.GameSystem
         public Queue<GameObject> SkillQueue;
         public Queue<EnemyFireBall> FireballQueue;
         public Queue<Explode> ExplodeQueue;
-
+        public GameObject CowObject;
 
         private void Awake()
         {
