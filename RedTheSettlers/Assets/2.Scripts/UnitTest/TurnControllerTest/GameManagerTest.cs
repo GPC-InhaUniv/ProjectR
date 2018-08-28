@@ -25,7 +25,7 @@ namespace RedTheSettlers.UnitTest
             turnCtrl.Callback = new TurnCallback(TurnFinish);
             eventCtrl.Callback = new EventCallback(EventFinish);
             itemCtrl.Callback = new ItemCallback(ItemFinish);
-            tradeCtrl.Callback = new TradeCallback(TradeFinish);
+            tradeCtrl.Callback = new UTradeCallback(TradeFinish);
             battleCtrl.Callback = new BattleCallback(BattleFinish);
             
             StartCoroutine(GameFlow());
