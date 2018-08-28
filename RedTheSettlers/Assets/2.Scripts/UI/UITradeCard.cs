@@ -32,6 +32,8 @@ namespace RedTheSettlers.UI
 
         [SerializeField]
         private GameObject tradePopUp;
+        [SerializeField]
+        private GameObject tradeSuccessText, tradeNoText;
 
         private int tradeCardNumber;
         private int giveAndTake = 0;
@@ -256,7 +258,6 @@ namespace RedTheSettlers.UI
         public void OnClickedRequestButton()
         {
             SendTradeData();
-            //ShowAIState();
         }
 
         public void RecieveTradeData(OtherPlayerState state)
@@ -267,11 +268,13 @@ namespace RedTheSettlers.UI
             {
                 aIText[AiNumber].text = OtherPlayerState.Yes.ToString();
                 tradePopUp.SetActive(true);
+                tradeSuccessText.SetActive(true);
             }
             else
             {
                 aIText[AiNumber].text = OtherPlayerState.No.ToString();
-                //거래실패 메세지 보여줌
+                tradePopUp.SetActive(true);
+                tradeNoText.SetActive(true);
             }
         }
     }

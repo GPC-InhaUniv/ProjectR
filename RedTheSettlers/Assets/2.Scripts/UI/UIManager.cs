@@ -46,8 +46,8 @@ namespace RedTheSettlers.UI
 
         public void OnClickedTradeButton()
         {
-            tradeUI.SetActive(true);
             playerTurnUI.SetActive(false);
+            tradeUI.SetActive(true);
         }
 
         public void SendTradeData(ItemData[] itemDatas, int requestPlayer, int receivePlayer)
