@@ -85,6 +85,7 @@ namespace RedTheSettlers.GameSystem
         public const int BonusWeightValue = 3000;
 
         public const int MaxPlayerNumber = 4;
+        public const int MaxStaminaNumber = 3;
         public const int MaxItemNumber = 6;
         public const int MaxSkillNumber = 9;
         public const int MiddleBoss1AppearTurn = 12;
