@@ -9,7 +9,7 @@ using UnityEngine.UI;
 /// 수정시 간략 설명과 수정 날짜 
 /// {
 ///   Ex : 함수명 변경 18/07/15
-///   Context 부분 
+///    
 ///   
 /// }
 /// </summary>
@@ -18,19 +18,30 @@ using UnityEngine.UI;
 namespace RedTheSettlers.GameSystem
 {
     class LoadingState : State
-    {
-        public override State Enter()
+    { 
+                
+        //private StageType stageType;
+
+        //public LoadingState(StageType stageType)
+        //{
+        //    this.stageType = stageType;
+        //}
+
+        public override void ContinueGame(bool canLoadData)
         {
-            //없나?
-            throw new System.NotImplementedException();
+            
         }
 
-        public override State Exit()
+        public override void Enter()
         {
-             //로딩스테이지에서 메인스테이지로 이동한다
-            throw new System.NotImplementedException();
+          
         }
 
+        public override void Exit(StageType stageType)
+        {
+            StageManager.Instance.StartCoroutine(StageManager.Instance.ChangeStageLoad(stageType));
+        }
+        
     }
-
+        
 }

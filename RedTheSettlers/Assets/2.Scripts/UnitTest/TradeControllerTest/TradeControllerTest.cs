@@ -8,9 +8,9 @@ using RedTheSettlers.UI;
 
 namespace RedTheSettlers.UnitTest
 {
-    public delegate void TradeCallback();
+    public delegate void UTradeCallback();
     
-    public class TradeData
+    public class UTradeData
     {
         public User RequestSender { get; set; }
         public User RequestReceiver { get; set; }
@@ -20,10 +20,10 @@ namespace RedTheSettlers.UnitTest
 
     public class TradeControllerTest : MonoBehaviour
     {
-        private TradeData Trade;
+        //private TradeData Trade;
 
-        private TradeCallback _callback;
-        public TradeCallback Callback
+        private UTradeCallback _callback;
+        public UTradeCallback Callback
         {
             get { return _callback; }
             set { _callback = value; }
@@ -45,14 +45,16 @@ namespace RedTheSettlers.UnitTest
 
         private OtherPlayerState RandomAI()
         {
-            int ai = Random.Range(1, 3); // no, yes
+            int ai = Random.Range(1, 3); // 1 : no, 2 : yes
             return (OtherPlayerState)ai;
         }
 
         public void DoTrade(TradeData trade)
         {
             OtherPlayerState ai = RandomAI();
-            if (ai == OtherPlayerState.Yes)
+
+            if (ai == OtherPlayerState.Trade) { }
+            else if (ai == OtherPlayerState.Yes)
             {
                 trade.RequestSender.ChangeItemCount(trade.ItemsToTrade);
 
@@ -61,7 +63,7 @@ namespace RedTheSettlers.UnitTest
                     trade.ItemsToTrade[i].Count *= -1;
                 }
 
-                trade.RequestReceiver.ChangeItemCount(Trade.ItemsToTrade);
+                trade.RequestReceiver.ChangeItemCount(trade.ItemsToTrade);
             }
             else { } // ai == OtherPlayerState.No
 

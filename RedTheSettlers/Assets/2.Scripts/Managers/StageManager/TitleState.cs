@@ -16,18 +16,24 @@ namespace RedTheSettlers.GameSystem
 {
     class TitleState : State
     {
-        public override State Enter()
+
+        public override void ContinueGame(bool canLoadData)
         {
-            throw new System.NotImplementedException();
-            //확인 버튼을 누르면
+            if (!canLoadData)
+                DataManager.Instance.ResetData();
 
         }
 
-        public override State Exit()
+        public override void Enter()
         {
-            throw new System.NotImplementedException();
-            // 로그인이 성공이라면 로딩장면 상태로 넘어간다.
+
         }
+
+        public override void Exit(StageType stageType)
+        {
+            StageManager.Instance.ChangeStage(StageType.LoadingStageState);
+        }
+
     }
 
 }

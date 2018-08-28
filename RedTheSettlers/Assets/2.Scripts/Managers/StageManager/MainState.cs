@@ -14,18 +14,22 @@ using UnityEngine.SceneManagement;
 
 namespace RedTheSettlers.GameSystem
 {
+
     class MainState : State
     {
-        public override State Enter()
+        public override void ContinueGame(bool canLoadData)
         {
-            //배틀장면으로 갈때 메인 카메라를 꺼준다
-            throw new System.NotImplementedException();
+           
         }
 
-        public override State Exit()
+        public override void Enter()
         {
-            // 배틀카메라를 카메라를 낀다
-            throw new System.NotImplementedException();
+            StageManager.Instance.ChangeStage(StageType.MainStageState);
+        }
+
+        public override void Exit(StageType stageType)
+        {
+            StageManager.Instance.ChangeStage(StageType.BattleStageState);
         }
     }
 }
