@@ -45,20 +45,24 @@ namespace RedTheSettlers.GameSystem
 
         public void JudgeLoadingData(bool canLoadData)
         {
-            if (!canLoadData)
-                DataManager.Instance.ResetData();
+            //if (!canLoadData)
+            //    DataManager.Instance.ResetData();
 
             StageStateMachine.ContinueGame(canLoadData);
         }
 
         public void ChangeStage(StageType stageType)
         {
-            StageStateMachine.Enter();
             StageStateMachine.Exit(stageType);
             // StageStateMachine.CurrentState = new LoadingState(stageType);
         }
 
-        
+        public void ChangeState()
+        {
+            StageStateMachine.Enter();
+        }
+
+
         public IEnumerator ChangeStageLoad(StageType stageType)
         {
             AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(stageType.ToString());
