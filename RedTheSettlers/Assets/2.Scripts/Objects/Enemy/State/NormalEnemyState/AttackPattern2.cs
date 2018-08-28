@@ -36,8 +36,8 @@ namespace RedTheSettlers.Enemys.Normal
                 base.DoAction();
 
                 Vector3 normalVector = (targetObject.transform.position - transform.position).normalized;
-                normalVector.y = 0f;
                 transform.rotation = Quaternion.LookRotation(normalVector);
+                transform.rotation = new Quaternion(0f, transform.rotation.y, 0, transform.rotation.w);
 
                 Vector3 fireRotationposition = transform.rotation * Vector3.forward * 0.2f + transform.position + Vector3.up;
                 fireBall.transform.position = fireRotationposition;

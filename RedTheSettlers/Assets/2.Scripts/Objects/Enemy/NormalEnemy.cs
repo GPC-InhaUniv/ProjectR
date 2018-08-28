@@ -9,8 +9,8 @@ namespace RedTheSettlers.Enemys
     /// </summary>
     public class NormalEnemy : Enemy
     {
-        private const float attack1Tick = 1.6f;
-        private const float attack2Tick = 3.3f;
+        private const float attack1Tick = 3.1f;
+        private const float attack2Tick = 8.9f;
 
         private void Start()
         {
@@ -33,7 +33,7 @@ namespace RedTheSettlers.Enemys
                 case EnemyStateType.Attack1:
                     if (isAttackable[0])
                     {
-                        currentState = new Normal.AttackPattern1(animator);
+                        currentState = new Normal.AttackPattern1(animator, transform, TargetObject);
 
                         isAttackable[0] = false;
                         Pattern1Timer = GameTimeManager.Instance.PopTimer();

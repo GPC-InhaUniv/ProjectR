@@ -22,8 +22,8 @@ namespace RedTheSettlers.Enemys
         private Explode explode;
         public Queue<Explode> explodeList;
         public Queue<EnemyFireBall> LaunchedFireballList;
-        private const float attack1Tick = 1.0f;
-        private const float attack2Tick = 8.0f;
+        private const float attack1Tick = 4.5f;
+        private const float attack2Tick = 12.2f;
 
         private void Start()
         {

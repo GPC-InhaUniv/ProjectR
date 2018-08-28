@@ -25,7 +25,7 @@ namespace RedTheSettlers.Enemys
             animator.SetBool("IsMoving", true);
             Vector3 normalVector = (destinationPoint - currentPoint).normalized;
             transform.rotation = Quaternion.LookRotation(normalVector);
-            transform.rotation = new Quaternion(transform.rotation.x, 0, transform.rotation.z, transform.rotation.w);
+            transform.rotation = new Quaternion(0f, transform.rotation.y, 0, transform.rotation.w);
             rigidbodyComponent.velocity = normalVector * GameTimeManager.Instance.DeltaTime * moveSpeed * speedCorrection;
         }
     }

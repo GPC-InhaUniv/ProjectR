@@ -20,9 +20,9 @@ namespace RedTheSettlers.Enemys
         private Stack<BattleTile> pathTile;
         private BattleTile currnetTile;
         public GameTimer pathFindTimer;
-        private const float pathFindTimerTick = 3.0f;
-        private const float longAttackLength = 6.0f;
-        private const float shortAttackLength = 2.0f;
+        private const float pathFindTimerTick = 1.0f;
+        private const float longAttackLength = 3.0f;
+        private const float shortAttackLength = 1.0f;
 
         private int[] coordX = { 1, 1, 0, -1, -1, 0 };
         private int[] coordZ = { 0, -1, -1, 0, 1, 1 };
@@ -46,24 +46,23 @@ namespace RedTheSettlers.Enemys
                 {
                     enemy.ChangeState(EnemyStateType.Attack2);
                 }
-
                 else if (enemy is NormalEnemy && enemy.isAttackable[0])
                 {
                     enemy.ChangeState(EnemyStateType.Attack1);
                 }
+                pathTile = null;
             }
-
             else if (enemy.TargetObject != null && Vector3.Distance(enemy.TargetObject.transform.position, enemy.transform.position) < longAttackLength)
             {
                 if (enemy is BossEnemy && enemy.isAttackable[0])
                 {
                     enemy.ChangeState(EnemyStateType.Attack1);
                 }
-
-                else if(enemy is NormalEnemy && enemy.isAttackable[1])
+                else if (enemy is NormalEnemy && enemy.isAttackable[1])
                 {
                     enemy.ChangeState(EnemyStateType.Attack2);
                 }
+                pathTile = null;
             }
         }
 
@@ -85,18 +84,27 @@ namespace RedTheSettlers.Enemys
             if (enemy.TargetObject != null && pathTile == null)
             {
                 BattleTile destinationTile = enemy.GetCurrentTile(enemy.TargetObject.transform.position);
-                PathFinder(destinationTile);
+                if (Vector3.Distance(enemy.TargetObject.transform.position, enemy.transform.position) < longAttackLength * 2f)
+                {
+                    Debug.Log("타겟은 있는데 경로가 없는 경우의 이동");
+                    MoveChar(destinationTile);
+                }
+                else
+                {
+                    pathTile = null;
+                    PathFinder(destinationTile);
+                }
             }
             //타겟이 있고, 경로도 있는 경우
             else if (enemy.TargetObject != null && pathTile != null)
             {
-                //현재 위치가 목적지랑 같은 경우 다음 목적지로 이동
-                if (enemy.currentState is Idle)
+                if (enemy.currentState is Idle && pathTile.Count > 0)
                 {
+                    Debug.Log("타겟이 있고, 경로도 있는 경우의 이동");
                     MoveChar(pathTile.Pop());
                 }
                 //다음 목적지가 없는 경우 도착으로 간주
-                else if(pathTile.Peek() == null)
+                else if(pathTile.Count == 0)
                 {
                     pathTile = null;
                 }
@@ -105,15 +113,11 @@ namespace RedTheSettlers.Enemys
             else if (enemy.TargetObject == null)
             {
                 int randomCoord = Random.Range(0, coordX.Length);
-                int XPos = currnetTile.TileCoordinate.x + coordX[randomCoord];
-                int ZPos = currnetTile.TileCoordinate.z + coordZ[randomCoord];
-                BattleTile battleTile;
-
-                if ((GlobalVariables.BattleTileGridSize > XPos && 0 < XPos)
-                    && (GlobalVariables.BattleTileGridSize > ZPos && 0 < ZPos))
+                BattleTile battleTile = SearchAdjacentTiles(randomCoord);
+                if (battleTile != null)
                 {
-                    battleTile = TileManager.Instance.BattleTileGrid[XPos, ZPos].GetComponent<BattleTile>();
-                    if(battleTile != null) MoveChar(battleTile);
+                    MoveChar(battleTile);
+                    Debug.Log("타겟이 없으면 주변을 배회한다.");
                 }
             }
         }
@@ -135,23 +139,7 @@ namespace RedTheSettlers.Enemys
 
                 for (int i = 0; i < coordX.Length; i++)
                 {
-                    int XPos = currnetTile.TileCoordinate.x + coordX[i];
-                    int ZPos = currnetTile.TileCoordinate.z + coordZ[i];
-                    BattleTile battleTile;
-
-                    if ((GlobalVariables.BattleTileGridSize > XPos && 0 < XPos)
-                        && (GlobalVariables.BattleTileGridSize > ZPos && 0 < ZPos))
-                    {
-                        if(TileManager.Instance.BattleTileGrid[XPos, ZPos] != null)
-                        {
-                            battleTile = TileManager.Instance.BattleTileGrid[XPos, ZPos].GetComponent<BattleTile>();
-                        }
-                        else
-                        {
-                            battleTile = null;
-                        }
-                    }
-                    else battleTile = null;                    
+                    BattleTile battleTile = SearchAdjacentTiles(i);
 
                     if (battleTile != null)
                     {
@@ -207,9 +195,38 @@ namespace RedTheSettlers.Enemys
                 tempPathTile.Push(parent);
                 parent = TileManager.Instance.BattleTileGrid[parent.ParentTileXCoord, parent.ParentTileZCoord].GetComponent<BattleTile>();
             }
-            tempPathTile.Push(startTile);
+            //tempPathTile.Push(startTile);
+            //MoveChar(tempPathTile.Pop());
 
             return tempPathTile;
+        }
+
+        /// <summary>
+        /// 인접타일 검색(매개변수로 지정된 1개 타일만 반환)
+        /// </summary>
+        /// <param name="coordNum"></param>
+        /// <returns></returns>
+        private BattleTile SearchAdjacentTiles(int coordNum)
+        {
+            BattleTile battleTile;
+            int XPos = currnetTile.TileCoordinate.x + coordX[coordNum];
+            int ZPos = currnetTile.TileCoordinate.z + coordZ[coordNum];
+
+            if ((GlobalVariables.BattleTileGridSize > XPos && 0 < XPos)
+                && (GlobalVariables.BattleTileGridSize > ZPos && 0 < ZPos))
+            {
+                if (TileManager.Instance.BattleTileGrid[XPos, ZPos] != null)
+                {
+                    battleTile = TileManager.Instance.BattleTileGrid[XPos, ZPos].GetComponent<BattleTile>();
+                }
+                else
+                {
+                    battleTile = null;
+                }
+            }
+            else battleTile = null;
+
+            return battleTile;
         }
     }
 }

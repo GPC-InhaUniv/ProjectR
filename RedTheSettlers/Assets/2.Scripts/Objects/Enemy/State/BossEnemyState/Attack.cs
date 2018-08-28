@@ -38,8 +38,8 @@ namespace RedTheSettlers.Enemys.Boss
             animator.SetTrigger("Attack");
             
             Vector3 normalVector = (targetObject.transform.position - transform.position).normalized;
-            normalVector.y = 0f;
             transform.rotation = Quaternion.LookRotation(normalVector);
+            transform.rotation = new Quaternion(0f, transform.rotation.y, 0, transform.rotation.w);
 
             int ShotCount = (2 * bossPhase) + 1;
             float angle = ((ShotCount - 1) * 0.5f) * AngleOffset;
