@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using RedTheSettlers.Enemys;
+using RedTheSettlers.GameSystem;
 
 namespace RedTheSettlers.Skills
 {
@@ -17,6 +18,11 @@ namespace RedTheSettlers.Skills
             }
 
             Destroy(gameObject);
+        }
+
+        private void OnDestroy()
+        {
+            ObjectPoolManager.Instance.SkillQueue.Enqueue(gameObject);
         }
     }
 }

@@ -14,7 +14,11 @@ namespace RedTheSettlers.Skills
             {
                 Vector3 positionToCreate = battlePlayer.transform.rotation * Vector3.forward * 2 + battlePlayer.transform.position;
 
-                //Instantiate(ObjectPoolManager.Instance.SkillQueue.Dequeue(), positionToCreate, battlePlayer.transform.rotation);
+                GameObject projectile = ObjectPoolManager.Instance.SkillQueue.Dequeue();
+                projectile.SetActive(true);
+
+                projectile.transform.position = positionToCreate;
+                projectile.transform.rotation = battlePlayer.transform.rotation;
             }
 
             yield return null;
