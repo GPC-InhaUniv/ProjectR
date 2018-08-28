@@ -6,10 +6,15 @@ namespace RedTheSettlers.Tiles
 {
     public class BattleTile : Tile {
 
+        [HideInInspector]
         public int ParentTileXCoord;
-        public int ParentTileZcoord;
+        [HideInInspector]
+        public int ParentTileZCoord;
+        [HideInInspector]
         public int f;
+        [HideInInspector]
         public int g;
+        [HideInInspector]
         public int h;
     }
 }

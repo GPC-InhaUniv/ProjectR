@@ -45,6 +45,13 @@ namespace RedTheSettlers.GameSystem
         Third = 2,
     }
 
+    public enum OtherPlayerState
+    {
+        Trade,
+        No,
+        Yes,
+    }
+
     public enum AssetBundleNumbers
     {
         Player,
@@ -95,6 +102,12 @@ namespace RedTheSettlers.GameSystem
         public const string TAG_SKILLICON = "SkillIcon";
         public const string TAG_WALL = "Wall";
         public const string TAG_MAINCAMERA = "MainCamera";
-
+        public const string TAG_BOARDCAMERA = "BoardCamera";
+        public const string TAG_BATTLECAMERA = "BattleCamera";
+        public const string TAG_UICAMERA = "UICamera";
+        public const string TAG_UIICON = "UIIcon";
+        public const string TAG_ENEMYATTACK = "EnemyAttack";
+        public const string TAG_PLAYERATTACK = "PlayerAttack";
+        
     }
 }
