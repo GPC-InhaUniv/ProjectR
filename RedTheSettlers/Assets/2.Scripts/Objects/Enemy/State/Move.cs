@@ -8,19 +8,12 @@ namespace RedTheSettlers.Enemys
     {
         const float speedCorrection = 50f;
 
-        public Move(
-            Animator animator,
-            Transform transform,
-            Rigidbody rigidbodyComponent, 
-            Vector3 destinationPoint, 
-            Vector3 currentPoint, 
-            float moveSpeed,
-            Tile currentTile
-            )
+        public Move(Animator animator, Transform transform, Rigidbody rigidbodyComponent, 
+            Vector3 destinationPoint, Vector3 currentPoint,  float moveSpeed, Tile currentTile)
         {
             this.animator = animator;
-            this.transform.rotation = transform.rotation;
-            this.rigidbodyComponent.velocity = rigidbodyComponent.velocity;
+            this.transform = transform;
+            this.rigidbodyComponent = rigidbodyComponent;
             this.destinationPoint = destinationPoint;
             this.currentPoint = currentPoint;
             this.moveSpeed = moveSpeed;

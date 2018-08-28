@@ -10,11 +10,11 @@ namespace RedTheSettlers.GameSystem
     {
 
         AbstractCamera abstractCamera;
-        string cameraName;
+        string cameraTagName;
         private void Awake()
         {
-            cameraName = gameObject.tag;
-            if (cameraName == "BoardCamera")
+            cameraTagName = gameObject.tag;
+            if (cameraTagName == "BoardCamera")
             {
                 abstractCamera = new BoardCamera(gameObject);
             }
@@ -23,6 +23,7 @@ namespace RedTheSettlers.GameSystem
                 abstractCamera = new BattleCamera(gameObject);
             }
         }
+        
 
 
         public void TrunOnCamera()
@@ -33,17 +34,17 @@ namespace RedTheSettlers.GameSystem
         {
             abstractCamera.TurnOff();
         }
-        public void MovingCamera(Vector3 vector3)
+        public void MovingCamera(Vector3 vector3, CameraStateType cameraState)
         {
-            abstractCamera.MovingCamera(vector3);
+            abstractCamera.CameraMoving(vector3, cameraState);
         }
         public void ZoomInOutCamera(float value)
         {
-            abstractCamera.ZoomInOutCamera(value);
+            abstractCamera.CameraZoomInOut(value);
         }
         public void Looking(Transform target)
         {
-            abstractCamera.LookAt(target);
+            abstractCamera.CameraAngle(target);
         }
 
 

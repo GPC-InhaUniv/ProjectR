@@ -25,8 +25,8 @@ namespace RedTheSettlers.GameSystem
     public struct TileData
     {
         public ItemType TileType;
-        public float LocationX;
-        public float LocationY;
+        public int LocationX;
+        public int LocationY;
         public int TileLevel;
     }
 
@@ -47,6 +47,7 @@ namespace RedTheSettlers.GameSystem
     [Serializable]
     public struct InGameData
     {
+        public TileData[] BoardTileList;
         public int TurnCount;
         public int Weather;
     }
@@ -85,6 +86,7 @@ namespace RedTheSettlers.GameSystem
         public GameData(int numberOfPlayer)
         {
             PlayerData = new PlayerData[numberOfPlayer];
+            InGameData.BoardTileList = new TileData[61];
             for (int i = 0; i < PlayerData.Length; i++)
             {
                 PlayerData[i] = new PlayerData();

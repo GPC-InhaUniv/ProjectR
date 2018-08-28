@@ -6,14 +6,10 @@ namespace RedTheSettlers.Tiles
 {
     public class BattleTile : Tile {
 
-        private void Start()
-        {
-
-        }
-
-        private IEnumerator DropTile()
-        {
-            yield return null;
-        }
+        public int ParentTileXCoord;
+        public int ParentTileZcoord;
+        public int f;
+        public int g;
+        public int h;
     }
 }

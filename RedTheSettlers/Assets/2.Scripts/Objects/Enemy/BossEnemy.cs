@@ -10,39 +10,31 @@ namespace RedTheSettlers.Enemys
     /// </summary>
     public class BossEnemy : Enemy
     {
-        //파이어볼과 폭발은 풀 매니저로 옮겨야 한다.
-        //보스가 체력에 따라 동시에 날리는 공격의 개수가 달라지기 때문
-
         private const float explodeLifeTime = 10f;
         private Vector3 explosionLocation;
+        [SerializeField]
         private int bossPhase;
         private Vector3 fireballPosition;
-
-
-        [SerializeField]
         private GameTimer explodeLifeTimer;
         private GameTimer fireballLifeTimer;
         [SerializeField]
         private Explode explodePrefab;
         private Explode explode;
         public Queue<Explode> explodeList;
-        public Queue<EnemyFireBall> FireballList;
-
-        private Vector3 explosionLocationOffset;
-        private Vector3 fireballPositionOffset;
+        public Queue<EnemyFireBall> LaunchedFireballList;
+        private const float attack1Tick = 1.0f;
+        private const float attack2Tick = 8.0f;
 
         private void Start()
         {
             base.Setting();
             Setting();
-            
         }
 
         protected override void Setting()
         {
-            explosionLocationOffset = new Vector3(0.275f, 0f, 1.3f);
-            fireballPositionOffset = new Vector3(-0.173f, 1f, 1.591f);
             explodeList = new Queue<Explode>();
+            LaunchedFireballList = new Queue<EnemyFireBall>();
         }
 
         public override void ChangeState(EnemyStateType stateType)
@@ -59,19 +51,31 @@ namespace RedTheSettlers.Enemys
                     currentState = new Damage(animator);
                     break;
                 case EnemyStateType.Attack1:
-                    currentState = new Boss.Attack(
+                    if (isAttackable[0])
+                    {
+                        currentState = new Boss.Attack(
                         animator,
-                        PopFireBall(),
-                        fireballPosition,
                         bossPhase,
                         fireballLifeTimer,
-                        new TimerCallback(pushFireballTimer),
+                        new TimerCallback(PushFireballTimer),
                         TargetObject,
                         transform,
-                        TimeToReturn);
+                        TimeToReturn,
+                        ObjectPoolManager.Instance.FireballQueue,
+                        FireBallSpeed,
+                        LaunchedFireballList);
+
+                        isAttackable[0] = false;
+                        Pattern1Timer = GameTimeManager.Instance.PopTimer();
+                        Pattern1Timer.SetTimer(attack1Tick, false);
+                        Pattern1Timer.Callback = new TimerCallback(SetAttackable1);
+                        Pattern1Timer.StartTimer();
+                    }
                     break;
                 case EnemyStateType.Attack2:
-                    currentState = new Boss.UseSkill(
+                    if (isAttackable[1])
+                    {
+                        currentState = new Boss.UseSkill(
                         animator,
                         explode,
                         explodeLifeTimer,
@@ -79,6 +83,13 @@ namespace RedTheSettlers.Enemys
                         explodeLifeTime,
                         new TimerCallback(UseSkillEnd),
                         bossPhase);
+
+                        isAttackable[1] = false;
+                        Pattern1Timer = GameTimeManager.Instance.PopTimer();
+                        Pattern1Timer.SetTimer(attack2Tick, false);
+                        Pattern1Timer.Callback = new TimerCallback(SetAttackable2);
+                        Pattern1Timer.StartTimer();
+                    }
                     break;
                 case EnemyStateType.Move:
                     currentState = new Move(
@@ -171,12 +182,13 @@ namespace RedTheSettlers.Enemys
             Explode tempExplode = explodeList.Dequeue();
             ObjectPoolManager.Instance.ExplodeQueue.Enqueue(tempExplode);
             tempExplode.gameObject.SetActive(false);
-
         }
 
-        void pushFireballTimer()
+        void PushFireballTimer()
         {
-
+            EnemyFireBall fireBall = LaunchedFireballList.Dequeue();
+            ObjectPoolManager.Instance.FireballQueue.Enqueue(fireBall);
+            fireBall.gameObject.SetActive(false);
         }
 
         void EndSkill()

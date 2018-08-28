@@ -23,7 +23,7 @@ namespace RedTheSettlers.Players
         private float moveSpeed = 2.0f;
         private bool isAttacking = false;
 
-        private Skill[] skillSet = new Skill[4];
+        private Skill[] skillSlot = new Skill[4];
 
         private void Awake()
         {
@@ -88,17 +88,18 @@ namespace RedTheSettlers.Players
                 }
 
                 isAttacking = false;
-
             }
         }
 
-        public IEnumerator HittedByEnemy(int damage)
+        public void HittedByEnemy(int damage)
         {
-            yield return null;
+
         }
 
-        public IEnumerator UseSkill(Skill skill)
+        public IEnumerator UseSkill(int skillSlotNum)
         {
+            skillSlot[skillSlotNum].ActivateSkill(this);
+
             yield return null;
         }
 

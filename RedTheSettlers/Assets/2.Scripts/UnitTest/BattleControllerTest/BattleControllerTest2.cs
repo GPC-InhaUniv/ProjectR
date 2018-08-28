@@ -13,6 +13,8 @@ namespace RedTheSettlers.UnitTest
 
     public class BattleControllerTest2 : MonoBehaviour
     {
+        public GameObject Cattle;
+
         GameTimer cattlesTimer, battleTimer;
         float cattleResawnTime = 100; // second
 
@@ -31,19 +33,27 @@ namespace RedTheSettlers.UnitTest
         public IEnumerator BattleFlow()
         {
             ItemType tileType = diffcultyManagertest.Instance.tileType;
-            if (tileType == ItemType.Cow) SpawnHerdOfCattle();
+            if (tileType == ItemType.Cow) SpawnHerdOfCattles();
             
             // DataManager에 전투 결과 반영
             yield return new WaitForSeconds(3);
         }
 
         // 일정 시간마다 소 떼가 등장한다.
-        private void SpawnHerdOfCattle()
+        private void SpawnHerdOfCattles()
         {
             //ObjectPoolManager.Instance.SkillQueue.Enqueue();
             
         }
-        
+
+        public void SpawnCattle()
+        {
+            Quaternion angle = Quaternion.Euler(0f, Random.Range(0, 360f), 0f);
+            GameObject tempCow = Instantiate(Cattle);
+            tempCow.transform.position = new Vector3(0f, 0f, 0f);
+            tempCow.transform.rotation = angle;
+        }
+
         /// <summary>
         /// 적을 모두 쓰러트리면 전투가 종료된다. 
         /// </summary>

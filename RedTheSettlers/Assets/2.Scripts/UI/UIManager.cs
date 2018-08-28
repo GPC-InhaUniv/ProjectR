@@ -1,23 +1,78 @@
-﻿using System.Collections;
+﻿using RedTheSettlers.GameSystem;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIManager : Singleton<UIManager>
+namespace RedTheSettlers.UI
 {
-    [SerializeField]
-    private GameObject gameResultCalculateUI;
-
-    [SerializeField]
-    private GameObject equipmentAndSkillUI;
-
-    private void Start()
+    public class UIManager : Singleton<UIManager>
     {
-        equipmentAndSkillUI.gameObject.SetActive(true);
-    }
+        [SerializeField]
+        private GameObject playerTurnUI;
 
-    public void OnClickedBuildCamp()
-    {
-        gameResultCalculateUI.gameObject.SetActive(true);
+        [SerializeField]
+        private GameObject tradeUI, equipmentAndSkillUI, stateUI;
+
+        [SerializeField]
+        private GameObject battleUI;
+
+        [SerializeField]
+        private GameObject bossWarningUI;
+
+        [SerializeField]
+        private GameObject weatherEventSelectUI;
+
+        private void ShowBoardUI()
+        {
+            playerTurnUI.SetActive(true);
+        }
+
+        public void OnClickedEquipAndSkillButton()
+        {
+            equipmentAndSkillUI.SetActive(true);
+            playerTurnUI.SetActive(false);
+        }
+
+        public void OnClickedStateButton()
+        {
+            stateUI.SetActive(true);
+            playerTurnUI.SetActive(false);
+        }
+
+        public void OnClickedTradeButton()
+        {
+            tradeUI.SetActive(true);
+            playerTurnUI.SetActive(false);
+        }
+
+        public void ReceiveTradeData(ItemData[] itemData)
+        {
+            tradeUI.GetComponent<UITradeCardController>().SetTradeData(itemData);
+        }
+
+        public void OnClickedTurnCloseButton()
+        {
+            playerTurnUI.SetActive(false);
+            equipmentAndSkillUI.SetActive(false);
+            stateUI.SetActive(false);
+            tradeUI.SetActive(false);
+        }
+
+        public void ShowBattleUI()
+        {
+            battleUI.SetActive(true);
+        }
+
+        public void ShowBossWarningUI()
+        {
+            bossWarningUI.SetActive(true);
+        }
+
+        public void ShowWheatherEvent(int[] weathers)
+        {
+            weatherEventSelectUI.SetActive(true);
+            weatherEventSelectUI.GetComponentInChildren<UIWeatherSelect>().ReceiveEventNumbers(weathers);
+        }
     }
 }

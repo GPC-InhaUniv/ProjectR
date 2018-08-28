@@ -7,7 +7,7 @@ using UnityEngine.UI;
 /// 작성자 : 강다희
 /// Tile 선택 시, 미개척/개척(플레이어)/개척(AI)인지 체크하고,
 /// 해당 값을 출력해 주며 캠프짓기/캠프뺏기/업그레이드가 가능함.
-/// 
+///
 /// [참고] 타일을 인풋으로 선택 했을 때 UI가 setactive되는 것은 UIManager에서 해야함.
 /// </summary>
 
@@ -44,9 +44,19 @@ namespace RedTheSettlers.UI
         [SerializeField]
         private TileOwnerImage[] tileOwnerImage;
 
-        [Header("Current Item Image")]
+        [Serializable]
+        private struct TileItemImage
+        {
+            public GameObject cowTileImage;
+            public GameObject waterTileImage;
+            public GameObject wheatTileImage;
+            public GameObject woodTileImage;
+            public GameObject ironTileImage;
+            public GameObject soilTileImage;
+        }
+
         [SerializeField]
-        private GameObject[] tileItemImage;
+        private TileItemImage[] tileItemImage;
 
         [Header("Current Tile Event Button")]
         [SerializeField]
@@ -58,9 +68,6 @@ namespace RedTheSettlers.UI
 
         [SerializeField]
         private int selectTileProperties;
-
-        [SerializeField]
-        private int selectTileName;
 
         [SerializeField]
         private int selectTileItemLevel;
@@ -106,41 +113,53 @@ namespace RedTheSettlers.UI
 
         private void CheckTileProperties()
         {
-            switch (selectTileProperties) //물 , 밀, 소, 나무, 철, 흙
+            switch (selectTileProperties) //소,물,밀,나무,철,흙
             {
                 case 0:
                     {
-                        tileItemName.text = "물";
+                        tileName.text = "목축지";
+                        tileItemName.text = "소";
+                        tileItemImage[0].cowTileImage.SetActive(true);
                     }
                     break;
 
                 case 1:
                     {
-                        tileItemName.text = "밀";
+                        tileName.text = "오아시스";
+                        tileItemName.text = "물";
+                        tileItemImage[0].waterTileImage.SetActive(true);
                     }
                     break;
 
                 case 2:
                     {
-                        tileItemName.text = "소";
+                        tileName.text = "밀밭";
+                        tileItemName.text = "밀";
+                        tileItemImage[0].wheatTileImage.SetActive(true);
                     }
                     break;
 
                 case 3:
                     {
+                        tileName.text = "숲";
                         tileItemName.text = "나무";
+                        tileItemImage[0].woodTileImage.SetActive(true);
                     }
                     break;
 
                 case 4:
                     {
+                        tileName.text = "돌산";
                         tileItemName.text = "철";
+                        tileItemImage[0].ironTileImage.SetActive(true);
                     }
                     break;
 
                 case 5:
                     {
+                        tileName.text = "흙산";
                         tileItemName.text = "흙";
+                        tileItemImage[0].soilTileImage.SetActive(true);
                     }
                     break;
             }

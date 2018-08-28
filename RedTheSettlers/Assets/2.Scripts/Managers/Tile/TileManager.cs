@@ -7,57 +7,102 @@ namespace RedTheSettlers.GameSystem
 {
     public class TileManager : Singleton<TileManager>
     {
-        public GameObject[,] TileGrid;
+        public GameObject[,] BoardTileGrid;
+        public GameObject[,] BattleTileGrid;
 
         public void IntializeTileSet()
         {
-            TileGrid = new GameObject[GlobalVariables.TileGridSize + 8, GlobalVariables.TileGridSize + 8];
+            BoardTileGrid = new GameObject[GlobalVariables.BoardTileGridSize, GlobalVariables.BoardTileGridSize];
+            BattleTileGrid = new GameObject[GlobalVariables.BattleTileGridSize, GlobalVariables.BattleTileGridSize];
 
-            CreateTileGrid();
-            ShowTile();
+            //CreateBoardTileGrid();
+            //ShowBoardTile();
+
+            CreateBattleTileGrid(ItemType.Cow, 1);
+            ShowBattleTile();
         }
 
-        private void CreateTileGrid()
+        public void CreateBoardTileGrid()
         {
             int index = 0;
 
-            for (int z = 0; z < GlobalVariables.TileGridSize + 8; z++)
+            for (int z = 0; z < GlobalVariables.BoardTileGridSize; z++)
             {
-                for (int x = 0; x < GlobalVariables.TileGridSize + 8; x++)
+                for (int x = 0; x < GlobalVariables.BoardTileGridSize; x++)
                 {
-                    if (z > -x + GlobalVariables.MinZIntercept && z < -x + GlobalVariables.MaxZIntercept)
+                    if (z > - x + GlobalVariables.BoardTileMinZIntercept && z < -x + GlobalVariables.BoardTileMaxZIntercept)
                     {
                         float xCoord = CalculateXcoord(x, z);
                         float zCoord = CalculateZcoord(z);
-                        TileGrid[x, z] = ObjectPoolManager.Instance.TileSet[index].gameObject;
-                        TileGrid[x, z].transform.position = new Vector3(xCoord, 0.05f, zCoord);
-                        TileGrid[x, z].GetComponent<BoardTile>().TileCoordinate = new Coordinate(x, z);
+                        BoardTileGrid[x, z] = ObjectPoolManager.Instance.TileSet[index].gameObject;
+                        BoardTileGrid[x, z].transform.position = new Vector3(xCoord, 0.05f, zCoord);
+                        BoardTileGrid[x, z].GetComponent<BoardTile>().TileCoordinate = new Coordinate(x, z);
                         index++;
                     }
                 }
             }
         }
 
-        private void ShowTile()
+        public void CreateBattleTileGrid(ItemType itemType, int difficulty)
         {
-            for (int z = 0; z < GlobalVariables.TileGridSize; z++)
+            int index = 0;
+
+            for (int z = 0; z < GlobalVariables.BattleTileGridSize; z++)
             {
-                for (int x = 0; x < GlobalVariables.TileGridSize; x++)
+                for (int x = 0; x < GlobalVariables.BattleTileGridSize; x++)
                 {
-                    if (z > -x + GlobalVariables.MinZIntercept && z < -x + GlobalVariables.MaxZIntercept)
+                    if (z > - x + GlobalVariables.BattleTileMinZIntercept && z < - x + GlobalVariables.BattleTileMaxZIntercept)
                     {
-                        TileGrid[x, z].SetActive(true);
+                        float xCoord = CalculateXcoord(x, z) + GlobalVariables.BattleAreaOriginCoord;
+                        float zCoord = CalculateZcoord(z) + GlobalVariables.BattleAreaOriginCoord;
+                        BattleTileGrid[x, z] = ObjectPoolManager.Instance.TileSet[index].gameObject;
+                        BattleTileGrid[x, z].transform.position = new Vector3(xCoord, 0.05f, zCoord);
+                        BattleTileGrid[x, z].GetComponent<BoardTile>().TileCoordinate = new Coordinate(x, z);
+                        index++;
                     }
                 }
             }
         }
 
-        float CalculateXcoord(float x, float z)
+        public void ShowBoardTile()
+        {
+            for (int z = 0; z < GlobalVariables.BoardTileGridSize; z++)
+            {
+                for (int x = 0; x < GlobalVariables.BoardTileGridSize; x++)
+                {
+                    if (z > -x + GlobalVariables.BoardTileMinZIntercept && z < -x + GlobalVariables.BoardTileMaxZIntercept)
+                    {
+                        BoardTileGrid[x, z].SetActive(true);
+                    }
+                }
+            }
+        }
+
+        public void ShowBattleTile()
+        {
+            for (int z = 0; z < GlobalVariables.BattleTileGridSize; z++)
+            {
+                for (int x = 0; x < GlobalVariables.BattleTileGridSize; x++)
+                {
+                    if (z > -x + GlobalVariables.BattleTileMinZIntercept && z < -x + GlobalVariables.BattleTileMaxZIntercept)
+                    {
+                        BattleTileGrid[x, z].SetActive(true);
+                    }
+                }
+            }
+        }
+
+        public void ClearBattleTileGrid()
+        {
+
+        }
+
+        public float CalculateXcoord(float x, float z)
         {
             return (x + z * 0.5f) * 1.74f;
         }
 
-        float CalculateZcoord(float z)
+        public float CalculateZcoord(float z)
         {
             return z * 1.5f + 0.1f;
         }

@@ -65,16 +65,17 @@ namespace RedTheSettlers.UI
 
         private int computeItemCount;
 
-        private void PutItemCount()
-
+        private void PutItemCount(UserType userType, ItemType itemType)
         {
-            playerCowItem.text = cowCardCount.ToString();
-            playerWaterItem.text = waterCardCount.ToString();
-            playerWheatItem.text = wheatCardCount.ToString();
-            playerWoodItem.text = woodCardCount.ToString();
-            playerIronItem.text = ironCardCount.ToString();
-            playerSoilItem.text = soilCardCount.ToString();
-
+            if (userType == 0)
+            {
+                //playerCowItem.text = GameManager.[GameData.ItemData(0)].Count;
+                playerWaterItem.text = waterCardCount.ToString();
+                playerWheatItem.text = wheatCardCount.ToString();
+                playerWoodItem.text = woodCardCount.ToString();
+                playerIronItem.text = ironCardCount.ToString();
+                playerSoilItem.text = soilCardCount.ToString();
+            }
             //PlayerCowItem.text = gameData.cowcow.ToString();
             //이런식으로 6종류 자원을 gameData에서 가져와서 텍스트에 넣어줘야 함.
         }
@@ -91,7 +92,7 @@ namespace RedTheSettlers.UI
         private void Start()
         {
             cardmaxNumber = GlobalVariables.MaxItemNum; //50
-            PutItemCount();
+                                                        // PutItemCount();
             ComputeTotalItem();
         }
 

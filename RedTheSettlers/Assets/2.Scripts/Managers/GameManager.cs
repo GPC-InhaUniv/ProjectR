@@ -31,12 +31,9 @@ namespace RedTheSettlers.GameSystem
             itemCtrl.Callback = new ItemCallback(ItemFinish);
             tradeCtrl.Callback = new TradeCallback(TradeFinish);
             battleCtrl.Callback = new BattleCallback(BattleFinish);
-            
         }
 
         //어떻게 턴의 흐름을 제어 할 것인지 고민
-        //TurnFlow의 리턴값을 받아 자기 자신을 재귀적으로 호출 하는건??
-        //최초의 호출은 씬 로드가 끝난 이후 stageManager 혹은 다른 객체에게
         public void GameFlow(IEnumerator Flow)
         {
             switch (state)
@@ -169,8 +166,7 @@ namespace RedTheSettlers.GameSystem
         /// <returns></returns>
         public BoardTile GetClickedTile()
         {
-
-            //인풋으로부터 입력을 받게 수정해야 한다.
+            //인풋 매니저로부터 입력을 받게 수정해야 한다.
             BoardTile tile;
             if (Input.GetMouseButtonUp(0))
             {
@@ -187,25 +183,28 @@ namespace RedTheSettlers.GameSystem
             return tile;
         }
 
-        //추가해야 될 거
-        //날씨 카드에서 무엇을 골랐는지 이벤트 컨트롤러에게
-        //트레이드 패널에서 ItemData을 트레이드 컨트롤러에게
-        //다른 player와의 거래 결과를 패널에게 다시 전달
-
         /// <summary>
-        /// 선택 된 날씨 카드를 반환합니다.
+        /// 선택된 날씨 정보를 UI로 전달합니다.
         /// </summary>
-        public void SelectedWeatherCard()
+        public void SendWeatherCard(int[] weathers)
         {
-            
+            UIManager.Instance.ShowWheatherEvent(weathers);
         }
 
         /// <summary>
         /// 거래 정보를 가져옵니다.
         /// </summary>
-        public void GetTradeData()
+        public void SendTradeData(ItemData itemData)
         {
-            
+            //트레이드 패널에서 ItemData을 트레이드 컨트롤러에게
+        }
+
+        /// <summary>
+        /// 거래 결과를 전달합니다.
+        /// </summary>
+        public void SendTradeResult()
+        {
+            //다른 player와의 거래 결과를 패널에게 다시 전달
         }
     }
 }

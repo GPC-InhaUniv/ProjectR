@@ -4,10 +4,6 @@ using UnityEngine;
 using RedTheSettlers.GameSystem;
 using RedTheSettlers.Users;
 
-/*
-RegisterPlayer() // 처음 start할 때 호출
-RequestTrade() -> ShowTradePanel() -> GetTradeData() -> ReceiveTrade()_Controller -> ReceiveTrade() -> RequestAgain()
-*/
 
 namespace RedTheSettlers.UnitTest
 {
@@ -64,6 +60,8 @@ namespace RedTheSettlers.UnitTest
 
         private void ResetTrade()
         {
+            Trade.RequestSender = null;
+            Trade.RequestReceiver = null;
             Trade.ItemsToTrade = null;
         }
     }

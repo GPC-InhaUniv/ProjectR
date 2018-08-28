@@ -25,14 +25,11 @@ namespace RedTheSettlers.UnitTest
             if(turnCount >= GlobalVariables.WeatherEventStartTurn)
             {
                 int playerNumber = GetLowestPlayer();
+                int[] weathers = PickWeatherEvent();
+
                 if (playerNumber == 1)
                 {
-                    // 게임 매니저로 PickWeatherEvent를 넘기는 함수 동작
-                    //GameManager.Instance.(PickWeatherEvent());
-
-                    // 유저의 날씨 선택
-                    // UI 기다려야 하니 코루틴으로 동작
-                    //yield return PlayerSelect();
+                    GameManager.Instance.SendWeatherCard(weathers);
                 }
                 else
                 {

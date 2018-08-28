@@ -1,4 +1,5 @@
 ﻿using RedTheSettlers.GameSystem;
+using RedTheSettlers.Players;
 using RedTheSettlers.Tiles;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,7 +21,7 @@ namespace RedTheSettlers.Enemys
         protected Collider AttackColliderComponent;
         protected Collider HitColliderComponent;
         protected Rigidbody rigidbodyComponent;
-        protected GameObject targetObject;
+        protected BattlePlayer targetObject;
         protected int bossPhase;
 
         protected Vector3 destinationPoint;

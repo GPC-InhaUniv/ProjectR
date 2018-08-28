@@ -144,7 +144,7 @@ namespace RedTheSettlers.UI
                 {
                     upgradeItems = WeaponLevelOne.CheckForItems(attackOneWoodValue, attackOneIronValue, attackOneSoilValue);
                 }
-                else //if (playerWeaponLevel == 1)
+                else    //playerWeaponLevel == 1
                 {
                     upgradeItems = WeaponLevelTwo.CheckForItems(attackTwoWoodValue, attackTwoIronValue, attackTwoSoilValue);
                 }
@@ -156,7 +156,7 @@ namespace RedTheSettlers.UI
                 {
                     upgradeItems = ShieldLevelOne.CheckForItems(shieldOneWoodValue, shieldOneIronValue, shieldOneSoilValue);
                 }
-                else //if (playerShieldLevel == 1)
+                else     //playerShieldLevel == 1
                 {
                     upgradeItems = ShieldLevelTwo.CheckForItems(shieldTwoWoodValue, shieldTwoIronValue, shieldTwoSoilValue);
                 }
@@ -169,17 +169,17 @@ namespace RedTheSettlers.UI
 
         void EquipmentUpgrade(int level, int buttonValue, UpgradeItems upgradeItems )
         {
-            if (upgradeItems != (UpgradeItems.Wood & upgradeItems))
+            if (upgradeItems != (UpgradeItems.Wood | upgradeItems))
             {
                 //나무 부족
                 if (buttonValue == 0)
                 {
-                    if (level == 0)
+                    if (level == 0 )
                     {
                         attackOneWood.color = textColor; //빠..빠..빨간색!
                         firstAttackButton.interactable = false;
                     }
-                    else if(level == 1)
+                    else /*if(level == 1)*/
                     {
                         attackTwoWood.color = textColor;
                         secondAttackButton.interactable = false;
@@ -187,19 +187,19 @@ namespace RedTheSettlers.UI
                 }
                 if (buttonValue == 1)
                 {
-                    if (level == 0)
+                    if (level == 0 )
                     {
                         shieldOneWood.color = textColor; //빠..빠..빨간색!
                         firstShieldButton.interactable = false;
                     }
-                    else if (level == 1)
+                    else/* if (level == 1)*/
                     {
                         shieldTwoWood.color = textColor;
                         secondShieldButton.interactable = false;
                     }
                 }
             }
-            if (upgradeItems != (UpgradeItems.Iron & upgradeItems))
+            if (upgradeItems != (UpgradeItems.Iron | upgradeItems))
             {
                 //철 부족
                 if (buttonValue == 0)
@@ -209,7 +209,7 @@ namespace RedTheSettlers.UI
                         attackOneIron.color = textColor; //빠..빠..빨간색!
                         firstAttackButton.interactable = false;
                     }
-                    else if (level == 1)
+                    else  //level == 1
                     {
                         attackTwoIron.color = textColor;
                         secondAttackButton.interactable = false;
@@ -220,14 +220,16 @@ namespace RedTheSettlers.UI
                     if (level == 0)
                     {
                         shieldOneIron.color = textColor; //빠..빠..빨간색!
+                        firstShieldButton.interactable = false;
                     }
-                    else if (level == 1)
+                    else  //level == 1
                     {
                         shieldTwoIron.color = textColor;
+                        secondShieldButton.interactable = false;
                     }
                 }
             }
-            if (upgradeItems != (UpgradeItems.Soil & upgradeItems))
+            if (upgradeItems != (UpgradeItems.Soil | upgradeItems))
             {
                 //흙 부족
                 if (buttonValue == 0)
@@ -235,10 +237,12 @@ namespace RedTheSettlers.UI
                     if (level == 0)
                     {
                         attackOneSoil.color = textColor; //빠..빠..빨간색!
+                        firstAttackButton.interactable = false;
                     }
-                    else if (level == 1)
+                    else  //level == 1
                     {
                         attackTwoSoil.color = textColor;
+                        secondAttackButton.interactable = false;
                     }
                 }
                 if (buttonValue == 1)
@@ -246,13 +250,16 @@ namespace RedTheSettlers.UI
                     if (level == 0)
                     {
                         shieldOneSoil.color = textColor; //빠..빠..빨간색!
+                        firstShieldButton.interactable = false;
                     }
-                    else if (level == 1)
+                    else  //level == 1
                     {
                         shieldTwoSoil.color = textColor;
+                        secondShieldButton.interactable = false;
                     }
                 }
             }
+
             if (upgradeItems == (UpgradeItems.Iron | UpgradeItems.Soil | UpgradeItems.Wood))
             {
                 //첫번째 업그레이드

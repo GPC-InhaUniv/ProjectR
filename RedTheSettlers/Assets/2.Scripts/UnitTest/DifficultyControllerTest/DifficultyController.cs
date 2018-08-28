@@ -16,13 +16,25 @@ namespace RedTheSettlers.GameSystem
         private BattleLevel level;
         private ItemType tileType;
 
-
-        public void SendBattleLevel(Tile selectionTile, List<Tile> PossessingTileList)
+        private IEnumerator SendBattleLevel()
+        {
+            TileManager.Instance.CreateBattleTileGrid(tileType, (int)level);
+            yield return null;
+        }      
+        
+        /// <summary>
+        /// DifficultyController의 기능이 시작되는 메인 코루틴.
+        /// </summary>
+        /// <param name="selectionTile"></param>
+        /// <param name="PossessingTileList"></param>
+        /// <returns></returns>
+        public IEnumerator EstablishBattleStage(Tile selectionTile, List<Tile> PossessingTileList)
         {
             judgeLevel(selectionTile, PossessingTileList);
-            //TileManager.Method(level, tileType) 로 넘길예정.
+            yield return StartCoroutine(SendBattleLevel());
+            DisposePlayerAndEnemy(true); //후에 타일클래스에 구분 bool타입 변수 생기면 변경 예정 true - > selectionTile.isBossTile
         }
-
+        
         private void judgeLevel(Tile selectionTile, List<Tile> PossessingTileList)
         {
             tileType = selectionTile.TileType;
@@ -42,9 +54,38 @@ namespace RedTheSettlers.GameSystem
             }
             else
                 level = BattleLevel.Level3;
-        } 
-        
+        }
 
+        private void DisposePlayerAndEnemy(bool isBossTile)
+        {
+            GameObject player = new GameObject();
+            player.transform.position = TileManager.Instance.BattleTileGrid[4, 4].transform.position;
+            player.SetActive(true);
+            List<GameObject> enemyList = new List<GameObject>();
+            if (isBossTile)
+            {
+                enemyList.Add(new GameObject());                                       //Boss도 구현되는 방향에 따라 가져올 예정.
+                enemyList[0].transform.position = TileManager.Instance.BattleTileGrid[4, 4].transform.position;
+            }
+            else
+            {
+                for (int i = 0; i <= (int)tileType ; i++)
+                {
+                    //ObjectPoolManager.Instance.EnemyPool[(int)tileType].Dequeue();   ObjectManager에서 리스트 큐 형식으로만 쓴다면 이렇게.
+                    //ObjectPoolManager.Instance.EnemyPool.Pop((int)tileType);         ObjectManager에서 Push(),Pop() 함수를 만든다면 이렇게.
+                }
+            }
+            for(int i = 0; i < enemyList.Count; i ++)
+            {
+                if (i == 0)
+                    enemyList[i].transform.position = TileManager.Instance.BattleTileGrid[4, 4].transform.position;
+                else if (i % 2 == 1)
+                    enemyList[i].transform.position = TileManager.Instance.BattleTileGrid[4 + i, 4].transform.position;
+                else if(i % 2 == 0)
+                    enemyList[i].transform.position = TileManager.Instance.BattleTileGrid[4 - i, 4].transform.position;
+                enemyList[i].SetActive(true);
+            }
+        }
 
         /*
         DifficultyController가 해야할 일.
