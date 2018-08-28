@@ -63,6 +63,11 @@ namespace RedTheSettlers
                 }
             }
 
+            private void OnEnable()
+            {
+                
+            }
+
             public void OnClickedNewGameButton()
             {
                 DataManager.Instance.ResetData();
