@@ -18,7 +18,7 @@ namespace RedTheSettlers.GameSystem
             {
                 abstractCamera = new BoardCamera(gameObject);
             }
-            else
+            else if(cameraTagName == "BattleCamera")
             {
                 abstractCamera = new BattleCamera(gameObject);
             }
