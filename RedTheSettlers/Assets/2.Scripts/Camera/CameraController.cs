@@ -87,9 +87,42 @@ namespace RedTheSettlers.GameSystem
             }
         }
         
-        void SwichingCamera(GameCamera activeCamera)
+        //void SwichingCamera(GameCamera activeCamera)
+        //{
+        //    cloudAnimator.SetTrigger("Closing");
+        //    ActiveCamera.TrunOffCamera();
+        //    if (activeCamera == BoardGameCamera)
+        //    {
+        //        targetTransform = playerTransform.transform;
+        //        ActiveCamera = BattleGameCamera;
+        //    }
+        //    else
+        //    {
+        //        targetTransform = null;
+        //        ActiveCamera = BoardGameCamera;
+        //    }
+        //    cloudAnimator.SetTrigger("Opening");
+        //    ActiveCamera.TrunOnCamera();
+        //    cloudAnimator.SetTrigger("Idle");
+        //}
+
+
+
+        public void ZoomInOut(float ZoomValue)
+        {
+            if(ActiveCamera == BoardGameCamera)
+                ActiveCamera.ZoomInOutCamera(ZoomValue);
+        }
+        public void CameraDragMoving(Vector3 direction)
+        {
+            Debug.Log("카메라컨트롤러 카메라드레그 무빙!");
+            ActiveCamera.MovingCamera(direction, nowCameraState);
+        }
+
+        IEnumerator SwichingCamera(GameCamera activeCamera)
         {
             cloudAnimator.SetTrigger("Closing");
+            //yield return wait
             ActiveCamera.TrunOffCamera();
             if (activeCamera == BoardGameCamera)
             {
@@ -104,18 +137,8 @@ namespace RedTheSettlers.GameSystem
             cloudAnimator.SetTrigger("Opening");
             ActiveCamera.TrunOnCamera();
             cloudAnimator.SetTrigger("Idle");
-        }
 
-
-
-        public void ZoomInOut(float ZoomValue)
-        {
-            ActiveCamera.ZoomInOutCamera(ZoomValue);
-        }
-        public void CameraDragMoving(Vector3 direction)
-        {
-            Debug.Log("카메라컨트롤러 카메라드레그 무빙!");
-            ActiveCamera.MovingCamera(direction, nowCameraState);
+            yield return null;
         }
 
 

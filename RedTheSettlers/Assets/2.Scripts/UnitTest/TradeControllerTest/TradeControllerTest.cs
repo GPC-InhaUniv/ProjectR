@@ -20,7 +20,7 @@ namespace RedTheSettlers.UnitTest
 
     public class TradeControllerTest : MonoBehaviour
     {
-        private TradeData Trade;
+        //private TradeData Trade;
 
         private TradeCallback _callback;
         public TradeCallback Callback
@@ -45,7 +45,7 @@ namespace RedTheSettlers.UnitTest
 
         private OtherPlayerState RandomAI()
         {
-            int ai = Random.Range(1, 3); // no, yes
+            int ai = Random.Range(1, 3); // 1 : no, 2 : yes
             return (OtherPlayerState)ai;
         }
 
@@ -61,7 +61,7 @@ namespace RedTheSettlers.UnitTest
                     trade.ItemsToTrade[i].Count *= -1;
                 }
 
-                trade.RequestReceiver.ChangeItemCount(Trade.ItemsToTrade);
+                trade.RequestReceiver.ChangeItemCount(trade.ItemsToTrade);
             }
             else { } // ai == OtherPlayerState.No
 
