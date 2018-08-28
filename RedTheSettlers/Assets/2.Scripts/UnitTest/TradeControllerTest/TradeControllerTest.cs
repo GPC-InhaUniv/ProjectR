@@ -22,8 +22,8 @@ namespace RedTheSettlers.UnitTest
     {
         //private TradeData Trade;
 
-        private TradeCallback _callback;
-        public TradeCallback Callback
+        private UTradeCallback _callback;
+        public UTradeCallback Callback
         {
             get { return _callback; }
             set { _callback = value; }
