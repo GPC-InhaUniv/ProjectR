@@ -121,7 +121,7 @@ public class MainStageState : IInputState
                 {
                     tileInformation = hitPoint.collider.gameObject.GetComponent<BoardTile>();
                     LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, "타일 정보 : " + tileInformation);
-                    TemporaryGameManager.Instance.TileInfo(tileInformation);
+                    GameManager.Instance.GetClickedTile(tileInformation);
                 }
             }
         }
