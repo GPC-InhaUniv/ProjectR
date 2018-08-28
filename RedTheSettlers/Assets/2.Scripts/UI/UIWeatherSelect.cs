@@ -118,7 +118,7 @@ namespace RedTheSettlers.UI
 
         public void SendEventNumber()
         {
-            //UIManager.Instance.~~~(eventNumber);
+            UIManager.Instance.RequestStorageEventNumber(eventNumber);
         }
     }
 }
