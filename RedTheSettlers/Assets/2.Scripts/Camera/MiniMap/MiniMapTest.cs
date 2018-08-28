@@ -20,15 +20,16 @@ namespace RedTheSettlers.GameSystem
          
         int count = 0;
         RectTransform rectTransform;
+        GameObject tile;
         void Start()
         {
             TileImageGrid = new GameObject[GlobalVariables.BoardTileGridSize, GlobalVariables.BoardTileGridSize];
-            GameObject b = imagePrefab;
-            b.transform.parent = gameObject.transform;
-            rectTransform = b.GetComponent<RectTransform>();
+            //GameObject b = Instantiate(imagePrefab);
+
+            rectTransform = imagePrefab.GetComponent<RectTransform>();
             //rectTransform.anchoredPosition = Vector2.zero;
             rectTransform.position = gameObject.transform.position;
-            Debug.Log(rectTransform.rect.size);
+            //Debug.Log(rectTransform.rect.size);
 
             CreateTileImageGrid();
         }
@@ -46,10 +47,15 @@ namespace RedTheSettlers.GameSystem
                         float zCoord = CalculateZcoord(z);
                         //TileImageGrid[x, z] = ObjectPoolManager.Instance.TileSet[count].gameObject;
                         // GameObject b = Instantiate(imagePrefab);
-                        TileImageGrid[x, z] = Instantiate(imagePrefab, rectTransform.position ,Quaternion.identity, gameObject.transform);
+                        //imagePrefab = 
+                        tile = TileImageGrid[x, z] = Instantiate(imagePrefab, rectTransform.position ,Quaternion.identity, gameObject.transform);
+                        tile.transform.parent = gameObject.transform;
+                        //rectTransform = b.GetComponent<RectTransform>();
                         rectTransform = TileImageGrid[x, z].GetComponent<RectTransform>();
                         rectTransform.sizeDelta = new Vector2(50, 50);
                         rectTransform.localScale = Vector3.one;
+                        rectTransform.anchoredPosition = new Vector2(xCoord, zCoord);
+                        //TileImageGrid[x, z].transform.position = new Vector3(xCoord, zCoord, 0.05f);
                         //TileImageGrid[x,z].transform.po
                         //TileImageGrid[x, z].transform.position = new Vector3(xCoord, 0.05f, zCoord);
                         //TileImageGrid[x, z].color = new Color(124, 124, 124);
@@ -60,7 +66,7 @@ namespace RedTheSettlers.GameSystem
         }
         public float CalculateXcoord(float x, float z)
         {
-            return (x + z * 0.5f) * 1.74f;
+            return (x + z * 3f) * 1.74f;
         }
 
         public float CalculateZcoord(float z)

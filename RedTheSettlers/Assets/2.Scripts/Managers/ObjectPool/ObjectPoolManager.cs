@@ -13,6 +13,7 @@ namespace RedTheSettlers.GameSystem
         [Header("Pools")]
         public TilePool TileObjectPool;
         public EnemyPool EnemyObjectPool;
+        public PlayerPool PlayerObjectPool;
 
         [Header("Player Skill")]
         public GameObject SkillObject;

@@ -20,6 +20,9 @@ namespace RedTheSettlers.GameSystem
     /// <summary>
     /// 카메라컨트롤러 클래스
     /// 담당자 : 정진영
+    /// 테스트용 기본조작
+    /// 카메라 스위칭 : x
+    /// 
     /// </summary>
     public class CameraController : MonoBehaviour
     {
@@ -45,6 +48,7 @@ namespace RedTheSettlers.GameSystem
             playerTransform = GameObject.FindWithTag(GlobalVariables.TAG_PLAYER).transform;
             ActiveCamera = BoardGameCamera;
             nowCameraState = CameraStateType.Idle;
+            vector3 = new Vector3();
         }
 
         private void Update()
@@ -61,10 +65,10 @@ namespace RedTheSettlers.GameSystem
             }
 
             //플레이어의 상태를 받아 카메라상태를 변경한다(임시)
-            if(nowCameraState != cameraState)
-            {
-                ChangeState(cameraState);
-            }
+            //if(nowCameraState != cameraState)
+            //{
+            //    ChangeState(cameraState);
+            //}
 
             //피치줌인아웃 들어갈자리(현재 DragZoom : CameraZoomInOut 안에 있음
 
@@ -86,25 +90,25 @@ namespace RedTheSettlers.GameSystem
                 ActiveCamera.MovingCamera(vector3, nowCameraState);
             }
         }
-        
-        //void SwichingCamera(GameCamera activeCamera)
-        //{
-        //    cloudAnimator.SetTrigger("Closing");
-        //    ActiveCamera.TrunOffCamera();
-        //    if (activeCamera == BoardGameCamera)
-        //    {
-        //        targetTransform = playerTransform.transform;
-        //        ActiveCamera = BattleGameCamera;
-        //    }
-        //    else
-        //    {
-        //        targetTransform = null;
-        //        ActiveCamera = BoardGameCamera;
-        //    }
-        //    cloudAnimator.SetTrigger("Opening");
-        //    ActiveCamera.TrunOnCamera();
-        //    cloudAnimator.SetTrigger("Idle");
-        //}
+
+        void SwichingCamera(GameCamera activeCamera)
+        {
+            cloudAnimator.SetTrigger("Closing");
+            ActiveCamera.TrunOffCamera();
+            if (activeCamera == BoardGameCamera)
+            {
+                targetTransform = playerTransform.transform;
+                ActiveCamera = BattleGameCamera;
+            }
+            else
+            {
+                targetTransform = null;
+                ActiveCamera = BoardGameCamera;
+            }
+            cloudAnimator.SetTrigger("Opening");
+            ActiveCamera.TrunOnCamera();
+            cloudAnimator.SetTrigger("Idle");
+        }
 
 
 
@@ -119,7 +123,7 @@ namespace RedTheSettlers.GameSystem
             ActiveCamera.MovingCamera(direction, nowCameraState);
         }
 
-        IEnumerator SwichingCamera(GameCamera activeCamera)
+        IEnumerator SwichingCameraasdsa(GameCamera activeCamera)
         {
             cloudAnimator.SetTrigger("Closing");
             //yield return wait

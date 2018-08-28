@@ -32,7 +32,7 @@ namespace RedTheSettlers.GameSystem
     {
         Transform targetTransform;
         Vector3 cameraOffset;
-        float smooth = 0.1f;
+        float smooth = 0.2f;
 
 
         Animator animator;
