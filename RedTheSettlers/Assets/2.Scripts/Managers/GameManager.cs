@@ -19,7 +19,7 @@ namespace RedTheSettlers.GameSystem
         public TurnControllerTest turnCtrl;
         public EventControllerTest eventCtrl;
         public ItemControllerTest itemCtrl;
-        public TradeControllerTest tradeCtrl;
+        public TradeController tradeCtrl;
         public BattleControllerTest battleCtrl;
         public CameraController cameraCtrl;
         
