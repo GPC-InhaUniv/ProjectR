@@ -38,7 +38,7 @@ namespace RedTheSettlers.GameSystem
         [SerializeField]
         Transform playerTransform;
         float ZoomValue;
-        Vector3 vector3; //카메라 이동할때 사용하는 백터(보드는 드래그용, 배틀은 )
+        Vector3 vector3; //배틀 카메라를 사용할때 비어있는 v3를 전달하기위해 선언함
 
         private void Start()
         {
@@ -70,7 +70,7 @@ namespace RedTheSettlers.GameSystem
             //    ChangeState(cameraState);
             //}
 
-            //피치줌인아웃 들어갈자리(현재 DragZoom : CameraZoomInOut 안에 있음
+            
 
             //GameManager에게 현재 상태를 받아와서 카메라를 스위치 해준다(미구현)
         }
@@ -82,6 +82,9 @@ namespace RedTheSettlers.GameSystem
             nowCameraState = cameraState;
         }
 
+        /// <summary>
+        /// 배틀카메라를 움직일때 사용함
+        /// </summary>
         private void FixedUpdate()
         {
             if(ActiveCamera == BattleGameCamera)
@@ -91,6 +94,33 @@ namespace RedTheSettlers.GameSystem
             }
         }
 
+
+
+
+        /// <summary>
+        /// 카메라 스위칭할때 애니메이션, 싱크
+        /// StageManager와 연관
+        /// </summary>
+        public void ZoomInOut(float ZoomValue)
+        {
+            if(ActiveCamera == BoardGameCamera)
+                ActiveCamera.ZoomInOutCamera(ZoomValue);
+        }
+
+        /// <summary>
+        /// 보드에서 드레그로 화면을 움직인다
+        /// InputManager에서 호출하게됨
+        /// </summary>
+        public void CameraDragMoving(Vector3 direction)
+        {
+            ActiveCamera.MovingCamera(direction, nowCameraState);
+        }
+
+
+        /// <summary>
+        /// (임시)카메라 스위칭할때 사용함
+        /// 코루틴으로 변경해야함
+        /// </summary>
         void SwichingCamera(GameCamera activeCamera)
         {
             cloudAnimator.SetTrigger("Closing");
@@ -110,20 +140,11 @@ namespace RedTheSettlers.GameSystem
             cloudAnimator.SetTrigger("Idle");
         }
 
-
-
-        public void ZoomInOut(float ZoomValue)
-        {
-            if(ActiveCamera == BoardGameCamera)
-                ActiveCamera.ZoomInOutCamera(ZoomValue);
-        }
-        public void CameraDragMoving(Vector3 direction)
-        {
-            Debug.Log("카메라컨트롤러 카메라드레그 무빙!");
-            ActiveCamera.MovingCamera(direction, nowCameraState);
-        }
-
-        IEnumerator SwichingCameraasdsa(GameCamera activeCamera)
+        /// <summary>
+        /// 카메라 스위칭할때 애니메이션, 싱크
+        /// StageManager와 연관
+        /// </summary>
+        IEnumerator SwichingCameraasdsa(GameCamera activeCamera)//미완성
         {
             cloudAnimator.SetTrigger("Closing");
             //yield return wait
