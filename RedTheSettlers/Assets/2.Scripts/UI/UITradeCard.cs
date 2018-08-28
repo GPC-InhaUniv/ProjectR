@@ -28,7 +28,10 @@ namespace RedTheSettlers.UI
         private Text GiveDescriptionText, TakeDescriptionText;
 
         [SerializeField]
-        private Text secondPlayerText, thirdPlayerText, forthPlayerText;
+        private Text[] aIText;
+
+        [SerializeField]
+        private GameObject tradePopUp;
 
         private int tradeCardNumber;
         private int giveAndTake = 0;
@@ -45,14 +48,13 @@ namespace RedTheSettlers.UI
         }
         [SerializeField]
         private CardInfo[] cardInfo;
-
-       
+               
         private int[] tradeItemValue = new int[6]
         {0,0,0,0,0,0};  //순서대로 Cow,Iron,Soil,Water,Wheat,Wood
 
-        public int playerNumber = 0;
-        public int AiNumber = 0;
-        public ItemData[] sendData;
+        private int playerNumber = 0;
+        private int AiNumber = 0;
+        private ItemData[] sendData;
 
         private OtherPlayerState AIState;
 
@@ -255,10 +257,10 @@ namespace RedTheSettlers.UI
 
         public void OnClickedRequestButton()
         {
-            SendTradeData(); 
+            SendTradeData();
+            ShowAIState();
         }
 
-        
         public void RecieveTradeData(OtherPlayerState state)
         {
             AIState = state;
@@ -268,19 +270,13 @@ namespace RedTheSettlers.UI
         {
             if (AIState == OtherPlayerState.Yes)
             {
-
+                aIText[AiNumber+1].text = OtherPlayerState.Yes.ToString();
+                tradePopUp.SetActive(true);
             }
-        }
-
-
-        //테스트임 삭제할 예정
-        public void OnClickTest()
-        {
-            for (int i = 0; i < tradeItemValue.Length; i++)
+            else 
             {
-                Debug.Log(tradeItemValue[i]);
+                aIText[AiNumber+1].text = OtherPlayerState.No.ToString();
             }
         }
-      
     }
 }
