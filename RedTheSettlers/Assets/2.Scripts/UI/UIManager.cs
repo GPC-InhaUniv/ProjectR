@@ -52,9 +52,9 @@ namespace RedTheSettlers.UI
             GameManager.Instance.SendTradeData(itemDatas, requestPlayer, receivePlayer);
         }
 
-        public void RecieveTradeResult()
+        public void RecieveTradeResult(OtherPlayerState state)
         {
-            GameManager.Instance.SendTradeResult();
+            tradeUI.GetComponentInChildren<UITradeCard>().RecieveTradeData(state);
         }
 
         public void OnClickedTurnCloseButton()
