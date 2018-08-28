@@ -8,9 +8,9 @@ using RedTheSettlers.UI;
 
 namespace RedTheSettlers.UnitTest
 {
-    public delegate void TradeCallback();
+    public delegate void UTradeCallback();
     
-    public class TradeData
+    public class UTradeData
     {
         public User RequestSender { get; set; }
         public User RequestReceiver { get; set; }
@@ -51,6 +51,8 @@ namespace RedTheSettlers.UnitTest
 
         public void DoTrade(TradeData trade)
         {
+            OtherPlayerState ai = RandomAI();
+
             if (ai == OtherPlayerState.Trade) { }
             else if (ai == OtherPlayerState.Yes)
             {

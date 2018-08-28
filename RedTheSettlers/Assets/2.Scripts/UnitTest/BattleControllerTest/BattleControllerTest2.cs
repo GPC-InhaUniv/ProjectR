@@ -20,14 +20,14 @@ namespace RedTheSettlers.UnitTest
 
         private void Start()
         {
-            //cattlesTimer = GameTimeManager.Instance.PopTimer();
-            //cattlesTimer.SetTimer(cattleResawnTime, true);
-            //cattlesTimer.Callback = new TimerCallback(SpawnHerdOfCattle);
+            cattlesTimer = GameTimeManager.Instance.PopTimer();
+            cattlesTimer.SetTimer(cattleResawnTime, true);
+            cattlesTimer.Callback = new TimerCallback(SpawnHerdOfCattles);
 
-            //battleTimer = GameTimeManager.Instance.PopTimer();
+            battleTimer = GameTimeManager.Instance.PopTimer();
 
 
-            //cattlesTimer.StartTimer();
+            cattlesTimer.StartTimer();
         }
 
         public IEnumerator BattleFlow()
@@ -50,8 +50,9 @@ namespace RedTheSettlers.UnitTest
         {
             Quaternion angle = Quaternion.Euler(0f, Random.Range(0, 360f), 0f);
             //GameObject tempCow = ObjectPoolManager.Instance.
-            //tempCow.transform.position = new Vector3(0f, 0f, 0f);
-            //tempCow.transform.rotation = angle;
+            GameObject tempCow = Instantiate(Cattle);
+            tempCow.transform.position = new Vector3(0f, 0f, 0f);
+            tempCow.transform.rotation = angle;
         }
 
         /// <summary>
