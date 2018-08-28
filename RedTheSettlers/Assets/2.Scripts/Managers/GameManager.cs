@@ -162,7 +162,7 @@ namespace RedTheSettlers.GameSystem
         }
 
         /// <summary>
-        /// 클릭한 타일을 반환합니다.
+        /// 클릭한 타일을 반환합니다.(임시 기능)
         /// </summary>
         /// <returns></returns>
         public void GetClickedTile(BoardTile boardTile)
@@ -181,14 +181,12 @@ namespace RedTheSettlers.GameSystem
         /// <summary>
         /// 거래 정보를 가져옵니다.
         /// </summary>
-        public TradeData SendTradeData(ItemData[] itemDatas, int requestPlayer, int receivePlayer)
+        public UnitTest.TradeData SendTradeData(ItemData[] itemDatas, int requestPlayer, int receivePlayer)
         {
-            TradeData tradeData = new TradeData
-            {
-                ItemsToTrade = itemDatas,
-                RequestReceiver = Players[receivePlayer],
-                RequestSender = Players[requestPlayer]
-            };
+            UnitTest.TradeData tradeData = new UnitTest.TradeData();
+            tradeData.ItemsToTrade = itemDatas;
+            tradeData.RequestReceiver = Players[receivePlayer];
+            tradeData.RequestSender = Players[requestPlayer];
 
             return tradeData;
         }
@@ -196,9 +194,9 @@ namespace RedTheSettlers.GameSystem
         /// <summary>
         /// 거래 결과를 전달합니다.
         /// </summary>
-        public void SendTradeResult(OtherPlayerState otherPlayerState)
+        public void SendTradeResult()
         {
-            UIManager.Instance.RecieveTradeResult(otherPlayerState);
+            //다른 player와의 거래 결과를 패널에게 다시 전달
         }
 
         public void SetWeatherEventNumber(int eventNumber)
