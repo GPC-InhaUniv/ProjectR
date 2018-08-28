@@ -2,15 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyPool : MonoBehaviour {
+namespace RedTheSettlers.GameSystem
+{
+    public class EnemyPool : MonoBehaviour
+    {
+        private Queue<GameObject> EnemyQueue;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+        private void Start()
+        {
+            EnemyQueue = new Queue<GameObject>(6);
+        }
+
+        public GameObject PopEnemyObject()
+        {
+            return EnemyQueue.Dequeue();
+        }
+
+        public void PushEnemyObject(GameObject enemy)
+        {
+            EnemyQueue.Enqueue(enemy);
+        }
+    }
 }

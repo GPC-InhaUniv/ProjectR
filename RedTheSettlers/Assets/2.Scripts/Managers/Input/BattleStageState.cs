@@ -41,34 +41,37 @@ public class BattleStageState : MonoBehaviour, IInputState
         }
     }
 
-    public void DirectionKey(Vector3 direction)
+    public void MovingPlayer(Vector3 direction)
     {
         //GameManager.Instance.PlayerBattle.MoveTo(direction);
-        //TemporaryGameManager.Instance.PlayerMove(direction);
+        TemporaryGameManager.Instance.PlayerMove(direction);
     }
 
     public void OnStartDrag()
     {
+#if UNITY_ANDROID
         startDragPosition = Input.mousePosition;
         if(TouchMoveActive==true)
         {
             startSkillDirection = Input.mousePosition;
         }
+#endif
     }
 
     public void OnDragging(float speed)
     {
+#if UNITY_ANDROID
         moveSpeed = speed;
         currentDragPosition = Input.mousePosition;
         Vector3 dragDistance = startDragPosition - currentDragPosition;
         playerRotate = (Mathf.Atan2(dragDistance.y, dragDistance.x) * Mathf.Rad2Deg) * reversValue - 90f;
         playerDirection = Quaternion.Euler(0f, playerRotate, 0f) * Vector3.forward;
-        TemporaryGameManager.Instance.PlayerMove(playerDirection, playerRotate, speed);
+        //TemporaryGameManager.Instance.PlayerMove(playerDirection, playerRotate, speed);
         //dragDirection = (currentDragPosition - startDragPosition).normalized;
 
         if(TouchMoveActive==false)
         {
-            TemporaryGameManager.Instance.PlayerMove(playerDirection, playerRotate, speed);
+            //TemporaryGameManager.Instance.PlayerMove(playerDirection, playerRotate, speed);
         }
 
         if(TouchMoveActive==true)
@@ -78,14 +81,17 @@ public class BattleStageState : MonoBehaviour, IInputState
             Vector3 skillDragDistance = startSkillDirection - currentSkillDirection;
             skillRotate = (Mathf.Atan2(skillDragDistance.y, skillDragDistance.x) * Mathf.Rad2Deg) * reversValue - 90f;*/
         }
+#endif
     }
 
     public void EndStopDrag()
     {
+#if UNITY_ANDROID
         startDragPosition = Vector3.zero;
         currentDragPosition = Vector3.zero;
         playerDirection = Vector3.zero;
-        TemporaryGameManager.Instance.PlayerMove(playerDirection, playerRotate, moveSpeed);
+        //TemporaryGameManager.Instance.PlayerMove(playerDirection, playerRotate, moveSpeed);
+#endif
     }
 
     public void BattleAttack()
@@ -93,10 +99,18 @@ public class BattleStageState : MonoBehaviour, IInputState
         LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, "공격");
     }
 
-    public void SkillDirection()
+    public void UseSkill(int skillSlotNumber)
     {
+#if UNITY_EDITOR
+        LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, "스킬 "+skillSlotNumber+"번");
+#endif
+#if UNITY_ANDROID
         skillDirection = Input.mousePosition;
-        LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, "방향 : " + skillDirection);
+        LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, "스킬 방향 : " + skillDirection);
+#endif
+#if UNITY_STANDALONE_WIN
+        LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, "스킬 " + skillSlotNumber + "번");
+#endif
     }
 
     // 이 밑으로 해당 클래스에서는 사용하지 않음.
