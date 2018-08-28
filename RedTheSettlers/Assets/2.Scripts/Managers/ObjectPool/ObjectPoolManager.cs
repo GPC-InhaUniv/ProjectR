@@ -10,6 +10,7 @@ namespace RedTheSettlers.GameSystem
         public const int TilePoolSize = 400;
         public const int TileListSize = 6;
         public const int TileQueueSize = 60;
+
         public const int CloneSetSize = 6;
         public const int FireballSize = 20;
         public const int ExplodeSize = 5;
@@ -34,6 +35,9 @@ namespace RedTheSettlers.GameSystem
         public Queue<EnemyFireBall> FireballQueue;
         public Queue<Explode> ExplodeQueue;
 
+        public TilePool TileObjectPool;
+        public EnemyPool EnemyObjectPool;
+
         private void Awake()
         {
             //enemy only -----------
@@ -54,7 +58,12 @@ namespace RedTheSettlers.GameSystem
 
             for(int i = 0; i < TileListSize; i++)
             {
-
+                BoardTileQueueList[i] = new Queue<GameObject>();
+                
+                for(int index = 0; index < TileQueueSize; index++)
+                {
+                    BoardTileQueueList[i].Enqueue(Instantiate(TileObjects[i], CloneSet[i].transform));
+                }
             }
 
             TileSet = new GameObject[TilePoolSize];
