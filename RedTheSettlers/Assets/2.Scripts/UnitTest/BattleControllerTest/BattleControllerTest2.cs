@@ -5,12 +5,6 @@ using RedTheSettlers.GameSystem;
 
 namespace RedTheSettlers.UnitTest
 {
-    class diffcultyManagertest : Singleton<diffcultyManagertest>
-    {
-        public ItemType tileType;
-        public int maxEnemyCount;
-    }
-
     public class BattleControllerTest2 : MonoBehaviour
     {
         public GameObject Cattle;
@@ -20,39 +14,53 @@ namespace RedTheSettlers.UnitTest
 
         private void Start()
         {
-            cattlesTimer = GameTimeManager.Instance.PopTimer();
-            cattlesTimer.SetTimer(cattleResawnTime, true);
-            cattlesTimer.Callback = new TimerCallback(SpawnHerdOfCattles);
+            //cattlesTimer = GameTimeManager.Instance.PopTimer();
+            //cattlesTimer.SetTimer(cattleResawnTime, true);
+            //cattlesTimer.Callback = new TimerCallback(SpawnHerdOfCattles);
 
-            battleTimer = GameTimeManager.Instance.PopTimer();
+            //battleTimer = GameTimeManager.Instance.PopTimer();
 
 
-            cattlesTimer.StartTimer();
+            //cattlesTimer.StartTimer();
         }
 
-        public IEnumerator BattleFlow()
+        // GameMAnager에서 어떤 타일인지 받아옴
+        public void BattleFlow(ItemType tlieType)
         {
-            ItemType tileType = diffcultyManagertest.Instance.tileType;
-            if (tileType == ItemType.Cow) SpawnHerdOfCattles();
+            // diffucltcontroller에서 받아가야함
+            //ItemType tileType = diffcultyManagertest.Instance.tileType;
+            //if (tileType == ItemType.Cow) SpawnHerdOfCattles();
             
             // DataManager에 전투 결과 반영
-            yield return new WaitForSeconds(3);
+            //yield return new WaitForSeconds(3);
         }
 
         // 일정 시간마다 소 떼가 등장한다.
         private void SpawnHerdOfCattles()
         {
-            //ObjectPoolManager.Instance.SkillQueue.Enqueue();
-            
+            Quaternion angle = Quaternion.Euler(0f, Random.Range(0, 360f), 0f);
+            Vector3 spawnPoint = new Vector3
+            (
+                TileManager.Instance.BattleTileGrid[Random.Range(1, 14), Random.Range(1, 14)].transform.position.x + GlobalVariables.BattleAreaOriginCoord,
+                0,
+                TileManager.Instance.BattleTileGrid[Random.Range(1, 14), Random.Range(1, 14)].transform.position.z + GlobalVariables.BattleAreaOriginCoord
+            );
+            GameObject cow = ObjectPoolManager.Instance.CowObject;
+
+            cow.transform.position = spawnPoint;
+            cow.transform.rotation = angle;
         }
 
-        public void SpawnCattle()
+        /// <summary>
+        /// Test용 코드. SpawnHerdOfCattles()가 원본
+        /// </summary>
+        public void SpawnCattleTest()
         {
             Quaternion angle = Quaternion.Euler(0f, Random.Range(0, 360f), 0f);
-            //GameObject tempCow = ObjectPoolManager.Instance.
-            GameObject tempCow = Instantiate(Cattle);
-            tempCow.transform.position = new Vector3(0f, 0f, 0f);
-            tempCow.transform.rotation = angle;
+            Vector3 spawnPoint = new Vector3(0, 0, 0);
+            GameObject cow = Instantiate(Cattle);
+            cow.transform.position = spawnPoint;
+            cow.transform.rotation = angle;
         }
 
         /// <summary>
