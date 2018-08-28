@@ -30,6 +30,8 @@ namespace RedTheSettlers.Enemys
         public BattleAI(Enemy enemy)
         {
             this.enemy = enemy;
+            openSet = new List<BattleTile>();
+            closedSet = new List<BattleTile>();
             pathFindTimer = GameTimeManager.Instance.PopTimer();
             pathFindTimer.SetTimer(pathFindTimerTick, true);
             pathFindTimer.Callback = new TimerCallback(FindTartget);
@@ -74,6 +76,10 @@ namespace RedTheSettlers.Enemys
         private void FindTartget()
         {
             currnetTile = enemy.GetCurrentTile(enemy.transform.position);
+            if (currnetTile == null)
+            {
+                return;
+            }
 
             //타겟은 있는데 경로가 없는 경우
             if (enemy.TargetObject != null && pathTile == null)
@@ -84,12 +90,15 @@ namespace RedTheSettlers.Enemys
             //타겟이 있고, 경로도 있는 경우
             else if (enemy.TargetObject != null && pathTile != null)
             {
-                BattleTile destination = pathTile.Peek();
-
                 //현재 위치가 목적지랑 같은 경우 다음 목적지로 이동
-                if (destination == currnetTile)
+                if (pathTile.Peek() == currnetTile)
                 {
                     MoveChar(pathTile.Pop());
+                }
+                //다음 목적지가 없는 경우 도착으로 간주
+                else if(pathTile.Peek() == null)
+                {
+                    pathTile = null;
                 }
             }
             //타겟이 없으면 주변을 배회한다.
@@ -111,9 +120,6 @@ namespace RedTheSettlers.Enemys
 
         private void PathFinder(BattleTile destinationTile)
         {
-            openSet = new List<BattleTile>();
-            closedSet = new List<BattleTile>();
-
             openSet.Clear();
             closedSet.Clear();
 
@@ -178,7 +184,7 @@ namespace RedTheSettlers.Enemys
 
                 if (currnetTile == endTile)
                 {
-                    CreateParh();
+                    pathTile = CreateParh();
                 }
             }
             while (currnetTile != startTile);
@@ -186,17 +192,17 @@ namespace RedTheSettlers.Enemys
         
         private Stack<BattleTile> CreateParh()
         {
-            pathTile = new Stack<BattleTile>();
-            pathTile.Push(currnetTile);
+            Stack<BattleTile> tempPathTile = new Stack<BattleTile>();
+            tempPathTile.Push(currnetTile);
 
             BattleTile parent = TileManager.Instance.BattleTileGrid[currnetTile.ParentTileXCoord, currnetTile.ParentTileZCoord].GetComponent<BattleTile>();
             while (parent != null)
             {
-                pathTile.Push(parent);
+                tempPathTile.Push(parent);
                 parent = TileManager.Instance.BattleTileGrid[parent.ParentTileXCoord, parent.ParentTileZCoord].GetComponent<BattleTile>();
             }
 
-            return pathTile;
+            return tempPathTile;
         }
     }
 }

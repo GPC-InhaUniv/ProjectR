@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using RedTheSettlers.GameSystem;
 using RedTheSettlers.Users;
+using RedTheSettlers.UI;
 
 
 namespace RedTheSettlers.UnitTest
@@ -19,7 +20,7 @@ namespace RedTheSettlers.UnitTest
 
     public class TradeControllerTest : MonoBehaviour
     {
-        //private TradeData Trade;
+        private TradeData Trade;
 
         private TradeCallback _callback;
         public TradeCallback Callback
@@ -36,25 +37,35 @@ namespace RedTheSettlers.UnitTest
         //    Trade.ItemsToTrade = new ItemData[6];
         //}
 
-        public void ChangeTradeData(ItemData itemData)
+        //public void ChangeTradeData(ItemData itemData)
+        //{
+        //    Debug.Log(itemData.ItemType);
+        //    Trade.ItemsToTrade[(int)itemData.ItemType] = itemData;
+        //}
+
+        private OtherPlayerState RandomAI()
         {
-            Debug.Log(itemData.ItemType);
-            Trade.ItemsToTrade[(int)itemData.ItemType] = itemData;
+            int ai = Random.Range(1, 3); // no, yes
+            return (OtherPlayerState)ai;
         }
 
-        public void DoTrade()
+        public void DoTrade(TradeData trade)
         {
-            Trade.RequestSender.ChangeItemCount(Trade.ItemsToTrade);
-
-            for(int i = 0; i < GlobalVariables.MaxItemNumber; i++)
+            OtherPlayerState ai = RandomAI();
+            if (ai == OtherPlayerState.Yes)
             {
-                Trade.ItemsToTrade[i].Count *= -1;
+                trade.RequestSender.ChangeItemCount(trade.ItemsToTrade);
+
+                for (int i = 0; i < GlobalVariables.MaxItemNumber; i++)
+                {
+                    trade.ItemsToTrade[i].Count *= -1;
+                }
+
+                trade.RequestReceiver.ChangeItemCount(Trade.ItemsToTrade);
             }
+            else { } // ai == OtherPlayerState.No
 
-            Trade.RequestReceiver.ChangeItemCount(Trade.ItemsToTrade);
-
-            ResetTrade();
-
+            GameManager.Instance.SendTradeResult(ai);
             Callback();
         }
 

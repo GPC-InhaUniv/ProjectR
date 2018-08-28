@@ -10,7 +10,7 @@ namespace RedTheSettlers.UI
     /// 작성자 : 김하정
     /// TradeUI에서 Player의 조작에 따른 Value 값의 변화를 처리하는 스크립트
     /// </summary>
-    public class UITradeCardController : MonoBehaviour
+    public class UITradeCard : MonoBehaviour
     {
         [SerializeField]
         private GameObject ItemPopup, overItemPopup;
@@ -53,7 +53,10 @@ namespace RedTheSettlers.UI
         private int[] tradeItemValue = new int[6]
         {0,0,0,0,0,0};  //순서대로 Cow,Iron,Soil,Water,Wheat,Wood
 
-        private ItemData[] receiveTradeData;
+        public int playerNumber = 0;
+        public int AiNumber = 0;
+        public ItemData[] sendData;
+
         //임시데이터 나중에 삭제할 예정
         GameData gameData;
         public void TestLoadData(GameData data)
@@ -227,7 +230,7 @@ namespace RedTheSettlers.UI
         }
 
         //트레이드 컨트롤러에 줄 구조체
-        public ItemData[] GetTradeData()
+        private ItemData[] GetTradeData()
         {
             ItemData[] sendData = new ItemData[GlobalVariables.MaxItemNumber];
 
@@ -239,6 +242,31 @@ namespace RedTheSettlers.UI
             return sendData;
         }
 
+        public void OnClickedAIButton(int aiNumber)
+        {
+            sendData = GetTradeData();
+            AiNumber = aiNumber;
+           
+        }
+
+        private void SendTradeData()
+        {
+            UIManager.Instance.SendTradeData(sendData, playerNumber,AiNumber);
+        }
+
+        public void OnClickedRequestButton()
+        {
+            SendTradeData(); 
+        }
+
+        public void RecieveTradeData()
+        {
+            UIManager.Instance.RecieveTradeResult();
+        }
+
+
+
+        //테스트임 삭제할 예정
         public void OnClickTest()
         {
             for (int i = 0; i < tradeItemValue.Length; i++)
@@ -246,10 +274,6 @@ namespace RedTheSettlers.UI
                 Debug.Log(tradeItemValue[i]);
             }
         }
-
-        public void SetTradeData(ItemData[] itemData)
-        {
-            receiveTradeData = itemData;
-        }
+      
     }
 }

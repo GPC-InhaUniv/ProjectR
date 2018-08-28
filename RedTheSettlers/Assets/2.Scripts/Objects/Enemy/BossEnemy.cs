@@ -45,7 +45,7 @@ namespace RedTheSettlers.Enemys
                     currentState = new Idle(animator, rigidbodyComponent);
                     break;
                 case EnemyStateType.Die:
-                    currentState = new Die(DeadTimer, TimeToReturn, new DeadTimerCallback(EndDead));
+                    currentState = new Die(animator, DeadTimer, TimeToReturn, new DeadTimerCallback(EndDead));
                     break;
                 case EnemyStateType.Damage:
                     currentState = new Damage(animator);

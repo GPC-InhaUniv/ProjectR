@@ -181,12 +181,14 @@ namespace RedTheSettlers.GameSystem
         /// <summary>
         /// 거래 정보를 가져옵니다.
         /// </summary>
-        public UnitTest.TradeData SendTradeData(ItemData[] itemDatas, int requestPlayer, int receivePlayer)
+        public TradeData SendTradeData(ItemData[] itemDatas, int requestPlayer, int receivePlayer)
         {
-            UnitTest.TradeData tradeData = new UnitTest.TradeData();
-            tradeData.ItemsToTrade = itemDatas;
-            tradeData.RequestReceiver = Players[receivePlayer];
-            tradeData.RequestSender = Players[requestPlayer];
+            TradeData tradeData = new TradeData
+            {
+                ItemsToTrade = itemDatas,
+                RequestReceiver = Players[receivePlayer],
+                RequestSender = Players[requestPlayer]
+            };
 
             return tradeData;
         }

@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace RedTheSettlers.UI
 {
-    public class UIShowWinnerIconController : MonoBehaviour
+    public class UIShowWinnerIcon : MonoBehaviour
     {
         [SerializeField]
         private Image[] winnerImage = new Image[4];

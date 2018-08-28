@@ -45,6 +45,13 @@ namespace RedTheSettlers.GameSystem
         Third = 2,
     }
 
+    public enum OtherPlayerState
+    {
+        Trade,
+        No,
+        Yes,
+    }
+
     public enum AssetBundleNumbers
     {
         Player,

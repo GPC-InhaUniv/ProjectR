@@ -7,7 +7,7 @@ using UnityEngine.UI;
 /// </summary>
 namespace RedTheSettlers.UI
 {
-    public class UILoadingController : MonoBehaviour
+    public class UILoading : MonoBehaviour
     {
 
         [SerializeField]

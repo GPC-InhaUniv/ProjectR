@@ -88,7 +88,9 @@ namespace RedTheSettlers.Enemys
             typeRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
             animator = GetComponent<Animator>();
             attackArea = GetComponentInChildren<EnemyAttackArea>();
+            attackArea.enemy = this;
             hitArea = GetComponentInChildren<EnemyHitArea>();
+            hitArea.enemy = this;
             rigidbodyComponent = GetComponent<Rigidbody>();
             TargetFindCollider = GetComponent<SphereCollider>();
             isAttackable = new bool[2] { true, true };
