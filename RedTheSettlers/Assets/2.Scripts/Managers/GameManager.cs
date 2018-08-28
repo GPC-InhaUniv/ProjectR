@@ -14,6 +14,7 @@ namespace RedTheSettlers.GameSystem
     public class GameManager : Singleton<GameManager>
     {
         public User[] Players;
+        public GameData gameData = DataManager.Instance.GameData;
 
         public TurnControllerTest turnCtrl;
         public EventControllerTest eventCtrl;
@@ -164,23 +165,9 @@ namespace RedTheSettlers.GameSystem
         /// 클릭한 타일을 반환합니다.(임시 기능)
         /// </summary>
         /// <returns></returns>
-        public BoardTile GetClickedTile()
+        public void GetClickedTile(BoardTile boardTile)
         {
-            //인풋 매니저로부터 입력을 받게 수정해야 한다.
-            BoardTile tile;
-            if (Input.GetMouseButtonUp(0))
-            {
-                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                RaycastHit hitInfo;
-                if (Physics.Raycast(ray, out hitInfo, 1f) && (hitInfo.collider.tag == GlobalVariables.TAG_TILE))
-                {
-                    tile = hitInfo.collider.GetComponent<BoardTile>();
-                }
-                else tile = null;
-            }
-            else tile = null;
-
-            return tile;
+            //UIManager.Instance.
         }
 
         /// <summary>
@@ -194,9 +181,14 @@ namespace RedTheSettlers.GameSystem
         /// <summary>
         /// 거래 정보를 가져옵니다.
         /// </summary>
-        public void SendTradeData(ItemData itemData)
+        public UnitTest.TradeData SendTradeData(ItemData[] itemDatas, int requestPlayer, int receivePlayer)
         {
-            //트레이드 패널에서 ItemData을 트레이드 컨트롤러에게
+            UnitTest.TradeData tradeData = new UnitTest.TradeData();
+            tradeData.ItemsToTrade = itemDatas;
+            tradeData.RequestReceiver = Players[receivePlayer];
+            tradeData.RequestSender = Players[requestPlayer];
+
+            return tradeData;
         }
 
         /// <summary>
@@ -205,6 +197,12 @@ namespace RedTheSettlers.GameSystem
         public void SendTradeResult()
         {
             //다른 player와의 거래 결과를 패널에게 다시 전달
+        }
+
+        public void SetWeatherEventNumber(int eventNumber)
+        {
+            gameData.InGameData.Weather = eventNumber;
+            DataManager.Instance.SaveGameData(gameData, true);
         }
     }
 }
