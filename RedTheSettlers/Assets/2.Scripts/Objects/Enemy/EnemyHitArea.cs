@@ -5,16 +5,11 @@ namespace RedTheSettlers.Enemys
 {
     public class EnemyHitArea : MonoBehaviour
     {
-        Enemy enemy;
-
-        private void Start()
-        {
-            enemy = GetComponentInParent<Enemy>();
-        }
+        public Enemy enemy;
 
         private void OnTriggerEnter(Collider other)
         {
-            if (other.tag == "PlayerAttack")
+            if (other.tag == GlobalVariables.TAG_PLAYERATTACK)
             {
                 enemy.ChangeState(EnemyStateType.Damage);
             }

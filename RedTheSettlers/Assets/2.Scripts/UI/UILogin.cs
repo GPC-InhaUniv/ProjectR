@@ -9,7 +9,7 @@ namespace RedTheSettlers
 {
     namespace UI
     {
-        public class UILoginController : MonoBehaviour
+        public class UILogin : MonoBehaviour
         {
             //[HideInInspector]
             [Header("Player Info")]
