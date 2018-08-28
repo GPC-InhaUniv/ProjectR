@@ -10,46 +10,35 @@ namespace RedTheSettlers.GameSystem
 {
     public enum StateType
     {
-        TitleStageState,
         MainStageState,
         BattleStageState,
         TradeInMainStageState,
         EquipSkillInMainStageState,
     }
-    // 추후 버튼 명칭 확정 후 그에 맞춰 수정
-    /*public enum InputButtonType
+    public enum SkillSlot
     {
-        PressToStart,
-        SignUp,
-        Login,
-        Option,
-        Battle,
-        Trade,
-        TurnEnd,
-        Status,
-        Map,
-        EquipAndSkill,
-        Attack,
-        Skill1,
-        Skill2,
-        Skill3,
-        Item1,
-        Item2,
-        Pause,
-    }*/
+        SkillSlotA = 1,
+        SkillSlotB,
+        SkillSlotC,
+    }
 
     public class InputManager : Singleton<InputManager>
     {
         private IInputState inputState;
+        private Transform player;
 
+        private Vector3 ClickPointDistance;
         [SerializeField]
         private StateType stateType;
-        private bool enableInputKey = false;
-        private bool enableInputCameraDrag = false;
+        private bool enableInputBattleStage = false;
+        private bool enableInputMainStage = false;
+        private bool enableInputCamera = false;
         [SerializeField, Range(1, 200)]
         private float moveSpeed;
         [SerializeField, Range(1, 100)]
         private float zoomSpeed;
+        private const float MAXCOUNT = 5f;
+        private float count;
 
         private void Awake()
         {
@@ -59,34 +48,24 @@ namespace RedTheSettlers.GameSystem
         private void Start()
         {
             //input = new MainTitleState();
+            player = GameObject.FindWithTag("Player").GetComponent<Transform>();
+            count = MAXCOUNT;
             TypeState(stateType);
         }
 
         private void Update()
         {
-            if (enableInputKey)
-            {
-                InteractionKey();
-            }
-            if (!enableInputKey && enableInputCameraDrag)
+            if (enableInputMainStage && enableInputCamera)
             {
                 CameraZoomInOut();
-                RayHitInfo();
+                //RayHitInfo();
             }
         }
 
         private void FixedUpdate()
         {
-            if (enableInputKey)
-            {
-                EnterDirectionKey();
-            }
+            PcInput();
         }
-
-        /*public void InputButton(InputButtonType inputButtonType)
-        {
-            inputState.TouchOrClickButton(inputButtonType);
-        }*/
 
         public void CameraZoomInOut()
         {
@@ -113,39 +92,71 @@ namespace RedTheSettlers.GameSystem
             inputState.OnDropSlot();
         }
 
-        private void EnterDirectionKey()
+        private void PcInput()
         {
-            Vector3 moveDirection = Vector3.zero;
+            if(enableInputBattleStage)
+            {
+                /*if (Input.GetKey(KeyCode.UpArrow))
+                {
+                    moveDirection += Vector3.forward;
+                }
+                else if (Input.GetKey(KeyCode.DownArrow))
+                {
+                    moveDirection += Vector3.back;
+                }
+                if (Input.GetKey(KeyCode.LeftArrow))
+                {
+                    moveDirection += Vector3.left;
+                }
+                else if (Input.GetKey(KeyCode.RightArrow))
+                {
+                    moveDirection += Vector3.right;
+                }*/
 
-            if (Input.GetKey(KeyCode.UpArrow))
-            {
-                moveDirection += Vector3.forward;
-            }
-            else if (Input.GetKey(KeyCode.DownArrow))
-            {
-                moveDirection += Vector3.back;
-            }
-            if (Input.GetKey(KeyCode.LeftArrow))
-            {
-                moveDirection += Vector3.left;
-            }
-            else if (Input.GetKey(KeyCode.RightArrow))
-            {
-                moveDirection += Vector3.right;
+                if (Input.GetMouseButtonDown(0))
+                {
+                    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+                    RaycastHit rayHit;
+                    if (Physics.Raycast(ray, out rayHit, Mathf.Infinity))
+                    {
+                        Vector3 moveDirection = (rayHit.transform.position - player.transform.position).normalized;
+                        inputState.MovingPlayer(moveDirection);
+                    }
+                }
+
+                if (Input.GetMouseButtonDown(1))
+                {
+                    inputState.BattleAttack();
+                }
+                if (Input.GetKeyDown(KeyCode.Q))
+                {
+                    inputState.UseSkill((int)SkillSlot.SkillSlotA);
+                }
+                if (Input.GetKeyDown(KeyCode.W))
+                {
+                    inputState.UseSkill((int)SkillSlot.SkillSlotB);
+                }
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                    inputState.UseSkill((int)SkillSlot.SkillSlotC);
+                }
             }
 
-            inputState.DirectionKey(moveDirection);
-        }
-
-        private void InteractionKey()
-        {
-            if (Input.GetKey(KeyCode.Z))
+            if(enableInputMainStage)
             {
-                inputState.BattleAttack();
-            }
-            if (Input.GetKey(KeyCode.A))
-            {
-                inputState.SkillDirection();
+                if (Input.GetMouseButton(0) && count >= 5f)
+                {
+                    count -= Time.deltaTime;
+                    if (count <= 0)
+                    {
+                        inputState.TileInfo();
+                    }
+                }
+                else if (Input.GetMouseButtonUp(0))
+                {
+                    count = MAXCOUNT;
+                }
             }
         }
 
@@ -165,28 +176,27 @@ namespace RedTheSettlers.GameSystem
             {
                 case StateType.MainStageState:
                     ChangeState(new MainStageState());
-                    enableInputKey = false;
-                    enableInputCameraDrag = true;
+                    enableInputMainStage = true;
+                    enableInputBattleStage = false;
+                    enableInputCamera = true;
                     break;
                 case StateType.BattleStageState:
                     ChangeState(new BattleStageState());
-                    enableInputKey = true;
-                    enableInputCameraDrag = false;
+                    enableInputMainStage = false;
+                    enableInputBattleStage = true;
+                    enableInputCamera = false;
                     break;
                 case StateType.TradeInMainStageState:
                     ChangeState(new TradeInMainStageState());
-                    enableInputKey = false;
-                    enableInputCameraDrag = false;
-                    break;
-                case StateType.TitleStageState:
-                    ChangeState(new TitleStageState());
-                    enableInputKey = false;
-                    enableInputCameraDrag = false;
+                    enableInputMainStage = false;
+                    enableInputBattleStage = false;
+                    enableInputCamera = false;
                     break;
                 case StateType.EquipSkillInMainStageState:
                     ChangeState(new EquipSkillInMainStageState());
-                    enableInputKey = false;
-                    enableInputCameraDrag = false;
+                    enableInputMainStage = false;
+                    enableInputBattleStage = false;
+                    enableInputCamera = false;
                     break;
                 default:
                     LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, "해당되는 상태가 존재하지 않습니다.");

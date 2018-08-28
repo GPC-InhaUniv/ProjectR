@@ -106,12 +106,17 @@ public class TradeInMainStageState : MonoBehaviour,IInputState
         throw new System.NotImplementedException();
     }
 
-    public void DirectionKey(Vector3 direction)
+    public void MovingPlayer(Vector3 direction)
     {
         throw new System.NotImplementedException();
     }
 
     public void BattleAttack()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void UseSkill(int skillSlotNumber)
     {
         throw new System.NotImplementedException();
     }
