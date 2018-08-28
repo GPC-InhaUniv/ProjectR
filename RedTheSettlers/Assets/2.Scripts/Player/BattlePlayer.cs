@@ -17,11 +17,12 @@ namespace RedTheSettlers.Players
     {
         private GameTimer playerTimer;
         private Animator animator;
+        [SerializeField]
+        private GameObject AttackBox;
 
         private int hp;
         private int mp;
         private float moveSpeed = 2.0f;
-        private bool isAttacking = false;
 
         private Skill[] skillSlot = new Skill[4];
 
@@ -70,37 +71,37 @@ namespace RedTheSettlers.Players
             animator.SetBool("IsRunning", false);
         }
 
-        public IEnumerator AttackEnemy()
+        public void AttackEnemy(int damage)
         {
-            if(isAttacking)
-            {
-                yield return null;
-            }
-            else
-            {
-                isAttacking = true;
+            StartCoroutine(AttackEnemyCoroutine(damage));
+        }
 
-                animator.SetTrigger("Attack");
+        public IEnumerator AttackEnemyCoroutine(int damage)
+        {
+            animator.SetTrigger("Attack");
 
-                while(animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
-                {
-                    yield return null;
-                }
+            AttackBox.SetActive(true);
 
-                isAttacking = false;
-            }
+            yield return new WaitForSeconds(1f);
+            
+            AttackBox.SetActive(false);
         }
 
         public void HittedByEnemy(int damage)
         {
-
+            StartCoroutine(HittedByEnemyCoroutine(damage));
         }
 
-        public IEnumerator UseSkill(int skillSlotNum)
+        public IEnumerator HittedByEnemyCoroutine(int damage)
         {
-            skillSlot[skillSlotNum].ActivateSkill(this);
+            animator.SetBool("IsDamaged", true);
 
             yield return null;
+        }
+
+        public void UseSkill(int skillSlotNum)
+        {
+            skillSlot[skillSlotNum].ActivateSkill(this);
         }
 
         public void ChangeSpeed(float amount)

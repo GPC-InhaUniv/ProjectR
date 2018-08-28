@@ -9,24 +9,18 @@ namespace RedTheSettlers.GameSystem
     public abstract class CameraMoving
     {
         public GameObject cameraObject;
-        public abstract void Moving(Vector3 vector3);
+        public abstract void Moving(Vector3 vector3, CameraStateType cameraState);
     }
 
 
     public class DragMoving : CameraMoving
     {
-        //[SerializeField]
-        //private float dragSpeed;
-        //private Vector3 dragOrigin;
-
         public DragMoving(GameObject cameraObject)
         {
-            Debug.Log("드레그무빙 생성자");
             this.cameraObject = cameraObject;
-            //dragSpeed = 1;
         }
 
-        public override void Moving(Vector3 vector3)
+        public override void Moving(Vector3 vector3, CameraStateType cameraState)
         {
             cameraObject.transform.Translate(new Vector3(vector3.x, 0, vector3.y), Space.World);
         }
@@ -36,28 +30,33 @@ namespace RedTheSettlers.GameSystem
 
     public class FollowMoving : CameraMoving
     {
-        //애니메이션 필요함
         Transform targetTransform;
         Vector3 cameraOffset;
+        float smooth = 0.2f;
 
-        [SerializeField]
-        [Range(0.01f, 1.0f)]
-        float smooth = 0.1f;
 
-        ICameraState cameraState;
+        Animator animator;
+        ICameraState currentState;
+        CameraStateType nowStateType;
 
         public FollowMoving(GameObject cameraObject)
         {
+            animator = cameraObject.GetComponentInChildren<Animator>();
             this.cameraObject = cameraObject;
             FindTarget();
             cameraOffset = cameraObject.transform.position - targetTransform.position;
 
 
-            cameraState = new CameraNomalState();
+            currentState = new CameraNomalState(animator);
         }
 
-        public override void Moving(Vector3 vector3)
+        public override void Moving(Vector3 vector3, CameraStateType cameraState)
         {
+            if (nowStateType != cameraState)
+            {
+                ChangeState(cameraState);
+                currentState.CameraBehavior();
+            }
             if (targetTransform == null)
             {
                 Debug.Log("타겟이 없어서 타겟을 찾는다");
@@ -68,13 +67,34 @@ namespace RedTheSettlers.GameSystem
                 Vector3 newPos = targetTransform.position + cameraOffset;
                 cameraObject.transform.position = Vector3.Slerp(cameraObject.transform.position, newPos, smooth);
             }
-            cameraState.CameraBehavior(vector3);
         }
 
+        private void ChangeState(CameraStateType cameraState)
+        {
+            //ChangeState((EnemyStateType)stateType);
+            switch (cameraState)
+            {
+                case CameraStateType.Idle:
+                    currentState = new CameraNomalState(animator);
+                    break;
+                case CameraStateType.Damage:
+                    currentState = new CameraShakeState(animator);
+                    break;
+                case CameraStateType.Skill_1:
+                    currentState = new CameraSkillActionState(animator);
+                    break;
+                case CameraStateType.Skill_2:
+                    currentState = new CameraSkillActionState(animator);
+                    break;
 
+                default:
+                    break;
+            }
+        }
+        
         private void FindTarget()
         {
-            targetTransform = GameObject.FindGameObjectWithTag("Player").transform;
+            targetTransform = GameObject.FindGameObjectWithTag(GlobalVariables.TAG_PLAYER).transform;
         }
 
     }

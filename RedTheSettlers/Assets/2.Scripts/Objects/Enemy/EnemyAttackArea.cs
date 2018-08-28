@@ -1,10 +1,14 @@
-﻿using UnityEngine;
+﻿using RedTheSettlers.GameSystem;
+using RedTheSettlers.Players;
+using UnityEngine;
 
 namespace RedTheSettlers.Enemys
 {
     public class EnemyAttackArea : MonoBehaviour
     {
         public Collider AttackCollider;
+        public Enemy enemy;
+        public int Power;
 
         private void Start()
         {
@@ -13,9 +17,9 @@ namespace RedTheSettlers.Enemys
 
         private void OnTriggerEnter(Collider other)
         {
-            if (other.tag == "Player")
+            if (other.tag == GlobalVariables.TAG_PLAYER)
             {
-                //플레이어에게 타격을 준다.
+                other.GetComponent<BattlePlayer>().HittedByEnemy(Power);
             }
         }
     }

@@ -1,4 +1,5 @@
 ﻿using RedTheSettlers.GameSystem;
+using RedTheSettlers.Tiles;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -23,6 +24,9 @@ namespace RedTheSettlers.UI
         [SerializeField]
         private GameObject weatherEventSelectUI;
 
+        [SerializeField]
+        private GameObject selectTileUI;
+
         private void ShowBoardUI()
         {
             playerTurnUI.SetActive(true);
@@ -42,13 +46,18 @@ namespace RedTheSettlers.UI
 
         public void OnClickedTradeButton()
         {
-            tradeUI.SetActive(true);
             playerTurnUI.SetActive(false);
+            tradeUI.SetActive(true);
         }
 
-        public void ReceiveTradeData(ItemData[] itemData)
+        public void SendTradeData(ItemData[] itemDatas, int requestPlayer, int receivePlayer)
         {
-            tradeUI.GetComponent<UITradeCardController>().SetTradeData(itemData);
+            GameManager.Instance.SendTradeData(itemDatas, requestPlayer, receivePlayer);
+        }
+
+        public void RecieveTradeResult(OtherPlayerState state)
+        {
+            tradeUI.GetComponentInChildren<UITradeCard>().RecieveTradeData(state);
         }
 
         public void OnClickedTurnCloseButton()
@@ -73,6 +82,17 @@ namespace RedTheSettlers.UI
         {
             weatherEventSelectUI.SetActive(true);
             weatherEventSelectUI.GetComponentInChildren<UIWeatherSelect>().ReceiveEventNumbers(weathers);
+        }
+
+        public void RequestStorageEventNumber(int eventNumber)
+        {
+            GameManager.Instance.SetWeatherEventNumber(eventNumber);
+        }
+
+        public void SendTileInfor(BoardTile selectionTile)
+        {
+            selectTileUI.SetActive(true);
+            selectTileUI.GetComponentInChildren<UISelectTile>().SetSelectTileInfo(selectionTile);
         }
     }
 }

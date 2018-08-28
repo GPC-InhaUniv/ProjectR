@@ -4,11 +4,11 @@ using UnityEngine;
 public interface IInputState
 {
     void DragMove(float speed);
-    void SkillDirection();
+    void UseSkill(int skillSlotNumber);
     void ZoomInOut(float speed);
     void TileInfo();
 
-    //----------------------UI 드래그----------------------
+    //----------------------드래그----------------------
 
     void OnStartDrag();
     void OnDragging(float speed);
@@ -23,6 +23,6 @@ public interface IInputState
 
     //----------------------PC 용 Battle Phase----------------------
 
-    void DirectionKey(Vector3 direction);
+    void MovingPlayer(Vector3 direction);
     void BattleAttack();
 }

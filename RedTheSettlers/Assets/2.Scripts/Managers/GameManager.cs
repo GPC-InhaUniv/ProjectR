@@ -14,6 +14,7 @@ namespace RedTheSettlers.GameSystem
     public class GameManager : Singleton<GameManager>
     {
         public User[] Players;
+        public GameData gameData = DataManager.Instance.GameData;
 
         public TurnControllerTest turnCtrl;
         public EventControllerTest eventCtrl;
@@ -31,7 +32,11 @@ namespace RedTheSettlers.GameSystem
             itemCtrl.Callback = new ItemCallback(ItemFinish);
             tradeCtrl.Callback = new TradeCallback(TradeFinish);
             battleCtrl.Callback = new BattleCallback(BattleFinish);
+
+            //TileManager.Instance.InitializeTileSet();
         }
+
+        //게임 매니저가 타일 매니저를 통해 타일 배치(보드, 전투)을 지시해야 한다.
 
         //어떻게 턴의 흐름을 제어 할 것인지 고민
         public void GameFlow(IEnumerator Flow)
@@ -73,6 +78,18 @@ namespace RedTheSettlers.GameSystem
         private void TurnFinish()
         {
             
+        }
+
+        private void InsinstallationBoardTile()
+        {
+            TileManager.Instance.CreateBoardTileGrid();
+            TileManager.Instance.ShowBoardTile();
+        }
+
+        private void InsinstallationBattleTile(ItemType itemType, int difficulty)
+        {
+            TileManager.Instance.CreateBattleTileGrid(itemType, difficulty);
+            TileManager.Instance.ShowBattleTile();
         }
 
         /// <summary>
@@ -161,26 +178,12 @@ namespace RedTheSettlers.GameSystem
         }
 
         /// <summary>
-        /// 클릭한 타일을 반환합니다.(임시 기능)
+        /// 클릭한 타일을 반환합니다.
         /// </summary>
         /// <returns></returns>
-        public BoardTile GetClickedTile()
+        public void GetClickedTile(BoardTile boardTile)
         {
-            //인풋 매니저로부터 입력을 받게 수정해야 한다.
-            BoardTile tile;
-            if (Input.GetMouseButtonUp(0))
-            {
-                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                RaycastHit hitInfo;
-                if (Physics.Raycast(ray, out hitInfo, 1f) && (hitInfo.collider.tag == GlobalVariables.TAG_TILE))
-                {
-                    tile = hitInfo.collider.GetComponent<BoardTile>();
-                }
-                else tile = null;
-            }
-            else tile = null;
-
-            return tile;
+            UIManager.Instance.SendTileInfor(boardTile);
         }
 
         /// <summary>
@@ -194,17 +197,31 @@ namespace RedTheSettlers.GameSystem
         /// <summary>
         /// 거래 정보를 가져옵니다.
         /// </summary>
-        public void SendTradeData(ItemData itemData)
+        public void SendTradeData(ItemData[] itemDatas, int requestPlayer, int receivePlayer)
         {
-            //트레이드 패널에서 ItemData을 트레이드 컨트롤러에게
+            TradeData tradeData = new TradeData
+            {
+                ItemsToTrade = itemDatas,
+                RequestReceiver = Players[receivePlayer],
+                RequestSender = Players[requestPlayer]
+            };
+            tradeCtrl.DoTrade(tradeData);
         }
 
         /// <summary>
         /// 거래 결과를 전달합니다.
         /// </summary>
-        public void SendTradeResult()
+        public void SendTradeResult(OtherPlayerState otherPlayerState)
         {
-            //다른 player와의 거래 결과를 패널에게 다시 전달
+            UIManager.Instance.RecieveTradeResult(otherPlayerState);
         }
+
+        public void SetWeatherEventNumber(int eventNumber)
+        {
+            gameData.InGameData.Weather = eventNumber;
+            DataManager.Instance.SaveGameData(gameData, true);
+        }
+
+        
     }
 }
