@@ -65,35 +65,37 @@ namespace RedTheSettlers.UI
 
         private int computeItemCount;
 
-        private void PutItemCount(UserType userType, ItemType itemType)
+        private void PutItemCount()
         {
-            if (userType == 0)
-            {
-                //playerCowItem.text = GameManager.[GameData.ItemData(0)].Count;
-                playerWaterItem.text = waterCardCount.ToString();
-                playerWheatItem.text = wheatCardCount.ToString();
-                playerWoodItem.text = woodCardCount.ToString();
-                playerIronItem.text = ironCardCount.ToString();
-                playerSoilItem.text = soilCardCount.ToString();
-            }
-            //PlayerCowItem.text = gameData.cowcow.ToString();
-            //이런식으로 6종류 자원을 gameData에서 가져와서 텍스트에 넣어줘야 함.
+            PlayerData playerData = GameManager.Instance.gameData.PlayerData[0];
+
+            playerCowItem.text = playerData.ItemList[(int)ItemType.Cow].Count.ToString();
+            playerWaterItem.text = playerData.ItemList[(int)ItemType.Water].Count.ToString();
+            playerWheatItem.text = playerData.ItemList[(int)ItemType.Wheat].Count.ToString();
+            playerWoodItem.text = playerData.ItemList[(int)ItemType.Wood].Count.ToString();
+            playerIronItem.text = playerData.ItemList[(int)ItemType.Iron].Count.ToString();
+            playerSoilItem.text = playerData.ItemList[(int)ItemType.Soil].Count.ToString();
         }
 
         private void ComputeTotalItem()
         {
+            cardmaxNumber = GlobalVariables.MaxItemNum;
+
             computeItemCount = cowCardCount + waterCardCount + wheatCardCount + woodCardCount + ironCardCount + soilCardCount;
-            playerTotalItem.text = computeItemCount.ToString(); //datamanager에서 가져와야 함.
+            playerTotalItem.text = computeItemCount.ToString();
 
             totalItemBar.value = computeItemCount / cardmaxNumber;
             LogManager.Instance.UserDebug(LogColor.Olive, GetType().Name, "현재 소지한 자원 합 : " + playerTotalItem.text);
         }
 
+        private void OnEnable()
+        {
+            PutItemCount(); //UIManager에서 각 state, equip에서 요 두개를 실행시켜줘야 함.
+            ComputeTotalItem();
+        }
+
         private void Start()
         {
-            cardmaxNumber = GlobalVariables.MaxItemNum; //50
-                                                        // PutItemCount();
-            ComputeTotalItem();
         }
 
         private void Update()
