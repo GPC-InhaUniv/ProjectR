@@ -19,7 +19,7 @@ namespace RedTheSettlers.UnitTest
 
     public class TradeControllerTest : MonoBehaviour
     {
-        private TradeData Trade;
+        //private TradeData Trade;
 
         private TradeCallback _callback;
         public TradeCallback Callback
@@ -28,13 +28,13 @@ namespace RedTheSettlers.UnitTest
             set { _callback = value; }
         }
 
-        public void MatchTrade(User requestSender, User requestReceiver)
-        {
-            Trade.RequestSender = requestSender;
-            Trade.RequestReceiver = requestReceiver;
+        //public void MatchTrade(User requestSender, User requestReceiver)
+        //{
+        //    Trade.RequestSender = requestSender;
+        //    Trade.RequestReceiver = requestReceiver;
 
-            Trade.ItemsToTrade = new ItemData[6];
-        }
+        //    Trade.ItemsToTrade = new ItemData[6];
+        //}
 
         public void ChangeTradeData(ItemData itemData)
         {
@@ -58,11 +58,11 @@ namespace RedTheSettlers.UnitTest
             Callback();
         }
 
-        private void ResetTrade()
-        {
-            Trade.RequestSender = null;
-            Trade.RequestReceiver = null;
-            Trade.ItemsToTrade = null;
-        }
+        //private void ResetTrade()
+        //{
+        //    Trade.RequestSender = null;
+        //    Trade.RequestReceiver = null;
+        //    Trade.ItemsToTrade = null;
+        //}
     }
 }
