@@ -5,7 +5,7 @@ using System;
 
 namespace RedTheSettlers.UI
 {
-    public class UIEquipmentController : MonoBehaviour
+    public class UIEquipment : MonoBehaviour
     {
         public const int AttackUpgradeOneWood = 3;
         public const int AttackUpgradeOneIron = 5;

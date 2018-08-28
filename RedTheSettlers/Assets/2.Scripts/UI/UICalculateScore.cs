@@ -14,7 +14,7 @@ using System;
 /// </summary>
 namespace RedTheSettlers.UI
 {
-    public class UICalculateScoreController : MonoBehaviour
+    public class UICalculateScore : MonoBehaviour
     {
         private GameData gameData;
 

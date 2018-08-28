@@ -46,9 +46,15 @@ namespace RedTheSettlers.UI
             playerTurnUI.SetActive(false);
         }
 
-        public void ReceiveTradeData(ItemData[] itemData)
+        public void SendTradeData(ItemData[] itemDatas, int requestPlayer, int receivePlayer)
         {
-            tradeUI.GetComponent<UITradeCardController>().SetTradeData(itemData);
+             
+            GameManager.Instance.SendTradeData(itemDatas, requestPlayer, receivePlayer);
+        }
+
+        public void RecieveTradeResult()
+        {
+            GameManager.Instance.SendTradeResult();
         }
 
         public void OnClickedTurnCloseButton()
