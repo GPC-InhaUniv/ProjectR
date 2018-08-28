@@ -58,11 +58,11 @@ namespace RedTheSettlers.UnitTest
             Callback();
         }
 
-        //private void ResetTrade()
-        //{
-        //    Trade.RequestSender = null;
-        //    Trade.RequestReceiver = null;
-        //    Trade.ItemsToTrade = null;
-        //}
+        private void ResetTrade()
+        {
+            Trade.RequestSender = null;
+            Trade.RequestReceiver = null;
+            Trade.ItemsToTrade = null;
+        }
     }
 }
