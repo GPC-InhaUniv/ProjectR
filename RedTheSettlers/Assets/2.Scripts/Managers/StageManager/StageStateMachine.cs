@@ -17,22 +17,33 @@ namespace RedTheSettlers.GameSystem
 {
     public class StageStateMachine
     {
-        private State currentstate;
-        public State CurrentState
+        private State currentState;
+        public State CurrentState { get { return currentState; } }
+
+        public StageStateMachine()
         {
-            get { return currentstate; }
+            currentState = new TitleState();
+            Debug.Log("현재 상태" + currentState);
         }
 
         public void Enter()
         {
-            currentstate.Enter();
+            if (currentState != null) currentState.Enter();
+            else
+                Debug.Log("현재 상태가 없습니다.");
         }
 
-        public void Exit()
+        public void ContinueGame(bool canLoadData)
         {
-            currentstate.Exit();
+            if (currentState != null) currentState.ContinueGame(canLoadData);
         }
-                
+
+        public void Exit(StageType stageType)
+        {
+            if (currentState != null) currentState.Exit(stageType);
+            else
+                Debug.Log("현재 상태가 없습니다.");
+        }
     }
 }
 
