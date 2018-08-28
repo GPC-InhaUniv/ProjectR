@@ -196,9 +196,9 @@ namespace RedTheSettlers.GameSystem
         /// <summary>
         /// 거래 결과를 전달합니다.
         /// </summary>
-        public void SendTradeResult()
+        public void SendTradeResult(OtherPlayerState otherPlayerState)
         {
-            //다른 player와의 거래 결과를 패널에게 다시 전달
+            UIManager.Instance.RecieveTradeResult(otherPlayerState);
         }
 
         public void SetWeatherEventNumber(int eventNumber)
