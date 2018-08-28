@@ -32,7 +32,11 @@ namespace RedTheSettlers.GameSystem
             itemCtrl.Callback = new ItemCallback(ItemFinish);
             tradeCtrl.Callback = new TradeCallback(TradeFinish);
             battleCtrl.Callback = new BattleCallback(BattleFinish);
+
+            //TileManager.Instance.InitializeTileSet();
         }
+
+        //게임 매니저가 타일 매니저를 통해 타일 배치(보드, 전투)을 지시해야 한다.
 
         //어떻게 턴의 흐름을 제어 할 것인지 고민
         public void GameFlow(IEnumerator Flow)
@@ -74,6 +78,18 @@ namespace RedTheSettlers.GameSystem
         private void TurnFinish()
         {
             
+        }
+
+        private void InsinstallationBoardTile()
+        {
+            TileManager.Instance.CreateBoardTileGrid();
+            TileManager.Instance.ShowBoardTile();
+        }
+
+        private void InsinstallationBattleTile(ItemType itemType, int difficulty)
+        {
+            TileManager.Instance.CreateBattleTileGrid(itemType, difficulty);
+            TileManager.Instance.ShowBattleTile();
         }
 
         /// <summary>
@@ -167,7 +183,7 @@ namespace RedTheSettlers.GameSystem
         /// <returns></returns>
         public void GetClickedTile(BoardTile boardTile)
         {
-            //UIManager.Instance.
+            UIManager.Instance.SendTileInfor(boardTile);
         }
 
         /// <summary>
@@ -181,7 +197,7 @@ namespace RedTheSettlers.GameSystem
         /// <summary>
         /// 거래 정보를 가져옵니다.
         /// </summary>
-        public TradeData SendTradeData(ItemData[] itemDatas, int requestPlayer, int receivePlayer)
+        public void SendTradeData(ItemData[] itemDatas, int requestPlayer, int receivePlayer)
         {
             TradeData tradeData = new TradeData
             {
@@ -189,8 +205,7 @@ namespace RedTheSettlers.GameSystem
                 RequestReceiver = Players[receivePlayer],
                 RequestSender = Players[requestPlayer]
             };
-
-            return tradeData;
+            tradeCtrl.DoTrade(tradeData);
         }
 
         /// <summary>
@@ -206,5 +221,7 @@ namespace RedTheSettlers.GameSystem
             gameData.InGameData.Weather = eventNumber;
             DataManager.Instance.SaveGameData(gameData, true);
         }
+
+        
     }
 }
