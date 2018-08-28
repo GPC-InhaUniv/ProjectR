@@ -97,7 +97,7 @@ public class MainStageState : IInputState
         }
 #endif
 
-        float prevLength = 0;
+        /*float prevLength = 0;
         float Length = 0;
 
         Vector2 a = Input.GetTouch(0).position;
@@ -105,7 +105,7 @@ public class MainStageState : IInputState
 
         Length = Vector2.Distance(a, b);
         TemporaryGameManager.Instance.CameraZoom(Length - prevLength);
-        prevLength = Length;
+        prevLength = Length;*/
 
     }
     public void TileInfo()
@@ -130,6 +130,9 @@ public class MainStageState : IInputState
             }
         }
     }
+
+    // 이 밑으로 해당 클래스에서는 사용하지 않음.
+    // 추후 구조 변경시 필요치 않은 메서드들은 해당 클래스에서 사라질 예정
 
     public void DragMove(float speed)
     {
