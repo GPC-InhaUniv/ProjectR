@@ -16,20 +16,19 @@ namespace RedTheSettlers.GameSystem
 {
     class TitleState : State
     {
-        
+
         public override void ContinueGame(bool canLoadData)
         {
-            if (canLoadData)
-            {
-                StageManager.Instance.JudgeLoadingData(canLoadData);
-            }
+            if (!canLoadData)
+                DataManager.Instance.ResetData();
+
         }
 
         public override void Enter()
         {
-           
+
         }
-        
+
         public override void Exit(StageType stageType)
         {
             StageManager.Instance.ChangeStage(StageType.LoadingStageState);
