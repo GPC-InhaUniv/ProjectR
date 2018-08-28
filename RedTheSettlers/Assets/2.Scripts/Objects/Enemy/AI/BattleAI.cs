@@ -145,7 +145,7 @@ namespace RedTheSettlers.Enemys
                         battleTile.f = battleTile.g + battleTile.f;
 
                         battleTile.ParentTileXCoord = currnetTile.TileCoordinate.x;
-                        battleTile.ParentTileZcoord = currnetTile.TileCoordinate.z;
+                        battleTile.ParentTileZCoord = currnetTile.TileCoordinate.z;
 
                         if (battleTile.g < currnetTile.g)
                         {
@@ -189,11 +189,11 @@ namespace RedTheSettlers.Enemys
             pathTile = new Stack<BattleTile>();
             pathTile.Push(currnetTile);
 
-            BattleTile parent = TileManager.Instance.BattleTileGrid[currnetTile.ParentTileXCoord, currnetTile.ParentTileZcoord].GetComponent<BattleTile>();
+            BattleTile parent = TileManager.Instance.BattleTileGrid[currnetTile.ParentTileXCoord, currnetTile.ParentTileZCoord].GetComponent<BattleTile>();
             while (parent != null)
             {
                 pathTile.Push(parent);
-                parent = TileManager.Instance.BattleTileGrid[parent.ParentTileXCoord, parent.ParentTileZcoord].GetComponent<BattleTile>();
+                parent = TileManager.Instance.BattleTileGrid[parent.ParentTileXCoord, parent.ParentTileZCoord].GetComponent<BattleTile>();
             }
 
             return pathTile;
