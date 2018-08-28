@@ -79,9 +79,6 @@ public class MoveSettingArea : MonoBehaviour {
 
     private void MakePlayerAttack()
     {
-        if(coroutineAttack == null)
-        {
-            coroutineAttack = StartCoroutine(battlePlayer.AttackEnemy());
-        }
+        battlePlayer.AttackEnemy(10);
     }
 }

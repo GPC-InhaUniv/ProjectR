@@ -49,9 +49,9 @@ namespace RedTheSettlers.UnitTest
         public void SpawnCattle()
         {
             Quaternion angle = Quaternion.Euler(0f, Random.Range(0, 360f), 0f);
-            GameObject tempCow = Instantiate(Cattle);
-            tempCow.transform.position = new Vector3(0f, 0f, 0f);
-            tempCow.transform.rotation = angle;
+            //GameObject tempCow = ObjectPoolManager.Instance.
+            //tempCow.transform.position = new Vector3(0f, 0f, 0f);
+            //tempCow.transform.rotation = angle;
         }
 
         /// <summary>

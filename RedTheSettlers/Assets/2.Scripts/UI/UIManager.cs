@@ -1,4 +1,5 @@
 ﻿using RedTheSettlers.GameSystem;
+using RedTheSettlers.Tiles;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -22,6 +23,9 @@ namespace RedTheSettlers.UI
 
         [SerializeField]
         private GameObject weatherEventSelectUI;
+
+        [SerializeField]
+        private GameObject selectTileUI;
 
         private void ShowBoardUI()
         {
@@ -48,7 +52,6 @@ namespace RedTheSettlers.UI
 
         public void SendTradeData(ItemData[] itemDatas, int requestPlayer, int receivePlayer)
         {
-             
             GameManager.Instance.SendTradeData(itemDatas, requestPlayer, receivePlayer);
         }
 
@@ -84,6 +87,12 @@ namespace RedTheSettlers.UI
         public void RequestStorageEventNumber(int eventNumber)
         {
             GameManager.Instance.SetWeatherEventNumber(eventNumber);
+        }
+
+        public void SendTileInfor(BoardTile selectionTile)
+        {
+            selectTileUI.SetActive(true);
+            selectTileUI.GetComponentInChildren<UISelectTile>().SetSelectTileInfo(selectionTile);
         }
     }
 }
