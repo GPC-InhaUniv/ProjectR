@@ -1,4 +1,5 @@
-﻿using RedTheSettlers.Tiles;
+﻿using RedTheSettlers.Enemys;
+using RedTheSettlers.Tiles;
 using RedTheSettlers.Users;
 using System.Collections;
 using System.Collections.Generic;
@@ -58,18 +59,28 @@ namespace RedTheSettlers.GameSystem
 
         private void DisposePlayerAndEnemy(bool isBossTile)
         {
+            Vector3 playerSpotPosition = new Vector3
+                (
+                TileManager.Instance.BattleTileGrid[13, 1].transform.position.x + GlobalVariables.BattleAreaOriginCoord, 0,
+                TileManager.Instance.BattleTileGrid[13, 1].transform.position.z + GlobalVariables.BattleAreaOriginCoord
+                );
+            Vector3 enemySpotPosition = new Vector3
+                (
+                TileManager.Instance.BattleTileGrid[1, 13].transform.position.x + GlobalVariables.BattleAreaOriginCoord, 0,
+                TileManager.Instance.BattleTileGrid[1, 13].transform.position.z + GlobalVariables.BattleAreaOriginCoord
+                );
             GameObject player = new GameObject();
-            player.transform.position = TileManager.Instance.BattleTileGrid[4, 4].transform.position;
+            player.transform.position = playerSpotPosition;
             player.SetActive(true);
             List<GameObject> enemyList = new List<GameObject>();
             if (isBossTile)
             {
                 enemyList.Add(new GameObject());                                       //Boss도 구현되는 방향에 따라 가져올 예정.
-                enemyList[0].transform.position = TileManager.Instance.BattleTileGrid[4, 4].transform.position;
+                //enemyList[0].GetComponent<BossEnemy>()
             }
             else
             {
-                for (int i = 0; i <= (int)tileType ; i++)
+                for (int i = 0; i <= (int)level; i++)
                 {
                     //ObjectPoolManager.Instance.EnemyPool[(int)tileType].Dequeue();   ObjectManager에서 리스트 큐 형식으로만 쓴다면 이렇게.
                     //ObjectPoolManager.Instance.EnemyPool.Pop((int)tileType);         ObjectManager에서 Push(),Pop() 함수를 만든다면 이렇게.
@@ -78,11 +89,19 @@ namespace RedTheSettlers.GameSystem
             for(int i = 0; i < enemyList.Count; i ++)
             {
                 if (i == 0)
-                    enemyList[i].transform.position = TileManager.Instance.BattleTileGrid[4, 4].transform.position;
+                    enemyList[i].transform.position = enemySpotPosition;
                 else if (i % 2 == 1)
-                    enemyList[i].transform.position = TileManager.Instance.BattleTileGrid[4 + i, 4].transform.position;
+                {
+                    enemySpotPosition.x += 2;
+                    enemySpotPosition.z += 2;
+                    enemyList[i].transform.position = enemySpotPosition;
+                }                
                 else if(i % 2 == 0)
-                    enemyList[i].transform.position = TileManager.Instance.BattleTileGrid[4 - i, 4].transform.position;
+                {
+                    enemySpotPosition.x = -enemySpotPosition.x;
+                    enemySpotPosition.z = -enemySpotPosition.z;
+                    enemyList[i].transform.position = enemySpotPosition;
+                }
                 enemyList[i].SetActive(true);
             }
         }
