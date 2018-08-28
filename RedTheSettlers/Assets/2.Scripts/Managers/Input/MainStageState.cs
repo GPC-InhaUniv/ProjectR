@@ -123,6 +123,10 @@ public class MainStageState : IInputState
                     LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, "타일 정보 : " + tileInformation);
                     GameManager.Instance.GetClickedTile(tileInformation);
                 }
+                else if(hitPoint.collider.tag != "Tile")
+                {
+                    LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, "타일을 찾을 수 없습니다.");
+                }
             }
         }
     }
