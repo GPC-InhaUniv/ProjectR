@@ -149,7 +149,7 @@ namespace RedTheSettlers.UI
             }
             ShowItemPopup(giveAndTake);
 
-            if (cardInfo[cardNumber].ItemsCard.transform.parent.name == giveGroup.name) 
+            if (cardInfo[cardNumber].ItemsCard.transform.parent.name == giveGroup.name)
             {
                 ItemPopup.SetActive(true);
                 ItemSlider.maxValue = data.ItemList[cardNumber].Count;
@@ -171,7 +171,7 @@ namespace RedTheSettlers.UI
 
         public void ShowItemPopup(int value)
         {
-             if (value == 1)    //함수화 하기
+            if (value == 1)    //함수화 하기
             {
                 ItemPopup.SetActive(true);
                 GiveDescriptionText.gameObject.SetActive(true);
@@ -185,7 +185,7 @@ namespace RedTheSettlers.UI
             }
         }
 
-        public void OnClickedPopupButton( )
+        public void OnClickedPopupButton()
         {
             tradeItemValue[tradeCardNumber] = (int)ItemSlider.value * giveAndTake;
             cardInfo[tradeCardNumber].TempitemsCount.text = Mathf.Abs(tradeItemValue[tradeCardNumber]).ToString();
@@ -209,7 +209,7 @@ namespace RedTheSettlers.UI
                 tradeItemValue[tradeCardNumber] = 0;
             }
         }
-      
+
         public void ResetCardBoard()
         {
             for (int i = 0; i < cardInfo.Length; i++)
