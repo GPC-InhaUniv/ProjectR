@@ -6,13 +6,20 @@ namespace RedTheSettlers.Enemys
 {
     public class EnemyAttackArea : MonoBehaviour
     {
+        public Collider AttackCollider;
         public Enemy enemy;
+        public int Power;
+
+        private void Start()
+        {
+            AttackCollider = GetComponent<Collider>();
+        }
 
         private void OnTriggerEnter(Collider other)
         {
             if (other.tag == GlobalVariables.TAG_PLAYER)
             {
-                other.GetComponent<BattlePlayer>().HittedByEnemy((int)enemy.Power);
+                other.GetComponent<BattlePlayer>().HittedByEnemy(Power);
             }
         }
     }
