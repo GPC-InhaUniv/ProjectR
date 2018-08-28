@@ -26,16 +26,21 @@ public class TemporaryGameManager : Singleton<TemporaryGameManager>
 
     private void FixedUpdate()
     {
-        PlayerMove(moveDirection, playerRotation, moveSpeed);
+        if(playerRotation > 0)
+        {
+            PlayerMove(moveDirection, playerRotation, moveSpeed);
+        }
     }
 
     public void CameraMove(Vector3 direction)
     {
+        //tempCameraController.CameraMove(direction);
         cameraCtrl.CameraDragMoving(direction);
     }
 
     public void CameraZoom(float value)
     {
+        //tempCameraController.CameraZoom(value);
         cameraCtrl.ZoomInOut(value);
     }
 
@@ -45,8 +50,11 @@ public class TemporaryGameManager : Singleton<TemporaryGameManager>
         playerRotation = rotation;
         moveSpeed = speed;
         //Player.MovePosition(Player.position + (direction * 10) * Time.deltaTime);
-        rigidbody.rotation = Quaternion.Euler(0f, rotation, 0f);
-        rigidbody.velocity = (direction * speed) * Time.deltaTime;
+        if(rotation > 0)
+        {
+            rigidbody.rotation = Quaternion.Euler(0f, rotation, 0f);
+            rigidbody.velocity = (direction * speed) * Time.deltaTime;
+        }
     }
 
     public void PlayerRotate(float rotation)

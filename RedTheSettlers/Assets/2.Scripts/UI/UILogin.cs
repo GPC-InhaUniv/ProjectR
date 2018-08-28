@@ -55,16 +55,25 @@ namespace RedTheSettlers
 
             }
 
+            public void OnClickedLoginSuccessButton()
+            {
+                if (DataManager.Instance.GameData.InGameData.TurnCount != 0)
+                {
+                    ContinueGameObject.SetActive(true);
+                }
+            }
+
+            public void OnClickedNewGameButton()
+            {
+                DataManager.Instance.ResetData();
+            }
+
             public void ChangeLoginAlertText(string Text)
             {
                 if(Text.Equals("성공"))
                 {
                     loginResultObject.SetActive(true);
                     loginAlertText.text = "";
-                    if (DataManager.Instance.GameData.InGameData.TurnCount != 0)
-                    {
-                        ContinueGameObject.SetActive(true);
-                    }
                 }
                 else
                     loginAlertText.text = Text;

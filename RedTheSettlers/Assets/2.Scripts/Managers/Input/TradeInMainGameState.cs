@@ -11,7 +11,6 @@ public class TradeInMainStageState : MonoBehaviour,IInputState
     private static GameObject[] cardAreas;
     private GameObject targetCard;
     private GameObject targetArea;
-    private Transform startParent;
     private Transform parentToReturnTo = null;
     private Vector3 startPosition;
     private Vector3 clickPoint;
@@ -73,6 +72,9 @@ public class TradeInMainStageState : MonoBehaviour,IInputState
             parentToReturnTo = targetArea.transform;
         }
     }
+
+    // 이 밑으로 해당 클래스에서는 사용하지 않음.
+    // 추후 구조 변경시 필요치 않은 메서드들은 해당 클래스에서 사라질 예정
 
     public void DragMove(float speed)
     {
