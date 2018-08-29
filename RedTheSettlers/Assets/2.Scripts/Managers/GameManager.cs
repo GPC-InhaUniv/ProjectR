@@ -40,7 +40,7 @@ namespace RedTheSettlers.GameSystem
 
             cameraCtrl = new CameraController();
             //TileManager.Instance.InitializeTileSet();
-            BattlePlayer = GameObject.FindWithTag("Player").GetComponent<BattlePlayer>();
+            battlePlayer = GameObject.FindWithTag("Player").GetComponent<BattlePlayer>();
         }
 
         //게임 매니저가 타일 매니저를 통해 타일 배치(보드, 전투)을 지시해야 한다.
