@@ -12,7 +12,7 @@ namespace RedTheSettlers.Users
         private IAIStrategy myStrategy;
         public Queue<string> MessageQueue;
 
-        public delegate Queue<string> AITurnEndDelegate();
+        public delegate void AITurnEndDelegate();
         public AITurnEndDelegate AITurnEndCallBack;
 
         private IEnumerator Start()
