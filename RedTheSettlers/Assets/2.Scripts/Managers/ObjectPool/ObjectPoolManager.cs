@@ -35,6 +35,7 @@ namespace RedTheSettlers.GameSystem
 
         private void Awake()
         {
+            DontDestroyOnLoad(this);
             //enemy only -----------
             FireballQueue = new Queue<EnemyFireBall>(FireballSize);
             for (int i = 0; i < FireballSize; i++)
