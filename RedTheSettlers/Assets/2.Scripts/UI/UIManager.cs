@@ -17,6 +17,9 @@ namespace RedTheSettlers.UI
         private GameObject playerTurnUI;
 
         [SerializeField]
+        private GameObject CommonPlayerItemUI;
+
+        [SerializeField]
         private GameObject tradeUI, equipmentAndSkillUI, stateUI;
 
         [SerializeField]
@@ -31,9 +34,10 @@ namespace RedTheSettlers.UI
         [SerializeField]
         private GameObject selectTileUI;
 
-        private void ShowBoardUI()
+        public void ShowBoardUI()
         {
             playerTurnUI.SetActive(true);
+            CommonPlayerItemUI.SetActive(true);
         }
 
         public void OnClickedEquipAndSkillButton()
