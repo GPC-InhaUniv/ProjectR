@@ -4,8 +4,6 @@ namespace RedTheSettlers.GameSystem
 {
     public class EventChecker : MonoBehaviour
     {
-        GameData datas = DataManager.Instance.GameData;
-
         public void EventFlow()
         {
             int turnCount = GetTurnCount();
@@ -23,19 +21,20 @@ namespace RedTheSettlers.GameSystem
                 {
                     GameManager.Instance.SendWeatherCard(weathers);
                 }
-                else
+                else // AI의 날씨 선택
                 {
-                    // AI의 날씨 선택
+                    int aiPickedWeather = Random.Range(0, 3);
+                    LogManager.Instance.UserDebug(LogColor.Orange, GetType().ToString(), "AI가 선택한 날씨 : " + aiPickedWeather);
+                    GameManager.Instance.SetWeatherEventNumber(weathers[aiPickedWeather]);
                 }
-                //QualifyWeatherSelect(playerNumber);
             }
-
-            //yield return new WaitForSeconds(3);
         }
 
-        public int GetTurnCount()
+        private int GetTurnCount()
         {
-            return datas.InGameData.TurnCount;
+            int turnCount = GameManager.Instance.gameData.InGameData.TurnCount;
+            LogManager.Instance.UserDebug(LogColor.Orange, GetType().ToString(), "현재 턴 : " + turnCount);
+            return turnCount;
         }
 
         /// <summary>
@@ -59,6 +58,8 @@ namespace RedTheSettlers.GameSystem
                 }
                 else i--;
             }
+
+            LogManager.Instance.UserDebug(LogColor.Orange, GetType().ToString(), "뽑힌 날씨 : " + weathers[0] + ", " + weathers[1] + ", " + weathers[2]);
             return weathers;
         }
 
@@ -70,32 +71,34 @@ namespace RedTheSettlers.GameSystem
             for (int i = 0; i < GlobalVariables.MaxPlayerNumber; i++)
             {
                 // 캠프 수가 같으면, 자원 수가 적은 사람이 우선권, 그것도 같으면 번호순
-                if (tempCampCount > datas.PlayerData[i].TileList.Count) // 수정
+                if (tempCampCount > GameManager.Instance.GetPlayerTileCountAll((UserType)i)) // 수정
                 {
                     lowestPlayerNumber = i;
                 }
-                else if (tempCampCount == datas.PlayerData[i].TileList.Count) // 수정
+                else if (tempCampCount == GameManager.Instance.GetPlayerTileCountAll((UserType)i)) // 수정
                 {
                     if (GameManager.Instance.GetPlayerItemCountAll((UserType)lowestPlayerNumber) > GameManager.Instance.GetPlayerItemCountAll((UserType)i))
                         lowestPlayerNumber = i;
                 }
             }
+
+            LogManager.Instance.UserDebug(LogColor.Orange, GetType().ToString(), "선정된 플레이어 : " + lowestPlayerNumber);
             return lowestPlayerNumber;
         }
 
         private void AppearMiddleBoss1()
         {
-            Debug.Log("중간보스 1 등장");
+            LogManager.Instance.UserDebug(LogColor.Orange, GetType().ToString(), "중간보스 1 등장");
         }
 
         private void AppearMiddleBoss2()
         {
-            Debug.Log("중간보스 2 등장");
+            LogManager.Instance.UserDebug(LogColor.Orange, GetType().ToString(), "중간보스 2 등장");
         }
 
         private void AppearBoss()
         {
-            Debug.Log("보스 등장");
+            LogManager.Instance.UserDebug(LogColor.Orange, GetType().ToString(), "보스 등장");
         }
     }
 }

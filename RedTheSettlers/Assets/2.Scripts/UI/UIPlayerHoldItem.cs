@@ -12,7 +12,7 @@ using UnityEngine.UI;
 
 namespace RedTheSettlers.UI
 {
-    public class UIPlayerHoldItemController : MonoBehaviour
+    public class UIPlayerHoldItem : MonoBehaviour
     {
         [Header("Player's Total Item")]
         [SerializeField]
@@ -41,23 +41,11 @@ namespace RedTheSettlers.UI
         [SerializeField]
         private Slider totalItemBar;
 
-        [SerializeField]
-        [Header("Test")]
         private int cowCardCount;
-
-        [SerializeField]
         private int waterCardCount;
-
-        [SerializeField]
         private int wheatCardCount;
-
-        [SerializeField]
         private int woodCardCount;
-
-        [SerializeField]
         private int ironCardCount;
-
-        [SerializeField]
         private int soilCardCount;
 
         [SerializeField]
@@ -90,7 +78,7 @@ namespace RedTheSettlers.UI
 
         private void OnEnable()
         {
-            PutItemCount(); //UIManager에서 각 state, equip에서 요 두개를 실행시켜줘야 함.
+            PutItemCount(); //UIManager에서 각 state, equip, selectTile에서 요 두개를 실행시켜줘야 함.
             ComputeTotalItem();
         }
 

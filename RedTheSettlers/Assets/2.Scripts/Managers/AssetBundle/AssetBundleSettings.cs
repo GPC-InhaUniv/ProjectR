@@ -1,10 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace RedTheSettlers.GameSystem
 {
-    public class AssetBundleSettings : MonoBehaviour
+    public class AssetBundleSettings
     {
         public const int HASHCODELINE = 6; //6번째 ReadLine에 Manifest의 Hash코드 라인을 읽게 된다.
         public const string ASSETBUNDLEDIRECTORY = "Bundle";
