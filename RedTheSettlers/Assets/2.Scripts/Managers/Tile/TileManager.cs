@@ -20,8 +20,6 @@ namespace RedTheSettlers.GameSystem
         {
             CreateBoardTileGrid();
             ShowBoardTile();
-            CreateBattleTileGrid(ItemType.Water, 3);
-            ShowBattleTile();
         }
         
         public void LoadTileGrid()
@@ -38,11 +36,44 @@ namespace RedTheSettlers.GameSystem
                 int z = tileData.LocationZ;
                 BoardTileGrid[x, z] = ObjectPoolManager.Instance.TileObjectPool.PopBoardTile(tileData.TileType);
                 BoardTileGrid[x, z].GetComponent<BoardTile>().TileLevel = tileData.TileLevel;
-                for(int j = 0; j < playerData.Length; j++)
+            }
+            for (int j = 0; j < playerData.Length; j++)
+            {
+                for (int k = 0; k < playerData[j].TileList.Count; k++)
                 {
-                    for(int k = 0; k < playerData[j].TileList.Count; k++)
+                    foreach(TileData tileData in playerData[j].TileList)
                     {
-                    
+                        BoardTileGrid[tileData.LocationX, tileData.LocationZ].GetComponent<BoardTile>().tileOwner = (TileOwner)j;
+                    }
+                }
+            }
+
+            for (int z = 0; z < GlobalVariables.BoardTileGridSize; z++)
+            {
+                for (int x = 0; x < GlobalVariables.BoardTileGridSize; x++)
+                {
+                    if (z > -x + GlobalVariables.BoardTileMinZIntercept && z < -x + GlobalVariables.BoardTileMaxZIntercept)
+                    {
+                        int[] coordX = { 1, 0, -1, -1, 0, 1 };
+                        int[] coordZ = { 0, 1, 1, 0, -1, -1 };
+
+                        for (int i = 0; i < 6; i++)
+                        {
+                            if(BoardTileGrid[x + coordX[i], z + coordZ[i]] != null)
+                            {
+                                BoardTile targetBoardTile = BoardTileGrid[x + coordX[i], z + coordZ[i]].GetComponent<BoardTile>();
+                                if (targetBoardTile.tileOwner != TileOwner.None)
+                                {
+                                    BoardTileGrid[x,z].GetComponent<BoardTile>().TileBorder[i].SetActive(false);
+                                    targetBoardTile.TileBorder[(i + 3) % 6].SetActive(false);
+                                }
+                                else
+                                {
+                                    BoardTileGrid[x, z].GetComponent<BoardTile>().TileBorder[i].SetActive(true);
+                                }
+                            }
+
+                        }
                     }
                 }
             }
