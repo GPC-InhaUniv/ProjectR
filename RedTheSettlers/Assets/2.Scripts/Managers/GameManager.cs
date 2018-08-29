@@ -38,6 +38,11 @@ namespace RedTheSettlers.GameSystem
             set { tileType = value; }
         }
 
+        private void Awake()
+        {
+            DontDestroyOnLoad(gameObject);
+        }
+
         private void Start()
         {
             turnCtrl.Callback = new FlowFinishCallback(GameFlowFinish);

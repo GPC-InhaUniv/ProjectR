@@ -38,6 +38,8 @@ namespace RedTheSettlers.GameSystem
 
         private void Awake()
         {
+            DontDestroyOnLoad(gameObject);
+
             startTime = Time.realtimeSinceStartup;
             fixedDeltaTime = Time.fixedDeltaTime;
             TimeScale = 1f;
