@@ -94,7 +94,7 @@ namespace RedTheSettlers.Enemys
             hitArea = GetComponentInChildren<EnemyHitArea>();
             hitArea.enemy = this;
             rigidbodyComponent = GetComponent<Rigidbody>();
-            TargetFindCollider = GetComponent<SphereCollider>();
+            TargetFindCollider = transform.GetComponentInChildren<SphereCollider>();//GetComponent<SphereCollider>();
             isAttackable = new bool[2] { true, true };
             battleAI = new BattleAI(this);
             AITimer = battleAI.pathFindTimer;
@@ -202,7 +202,7 @@ namespace RedTheSettlers.Enemys
         public void EndDead()
         {
             DeadTimer = null;
-            //자기 자신을 풀로 반환한다.
+            ObjectPoolManager.Instance.EnemyObjectPool.PushEnemyObject(gameObject);
             Debug.Log("enemy return to pool");
         }
 
