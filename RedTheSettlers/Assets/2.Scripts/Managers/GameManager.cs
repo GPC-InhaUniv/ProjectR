@@ -99,7 +99,6 @@ namespace RedTheSettlers.GameSystem
         private void BulidBattleStageFinish()
         {
             //전투 시작 전 세팅
-            battleCtrl.AliveEnemyCount = difficultyController.GetEnemyCount();
             battleCtrl.ReceiveEnemysAndPlayer(difficultyController.EnemyList, difficultyController.Player);
             battleCtrl.BattleFlow(TileType);
         }
