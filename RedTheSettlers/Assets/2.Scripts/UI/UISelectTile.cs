@@ -230,6 +230,8 @@ namespace RedTheSettlers.UI
 
         public void OnUpgradeButton()
         {
+            SoundManager.Instance.PlaySFX("Button_Heavy", false);
+
             playerHoldItemCount = GameManager.Instance.gameData.PlayerData[0].ItemList[(int)boardTile.TileType].Count;
             if (playerHoldItemCount == 0)
             {
