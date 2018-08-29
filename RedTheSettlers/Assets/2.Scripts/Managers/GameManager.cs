@@ -50,6 +50,22 @@ namespace RedTheSettlers.GameSystem
             cameraCtrl = new CameraController();
         }
 
+        public void InitializeGame()
+        {
+            //처음시작일때
+            if(gameData.InGameData.TurnCount == 0)
+            {
+                TileManager.Instance.CreateBoardTileGrid();
+            }
+            else//이어하기일때
+            {
+
+            }
+            
+
+           
+        }
+
         public void StartGameFlow()
         {
             ChangeGameFlow();
@@ -302,7 +318,6 @@ namespace RedTheSettlers.GameSystem
             turnCtrl.SetAIs(Players);
         }
 
-        //플레이어 무기, 방어구 레벨, 보스 카운터
         public int GetPlayersAttackLevel(int playerNum)
         {
             return DataManager.Instance.GameData.PlayerData[playerNum].StatData.WeaponLevel;
@@ -311,6 +326,16 @@ namespace RedTheSettlers.GameSystem
         public int GetPlayersDefenseLevel(int playerNum)
         {
             return DataManager.Instance.GameData.PlayerData[playerNum].StatData.ShieldLevel;
+        }
+
+        public void SetPlayersAttackLevel(int playerNum, int level)
+        {
+            DataManager.Instance.GameData.PlayerData[playerNum].StatData.WeaponLevel = level;
+        }
+
+        public void SetPlayersDefenseLevel(int playerNum, int level)
+        {
+            DataManager.Instance.GameData.PlayerData[playerNum].StatData.ShieldLevel = level;
         }
 
         public int GetPlayersBossKillCount(int playerNum)
