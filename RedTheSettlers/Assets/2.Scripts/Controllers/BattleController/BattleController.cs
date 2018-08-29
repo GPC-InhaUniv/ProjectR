@@ -12,8 +12,8 @@ namespace RedTheSettlers.GameSystem
 
     public class BattleController : MonoBehaviour
     {
-        public GameObject player;
-        private List<GameObject> enemyList;
+        public BattlePlayer Player;
+        private List<Enemy> enemyList;
         private GameTimer cattlesTimer;
 
         private bool isWin;
@@ -97,16 +97,16 @@ namespace RedTheSettlers.GameSystem
         /// <summary>
         /// Player와 EnemyList에서 오브젝트를 받아온다.
         /// </summary>
-        public void ReceiveEnemysAndPlayer(List<GameObject> enemys, GameObject player)
+        public void ReceiveEnemysAndPlayer(List<Enemy> enemys, BattlePlayer player)
         {
-            this.player = player;
+            Player = player;
             enemyList = enemys;
 
-            this.player.GetComponent<BattlePlayer>().playerDeadCallBack = PlayerDead;
+            Player.playerDeadCallBack = PlayerDead;
 
             for (int i = 0; i < enemyList.Count; i++)
             {
-                enemyList[i].GetComponent<Enemy>().enemyDeadCallback = EnemyDead;
+                enemyList[i].enemyDeadCallback = EnemyDead;
             }
         }
 
