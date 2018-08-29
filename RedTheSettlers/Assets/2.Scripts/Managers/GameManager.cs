@@ -37,7 +37,7 @@ namespace RedTheSettlers.GameSystem
             //itemCtrl.Callback = new ItemCallback(ItemFinish);
             tradeCtrl.Callback = new TradeCallback(TradeFinish);
             battleCtrl.Callback = new BattleCallback(BattleFinish);
-
+            difficultyController.Callback = new BuildBattleTileCallback(BulidBattleStageFinish);
             cameraCtrl = new CameraController();
             //TileManager.Instance.InitializeTileSet();
             battlePlayer = GameObject.FindWithTag("Player").GetComponent<BattlePlayer>();
@@ -62,9 +62,9 @@ namespace RedTheSettlers.GameSystem
             //GameFlow(turnCtrl.TurnFlow());
         }
 
-        public void BulidBattleStage()
+        public void BulidBattleStageFinish()
         {
-            
+
         }
 
         private void BattleFinish()
