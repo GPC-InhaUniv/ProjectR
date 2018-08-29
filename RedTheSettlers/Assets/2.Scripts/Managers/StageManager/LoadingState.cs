@@ -29,8 +29,8 @@ namespace RedTheSettlers.GameSystem
         {
             Debug.Log("로딩씬 엔터");
             SoundManager.Instance.ChangeBGM("BGM_PlayerTurn", true);
-            StageManager.Instance.ChangeStageLoad(stageType);
-
+            StageManager.Instance.StartCoroutine(StageManager.Instance.ChangeStageLoad(StageType.LoadingScene));
+            
         }
 
         public override void Exit(StageType stageType)

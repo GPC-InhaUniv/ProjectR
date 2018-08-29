@@ -61,6 +61,11 @@ namespace RedTheSettlers.UI
             {
                 ContinueGameObject.SetActive(true);
             }
+            else
+            {
+                StageManager.Instance.ChangeState(StageType.LoadingScene);
+            }
+            
         }
 
         public void OnClickedContinueGameButton(bool wouldContinue)

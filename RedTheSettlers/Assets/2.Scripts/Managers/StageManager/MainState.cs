@@ -19,20 +19,20 @@ namespace RedTheSettlers.GameSystem
     {
         public override void ContinueGame(bool canLoadData)
         {
-            Debug.Log("MainState ContinueGameㄴ");
+            //Debug.Log("MainState ContinueGame");
+            //TileManager.Instance.LoadTileGrid();
         }
 
         public override void Enter(StageType stageType)
         {
             Debug.Log("MainState" + stageType);
-            GameManager.Instance.ChangedCamera(StateType.BattleStageState); 
-
+            GameManager.Instance.ChangedCamera(StateType.BattleStageState);
+            TileManager.Instance.CreateBoardTileGrid();
         }
 
         public override void Exit(StageType stageType)
         {
-          
+
         }
     }
 }
-

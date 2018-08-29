@@ -23,7 +23,7 @@ namespace RedTheSettlers.GameSystem
 
         public override void Enter(StageType stageType)
         {
-            
+            GameManager.Instance.ChangedCamera(StateType.BattleStageState);
         }
 
         public override void Exit(StageType stageType)
