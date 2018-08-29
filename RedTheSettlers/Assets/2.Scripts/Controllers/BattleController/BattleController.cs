@@ -1,17 +1,16 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using RedTheSettlers.GameSystem;
 using RedTheSettlers.Enemys;
 using RedTheSettlers.Players;
 using RedTheSettlers.Tiles;
 
-namespace RedTheSettlers.UnitTest
+namespace RedTheSettlers.GameSystem
 {
     public delegate void BattleFinishCallback(bool isWin);
     public delegate void EnemyDeadCallback();
     public delegate void PlayerDeadCallback();
 
-    public class BattleControllerTest2 : MonoBehaviour
+    public class BattleController : MonoBehaviour
     {
         public GameObject player;
         private List<GameObject> enemyList;

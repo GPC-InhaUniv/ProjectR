@@ -3,13 +3,13 @@ using UnityEngine;
 using RedTheSettlers.GameSystem;
 using RedTheSettlers.Users;
 
-namespace RedTheSettlers.UnitTest
+namespace RedTheSettlers.GameSystem
 {
     /// <summary>
     /// 작성자 : 박지용
     /// 유저와 AI의 턴 흐름을 제어한다.
     /// </summary>
-    public class TurnControllerTest : MonoBehaviour
+    public class PlayerTurnController : MonoBehaviour
     {
         /// <summary>
         /// 현재 턴 진행중인 플레이어 번호(0 ~ 3)
