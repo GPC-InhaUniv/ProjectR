@@ -39,9 +39,9 @@ namespace RedTheSettlers.UnitTest
             set { _callback = value; }
         }
         
-        public void TurnFlow(int gameState)
+        public void TurnFlow(GameState gameState)
         {
-            CurrentPlayerTurn = gameState - (int)GameState.AI1Turn;
+            CurrentPlayerTurn = (gameState - GameState.AI1Turn + 1);
             //GameManager.Instance.state += 1;
 
             SendGameLog();
