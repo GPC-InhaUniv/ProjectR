@@ -119,7 +119,7 @@ namespace RedTheSettlers.Enemys
             this.Power = Power;
             this.IsLastBoss = isLastBoss;
         }
-        public override void SetStatus(int ItemNumber) { }
+        public override void SetStatus(int BattleLevel) { }
 
         public void Damaged(int damaged)
         {

@@ -35,7 +35,7 @@ namespace RedTheSettlers.GameSystem
                 TileData tileData = DataManager.Instance.GameData.InGameData.BoardTileList[i];
 
                 int x = tileData.LocationX;
-                int z = tileData.LocationY;
+                int z = tileData.LocationZ;
                 BoardTileGrid[x, z] = ObjectPoolManager.Instance.TileObjectPool.PopBoardTile(tileData.TileType);
                 BoardTileGrid[x, z].GetComponent<BoardTile>().TileLevel = tileData.TileLevel;
                 for(int j = 0; j < playerData.Length; j++)
@@ -132,6 +132,12 @@ namespace RedTheSettlers.GameSystem
         public float CalculateZcoord(float z)
         {
             return z * 1.5f + 0.1f;
+        }
+
+        public void SetBossTileField()
+        {
+            int midPos = (int)(GlobalVariables.BoardTileGridSize * 0.5f);
+            BoardTileGrid[midPos, midPos].GetComponent<BoardTile>().SetBossTile();
         }
     }
 }

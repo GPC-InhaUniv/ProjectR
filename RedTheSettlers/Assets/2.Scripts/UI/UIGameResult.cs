@@ -43,7 +43,7 @@ namespace RedTheSettlers.UI
             //스테이지 매니저 쪽에서 넘겨줘야 함.
         }
 
-        public void CloseScene()
+        public void OnCloseScene()
         {
             //스테이지 매니저 쪽에서 넘겨줘야 함.
         }

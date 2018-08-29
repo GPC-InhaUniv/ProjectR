@@ -16,11 +16,9 @@ namespace RedTheSettlers.GameSystem
 {
     abstract public class State
     {
-
         public abstract void ContinueGame(bool canLoadData);
-        public abstract void Enter();
+        public abstract void Enter(StageType stageType);
         public abstract void Exit(StageType stageType);
-     
     }
 
 }

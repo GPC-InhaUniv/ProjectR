@@ -16,6 +16,7 @@ namespace RedTheSettlers.GameSystem
     {
         private BattleLevel level;
         private ItemType tileType;
+        private int BossCount;
 
         private IEnumerator SendBattleLevel()
         {
@@ -29,11 +30,11 @@ namespace RedTheSettlers.GameSystem
         /// <param name="selectionTile"></param>
         /// <param name="PossessingTileList"></param>
         /// <returns></returns>
-        public IEnumerator EstablishBattleStage(Tile selectionTile, List<Tile> PossessingTileList)
+        public IEnumerator EstablishBattleStage(BoardTile selectionTile, List<Tile> PossessingTileList)
         {
             judgeLevel(selectionTile, PossessingTileList);
             yield return StartCoroutine(SendBattleLevel());
-            DisposePlayerAndEnemy(true); //후에 타일클래스에 구분 bool타입 변수 생기면 변경 예정 true - > selectionTile.isBossTile
+            DisposePlayerAndEnemy(selectionTile.IsBossTile); //후에 타일클래스에 구분 bool타입 변수 생기면 변경 예정 true - > selectionTile.isBossTile
         }
         
         private void judgeLevel(Tile selectionTile, List<Tile> PossessingTileList)
@@ -48,13 +49,18 @@ namespace RedTheSettlers.GameSystem
             if (count < 2)
             {
                 level = BattleLevel.Level1;
+                LogManager.Instance.UserDebug(LogColor.Magenta, GetType().Name, "Level1으로 설정");
             }
             else if (count == 2 || count == 3)
             {
                 level = BattleLevel.Level2;
+                LogManager.Instance.UserDebug(LogColor.Magenta, GetType().Name, "Level2으로 설정");
             }
             else
+            {
                 level = BattleLevel.Level3;
+                LogManager.Instance.UserDebug(LogColor.Magenta, GetType().Name, "Level3으로 설정");
+            }
         }
 
         private void DisposePlayerAndEnemy(bool isBossTile)
@@ -69,38 +75,65 @@ namespace RedTheSettlers.GameSystem
                 TileManager.Instance.BattleTileGrid[1, 13].transform.position.x + GlobalVariables.BattleAreaOriginCoord, 0,
                 TileManager.Instance.BattleTileGrid[1, 13].transform.position.z + GlobalVariables.BattleAreaOriginCoord
                 );
-            GameObject player = new GameObject();
-            player.transform.position = playerSpotPosition;
-            player.SetActive(true);
-            List<GameObject> enemyList = new List<GameObject>();
+            DisposePlayer(playerSpotPosition);
             if (isBossTile)
-            {
-                enemyList.Add(new GameObject());                                       //Boss도 구현되는 방향에 따라 가져올 예정.
-                //enemyList[0].GetComponent<BossEnemy>()
-            }
+                DisposeBoss(enemySpotPosition);
             else
+                DisposeEnemy(enemySpotPosition);
+
+        }
+
+        private void DisposePlayer(Vector3 position)
+        {
+            
+            GameObject player = new GameObject();
+            player.transform.position = position;
+            player.SetActive(true);
+
+        }
+
+        private void DisposeBoss(Vector3 position)
+        {
+            GameObject boss = ObjectPoolManager.Instance.EnemyObjectPool.PopBossObject();
+            switch (BossCount)
             {
-                for (int i = 0; i <= (int)level; i++)
-                {
-                    //ObjectPoolManager.Instance.EnemyPool[(int)tileType].Dequeue();   ObjectManager에서 리스트 큐 형식으로만 쓴다면 이렇게.
-                    //ObjectPoolManager.Instance.EnemyPool.Pop((int)tileType);         ObjectManager에서 Push(),Pop() 함수를 만든다면 이렇게.
-                }
+                case 0:
+                    boss.GetComponent<BossEnemy>().SetStatus(100, 10, false);
+                    break;
+                case 1:
+                    boss.GetComponent<BossEnemy>().SetStatus(150, 15, false);
+                    break;
+                case 2:
+                    boss.GetComponent<BossEnemy>().SetStatus(200, 25, true);
+                    break;
             }
-            for(int i = 0; i < enemyList.Count; i ++)
+            BossCount++;
+        }
+
+        private void DisposeEnemy(Vector3 position)
+        {
+            List<GameObject> enemyList = new List<GameObject>();
+            for (int i = 0; i <= (int)level; i++)
+            {
+                //ObjectPoolManager.Instance.EnemyPool[(int)tileType].Dequeue();   ObjectManager에서 리스트 큐 형식으로만 쓴다면 이렇게.
+                enemyList.Add(ObjectPoolManager.Instance.EnemyObjectPool.PopEnemyObject());
+                enemyList[i].GetComponent<NormalEnemy>().SetStatus((int)level);
+            }
+            for (int i = 0; i < enemyList.Count; i++)
             {
                 if (i == 0)
-                    enemyList[i].transform.position = enemySpotPosition;
+                    enemyList[i].transform.position = position;
                 else if (i % 2 == 1)
                 {
-                    enemySpotPosition.x += 2;
-                    enemySpotPosition.z += 2;
-                    enemyList[i].transform.position = enemySpotPosition;
-                }                
-                else if(i % 2 == 0)
+                    position.x += 2;
+                    position.z += 2;
+                    enemyList[i].transform.position = position;
+                }
+                else if (i % 2 == 0)
                 {
-                    enemySpotPosition.x = -enemySpotPosition.x;
-                    enemySpotPosition.z = -enemySpotPosition.z;
-                    enemyList[i].transform.position = enemySpotPosition;
+                    position.x = -position.x;
+                    position.z = -position.z;
+                    enemyList[i].transform.position = position;
                 }
                 enemyList[i].SetActive(true);
             }

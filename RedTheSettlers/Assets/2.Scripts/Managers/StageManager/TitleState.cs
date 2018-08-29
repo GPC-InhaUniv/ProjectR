@@ -21,12 +21,14 @@ namespace RedTheSettlers.GameSystem
         {
             if (!canLoadData)
                 DataManager.Instance.ResetData();
+            else
+                Debug.Log("현재 상태가 없습니다."); 
 
         }
 
-        public override void Enter()
+        public override void Enter(StageType stageType)
         {
-
+            
         }
 
         public override void Exit(StageType stageType)
