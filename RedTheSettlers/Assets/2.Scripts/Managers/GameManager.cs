@@ -300,9 +300,13 @@ namespace RedTheSettlers.GameSystem
         /// </summary>
         public void SetGameLog()
         {
-            Queue<string> messages = turnCtrl.SendGameLog();
-            messages =  Players[(state - GameState.AI1Turn)].GetComponent<BoardAI>().MessageQueue;
+            Queue<string> messageQueue = turnCtrl.SendGameLog();
             //UIManager.Instance.
+        }
+
+        private void SendPlayers()
+        {
+            turnCtrl.SetAIs(Players);
         }
     }
 }
