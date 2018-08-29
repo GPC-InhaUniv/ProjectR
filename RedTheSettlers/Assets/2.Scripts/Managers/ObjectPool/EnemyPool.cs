@@ -8,6 +8,7 @@ namespace RedTheSettlers.GameSystem
     {
         [SerializeField]
         private GameObject enemyObject;
+        [SerializeField]
         private GameObject bossObject;
 
         private Queue<GameObject> enemyQueue;

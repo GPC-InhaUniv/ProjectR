@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using UnityEngine.UI;
+using RedTheSettlers.GameSystem;
 
 /// <summary>
 /// 작성자 : 강다희
@@ -21,56 +22,55 @@ namespace RedTheSettlers.UI
             Skill03,
         }
 
-        public class UIAttackController : MonoBehaviour
+        [Header("Attack Button")]
+        [SerializeField]
+        private Button AttackButton;
+
+        [Header("Skill Attack Button")]
+        [SerializeField]
+        private Button SkillSlot1Button;
+
+        [SerializeField]
+        private Button SkillSlot2Button;
+
+        [SerializeField]
+        private Button SkillSlot3Button;
+
+        public void OnAttackButtonClick(AttackType attackType)
         {
-            [Header("Attack Button")]
-            [SerializeField]
-            private Button AttackButton;
+            PlayerData playerData = GameManager.Instance.gameData.PlayerData[0];
 
-            [Header("Skill Attack Button")]
-            [SerializeField]
-            private Button SkillSlot1Button;
-
-            [SerializeField]
-            private Button SkillSlot2Button;
-
-            [SerializeField]
-            private Button SkillSlot3Button;
-
-            public void OnAttackButtonClick(AttackType attackType)
+            switch (attackType)
             {
-                switch (attackType)
-                {
-                    case AttackType.Attack:
-                        {
-                            Debug.Log("Attack Click!"); //데이터 매니저에 저장되어 있는 어택 가져옴
-                        }
-                        break;
+                case AttackType.Attack:
+                    {
+                        Debug.Log("Attack Click!"); //데이터 매니저에 저장되어 있는 어택 가져옴
+                    }
+                    break;
 
-                    case AttackType.Skill01:
-                        {
-                        }
-                        break;
+                case AttackType.Skill01:
+                    {
+                    }
+                    break;
 
-                    case AttackType.Skill02:
-                        {
-                        }
-                        break;
+                case AttackType.Skill02:
+                    {
+                    }
+                    break;
 
-                    case AttackType.Skill03:
-                        {
-                        }
-                        break;
-                }
+                case AttackType.Skill03:
+                    {
+                    }
+                    break;
             }
+        }
 
-            private void Start()
-            {
-            }
+        private void Start()
+        {
+        }
 
-            private void Update()
-            {
-            }
+        private void Update()
+        {
         }
     }
 }

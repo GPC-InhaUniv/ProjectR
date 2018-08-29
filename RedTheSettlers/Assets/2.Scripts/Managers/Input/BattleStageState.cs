@@ -1,6 +1,7 @@
 ﻿using RedTheSettlers.GameSystem;
 using UnityEngine.EventSystems;
 using UnityEngine;
+using RedTheSettlers.Players;
 
 /// <summary>
 /// 담당자 : 박상원
@@ -9,6 +10,8 @@ using UnityEngine;
 /// </summary>
 public class BattleStageState : MonoBehaviour, IInputState
 {
+    private Camera battleCamera;
+    private BattlePlayer battlePlayer;
     private Vector3 skillDirection;
     private Vector3 playerDirection;
     private Vector2 startDragPosition;
@@ -25,14 +28,12 @@ public class BattleStageState : MonoBehaviour, IInputState
 
     private void Update()
     {
-        /*if (TouchMoveActive)
-        {
-            //GameManager.Instance.PlayerBattle.MoveTo(direction);
-            //TemporaryGameManager.Instance.PlayerMove(dragDirection, rotateAngle, moveSpeed);
-        }*/
+#if UNITY_ANDROID
         MultiTouchCheck();
+#endif
     }
 
+#if UNITY_ANDROID
     public void MultiTouchCheck()
     {
         if(Input.touchCount >= 2)
@@ -40,11 +41,51 @@ public class BattleStageState : MonoBehaviour, IInputState
             TouchMoveActive = true;
         }
     }
+#endif
 
-    public void MovingPlayer(Vector3 direction)
+    public void MovingPlayer(Transform player)
     {
-        //GameManager.Instance.PlayerBattle.MoveTo(direction);
-        TemporaryGameManager.Instance.PlayerMove(direction);
+        if(battleCamera == null)
+        {
+            battleCamera = GameObject.FindWithTag("BattleCamera").GetComponentInChildren<Camera>();
+        }
+        Ray rayPoint = battleCamera.ScreenPointToRay(Input.mousePosition);
+
+        RaycastHit[] hits = Physics.RaycastAll(rayPoint);
+
+        foreach (RaycastHit hit in hits)
+        {
+            if (hit.collider.gameObject.name.Contains("Plane"))
+            {
+                Vector3 targetPosition = hit.point + new Vector3(0, player.transform.position.y, 0);
+                //TemporaryGameManager.Instance.PlayerMove(targetPosition);
+                GameManager.Instance.PlayerMove(targetPosition);
+            }
+        }
+    }
+
+    public void BattleAttack()
+    {
+        //TemporaryGameManager.Instance.PlayerAttack();
+        GameManager.Instance.PlayerAttack();
+        LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, "공격");
+    }
+
+    public void UseSkill(int skillSlotNumber)
+    {
+#if UNITY_EDITOR
+        //TemporaryGameManager.Instance.PlayerSkill(skillSlotNumber);
+        GameManager.Instance.PlayerSkill(skillSlotNumber);
+        //LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, "스킬 " + skillSlotNumber + "번");
+#endif
+#if UNITY_ANDROID
+        skillDirection = Input.mousePosition;
+        LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, "스킬 방향 : " + skillDirection);
+#endif
+#if UNITY_STANDALONE_WIN
+        //TemporaryGameManager.Instance.PlayerSkill(skillSlotNumber);
+        GameManager.Instance.PlayerSkill(skillSlotNumber);
+#endif
     }
 
     public void OnStartDrag()
@@ -91,25 +132,6 @@ public class BattleStageState : MonoBehaviour, IInputState
         currentDragPosition = Vector3.zero;
         playerDirection = Vector3.zero;
         //TemporaryGameManager.Instance.PlayerMove(playerDirection, playerRotate, moveSpeed);
-#endif
-    }
-
-    public void BattleAttack()
-    {
-        LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, "공격");
-    }
-
-    public void UseSkill(int skillSlotNumber)
-    {
-#if UNITY_EDITOR
-        LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, "스킬 "+skillSlotNumber+"번");
-#endif
-#if UNITY_ANDROID
-        skillDirection = Input.mousePosition;
-        LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, "스킬 방향 : " + skillDirection);
-#endif
-#if UNITY_STANDALONE_WIN
-        LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, "스킬 " + skillSlotNumber + "번");
 #endif
     }
 

@@ -14,6 +14,7 @@ namespace RedTheSettlers.GameSystem
         public TilePool TileObjectPool;
         public EnemyPool EnemyObjectPool;
         public PlayerPool PlayerObjectPool;
+        public SkillPool SkillObjectPool;
 
         [Header("Player Skill")]
         public GameObject SkillObject;
@@ -25,11 +26,11 @@ namespace RedTheSettlers.GameSystem
         [Header("Cow Battle Event")]
         public GameObject CowPrefab;
 
-        [HideInInspector]
         public List<Queue<GameObject>> EnemyQueueList;
         public Queue<GameObject> SkillQueue;
         public Queue<EnemyFireBall> FireballQueue;
         public Queue<Explode> ExplodeQueue;
+        [HideInInspector]
         public GameObject CowObject;
 
         private void Awake()
@@ -52,7 +53,7 @@ namespace RedTheSettlers.GameSystem
             SkillQueue = new Queue<GameObject>(6);
             for (int i = 0; i < 6; i++)
             {
-                SkillQueue.Enqueue(SkillObject);
+                SkillQueue.Enqueue(Instantiate(SkillObject));
             }
 
             CowObject = Instantiate(CowPrefab);

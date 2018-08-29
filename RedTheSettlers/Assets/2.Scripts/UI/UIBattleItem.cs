@@ -58,11 +58,11 @@ namespace RedTheSettlers.UI
             MPItemBar.value = playerMP / playerMaxMP;
         }
 
-        public void OnUseItem(int ItemType)
+        public void OnUseItem(int itemType)
         {
             Color textRedColor = new Color(255, 0, 0, 255);
 
-            if (ItemType == 0)
+            if (itemType == 0)
             {
                 if (holdHPItem == 0)
                 {
@@ -72,11 +72,11 @@ namespace RedTheSettlers.UI
                 {
                     holdHPItem = holdHPItem - 1;
                     HPItem.text = holdHPItem.ToString();
-                    playerHP = playerHP + 30;
+                    playerHP = playerHP + 10;
                     SliderChanged();
                 }
             }
-            else if (ItemType == 1)
+            else if (itemType == 1)
             {
                 if (holdMPItem == 0)
                 {
@@ -86,7 +86,7 @@ namespace RedTheSettlers.UI
                 {
                     holdMPItem = holdMPItem - 1;
                     MPItem.text = holdMPItem.ToString();
-                    playerMP = playerMP + 30;
+                    playerMP = playerMP + 10;
                     SliderChanged();
                 }
             }

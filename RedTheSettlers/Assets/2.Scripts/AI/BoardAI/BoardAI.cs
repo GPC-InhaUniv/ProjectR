@@ -10,15 +10,15 @@ namespace RedTheSettlers.Users
     {
         private PriorityQueue<BoardTile> tileQueue;
         private IAIStrategy myStrategy;
+        public Queue<string> MessageQueue;
 
         private IEnumerator Start()
         {
             myStrategy = gameObject.AddComponent<SoftStrategy>();
             tileQueue = new PriorityQueue<BoardTile>();
+            MessageQueue = new Queue<string>();
 
-            yield return new WaitForSeconds(0.5f);
-
-            PossessTile(TileManager.Instance.BoardTileGrid[4, 4].GetComponent<BoardTile>());
+            yield return null;
         }
         
         public void FindOptimizedPath()
@@ -38,6 +38,8 @@ namespace RedTheSettlers.Users
                     targetTile = (targetTile.tileWeight < searchedTile.tileWeight) ? targetTile : searchedTile;
                 }
             }
+
+            MessageQueue.Enqueue("점령할 타일을 찾습니다...");
 
             PossessTile(targetTile);
         }
@@ -68,6 +70,8 @@ namespace RedTheSettlers.Users
                     boardTile.TileBorder[i].SetActive(true);
                 }
             }
+
+            MessageQueue.Enqueue(boardTile.TileType.ToString() + "타일을 점령했습니다");
         }
 
         public override void ChangeItemCount(ItemData[] itemList)

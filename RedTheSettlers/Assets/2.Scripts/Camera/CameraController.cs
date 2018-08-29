@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using RedTheSettlers.Tiles;
 
 /*
  * 카메라 컨트롤러가 해야할일
@@ -114,6 +115,15 @@ namespace RedTheSettlers.GameSystem
         public void CameraDragMoving(Vector3 direction)
         {
             ActiveCamera.MovingCamera(direction, nowCameraState);
+        }
+
+        /// <summary>
+        /// 보드타일이 선택되었을때 해당 타일을 바라보며 줌
+        /// </summary>
+        public void LookingTile(BoardTile boardTile)
+        {
+            if(ActiveCamera==BoardGameCamera)
+                ActiveCamera.Looking(boardTile.gameObject.transform);
         }
 
 

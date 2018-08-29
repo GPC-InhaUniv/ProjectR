@@ -5,6 +5,7 @@ using RedTheSettlers.Tiles;
 using RedTheSettlers.UnitTest;
 using RedTheSettlers.UI;
 using RedTheSettlers.Users;
+using RedTheSettlers.Players;
 
 namespace RedTheSettlers.GameSystem
 {
@@ -17,24 +18,36 @@ namespace RedTheSettlers.GameSystem
         public GameData gameData = DataManager.Instance.GameData;
 
         public TurnControllerTest turnCtrl;
-        public EventControllerTest eventCtrl;
-        public ItemControllerTest itemCtrl;
+        public EventChecker eventCtrl;
+        public ItemDistributor itemCtrl;
         public TradeController tradeCtrl;
         public BattleControllerTest battleCtrl;
         public CameraController cameraCtrl;
-        
+        public DifficultyController difficultyController;
+        public BattlePlayer battlePlayer;
+
         public GameState state = GameState.TurnController;
+        private Coroutine coroutineMove;
+        private Coroutine coroutineAttack;
+
+        private ItemType tileType;
+        public ItemType TileType
+        {
+            get { return TileType; }
+            set { tileType = value; }
+        }
 
         private void Start()
         {
             turnCtrl.Callback = new TurnCallback(TurnFinish);
-            eventCtrl.Callback = new EventCallback(EventFinish);
-            itemCtrl.Callback = new ItemCallback(ItemFinish);
+            //eventCtrl.Callback = new EventCallback(EventFinish);
+            //itemCtrl.Callback = new ItemCallback(ItemFinish);
             tradeCtrl.Callback = new TradeCallback(TradeFinish);
             battleCtrl.Callback = new BattleCallback(BattleFinish);
-
+            difficultyController.Callback = new BuildBattleTileCallback(BulidBattleStageFinish);
             cameraCtrl = new CameraController();
             //TileManager.Instance.InitializeTileSet();
+            battlePlayer = GameObject.FindWithTag("Player").GetComponent<BattlePlayer>();
         }
 
         //게임 매니저가 타일 매니저를 통해 타일 배치(보드, 전투)을 지시해야 한다.
@@ -54,6 +67,11 @@ namespace RedTheSettlers.GameSystem
                     break;
             }
             //GameFlow(turnCtrl.TurnFlow());
+        }
+
+        public void BulidBattleStageFinish()
+        {
+
         }
 
         private void BattleFinish()
@@ -184,7 +202,18 @@ namespace RedTheSettlers.GameSystem
         /// <returns></returns>
         public void GetClickedTile(BoardTile boardTile)
         {
-            UIManager.Instance.SendTileInfor(boardTile);
+            UIManager.Instance.SendTileInfo(boardTile);
+            cameraCtrl.LookingTile(boardTile);
+        }
+
+        /// <summary>
+        /// 배틀스테이지의 타일을 배치합니다.
+        /// </summary>
+        /// <param name="tileinfo"></param>
+        public void BulidBattleTile(BoardTile tileinfo)
+        {
+            TileType = tileinfo.TileType;
+            StartCoroutine(difficultyController.EstablishBattleStage(tileinfo, Players[0].PossessingTile));
         }
 
         /// <summary>
@@ -231,5 +260,38 @@ namespace RedTheSettlers.GameSystem
             //cameraCtrl.
         }
 
+        /// <summary>
+        /// 플레이어를 이동시킵니다.
+        /// </summary>
+        /// <param name="direction"></param>
+        public void PlayerMove(Vector3 direction)
+        {
+            if (coroutineMove == null)
+            {
+                coroutineMove = StartCoroutine(battlePlayer.MoveToTargetPostion(direction));
+            }
+            else
+            {
+                StopCoroutine(coroutineMove);
+                coroutineMove = StartCoroutine(battlePlayer.MoveToTargetPostion(direction));
+            }
+        }
+
+        /// <summary>
+        /// 플레이어의 공격을 실행합니다.
+        /// </summary>
+        public void PlayerAttack()
+        {
+            battlePlayer.AttackEnemy(10);
+        }
+
+        /// <summary>
+        /// 플레이어의 스킬을 실행합니다.
+        /// </summary>
+        /// <param name="skillNumber"></param>
+        public void PlayerSkill(int skillNumber)
+        {
+            battlePlayer.UseSkill(skillNumber);
+        }
     }
 }
