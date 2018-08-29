@@ -33,6 +33,7 @@ namespace RedTheSettlers.GameSystem
             tradeCtrl.Callback = new TradeCallback(TradeFinish);
             battleCtrl.Callback = new BattleCallback(BattleFinish);
 
+            cameraCtrl = new CameraController();
             //TileManager.Instance.InitializeTileSet();
         }
 
@@ -222,6 +223,13 @@ namespace RedTheSettlers.GameSystem
             DataManager.Instance.SaveGameData(gameData, true);
         }
 
-        
+        /// <summary>
+        /// 카메라를 전환시킵니다.
+        /// </summary>
+        public void ChangedCamera(StateType stateType)
+        {
+            //cameraCtrl.
+        }
+
     }
 }

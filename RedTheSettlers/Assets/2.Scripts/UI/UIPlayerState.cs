@@ -11,7 +11,7 @@ using UnityEngine.UI;
 
 namespace RedTheSettlers.UI
 {
-    public class UIStateController : MonoBehaviour
+    public class UIPlayerState : MonoBehaviour
     {
         [Header("Player's Total Item")]
         [SerializeField]

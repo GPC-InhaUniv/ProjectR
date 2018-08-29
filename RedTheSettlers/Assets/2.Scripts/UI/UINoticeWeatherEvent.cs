@@ -8,14 +8,12 @@ using RedTheSettlers.GameSystem;
 /// <summary>
 /// 작성자 : 강다희
 /// 플레이어의 현재 event를 노출해주는 UI스크립트
-///
-/// [중요] Turn, move, event를 Script 분리 할 것임
 /// [중요] UI Manager 스크립트에서 각 상황에 맞게 처리 할 예정
 /// </summary>
 
 namespace RedTheSettlers.UI
 {
-    public class UIWeatherEventController : MonoBehaviour
+    public class UINoticeWeatherEvent : MonoBehaviour
     {
         [Header("Player's Current Situation")]
         [SerializeField]
@@ -30,11 +28,9 @@ namespace RedTheSettlers.UI
 
         private void ChangeWeatherEvent()
         {
-            whatEvent = 0; //Test
-                           //currentTurn.text = gameData.cowcow.ToString();
-                           //이런식으로 현재 이벤트 정보, Move 정보를 gameData에서 가져와서 텍스트에 넣어줘야 함.
+            whatEvent = GameManager.Instance.gameData.InGameData.Weather;
 
-            switch (whatEvent) //gameData
+            switch (whatEvent)
             {
                 //[수정시] text 부분 enum 처리? 아니면 json으로 준명님이 만들어주시면 매개변수를 가져온다던가.
                 case 0:
