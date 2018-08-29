@@ -31,7 +31,7 @@ namespace RedTheSettlers.UI
 
 
         const int LIMITSLOT = 3;
-        private int limitCount = 0;
+        private int skillSlotNumber = 0;
 
         private void Start()
         {
@@ -45,12 +45,13 @@ namespace RedTheSettlers.UI
 
         public void AddSkill(int buttonIndex)
         {
-            if (limitCount < LIMITSLOT)
+            if (skillSlotNumber < LIMITSLOT)
             {
                 skillIcons[buttonIndex].SlotIcon.gameObject.SetActive(true);
                 skillIcons[buttonIndex].SkillIcon.interactable = false;
-                boardPlayer.SetSkillSlot(buttonIndex, limitCount);
-                limitCount++;
+                //boardPlayer.SetSkillSlot(buttonIndex, skillSlotNumber);
+                Debug.Log("버튼인덱스"+ buttonIndex + "스킬슬롯넘버"+ skillSlotNumber);
+                skillSlotNumber++;
             }
         }
 
@@ -58,7 +59,7 @@ namespace RedTheSettlers.UI
         {
             skillIcons[buttonIndex].SlotIcon.gameObject.SetActive(false);
             skillIcons[buttonIndex].SkillIcon.interactable = true;
-            limitCount--;
+            skillSlotNumber--;
         }
 
         public void CloseSkillSlot()
