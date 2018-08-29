@@ -57,13 +57,11 @@ namespace RedTheSettlers.GameSystem
             {
                 TileManager.Instance.CreateBoardTileGrid();
             }
-            else//이어하기일때
+            //이어하기일때
+            else
             {
-
+                TileManager.Instance.LoadTileGrid();
             }
-            
-
-           
         }
 
         public void StartGameFlow()
@@ -102,13 +100,14 @@ namespace RedTheSettlers.GameSystem
         {
             //전투 시작 전 세팅
             battleCtrl.AliveEnemyCount = difficultyController.GetEnemyCount();
-            ChangeGameFlow();
+            battleCtrl.ReceiveEnemysAndPlayer(difficultyController.EnemyList, difficultyController.Player);
+            battleCtrl.BattleFlow(TileType);
         }
 
         private void BattleFinish()
         {
             //전투 끝(메인으로 돌아가야 함)   
-            ChangeGameFlow();
+
         }
 
         private void ChangeGameFlow()
@@ -271,6 +270,24 @@ namespace RedTheSettlers.GameSystem
         }
 
         /// <summary>
+        /// 카메라 줌 인/아웃
+        /// </summary>
+        /// <param name="ZoomValue"></param>
+        public void CameraZoomInOut(int ZoomValue)
+        {
+            cameraCtrl.ZoomInOut(ZoomValue);
+        }
+
+        /// <summary>
+        /// 카메라 이동
+        /// </summary>
+        /// <param name="direction"></param>
+        public void CameraMoving(Vector3 direction)
+        {
+            cameraCtrl.CameraDragMoving(direction);
+        }
+
+        /// <summary>
         /// 플레이어를 이동시킵니다.
         /// </summary>
         /// <param name="direction"></param>
@@ -318,6 +335,7 @@ namespace RedTheSettlers.GameSystem
             turnCtrl.SetAIs(Players);
         }
 
+        //플레이어의 무기, 방어구 설정하는 메서드들-----
         public int GetPlayersAttackLevel(int playerNum)
         {
             return DataManager.Instance.GameData.PlayerData[playerNum].StatData.WeaponLevel;
@@ -342,5 +360,6 @@ namespace RedTheSettlers.GameSystem
         {
             return DataManager.Instance.GameData.PlayerData[playerNum].BossKillCount;
         }
+        //-----
     }
 }
