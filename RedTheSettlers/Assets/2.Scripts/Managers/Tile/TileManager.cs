@@ -60,7 +60,9 @@ namespace RedTheSettlers.GameSystem
 
                         for (int i = 0; i < 6; i++)
                         {
-                            if(BoardTileGrid[x + coordX[i], z + coordZ[i]] != null)
+                            if(BoardTileGrid[x + coordX[i], z + coordZ[i]] != null  
+                                || x + coordX[i] < 0 || x + coordX[i] >= GlobalVariables.BoardTileGridSize  
+                                || z + coordZ[i] < 0 || z + coordZ[i] >= GlobalVariables.BoardTileGridSize)
                             {
                                 BoardTile targetBoardTile = BoardTileGrid[x + coordX[i], z + coordZ[i]].GetComponent<BoardTile>();
                                 if (targetBoardTile.tileOwner != TileOwner.None)
