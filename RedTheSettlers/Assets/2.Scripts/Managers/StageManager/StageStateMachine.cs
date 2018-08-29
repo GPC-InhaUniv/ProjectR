@@ -35,11 +35,35 @@ namespace RedTheSettlers.GameSystem
 
         public void Enter(StageType stageType)
         {
-            if (currentState != null) currentState.Enter(stageType);
+            switch (stageType)
+            {
+                case StageType.BattleStageState:
+                    currentState = new BattleState();
+                    break;
+                case StageType.BoardScene:
+                    currentState = new MainState();
+                    break;
+                case StageType.LoadingScene:
+                    currentState = new LoadingState();
+                    break;
+                case StageType.TitleScene:
+                    currentState = new TitleState();
+                    break;
+                case StageType.TutorialStageState:
+                    currentState = new TutorialState();
+                    break;
+                default:
+                    break;
+            }
+            if (currentState != null)
+            {
+                Debug.Log("상태머신에서 엔터" + stageType);
+                currentState.Enter(stageType);
+            }
             else
-                LogManager.Instance.UserDebug(LogColor.Navy,"StageStateMachine", "현재 상태가 없습니다.");              
+                LogManager.Instance.UserDebug(LogColor.Navy, "StageStateMachine", "현재 상태가 없습니다.");
         }
-               
+
         public void Exit(StageType stageType)
         {
             if (currentState != null) currentState.Exit(stageType);

@@ -16,27 +16,25 @@ namespace RedTheSettlers.GameSystem
 {
     class TitleState : State
     {
-
         public override void ContinueGame(bool canLoadData)
         {
             if (!canLoadData)
+            {
                 DataManager.Instance.ResetData();
+            }
             else
-                Debug.Log("현재 상태가 없습니다."); 
-
+                Debug.Log("현재 상태가 없습니다.");
         }
 
         public override void Enter(StageType stageType)
         {
-            
+            Debug.Log("뭐하냐");
         }
 
         public override void Exit(StageType stageType)
         {
-            StageManager.Instance.ChangeStage(StageType.LoadingStageState);
+            StageManager.Instance.StartCoroutine(StageManager.Instance.ChangeStageLoad(StageType.LoadingScene));
         }
-
     }
-
 }
 

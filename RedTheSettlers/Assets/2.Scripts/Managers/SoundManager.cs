@@ -16,6 +16,7 @@ namespace RedTheSettlers.GameSystem
     [SerializeField]
     public class SoundManager : Singleton<SoundManager>
     {
+        protected SoundManager() { }
         //[SerializeField]
         //public int BGMsClipSize;
         //public int SFXsClipSize;
@@ -46,8 +47,9 @@ namespace RedTheSettlers.GameSystem
 
         private void Awake()
         {
+            DontDestroyOnLoad(gameObject);
             //클립수 초기화
-            if(8 < BGMs.Length)
+            if (8 < BGMs.Length)
             {
                 AudioClip[] newBGMs = new AudioClip[8];
                 for (int i = 0; i < newBGMs.Length; i++)
@@ -159,7 +161,7 @@ namespace RedTheSettlers.GameSystem
         /// <param name="name"></param>
         /// <param name="loop"></param>
         /// <param name="volume"></param>
-        public void PlaySFX(string name, bool loop, float volume = 1)//효과음 재생 (필요한것_클립이름,루프할것인지,볼륨크기)
+        public void PlaySFX(string name, bool loop)//효과음 재생 (필요한것_클립이름,루프할것인지,볼륨크기)
         {
             for (int i = 0; i < SFXs.Length; i++)
             {
@@ -167,7 +169,7 @@ namespace RedTheSettlers.GameSystem
                 {
                     AudioSource a = GetEmptySource();
                     a.loop = loop;
-                    a.pitch = volume;
+                    a.pitch = SFXvolume;
                     a.clip = SFXs[i];
                     a.Play();
                     return;
