@@ -98,5 +98,10 @@ namespace RedTheSettlers.UI
             selectTileUI.SetActive(true);
             selectTileUI.GetComponentInChildren<UISelectTile>().SetSelectTileInfo(selectionTile);
         }
+
+        public void SendBattleTileInfo(BoardTile tileInfo)
+        {
+            GameManager.Instance.BulidBattleTile(tileInfo);
+        }
     }
 }

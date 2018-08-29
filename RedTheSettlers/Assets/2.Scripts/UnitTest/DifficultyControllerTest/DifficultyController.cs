@@ -9,18 +9,24 @@ using UnityEngine;
 
 namespace RedTheSettlers.GameSystem
 {
+    public enum BattleLevel
+    {
+        Level1 = 0,
+        Level2 = 1,
+        Level3 = 2,
+    }
     /// <summary>
     /// 작성자 : 박준명
     /// </summary>
     public class DifficultyController : MonoBehaviour
     {
-        private BattleLevel level;
+        private BattleLevel battlelevel;
         private ItemType tileType;
         private int BossCount;
 
         private IEnumerator SendBattleLevel()
         {
-            TileManager.Instance.CreateBattleTileGrid(tileType, (int)level);
+            TileManager.Instance.CreateBattleTileGrid(tileType, (int)battlelevel);
             yield return null;
         }      
         
@@ -41,26 +47,34 @@ namespace RedTheSettlers.GameSystem
         {
             tileType = selectionTile.TileType;
             int count = 0;
-            for (int i = 0; i < PossessingTileList.Count; i++)
+            if (selectionTile.TileLevel == 0)
             {
-                if (PossessingTileList[i].TileType == selectionTile.TileType)
-                    count++;
-            }
-            if (count < 2)
-            {
-                level = BattleLevel.Level1;
-                LogManager.Instance.UserDebug(LogColor.Magenta, GetType().Name, "Level1으로 설정");
-            }
-            else if (count == 2 || count == 3)
-            {
-                level = BattleLevel.Level2;
-                LogManager.Instance.UserDebug(LogColor.Magenta, GetType().Name, "Level2으로 설정");
+                for (int i = 0; i < PossessingTileList.Count; i++)
+                {
+                    if (PossessingTileList[i].TileType == tileType)
+                        count++;
+                }
+                if (count < 2)
+                {
+                    battlelevel = BattleLevel.Level1;
+                    LogManager.Instance.UserDebug(LogColor.Magenta, GetType().Name, "Level1으로 설정");
+                }
+                else if (count == 2 || count == 3)
+                {
+                    battlelevel = BattleLevel.Level2;
+                    LogManager.Instance.UserDebug(LogColor.Magenta, GetType().Name, "Level2으로 설정");
+                }
+                else
+                {
+                    battlelevel = BattleLevel.Level3;
+                    LogManager.Instance.UserDebug(LogColor.Magenta, GetType().Name, "Level3으로 설정");
+                }
             }
             else
             {
-                level = BattleLevel.Level3;
-                LogManager.Instance.UserDebug(LogColor.Magenta, GetType().Name, "Level3으로 설정");
+                battlelevel = (BattleLevel)selectionTile.TileLevel;
             }
+            
         }
 
         private void DisposePlayerAndEnemy(bool isBossTile)
@@ -113,11 +127,11 @@ namespace RedTheSettlers.GameSystem
         private void DisposeEnemy(Vector3 position)
         {
             List<GameObject> enemyList = new List<GameObject>();
-            for (int i = 0; i <= (int)level; i++)
+            for (int i = 0; i <= (int)battlelevel; i++)
             {
                 //ObjectPoolManager.Instance.EnemyPool[(int)tileType].Dequeue();   ObjectManager에서 리스트 큐 형식으로만 쓴다면 이렇게.
                 enemyList.Add(ObjectPoolManager.Instance.EnemyObjectPool.PopEnemyObject());
-                enemyList[i].GetComponent<NormalEnemy>().SetStatus((int)level);
+                enemyList[i].GetComponent<NormalEnemy>().SetStatus((int)battlelevel);
             }
             for (int i = 0; i < enemyList.Count; i++)
             {

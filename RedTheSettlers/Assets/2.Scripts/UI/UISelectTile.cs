@@ -75,12 +75,20 @@ namespace RedTheSettlers.UI
         [Header("Current Tile Event Button")]
         [SerializeField]
         private GameObject[] tileActionButton;
-
-        [Header("Player Information")]
-        private int selectTileOwner;
-
-        private int selectTileProperties;
-        private int selectTileItemLevel;
+       
+        private BoardTile boardTile;
+        private int selectTileItemLevel
+        {
+            get
+            {
+                if (selectTileItemLevel == 0)
+                    return 1;
+                else
+                    return selectTileItemLevel;
+            }
+            set
+            { selectTileItemLevel = value; }
+        }
         private int playerUpgradeItemCost;
 
         private void Start()
@@ -95,6 +103,9 @@ namespace RedTheSettlers.UI
 
         private void CheckTilePossession()
         {
+            int selectTileProperties = (int)boardTile.TileType;
+            int selectTileOwner = (int)boardTile.tileOwner;
+
             if (selectTileOwner == 0) //플레이어 타일
             {
                 tileOwnerImage.tilePlayerImage.SetActive(true);
@@ -111,8 +122,6 @@ namespace RedTheSettlers.UI
                         break;
                     }
                 }
-
-                tileItemExplain.text = "";
             }
             else if (selectTileOwner == 1) //AI1 타일
             {
@@ -138,7 +147,7 @@ namespace RedTheSettlers.UI
 
         private void CheckTileProperties()
         {
-            switch (selectTileProperties) //소,물,밀,나무,철,흙
+            switch ((int)boardTile.TileType) //소,물,밀,나무,철,흙
             {
                 case 0:
                     {
@@ -204,8 +213,7 @@ namespace RedTheSettlers.UI
 
         public void SetSelectTileInfo(BoardTile selectionTile)
         {
-            selectTileProperties = (int)selectionTile.TileType;
-            selectTileOwner = (int)selectionTile.tileOwner;
+            boardTile = selectionTile;
             selectTileItemLevel = selectionTile.TileLevel;
         }
 
@@ -214,7 +222,13 @@ namespace RedTheSettlers.UI
             CheckTilePossession();
             CheckTileProperties();
 
+
             tileItemLevel.text = "Lv." + selectTileItemLevel.ToString();
+        }
+
+        public void OnClickedBattleStartButton()
+        {
+            UIManager.Instance.SendBattleTileInfo(boardTile);
         }
 
         public void OnUpgradeButton()

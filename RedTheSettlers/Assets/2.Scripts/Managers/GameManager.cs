@@ -193,6 +193,11 @@ namespace RedTheSettlers.GameSystem
             UIManager.Instance.SendTileInfo(boardTile);
         }
 
+        public void BulidBattleTile(BoardTile tileinfo)
+        {
+            StartCoroutine(difficultyController.EstablishBattleStage(tileinfo, Players[0].PossessingTile));
+        }
+
         /// <summary>
         /// 선택된 날씨 정보를 UI로 전달합니다.
         /// </summary>
