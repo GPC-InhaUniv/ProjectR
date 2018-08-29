@@ -89,6 +89,7 @@ namespace RedTheSettlers.GameSystem
             inputState.OnDropSlot();
         }
 
+        // PC에서의 입력
         private void PcInput()
         {
             if (enableInputBattleStage)
@@ -110,19 +111,19 @@ namespace RedTheSettlers.GameSystem
                 else if (Input.GetKey(KeyCode.RightArrow))
                 {
                     moveDirection += Vector3.right;
-                }*/
+                }*/                
 
-                
-
+                // 좌클릭 캐릭터 이동
                 if (Input.GetMouseButton(0))
                 {
                     inputState.MovingPlayer(player);
                 }
-
+                // 우클릭 기본 공격
                 if (Input.GetMouseButtonUp(1))
                 {
                     inputState.BattleAttack();
                 }
+                // Q,W,E 스킬
                 if (Input.GetKeyDown(KeyCode.Q))
                 {
                     inputState.UseSkill((int)SkillSlot.SkillSlotA);

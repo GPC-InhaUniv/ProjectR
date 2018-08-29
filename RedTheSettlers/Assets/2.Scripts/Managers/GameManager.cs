@@ -5,6 +5,7 @@ using RedTheSettlers.Tiles;
 using RedTheSettlers.UnitTest;
 using RedTheSettlers.UI;
 using RedTheSettlers.Users;
+using RedTheSettlers.Players;
 
 namespace RedTheSettlers.GameSystem
 {
@@ -23,8 +24,11 @@ namespace RedTheSettlers.GameSystem
         public BattleControllerTest battleCtrl;
         public CameraController cameraCtrl;
         public DifficultyController difficultyController;
-        
+        public BattlePlayer battlePlayer;
+
         public GameState state = GameState.TurnController;
+        private Coroutine coroutineMove;
+        private Coroutine coroutineAttack;
 
         private void Start()
         {
@@ -36,6 +40,7 @@ namespace RedTheSettlers.GameSystem
 
             cameraCtrl = new CameraController();
             //TileManager.Instance.InitializeTileSet();
+            BattlePlayer = GameObject.FindWithTag("Player").GetComponent<BattlePlayer>();
         }
 
         //게임 매니저가 타일 매니저를 통해 타일 배치(보드, 전투)을 지시해야 한다.
@@ -247,5 +252,27 @@ namespace RedTheSettlers.GameSystem
             //cameraCtrl.
         }
 
+        public void PlayerMove(Vector3 direction)
+        {
+            if (coroutineMove == null)
+            {
+                coroutineMove = StartCoroutine(battlePlayer.MoveToTargetPostion(direction));
+            }
+            else
+            {
+                StopCoroutine(coroutineMove);
+                coroutineMove = StartCoroutine(battlePlayer.MoveToTargetPostion(direction));
+            }
+        }
+
+        public void PlayerAttack()
+        {
+            battlePlayer.AttackEnemy(10);
+        }
+
+        public void PlayerSkill(int skillNumber)
+        {
+            battlePlayer.UseSkill(skillNumber);
+        }
     }
 }

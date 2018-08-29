@@ -58,38 +58,33 @@ public class BattleStageState : MonoBehaviour, IInputState
             if (hit.collider.gameObject.name.Contains("Plane"))
             {
                 Vector3 targetPosition = hit.point + new Vector3(0, player.transform.position.y, 0);
-                TemporaryGameManager.Instance.PlayerMove(targetPosition);
+                //TemporaryGameManager.Instance.PlayerMove(targetPosition);
+                GameManager.Instance.PlayerMove(targetPosition);
             }
         }
-
-        /*Ray ray = battleCamera.ScreenPointToRay(Input.mousePosition);
-
-        RaycastHit rayHit;
-        if (Physics.Raycast(ray, out rayHit, Mathf.Infinity))
-        {
-            Vector3 targetDistance = (rayHit.transform.position - player.transform.position).normalized;
-            //inputState.MovingPlayer(targetDistance);
-        }*/
     }
 
     public void BattleAttack()
     {
-        TemporaryGameManager.Instance.PlayerAttack();
+        //TemporaryGameManager.Instance.PlayerAttack();
+        GameManager.Instance.PlayerAttack();
         LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, "공격");
     }
 
     public void UseSkill(int skillSlotNumber)
     {
 #if UNITY_EDITOR
-        TemporaryGameManager.Instance.PlayerSkill(skillSlotNumber);
-        LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, "스킬 " + skillSlotNumber + "번");
+        //TemporaryGameManager.Instance.PlayerSkill(skillSlotNumber);
+        GameManager.Instance.PlayerSkill(skillSlotNumber);
+        //LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, "스킬 " + skillSlotNumber + "번");
 #endif
 #if UNITY_ANDROID
         skillDirection = Input.mousePosition;
         LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, "스킬 방향 : " + skillDirection);
 #endif
 #if UNITY_STANDALONE_WIN
-
+        //TemporaryGameManager.Instance.PlayerSkill(skillSlotNumber);
+        GameManager.Instance.PlayerSkill(skillSlotNumber);
 #endif
     }
 
