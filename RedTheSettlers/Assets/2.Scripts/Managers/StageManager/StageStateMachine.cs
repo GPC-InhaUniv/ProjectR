@@ -28,18 +28,38 @@ namespace RedTheSettlers.GameSystem
 
         public void ContinueGame(bool canLoadData)
         {
-            if (currentState != null)
-            {
-                currentState.ContinueGame(canLoadData);
-                LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, "와이 널" + currentState.GetType());
-            }
+            if (currentState != null) currentState.ContinueGame(canLoadData);
             else
                 LogManager.Instance.UserDebug(LogColor.Navy, "StageStateMachine", "현재 상태가 없습니다.");
         }
 
         public void Enter(StageType stageType)
         {
-            if (currentState != null) currentState.Enter(stageType);
+            switch (stageType)
+            {
+                case StageType.BattleStageState:
+                    currentState = new BattleState();
+                    break;
+                case StageType.BoardScene:
+                    currentState = new MainState();
+                    break;
+                case StageType.LoadingScene:
+                    currentState = new LoadingState();
+                    break;
+                case StageType.TitleScene:
+                    currentState = new TitleState();
+                    break;
+                case StageType.TutorialStageState:
+                    currentState = new TutorialState();
+                    break;
+                default:
+                    break;
+            }
+            if (currentState != null)
+            {
+                Debug.Log("상태머신에서 엔터" + stageType);
+                currentState.Enter(stageType);
+            }
             else
                 LogManager.Instance.UserDebug(LogColor.Navy, "StageStateMachine", "현재 상태가 없습니다.");
         }
@@ -52,3 +72,4 @@ namespace RedTheSettlers.GameSystem
         }
     }
 }
+

@@ -4,20 +4,33 @@ using System.Collections.Generic;
 
 namespace RedTheSettlers.UnitTest
 {
+    public delegate void BattleFinishCallback();
+    public delegate void EnemyDeadCallback();
+
     public class BattleControllerTest2 : MonoBehaviour
     {
         private float cattleResawnTime = 5; // test용
-        private List<GameObject> enemyList;
-        private GameObject player;
-
         //////   테스트용 변수 ////////////////
 
+        private List<GameObject> enemyList;
+        private GameObject player;
         private GameTimer cattlesTimer;
 
-        [SerializeField]
-        private int aliveEnemyCount; // 어디에서 받아와야하지? 
-        public int AliveEnemyCount { set { aliveEnemyCount = value; } }
         //private float cattleResawnTime = 100; // second
+
+        private BattleFinishCallback _callback;
+        public BattleFinishCallback Callback
+        {
+            get { return _callback; }
+            set { _callback = value; }
+        }
+
+        private EnemyDeadCallback enemyDeadCallback;
+        public EnemyDeadCallback EnemyDeadCallback
+        {
+            get { return enemyDeadCallback; }
+            set { enemyDeadCallback = value; }
+        }
 
         private void Start()
         {
@@ -42,7 +55,7 @@ namespace RedTheSettlers.UnitTest
                 cattlesTimer.StartTimer();
             }
 
-            if (aliveEnemyCount == 0) BattleClear();
+            if (enemyList.Count == 0) BattleClear();
         }
 
         // 일정 시간마다 소 떼가 등장한다.
@@ -77,12 +90,12 @@ namespace RedTheSettlers.UnitTest
 
         private void EnemyDead()
         {
-            if (aliveEnemyCount > 0)
+            if (enemyList.Count > 0)
             {
-                aliveEnemyCount--;
-                LogManager.Instance.UserDebug(LogColor.Orange, GetType().ToString(), "Enemy Dead! 남은 Enemy : " + aliveEnemyCount);
+                //aliveEnemyCount--;
+                //LogManager.Instance.UserDebug(LogColor.Orange, GetType().ToString(), "Enemy Dead! 남은 Enemy : " + aliveEnemyCount);
             }
-            else // aliveEnemyCount == 0
+            else // enemyList.Count == 0
             {
                 LogManager.Instance.UserDebug(LogColor.Orange, GetType().ToString(), "전투 승리!");
             }

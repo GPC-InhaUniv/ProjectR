@@ -53,12 +53,6 @@ namespace RedTheSettlers.UI
 
         private int computeItemCount;
 
-        private void OnEnable()
-        {
-            PutItemCount(); //UIManager에서 각 state, equip, selectTile에서 요 두개를 실행시켜줘야 함.
-            ComputeTotalItem();
-        }
-
         private void PutItemCount()
         {
             PlayerData playerData = GameManager.Instance.gameData.PlayerData[0];
@@ -80,6 +74,20 @@ namespace RedTheSettlers.UI
 
             totalItemBar.value = computeItemCount / cardmaxNumber;
             LogManager.Instance.UserDebug(LogColor.Olive, GetType().Name, "현재 소지한 자원 합 : " + playerTotalItem.text);
+        }
+
+        private void OnEnable()
+        {
+            PutItemCount(); //UIManager에서 각 state, equip, selectTile에서 요 두개를 실행시켜줘야 함.
+            ComputeTotalItem();
+        }
+
+        private void Start()
+        {
+        }
+
+        private void Update()
+        {
         }
     }
 }

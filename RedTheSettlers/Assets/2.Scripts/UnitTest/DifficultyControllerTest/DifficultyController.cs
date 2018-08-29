@@ -26,6 +26,7 @@ namespace RedTheSettlers.GameSystem
         private BattleLevel battlelevel;
         private ItemType tileType;
         private int BossCount;
+
         public List<GameObject> EnemyList
         {
             get { return EnemyList; }
@@ -114,11 +115,9 @@ namespace RedTheSettlers.GameSystem
 
         private void DisposePlayer(Vector3 position)
         {
-
             Player = ObjectPoolManager.Instance.PlayerObjectPool.GetPlayerObject();
             Player.transform.position = position;
             Player.SetActive(true);
-
         }
 
         private void DisposeBoss(Vector3 position)
@@ -169,7 +168,6 @@ namespace RedTheSettlers.GameSystem
             }
         }
 
- 
         /*
         DifficultyController가 해야할 일.
         1. 소유 타일에 따라 정해진 난이도를 타일 매니저에 보내줌.

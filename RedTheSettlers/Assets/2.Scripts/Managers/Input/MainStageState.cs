@@ -14,6 +14,7 @@ public class MainStageState : MonoBehaviour, IInputState
     private Vector3 firstClick;
     private Vector3 dragPosition;
     private Vector3 dragDirection;
+    private Coordinate saveCoordinate;
     private BoardTile tileInformation;
     private float cameraZoom;
     private float touchDistance;
@@ -22,24 +23,31 @@ public class MainStageState : MonoBehaviour, IInputState
     private const int reversValue = -1;
     private const int touchMaxCount = 2;
 
-    /*public void TouchOrClickButton(InputButtonType inputButtonType)
+    public void TileInfo()
     {
-        switch (inputButtonType)
+        if (boardCamera == null)
         {
-            case InputButtonType.Battle:
-                break;
-            case InputButtonType.Trade:
-                break;
-            case InputButtonType.TurnEnd:
-                break;
-            case InputButtonType.Status:
-                break;
-            case InputButtonType.Map:
-                break;
-            case InputButtonType.EquipAndSkill:
-                break;
+            boardCamera = GameObject.FindWithTag("BoardCamera").GetComponentInChildren<Camera>();
         }
-    }*/
+        if (Input.GetMouseButtonUp(1))
+        {
+            Ray rayPoint = boardCamera.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hitPoint;
+
+            if (Physics.Raycast(rayPoint, out hitPoint, Mathf.Infinity))
+            {
+                if(hitPoint.collider.CompareTag("Tile"))
+                {
+                    tileInformation = hitPoint.collider.gameObject.GetComponent<BoardTile>();
+                    GameManager.Instance.GetClickedTile(tileInformation);
+                }
+                else if(!hitPoint.collider.CompareTag("Tile"))
+                {
+                    LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, "타일 정보를 찾을 수 없습니다.");
+                }
+            }
+        }
+    }
 
     public void OnStartDrag()
     {
@@ -50,7 +58,8 @@ public class MainStageState : MonoBehaviour, IInputState
     {
         dragPosition = Input.mousePosition;
         dragDirection = (((dragPosition - firstClick).normalized * speed) * reversValue) * Time.deltaTime;
-        TemporaryGameManager.Instance.CameraMove(dragDirection);
+        //TemporaryGameManager.Instance.CameraMove(dragDirection);
+        GameManager.Instance.CameraMoving(dragDirection);
     }
 
     public void EndStopDrag()
@@ -66,30 +75,34 @@ public class MainStageState : MonoBehaviour, IInputState
         if (Input.GetAxis("Mouse ScrollWheel") * reversValue < 0)
         {
             cameraZoom = (Input.GetAxis("Mouse ScrollWheel") * speed) * reversValue;
-            TemporaryGameManager.Instance.CameraZoom(cameraZoom);
+            //TemporaryGameManager.Instance.CameraZoom(cameraZoom);
+            GameManager.Instance.CameraZoomInOut(cameraZoom);
         }
         else if (Input.GetAxis("Mouse ScrollWheel") * reversValue > 0)
         {
             cameraZoom = (Input.GetAxis("Mouse ScrollWheel") * speed) * reversValue;
-            TemporaryGameManager.Instance.CameraZoom(cameraZoom);
+            //TemporaryGameManager.Instance.CameraZoom(cameraZoom);
+            GameManager.Instance.CameraZoomInOut(cameraZoom);
         }
-        #endif
+#endif
 
-        #if UNITY_STANDALONE_WIN
+#if UNITY_STANDALONE_WIN
         if (Input.GetAxis("Mouse ScrollWheel") * reversValue < 0)
         {
             cameraZoom = (Input.GetAxis("Mouse ScrollWheel") * speed) * reversValue;
-            TemporaryGameManager.Instance.CameraZoom(cameraZoom);
+            //TemporaryGameManager.Instance.CameraZoom(cameraZoom);
+            GameManager.Instance.CameraZoomInOut(cameraZoom);
         }
         else if (Input.GetAxis("Mouse ScrollWheel") * reversValue > 0)
         {
             cameraZoom = (Input.GetAxis("Mouse ScrollWheel") * speed) * reversValue;
-            TemporaryGameManager.Instance.CameraZoom(cameraZoom);
+            //TemporaryGameManager.Instance.CameraZoom(cameraZoom);
+            GameManager.Instance.CameraZoomInOut(cameraZoom);
         }
-        #endif
+#endif
 
         // 모바일 줌인,아웃 구현부 테스트 필요 미완성
-        #if UNITY_ANDROID
+#if UNITY_ANDROID
         if (Input.touchCount == touchMaxCount)
         {
             Touch firstTouchPoint = Input.GetTouch(0);
@@ -114,31 +127,7 @@ public class MainStageState : MonoBehaviour, IInputState
             TemporaryGameManager.Instance.CameraZoom(Length - prevLength);
             prevLength = Length;*/
         }
-        #endif
-    }
-
-    public void TileInfo()
-    {
-        if(boardCamera == null)
-        {
-            boardCamera = GameObject.FindWithTag("BoardCamera").GetComponentInChildren<Camera>();
-        }
-        if (Input.GetMouseButtonUp(1))
-        {
-            Ray rayPoint = boardCamera.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hitPoint;
-
-            if (Physics.Raycast(rayPoint, out hitPoint, Mathf.Infinity))
-            {
-                tileInformation = hitPoint.collider.gameObject.GetComponent<BoardTile>();
-                LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, "타일 정보 : " + tileInformation.TileType);
-                GameManager.Instance.GetClickedTile(tileInformation);
-            }
-            else if(tileInformation == null)
-            {
-                LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, "타일 정보를 찾을 수 없습니다.");
-            }
-        }
+#endif
     }
 
     // 이 밑으로 해당 클래스에서는 사용하지 않음.
@@ -169,17 +158,17 @@ public class MainStageState : MonoBehaviour, IInputState
         throw new System.NotImplementedException();
     }
 
-    public void MovingPlayer(Transform player)
-    {
-        throw new System.NotImplementedException();
-    }
-
     public void BattleAttack()
     {
         throw new System.NotImplementedException();
     }
 
     public void UseSkill(int skillSlotNumber)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void MovingPlayer(Transform player)
     {
         throw new System.NotImplementedException();
     }

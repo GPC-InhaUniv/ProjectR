@@ -23,7 +23,7 @@ namespace RedTheSettlers.UnitTest
         private FlowFinishCallback _callback;
         public FlowFinishCallback Callback
         {
-            get{ return _callback; }
+            get { return _callback; }
             set { _callback = value; }
         }
 

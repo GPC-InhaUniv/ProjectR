@@ -75,9 +75,8 @@ namespace RedTheSettlers.UI
         [Header("Current Tile Event Button")]
         [SerializeField]
         private GameObject[] tileActionButton;
-
+       
         private BoardTile boardTile;
-
         private int selectTileItemLevel
         {
             get
@@ -90,13 +89,16 @@ namespace RedTheSettlers.UI
             set
             { selectTileItemLevel = value; }
         }
-
         private int playerUpgradeItemCost;
-        private int playerHoldItemCount;
 
-        private void OnEnable()
+        private void Start()
         {
             OnTileInformation();
+        }
+
+        // Update is called once per frame
+        private void Update()
+        {
         }
 
         private void CheckTilePossession()
@@ -116,7 +118,7 @@ namespace RedTheSettlers.UI
                     {
                         upgradeItemImages[i].image.SetActive(true);
                         playerUpgradeItemCost = selectTileItemLevel * 3;
-                        UpgradeItemCost.text = "- " + playerUpgradeItemCost.ToString();
+                        UpgradeItemCost.text = playerUpgradeItemCost.ToString();
                         break;
                     }
                 }
@@ -220,6 +222,7 @@ namespace RedTheSettlers.UI
             CheckTilePossession();
             CheckTileProperties();
 
+
             tileItemLevel.text = "Lv." + selectTileItemLevel.ToString();
         }
 
@@ -230,24 +233,7 @@ namespace RedTheSettlers.UI
 
         public void OnUpgradeButton()
         {
-            playerHoldItemCount = GameManager.Instance.gameData.PlayerData[0].ItemList[(int)boardTile.TileType].Count;
-
-            if (playerHoldItemCount == 0)
-            {
-                UpgradeItemCost.color = new Color32(255, 0, 0, 255);
-            }
-            else
-            {
-                playerHoldItemCount = playerHoldItemCount - 1;
-                selectTileItemLevel = selectTileItemLevel + 1;
-                playerUpgradeItemCost = selectTileItemLevel * 3;
-                UpgradeItemCost.text = "- " + playerUpgradeItemCost.ToString();
-            }
-        }
-
-        public void OnCloseButton()
-        {
-            //버튼 꺼졌다고 게임 매니저쪽에 전달해 줘야댐!! 왜냐면 카메라 뷰가 바뀌기 때무네!! 준명님 도와조
+            //갖고 있는 카드 개수 차감해주고... 플레이어 소지 카드가 많거나 적을 때 if처리
         }
     }
 }
