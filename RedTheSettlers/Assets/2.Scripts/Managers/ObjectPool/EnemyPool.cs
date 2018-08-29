@@ -6,21 +6,46 @@ namespace RedTheSettlers.GameSystem
 {
     public class EnemyPool : MonoBehaviour
     {
-        private Queue<GameObject> EnemyQueue;
+        [SerializeField]
+        private GameObject enemyObject;
+        private GameObject bossObject;
 
-        private void Start()
+        private Queue<GameObject> enemyQueue;
+        private Queue<GameObject> bossQueue;
+
+        private void Awake()
         {
-            EnemyQueue = new Queue<GameObject>(6);
+            enemyQueue = new Queue<GameObject>(6);
+            bossQueue = new Queue<GameObject>(2);
+
+            for(int i = 0; i < enemyQueue.Count; i++)
+            {
+                PushEnemyObject(enemyObject);
+            }
+            for (int i = 0; i < enemyQueue.Count; i++)
+            {
+                PushBossObject(bossObject);
+            }
         }
 
         public GameObject PopEnemyObject()
         {
-            return EnemyQueue.Dequeue();
+            return enemyQueue.Dequeue();
         }
 
         public void PushEnemyObject(GameObject enemy)
         {
-            EnemyQueue.Enqueue(enemy);
+            enemyQueue.Enqueue(enemy);
+        }
+
+        public GameObject PopBossObject()
+        {
+            return bossQueue.Dequeue();
+        }
+
+        public void PushBossObject(GameObject boss)
+        {
+            bossQueue.Enqueue(boss);
         }
     }
 }

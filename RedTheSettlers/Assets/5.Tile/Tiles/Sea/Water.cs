@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using RedTheSettlers.GameSystem;
 
 namespace UnityStandardAssets.Water
 {
@@ -392,6 +393,21 @@ namespace UnityStandardAssets.Water
             reflectionMat.m31 = 0F;
             reflectionMat.m32 = 0F;
             reflectionMat.m33 = 1F;
+        }
+
+        private void OnCollisionEnter(Collision collision)
+        {
+            if(!collision.gameObject.CompareTag(GlobalVariables.TAG_TILE))
+            {
+                if(collision.gameObject.transform.parent.childCount < 2)
+                {
+                    Destroy(collision.gameObject.transform.parent.gameObject);
+                }
+                else
+                {
+                    Destroy(collision.gameObject);
+                }
+            }
         }
     }
 }
