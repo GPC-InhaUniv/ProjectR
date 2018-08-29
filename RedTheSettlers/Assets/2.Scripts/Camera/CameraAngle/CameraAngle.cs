@@ -33,7 +33,7 @@ namespace RedTheSettlers.GameSystem
         {
             //보드에서 타겟이 있으면 그쪽을 보면서 이동까지 해줘야함
             Debug.Log("룩엣메뉴얼");
-            if(isWark == false && target == null)
+            if(isWark == false)
             {
                 Vector3 newPos = target + cameraOffset;
                 cameraObject.transform.position = Vector3.Slerp(cameraObject.transform.position, newPos, smooth);

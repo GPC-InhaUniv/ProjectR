@@ -10,7 +10,7 @@ namespace RedTheSettlers.GameSystem
     /// 담당자 : 정진영
     /// ++++++사용법++++++
     /// 1. BGM변경 SoundManager.Instance.ChangeBGM("bgm_board_field",true); //클립이름,부드럽게 전환할것인가
-    /// 2. SFX재생 SoundManager.Instance.PlaySFX("CampFire"); //클립이름
+    /// 2. SFX재생 SoundManager.Instance.PlaySFX("CampFire",false); //클립이름, 루프들 돌릴것인가
     /// 3. SFX정지 SoundManager.Instance.StopSFXByName("CampFire"); //클립이름
     /// </summary>
     [SerializeField]

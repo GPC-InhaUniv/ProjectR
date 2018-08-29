@@ -29,11 +29,7 @@ namespace RedTheSettlers.GameSystem
 
         public void ContinueGame(bool canLoadData)
         {
-            if (currentState != null)
-            {
-                currentState.ContinueGame(canLoadData);
-                LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, "와이 널" + currentState.GetType());
-            }
+            if (currentState != null) currentState.ContinueGame(canLoadData);
             else
                 LogManager.Instance.UserDebug(LogColor.Navy, "StageStateMachine", "현재 상태가 없습니다.");
         }
@@ -66,9 +62,9 @@ namespace RedTheSettlers.GameSystem
                 currentState.Enter(stageType);
             }
             else
-                LogManager.Instance.UserDebug(LogColor.Navy, "StageStateMachine", "현재 상태가 없습니다.");
+                LogManager.Instance.UserDebug(LogColor.Navy,"StageStateMachine", "현재 상태가 없습니다.");              
         }
-
+               
         public void Exit(StageType stageType)
         {
             if (currentState != null) currentState.Exit(stageType);
@@ -77,3 +73,4 @@ namespace RedTheSettlers.GameSystem
         }
     }
 }
+
