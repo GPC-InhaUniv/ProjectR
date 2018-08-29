@@ -30,6 +30,8 @@ namespace RedTheSettlers.UnitTest
                 cattlesTimer = GameTimeManager.Instance.PopTimer();
                 cattlesTimer.SetTimer(cattleResawnTime, true);
                 //cattlesTimer.Callback = new TimerCallback(SpawnHerdOfCattles);
+
+
                 cattlesTimer.Callback = new TimerCallback(SpawnCattleTest); // 테스트용
 
                 cattlesTimer.StartTimer();

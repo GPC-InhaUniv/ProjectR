@@ -30,6 +30,13 @@ namespace RedTheSettlers.GameSystem
         private Coroutine coroutineMove;
         private Coroutine coroutineAttack;
 
+        private ItemType tileType;
+        public ItemType TileType
+        {
+            get { return TileType; }
+            set { tileType = value; }
+        }
+
         private void Start()
         {
             turnCtrl.Callback = new TurnCallback(TurnFinish);
@@ -205,6 +212,7 @@ namespace RedTheSettlers.GameSystem
         /// <param name="tileinfo"></param>
         public void BulidBattleTile(BoardTile tileinfo)
         {
+            TileType = tileinfo.TileType;
             StartCoroutine(difficultyController.EstablishBattleStage(tileinfo, Players[0].PossessingTile));
         }
 
