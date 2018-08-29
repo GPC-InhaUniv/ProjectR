@@ -230,6 +230,8 @@ namespace RedTheSettlers.UI
 
         public void OnUpgradeButton()
         {
+            SoundManager.Instance.PlaySFX("Button_Heavy", false);
+
             playerHoldItemCount = GameManager.Instance.gameData.PlayerData[0].ItemList[(int)boardTile.TileType].Count;
             if (playerHoldItemCount == 0)
             {
@@ -246,6 +248,7 @@ namespace RedTheSettlers.UI
 
         public void OnCloseButton()
         {
+            UIManager.Instance.SendNonClickedTile();
             //버튼 꺼졌다고 게임 매니저쪽에 전달해 줘야댐!! 왜냐면 카메라 뷰가 바뀌기 때무네!! 준명님 도와조
         }
     }

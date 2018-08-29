@@ -10,6 +10,7 @@ using RedTheSettlers.Players;
  * 카메라 스위칭
  * 카메라 안에있는 기능을 실행시키기
 */
+
 namespace RedTheSettlers.GameSystem
 {
     public enum CameraStateType
@@ -22,6 +23,7 @@ namespace RedTheSettlers.GameSystem
         Skill_3 = 6,
         Skill_4 = 7
     }
+
     /// <summary>
     /// 카메라컨트롤러 클래스
     /// 담당자 : 정진영
@@ -30,19 +32,19 @@ namespace RedTheSettlers.GameSystem
     /// </summary>
     public class CameraController : MonoBehaviour
     {
+        [SerializeField]
+        private GameCamera BoardGameCamera, BattleGameCamera, ActiveCamera;
+
+        private CameraStateType newCameraState;
+        private CameraStateType cameraState;
+
+        private Animator cloudAnimator;
 
         [SerializeField]
-        GameCamera BoardGameCamera, BattleGameCamera, ActiveCamera;
+        private Vector3 playerVector3;
 
-        CameraStateType newCameraState;
-        CameraStateType cameraState;
-
-        Animator cloudAnimator;
-
-        [SerializeField]
-        Vector3 playerVector3;
-        Transform playerTransform;
-        bool ConsentToSwiching = false;
+        private Transform playerTransform;
+        private bool ConsentToSwiching = false;
         //float ZoomValue;
         //Vector3 vector3; //배틀 카메라를 사용할때 비어있는 v3를 전달하기위해 선언함
 
@@ -93,7 +95,7 @@ namespace RedTheSettlers.GameSystem
             if (ActiveCamera == BattleGameCamera)
             {
                 Debug.Log(ActiveCamera + " " + playerVector3);
-                if(playerVector3 == Vector3.zero)
+                if (playerVector3 == Vector3.zero)
                 {
                     GetPlayerVector3();
                     return;
@@ -120,7 +122,7 @@ namespace RedTheSettlers.GameSystem
         /// </summary>
         public void ZoomInOut(float ZoomValue)
         {
-            if(ActiveCamera == BoardGameCamera)
+            if (ActiveCamera == BoardGameCamera)
                 ActiveCamera.ZoomInOutCamera(ZoomValue);
         }
 
@@ -138,10 +140,16 @@ namespace RedTheSettlers.GameSystem
         /// </summary>
         public void LookingTile(BoardTile boardTile)
         {
-            if(ActiveCamera==BoardGameCamera)
+            if (ActiveCamera == BoardGameCamera)
                 ActiveCamera.Looking(boardTile.gameObject.transform.position);
         }
+
         //타일선택 해제했을때 뭐로할지 이야기해야함!!!!!!!!!!!
+        public void NoLookingTile()
+        {
+            if (ActiveCamera == BoardGameCamera)
+                ActiveCamera.Looking(new Vector3());
+        }
 
         /// <summary>
         /// 플레이어위치를 찾아옴
@@ -150,6 +158,7 @@ namespace RedTheSettlers.GameSystem
         {
             playerVector3 = GameObject.FindWithTag(GlobalVariables.TAG_PLAYER).transform.position;
         }
+
         /// <summary>
         /// 배틀/보드 카메라 전환
         /// </summary>
@@ -161,9 +170,11 @@ namespace RedTheSettlers.GameSystem
                 case StateType.BattleStageState:
                     SwichingCamera(BattleGameCamera);
                     break;
+
                 case StateType.MainStageState:
                     SwichingCamera(BoardGameCamera);
                     break;
+
                 default:
                     break;
             }
@@ -179,7 +190,7 @@ namespace RedTheSettlers.GameSystem
         /// 카메라 스위칭할때 애니메이션, 싱크
         /// StageManager와 연관
         /// </summary>
-        IEnumerator SwichingCamera(GameCamera Camera)
+        private IEnumerator SwichingCamera(GameCamera Camera)
         {
             Debug.Log("SwichingCameraasdsa");
             cloudAnimator.SetTrigger("Closing");
@@ -201,7 +212,7 @@ namespace RedTheSettlers.GameSystem
             ActiveCamera.TrunOnCamera();
 
             //여기에서 배틀타일이 완성되었는지 판단하고 다음을 진행한다
-            while (ActiveCamera==BattleGameCamera)
+            while (ActiveCamera == BattleGameCamera)
             {
                 if (ConsentToSwiching == true)
                 {
@@ -215,5 +226,5 @@ namespace RedTheSettlers.GameSystem
 
             yield return null;
         }
-    } 
+    }
 }
