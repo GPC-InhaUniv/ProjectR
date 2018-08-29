@@ -19,7 +19,7 @@ namespace RedTheSettlers.GameSystem
 
     public enum StageType
     {
-        TitleStageState,
+        TitleScene,
         LoadingStageState,
         BoardScene,
         TutorialStageState,
