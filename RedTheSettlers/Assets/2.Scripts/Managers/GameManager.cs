@@ -251,7 +251,7 @@ namespace RedTheSettlers.GameSystem
         /// </summary>
         public void ChangedCamera(StateType stateType)
         {
-            
+            cameraCtrl.ChangeCamera(stateType);
         }
 
         /// <summary>
