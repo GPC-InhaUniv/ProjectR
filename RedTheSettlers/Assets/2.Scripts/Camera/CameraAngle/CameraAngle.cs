@@ -11,7 +11,7 @@ namespace RedTheSettlers.GameSystem
     public abstract class CameraAngle
     {
         public GameObject cameraObject;
-        public abstract void Looking(Transform target);
+        public abstract void Looking(Vector3 target);
     }
 
     public class LookAtManual : CameraAngle
@@ -29,13 +29,13 @@ namespace RedTheSettlers.GameSystem
             tileCenter = TileManager.Instance.BoardTileGrid[GlobalVariables.BoardTileGridSize / 2, GlobalVariables.BoardTileGridSize / 2].transform;
             cameraOffset = cameraObject.transform.position - tileCenter.position;
         }
-        public override void Looking(Transform target)
+        public override void Looking(Vector3 target)
         {
             //보드에서 타겟이 있으면 그쪽을 보면서 이동까지 해줘야함
             Debug.Log("룩엣메뉴얼");
             if(isWark == false)
             {
-                Vector3 newPos = target.position + cameraOffset;
+                Vector3 newPos = target + cameraOffset;
                 cameraObject.transform.position = Vector3.Slerp(cameraObject.transform.position, newPos, smooth);
                 isWark = true;
             }
@@ -53,7 +53,7 @@ namespace RedTheSettlers.GameSystem
         {
             cameraObject = gameObject;
         }
-        public override void Looking(Transform target)
+        public override void Looking(Vector3 target)
         {
             if (target == null)
             {
