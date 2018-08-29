@@ -48,8 +48,6 @@ namespace RedTheSettlers.GameSystem
             battleCtrl.Callback = new BattleFinishCallback(BattleFinish);
             difficultyController.Callback = new BuildBattleTileCallback(BulidBattleStageFinish);
             cameraCtrl = new CameraController();
-            //TileManager.Instance.InitializeTileSet();
-            battlePlayer = GameObject.FindWithTag("Player").GetComponent<BattlePlayer>();
         }
 
         public void StartGameFlow()
