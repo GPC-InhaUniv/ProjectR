@@ -26,9 +26,16 @@ namespace RedTheSettlers.GameSystem
         public DifficultyController difficultyController;
         public BattlePlayer battlePlayer;
 
-        public GameState state = GameState.TurnController;
+        public GameState state = GameState.EventController;
         private Coroutine coroutineMove;
         private Coroutine coroutineAttack;
+
+        private ItemType tileType;
+        public ItemType TileType
+        {
+            get { return TileType; }
+            set { tileType = value; }
+        }
 
         private void Start()
         {
@@ -62,6 +69,16 @@ namespace RedTheSettlers.GameSystem
             //GameFlow(turnCtrl.TurnFlow());
         }
 
+        private void EventFinish()
+        {
+
+        }
+
+        private void ItemFinish()
+        {
+
+        }
+
         public void BulidBattleStageFinish()
         {
 
@@ -73,16 +90,6 @@ namespace RedTheSettlers.GameSystem
         }
 
         private void TradeFinish()
-        {
-            
-        }
-
-        private void ItemFinish()
-        {
-            
-        }
-
-        private void EventFinish()
         {
             
         }
@@ -205,6 +212,7 @@ namespace RedTheSettlers.GameSystem
         /// <param name="tileinfo"></param>
         public void BulidBattleTile(BoardTile tileinfo)
         {
+            TileType = tileinfo.TileType;
             StartCoroutine(difficultyController.EstablishBattleStage(tileinfo, Players[0].PossessingTile));
         }
 
@@ -284,6 +292,15 @@ namespace RedTheSettlers.GameSystem
         public void PlayerSkill(int skillNumber)
         {
             battlePlayer.UseSkill(skillNumber);
+        }
+
+        /// <summary>
+        /// AI의 진행 상황을 담은 큐를 전달합니다.
+        /// </summary>
+        public void SendGameLog()
+        {
+            Queue<string> messages = turnCtrl.SendGameLog();
+            //UIManager.Instance.
         }
     }
 }
