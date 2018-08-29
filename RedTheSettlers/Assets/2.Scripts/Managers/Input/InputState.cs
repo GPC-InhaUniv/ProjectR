@@ -23,6 +23,6 @@ public interface IInputState
 
     //----------------------PC 용 Battle Phase----------------------
 
-    void MovingPlayer(Vector3 direction);
+    void MovingPlayer(Transform player);
     void BattleAttack();
 }

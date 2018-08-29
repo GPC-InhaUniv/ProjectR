@@ -93,7 +93,7 @@ namespace RedTheSettlers.UI
             GameManager.Instance.SetWeatherEventNumber(eventNumber);
         }
 
-        public void SendTileInfor(BoardTile selectionTile)
+        public void SendTileInfo(BoardTile selectionTile)
         {
             selectTileUI.SetActive(true);
             selectTileUI.GetComponentInChildren<UISelectTile>().SetSelectTileInfo(selectionTile);

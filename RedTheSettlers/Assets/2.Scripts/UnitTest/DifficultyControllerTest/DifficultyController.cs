@@ -49,13 +49,18 @@ namespace RedTheSettlers.GameSystem
             if (count < 2)
             {
                 level = BattleLevel.Level1;
+                LogManager.Instance.UserDebug(LogColor.Magenta, GetType().Name, "Level1으로 설정");
             }
             else if (count == 2 || count == 3)
             {
                 level = BattleLevel.Level2;
+                LogManager.Instance.UserDebug(LogColor.Magenta, GetType().Name, "Level2으로 설정");
             }
             else
+            {
                 level = BattleLevel.Level3;
+                LogManager.Instance.UserDebug(LogColor.Magenta, GetType().Name, "Level3으로 설정");
+            }
         }
 
         private void DisposePlayerAndEnemy(bool isBossTile)

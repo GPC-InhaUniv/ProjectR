@@ -66,9 +66,9 @@ namespace RedTheSettlers.UI
         public void OnClickedContinueGameButton(bool wouldContinue)
         {
             if(wouldContinue)
-                StageManager.Instance.JudgeLoadingData(true);
+                StageManager.Instance.JudgeLoadingData(true, StageType.BoardScene);
             else
-                StageManager.Instance.JudgeLoadingData(false);
+                StageManager.Instance.JudgeLoadingData(false, StageType.BoardScene);
         }
 
         public void ChangeLoginAlertText(string Text)

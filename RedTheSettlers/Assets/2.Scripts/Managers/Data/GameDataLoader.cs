@@ -35,7 +35,7 @@ namespace RedTheSettlers.GameSystem
             {
                 if (searchtask.IsFaulted)
                 {
-                    Debug.Log("데이터베이스에 접근 실패.");
+                    LogManager.Instance.UserDebug(LogColor.Magenta, GetType().Name, "데이터베이스에서 Users 찾기실패.");
                     return;
                 }
                 else if (searchtask.IsCompleted)
@@ -45,8 +45,8 @@ namespace RedTheSettlers.GameSystem
                     {
                         if (id.Equals(datasnapshot.Key))
                         {
-                            Debug.Log("이미 계정이 존재합니다");
                             DataManager.Instance.SignUpResultCallback("이미 계정이 존재합니다");
+                            LogManager.Instance.UserDebug(LogColor.Magenta, GetType().Name, "이미 계정이 존재합니다");
                             return;
                         }
                     }
@@ -58,13 +58,13 @@ namespace RedTheSettlers.GameSystem
                     {
                         if (signUpTask.IsFaulted)
                         {
-                            Debug.Log("데이터베이스에 접근 실패.");
+                            LogManager.Instance.UserDebug(LogColor.Magenta, GetType().Name, "데이터베이스에 저장 실패.");
                             return;
                         }
                         else if (signUpTask.IsCompleted)
                         {
-                            Debug.Log("회원가입 성공");
                             DataManager.Instance.LoginResultCallback("성공");
+                            LogManager.Instance.UserDebug(LogColor.Magenta, GetType().Name, "회원가입 성공");
                             return;
                         }
                     });
@@ -86,7 +86,7 @@ namespace RedTheSettlers.GameSystem
             {
                 if (task.IsFaulted)
                 {
-                    Debug.Log("데이터베이스에 접근 실패.");
+                    LogManager.Instance.UserDebug(LogColor.Magenta, GetType().Name, "데이터베이스에서 Users 찾기실패.");
                 }
                 else if (task.IsCompleted)
                 {
@@ -102,18 +102,19 @@ namespace RedTheSettlers.GameSystem
                             {
                                 DataManager.Instance.SaveGameData(JsonUtility.FromJson<GameData>(datasnapshot.GetRawJsonValue()), false);
                                 DataManager.Instance.LoginResultCallback("성공");
+                                LogManager.Instance.UserDebug(LogColor.Magenta, GetType().Name, "로그인 성공");
                                 return;
                             }
                             else
                             {
-                                Debug.Log("비밀번호가 틀렸습니다");
                                 DataManager.Instance.LoginResultCallback("비밀번호가 틀렸습니다.");
+                                LogManager.Instance.UserDebug(LogColor.Magenta, GetType().Name, "비밀번호가 틀렸습니다");
                                 return;
                             }
                         }
                     }
-                    Debug.Log("존재하지 않는 아이디입니다.");
                     DataManager.Instance.LoginResultCallback("존재하지 않는 아이디입니다.");
+                    LogManager.Instance.UserDebug(LogColor.Magenta, GetType().Name, "존재하지 않는 아이디입니다.");
                     return;
                 }
             });
@@ -130,7 +131,7 @@ namespace RedTheSettlers.GameSystem
             {
                 if (searchtask.IsFaulted)
                 {
-                    Debug.Log("데이터베이스에 접근 실패.");
+                    LogManager.Instance.UserDebug(LogColor.Magenta, GetType().Name, "데이터베이스에서 Users 찾기실패.");
                     return;
                 }
                 else if (searchtask.IsCompleted)
@@ -142,10 +143,10 @@ namespace RedTheSettlers.GameSystem
                         {
                             jsonData = JsonUtility.ToJson(gameData);
                             reference.Child("Users").Child(gameData.UserId).SetRawJsonValueAsync(jsonData);
-                            Debug.Log("데이터 갱신 성공");
+                            LogManager.Instance.UserDebug(LogColor.Magenta, GetType().Name, "데이터갱신 성공");
                             return;
                         }
-                        Debug.Log("데이터 갱신 실패");
+                        LogManager.Instance.UserDebug(LogColor.Magenta, GetType().Name, "데이터갱신 실패");
                     }
                 }
             });

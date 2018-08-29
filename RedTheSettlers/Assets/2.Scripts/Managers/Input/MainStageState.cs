@@ -7,8 +7,10 @@ using UnityEngine;
 /// State 패턴 구현부
 /// Board Game 부분 버튼 기능 및 카메라 이동
 /// </summary>
-public class MainStageState : IInputState
+public class MainStageState : MonoBehaviour, IInputState
 {
+    [SerializeField]
+    private Camera boardCamera;
     private Vector3 firstClick;
     private Vector3 dragPosition;
     private Vector3 dragDirection;
@@ -38,25 +40,29 @@ public class MainStageState : IInputState
                 break;
         }
     }*/
+
     public void OnStartDrag()
     {
         firstClick = Input.mousePosition;
     }
+
     public void OnDragging(float speed)
     {
         dragPosition = Input.mousePosition;
         dragDirection = (((dragPosition - firstClick).normalized * speed) * reversValue) * Time.deltaTime;
         TemporaryGameManager.Instance.CameraMove(dragDirection);
     }
+
     public void EndStopDrag()
     {
         dragPosition = Vector3.zero;
         firstClick = Vector3.zero;
         dragDirection = Vector3.zero;
     }
+
     public void ZoomInOut(float speed)
     {
-#if UNITY_EDITOR
+        #if UNITY_EDITOR
         if (Input.GetAxis("Mouse ScrollWheel") * reversValue < 0)
         {
             cameraZoom = (Input.GetAxis("Mouse ScrollWheel") * speed) * reversValue;
@@ -67,8 +73,9 @@ public class MainStageState : IInputState
             cameraZoom = (Input.GetAxis("Mouse ScrollWheel") * speed) * reversValue;
             TemporaryGameManager.Instance.CameraZoom(cameraZoom);
         }
-#endif
-#if UNITY_STANDALONE_WIN
+        #endif
+
+        #if UNITY_STANDALONE_WIN
         if (Input.GetAxis("Mouse ScrollWheel") * reversValue < 0)
         {
             cameraZoom = (Input.GetAxis("Mouse ScrollWheel") * speed) * reversValue;
@@ -79,8 +86,10 @@ public class MainStageState : IInputState
             cameraZoom = (Input.GetAxis("Mouse ScrollWheel") * speed) * reversValue;
             TemporaryGameManager.Instance.CameraZoom(cameraZoom);
         }
-#endif
-#if UNITY_ANDROID
+        #endif
+
+        // 모바일 줌인,아웃 구현부 테스트 필요 미완성
+        #if UNITY_ANDROID
         if (Input.touchCount == touchMaxCount)
         {
             Touch firstTouchPoint = Input.GetTouch(0);
@@ -94,39 +103,40 @@ public class MainStageState : IInputState
 
             float deltaMagnitude = prevTouchDeltaPoint - currentTouchDeltaPoint;
             TemporaryGameManager.Instance.CameraZoom(deltaMagnitude);
+
+            /*float prevLength = 0;
+            float Length = 0;
+
+            Vector2 a = Input.GetTouch(0).position;
+            Vector2 b = Input.GetTouch(1).position;
+
+            Length = Vector2.Distance(a, b);
+            TemporaryGameManager.Instance.CameraZoom(Length - prevLength);
+            prevLength = Length;*/
         }
-#endif
-
-        /*float prevLength = 0;
-        float Length = 0;
-
-        Vector2 a = Input.GetTouch(0).position;
-        Vector2 b = Input.GetTouch(1).position;
-
-        Length = Vector2.Distance(a, b);
-        TemporaryGameManager.Instance.CameraZoom(Length - prevLength);
-        prevLength = Length;*/
-
+        #endif
     }
+
     public void TileInfo()
     {
-        if (Input.GetMouseButtonDown(0))
+        if(boardCamera == null)
         {
-            Ray rayPoint = Camera.main.ScreenPointToRay(Input.mousePosition);
+            boardCamera = GameObject.FindWithTag("BoardCamera").GetComponentInChildren<Camera>();
+        }
+        if (Input.GetMouseButtonUp(1))
+        {
+            Ray rayPoint = boardCamera.ScreenPointToRay(Input.mousePosition);
             RaycastHit hitPoint;
 
             if (Physics.Raycast(rayPoint, out hitPoint, Mathf.Infinity))
             {
-                if (hitPoint.collider.tag == "Tile")
-                {
-                    tileInformation = hitPoint.collider.gameObject.GetComponent<BoardTile>();
-                    LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, "타일 정보 : " + tileInformation);
-                    GameManager.Instance.GetClickedTile(tileInformation);
-                }
-                else if(hitPoint.collider.tag != "Tile")
-                {
-                    LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, "타일을 찾을 수 없습니다.");
-                }
+                tileInformation = hitPoint.collider.gameObject.GetComponent<BoardTile>();
+                LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, "타일 정보 : " + tileInformation.TileType);
+                GameManager.Instance.GetClickedTile(tileInformation);
+            }
+            else if(tileInformation == null)
+            {
+                LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, "타일 정보를 찾을 수 없습니다.");
             }
         }
     }
@@ -159,7 +169,7 @@ public class MainStageState : IInputState
         throw new System.NotImplementedException();
     }
 
-    public void MovingPlayer(Vector3 direction)
+    public void MovingPlayer(Transform player)
     {
         throw new System.NotImplementedException();
     }
