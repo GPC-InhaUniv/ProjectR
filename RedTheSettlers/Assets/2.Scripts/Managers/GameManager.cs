@@ -43,11 +43,9 @@ namespace RedTheSettlers.GameSystem
             turnCtrl.Callback = new FlowFinishCallback(GameFlowFinish);
             eventCtrl.Callback = new FlowFinishCallback(GameFlowFinish);;
             itemCtrl.Callback = new FlowFinishCallback(GameFlowFinish);
-            //tradeCtrl.Callback = new TradeCallback(TradeFinish);
             battleCtrl.Callback = new BattleFinishCallback(BattleFinish);
             difficultyController.Callback = new BuildBattleTileCallback(BulidBattleStageFinish);
             cameraCtrl = new CameraController();
-
         }
 
         public void InitializeGame()
@@ -64,9 +62,12 @@ namespace RedTheSettlers.GameSystem
             }
         }
 
-        public void StartGameFlow()
+        public void StartGameFlow(bool isfirst)
         {
-            ChangeGameFlow();
+            if (!isfirst)
+            {
+                ChangeGameFlow();
+            }
             switch (state)
             {
                 case GameState.EventController:
@@ -77,16 +78,17 @@ namespace RedTheSettlers.GameSystem
                     break;
                 default:
                     turnCtrl.TurnFlow(state);
+                    
                     break;
             }
         }
 
         public void GameFlowFinish()
         {
-            
             switch (state)
             {
                 case GameState.EventController:
+
                     break;
                 case GameState.ItemController:
                     UIManager.Instance.ShowBoardUI();
@@ -94,7 +96,7 @@ namespace RedTheSettlers.GameSystem
                 default:
                     break;
             }
-            StartGameFlow();
+            StartGameFlow(false);
         }
 
         private void BulidBattleStageFinish()
@@ -125,7 +127,9 @@ namespace RedTheSettlers.GameSystem
         {
             if (state == GameState.AI3Turn)
             {
+                if(DataManager.Instance.GameData.InGameData.TurnCount == GlobalVariables.BossAppearTurn)
                 state = GameState.EventController;
+                DataManager.Instance.GameData.InGameData.TurnCount++;
             }
             else
                 state++;
@@ -175,15 +179,15 @@ namespace RedTheSettlers.GameSystem
         /// <returns></returns>
         public int GetPlayerTileCount(UserType userType, ItemType itemType)
         {
-            int tileTileCount = 0;
+            int tileCount = 0;
             for (int i = 0; i < GetPlayerTileCountAll(userType); i++)
             {
                 if (Players[(int)userType].PossessingTile[i].TileType == itemType)
                 {
-                    tileTileCount++;
+                    tileCount++;
                 }
             }
-            return tileTileCount;
+            return tileCount;
         }
 
         /// <summary>

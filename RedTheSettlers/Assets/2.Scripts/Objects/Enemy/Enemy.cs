@@ -9,16 +9,6 @@ namespace RedTheSettlers.Enemys
     public delegate void ChangeStateCallback(EnemyStateType stateType);
     public delegate void DeadTimerCallback();
 
-    public enum EnemyType
-    {
-        Iron = 0,
-        Soil = 1,
-        Spot = 2,
-        Water = 3,
-        Wheat = 4,
-        Wood = 5,
-    }
-
     public enum EnemyStateType
     {
         Idle = 0,
@@ -36,6 +26,7 @@ namespace RedTheSettlers.Enemys
     public abstract class Enemy : MonoBehaviour
     {
         public EnemyState currentState;
+        [SerializeField]
         protected Material[] Materials;
         [SerializeField]
         protected Material[] bossMaterials;
@@ -138,9 +129,9 @@ namespace RedTheSettlers.Enemys
             }
         }
 
-        public void SetType(EnemyType enemyType)
+        public void SetType(ItemType ItemType)
         {
-            typeRenderer.material = Materials[(int)enemyType];
+            typeRenderer.material = Materials[(int)ItemType];
         }
 
         public void SetType(bool IsLastBoss)
