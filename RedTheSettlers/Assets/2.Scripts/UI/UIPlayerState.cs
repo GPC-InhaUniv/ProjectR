@@ -35,6 +35,9 @@ namespace RedTheSettlers.UI
         [SerializeField]
         private Slider MPItemBar;
 
+        [SerializeField]
+        private GameObject StateGroup;
+
         [Header("Warning Info")]
         [SerializeField]
         private Text HPWarningInfo;
@@ -84,6 +87,25 @@ namespace RedTheSettlers.UI
             playerMaxMP.text = "/" + playerCurrentMaxMP.ToString();
         }
 
+        public void UpdatePlayerState(int itemType)
+        {
+            PlayerData playerData = GameManager.Instance.gameData.PlayerData[0];
+            switch (itemType)
+            {
+                case 0:
+                    playerHPItem = playerData.ItemList[(int)ItemType.Cow].Count;
+                    break;
+
+                case 1:
+                    playerMPItem = playerData.ItemList[(int)ItemType.Water].Count;
+                    break;
+
+                case 2:
+                    playerStaminaItem = playerData.ItemList[(int)ItemType.Wheat].Count;
+                    break;
+            }
+        }
+
         public void SliderChanged()
         {
             HPItemBar.value = playercurrentHP / playerCurrentMaxHP;
@@ -92,6 +114,8 @@ namespace RedTheSettlers.UI
 
         public void OnUseStateItem(int itemType)
         {
+            UpdatePlayerState(itemType);
+
             if (itemType == 0)
             {
                 if (playerHPItem == 0 && playercurrentHP < playerCurrentMaxHP)
@@ -100,7 +124,7 @@ namespace RedTheSettlers.UI
                 }
                 else if (playercurrentHP < playerCurrentMaxHP)
                 {
-                    playerHPItem = playerHPItem - 1;
+                    UIManager.Instance.RequestAddItemType(0, (ItemType)itemType, -1);
                     playercurrentHP = playercurrentHP + 20;
                     playerHP.text = playercurrentHP.ToString();
                     SliderChanged();
@@ -114,7 +138,7 @@ namespace RedTheSettlers.UI
                 }
                 else if (playercurrentMP < playerCurrentMaxMP)
                 {
-                    playerMPItem = playerMPItem - 1;
+                    UIManager.Instance.RequestAddItemType(0, (ItemType)itemType, -1);
                     playercurrentMP = playercurrentMP + 20;
                     playerMP.text = playercurrentMP.ToString();
                     SliderChanged();
@@ -128,11 +152,17 @@ namespace RedTheSettlers.UI
                 }
                 else if (playerStaminaItem > 0)
                 {
-                    playerStaminaItem = playerStaminaItem - 1;
+                    UIManager.Instance.RequestAddItemType(0, (ItemType)itemType, -1);
                     playercurrentStamina = playercurrentStamina + 1;
                     playerStamina.text = playercurrentStamina.ToString();
                 }
             }
+        }
+
+        public void OnClickCloseButton()
+        {
+            UIManager.Instance.RequestSavePlayerStat(playercurrentHP, playercurrentMP, playercurrentStamina);
+            StateGroup.SetActive(false);
         }
     }
 }

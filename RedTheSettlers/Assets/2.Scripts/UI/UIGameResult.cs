@@ -46,12 +46,7 @@ namespace RedTheSettlers.UI
 
         public void OnEnterMainScene()
         {
-            //유아이 매니저에서 스테이지 매니저랑 연결해서 가져와야 하나
-        }
-
-        public void OnCloseScene()
-        {
-            //유아이 매니저에서 스테이지 매니저랑 연결해서 가져와야 하나
+            //스테이지 매니저랑 연결해서 가져와야 하나 - 재환니임
         }
     }
 }
