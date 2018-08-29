@@ -35,6 +35,12 @@ namespace RedTheSettlers.UI
         private float playerMaxHP;
         private float playerMaxMP;
 
+        private void Start()
+        {
+            PutPlayerState();
+            SliderChanged();
+        }
+
         public void PutPlayerState()
         {
             PlayerData playerData = GameManager.Instance.gameData.PlayerData[0];
@@ -52,6 +58,21 @@ namespace RedTheSettlers.UI
             playerMaxMP = playerData.StatData.MaxMagicPoint;
         }
 
+        public void UpdatePlayerItem(int itemType)
+        {
+            PlayerData playerData = GameManager.Instance.gameData.PlayerData[0];
+            switch (itemType)
+            {
+                case 0:
+                    holdHPItem = playerData.ItemList[(int)ItemType.Cow].Count;
+                    break;
+
+                case 1:
+                    holdMPItem = playerData.ItemList[(int)ItemType.Water].Count;
+                    break;
+            }
+        }
+
         public void SliderChanged()
         {
             HPItemBar.value = playerHP / playerMaxHP;
@@ -60,6 +81,8 @@ namespace RedTheSettlers.UI
 
         public void OnUseItem(int itemType)
         {
+            UpdatePlayerItem(itemType);
+
             Color textRedColor = new Color(255, 0, 0, 255);
 
             if (itemType == 0)
@@ -70,7 +93,7 @@ namespace RedTheSettlers.UI
                 }
                 else if (playerHP < playerMaxHP)
                 {
-                    holdHPItem = holdHPItem - 1;
+                    UIManager.Instance.RequestAddItemType(0, (ItemType)itemType, -1);
                     HPItem.text = holdHPItem.ToString();
                     playerHP = playerHP + 10;
                     SliderChanged();
@@ -84,22 +107,12 @@ namespace RedTheSettlers.UI
                 }
                 else if (playerMP < playerMaxMP)
                 {
-                    holdMPItem = holdMPItem - 1;
+                    UIManager.Instance.RequestAddItemType(0, (ItemType)itemType, -1);
                     MPItem.text = holdMPItem.ToString();
                     playerMP = playerMP + 10;
                     SliderChanged();
                 }
             }
-        }
-
-        private void Start()
-        {
-            PutPlayerState();
-            SliderChanged();
-        }
-
-        private void Update()
-        {
         }
     }
 }
