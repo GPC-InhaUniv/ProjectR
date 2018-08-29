@@ -87,7 +87,7 @@ namespace RedTheSettlers.UI
             playerMaxMP.text = "/" + playerCurrentMaxMP.ToString();
         }
 
-        public void UpdatePlayerState(int itemType)
+        public void UpdatePlayerItem(int itemType)
         {
             PlayerData playerData = GameManager.Instance.gameData.PlayerData[0];
             switch (itemType)
@@ -114,7 +114,7 @@ namespace RedTheSettlers.UI
 
         public void OnUseStateItem(int itemType)
         {
-            UpdatePlayerState(itemType);
+            UpdatePlayerItem(itemType);
 
             if (itemType == 0)
             {
