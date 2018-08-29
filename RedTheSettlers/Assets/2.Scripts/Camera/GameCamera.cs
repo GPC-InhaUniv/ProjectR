@@ -42,7 +42,7 @@ namespace RedTheSettlers.GameSystem
         {
             abstractCamera.CameraZoomInOut(value);
         }
-        public void Looking(Transform target)
+        public void Looking(Vector3 target)
         {
             abstractCamera.CameraAngle(target);
         }
