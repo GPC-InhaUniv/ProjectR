@@ -27,6 +27,18 @@ namespace RedTheSettlers.GameSystem
         private ItemType tileType;
         private int BossCount;
 
+        public List<GameObject> EnemyList
+        {
+            get { return EnemyList; }
+            private set { EnemyList = value; }
+        }
+        public GameObject Player
+        {
+            get { return Player; }
+            private set { Player = value; }
+        }
+
+
         private IEnumerator SendBattleLevel()
         {
             TileManager.Instance.CreateBattleTileGrid(tileType, (int)battlelevel);
@@ -103,26 +115,25 @@ namespace RedTheSettlers.GameSystem
 
         private void DisposePlayer(Vector3 position)
         {
-            
-            GameObject player = new GameObject();
-            player.transform.position = position;
-            player.SetActive(true);
-
+            Player = ObjectPoolManager.Instance.PlayerObjectPool.GetPlayerObject();
+            Player.transform.position = position;
+            Player.SetActive(true);
         }
 
         private void DisposeBoss(Vector3 position)
         {
-            GameObject boss = ObjectPoolManager.Instance.EnemyObjectPool.PopBossObject();
+            EnemyList = new List<GameObject>();
+            EnemyList.Add(ObjectPoolManager.Instance.EnemyObjectPool.PopBossObject());
             switch (BossCount)
             {
                 case 0:
-                    boss.GetComponent<BossEnemy>().SetStatus(100, 10, false);
+                    EnemyList[0].GetComponent<BossEnemy>().SetStatus(100, 10, false);
                     break;
                 case 1:
-                    boss.GetComponent<BossEnemy>().SetStatus(150, 15, false);
+                    EnemyList[0].GetComponent<BossEnemy>().SetStatus(150, 15, false);
                     break;
                 case 2:
-                    boss.GetComponent<BossEnemy>().SetStatus(200, 25, true);
+                    EnemyList[0].GetComponent<BossEnemy>().SetStatus(200, 25, true);
                     break;
             }
             BossCount++;
@@ -130,37 +141,33 @@ namespace RedTheSettlers.GameSystem
 
         private void DisposeEnemy(Vector3 position)
         {
-            List<GameObject> enemyList = new List<GameObject>();
+            EnemyList = new List<GameObject>();
             for (int i = 0; i <= (int)battlelevel; i++)
             {
                 //ObjectPoolManager.Instance.EnemyPool[(int)tileType].Dequeue();   ObjectManager에서 리스트 큐 형식으로만 쓴다면 이렇게.
-                enemyList.Add(ObjectPoolManager.Instance.EnemyObjectPool.PopEnemyObject());
-                enemyList[i].GetComponent<NormalEnemy>().SetStatus((int)battlelevel);
+                EnemyList.Add(ObjectPoolManager.Instance.EnemyObjectPool.PopEnemyObject());
+                EnemyList[i].GetComponent<NormalEnemy>().SetStatus((int)battlelevel);
             }
-            for (int i = 0; i < enemyList.Count; i++)
+            for (int i = 0; i < EnemyList.Count; i++)
             {
                 if (i == 0)
-                    enemyList[i].transform.position = position;
+                    EnemyList[i].transform.position = position;
                 else if (i % 2 == 1)
                 {
                     position.x += 2;
                     position.z += 2;
-                    enemyList[i].transform.position = position;
+                    EnemyList[i].transform.position = position;
                 }
                 else if (i % 2 == 0)
                 {
                     position.x = -position.x;
                     position.z = -position.z;
-                    enemyList[i].transform.position = position;
+                    EnemyList[i].transform.position = position;
                 }
-                enemyList[i].SetActive(true);
+                EnemyList[i].SetActive(true);
             }
         }
 
-        public int GetEnemyCount()
-        {
-            return (int)battlelevel + 1;
-        }
         /*
         DifficultyController가 해야할 일.
         1. 소유 타일에 따라 정해진 난이도를 타일 매니저에 보내줌.

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using RedTheSettlers.GameSystem;
+using System.Collections.Generic;
 
 namespace RedTheSettlers.UnitTest
 {
@@ -8,7 +9,9 @@ namespace RedTheSettlers.UnitTest
 
     public class BattleControllerTest2 : MonoBehaviour
     {
-        float cattleResawnTime = 5; // test용
+        private float cattleResawnTime = 5; // test용
+        private List<GameObject> enemyList;
+        private GameObject player;
         //////   테스트용 변수 ////////////////
 
         private GameTimer cattlesTimer;
@@ -102,6 +105,12 @@ namespace RedTheSettlers.UnitTest
             GameObject cowsTest = ObjectPoolManager.Instance.CowObject;
             cowsTest.transform.position = spawnPoint;
             cowsTest.transform.rotation = angle;
+        }
+
+        public void ReceiveEnemysAndPlayer(List<GameObject> enemys, GameObject player)
+        {
+            enemyList = enemys;
+            this.player = player;
         }
 
         private void EnemyDead()
