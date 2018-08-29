@@ -9,6 +9,8 @@ using RedTheSettlers.Players;
 
 namespace RedTheSettlers.GameSystem
 {
+    public delegate void FlowFinishCallback();
+
     /// <summary>
     /// 각 컨트롤러를 관리하고 중재하는 매니저
     /// </summary>
@@ -39,22 +41,32 @@ namespace RedTheSettlers.GameSystem
 
         private void Start()
         {
-            turnCtrl.Callback = new TurnCallback(TurnFinish);
-            //eventCtrl.Callback = new EventCallback(EventFinish);
-            //itemCtrl.Callback = new ItemCallback(ItemFinish);
-            tradeCtrl.Callback = new TradeCallback(TradeFinish);
-            //battleCtrl.Callback = new BattleCallback(BattleFinish);
+            turnCtrl.Callback = new FlowFinishCallback(GameFlowFinish);
+            eventCtrl.Callback = new FlowFinishCallback(GameFlowFinish);;
+            itemCtrl.Callback = new FlowFinishCallback(GameFlowFinish);
+            //tradeCtrl.Callback = new TradeCallback(TradeFinish);
+            battleCtrl.Callback = new BattleFinishCallback(BattleFinish);
             difficultyController.Callback = new BuildBattleTileCallback(BulidBattleStageFinish);
             cameraCtrl = new CameraController();
-            //TileManager.Instance.InitializeTileSet();
-            battlePlayer = GameObject.FindWithTag("Player").GetComponent<BattlePlayer>();
         }
 
-        //게임 매니저가 타일 매니저를 통해 타일 배치(보드, 전투)을 지시해야 한다.
-
-        //어떻게 턴의 흐름을 제어 할 것인지 고민
-        public void GameFlow(IEnumerator Flow)
+        public void InitializeGame()
         {
+            //처음시작일때
+            if(gameData.InGameData.TurnCount == 0)
+            {
+                TileManager.Instance.CreateBoardTileGrid();
+            }
+            //이어하기일때
+            else
+            {
+                TileManager.Instance.LoadTileGrid();
+            }
+        }
+
+        public void StartGameFlow()
+        {
+            ChangeGameFlow();
             switch (state)
             {
                 case GameState.EventController:
@@ -64,52 +76,48 @@ namespace RedTheSettlers.GameSystem
                     itemCtrl.ItemFlow();
                     break;
                 default:
+                    turnCtrl.TurnFlow(state);
                     break;
             }
-            //GameFlow(turnCtrl.TurnFlow());
         }
 
-        private void EventFinish()
+        public void GameFlowFinish()
         {
-
+            StartGameFlow();
+            switch (state)
+            {
+                case GameState.EventController:
+                    break;
+                case GameState.ItemController:
+                    UIManager.Instance.ShowBoardUI();
+                    break;
+                default:
+                    break;
+            }
         }
 
-        private void ItemFinish()
+        private void BulidBattleStageFinish()
         {
-
-        }
-
-        public void BulidBattleStageFinish()
-        {
+            //전투 시작 전 세팅
             battleCtrl.AliveEnemyCount = difficultyController.GetEnemyCount();
-
+            battleCtrl.ReceiveEnemysAndPlayer(difficultyController.EnemyList, difficultyController.Player);
+            battleCtrl.BattleFlow(TileType);
         }
 
         private void BattleFinish()
         {
-            
+            //전투 끝(메인으로 돌아가야 함)   
+
         }
 
-        private void TradeFinish()
+        private void ChangeGameFlow()
         {
-            
-        }
-
-        private void TurnFinish()
-        {
-            
-        }
-
-        private void InsinstallationBoardTile()
-        {
-            TileManager.Instance.CreateBoardTileGrid();
-            TileManager.Instance.ShowBoardTile();
-        }
-
-        private void InsinstallationBattleTile(ItemType itemType, int difficulty)
-        {
-            TileManager.Instance.CreateBattleTileGrid(itemType, difficulty);
-            TileManager.Instance.ShowBattleTile();
+            if (state == GameState.AI3Turn)
+            {
+                state = GameState.EventController;
+            }
+            else
+                state++;
         }
 
         /// <summary>
@@ -258,7 +266,25 @@ namespace RedTheSettlers.GameSystem
         /// </summary>
         public void ChangedCamera(StateType stateType)
         {
-            //cameraCtrl.
+            cameraCtrl.ChangeCamera(stateType);
+        }
+
+        /// <summary>
+        /// 카메라 줌 인/아웃
+        /// </summary>
+        /// <param name="ZoomValue"></param>
+        public void CameraZoomInOut(int ZoomValue)
+        {
+            cameraCtrl.ZoomInOut(ZoomValue);
+        }
+
+        /// <summary>
+        /// 카메라 이동
+        /// </summary>
+        /// <param name="direction"></param>
+        public void CameraMoving(Vector3 direction)
+        {
+            cameraCtrl.CameraDragMoving(direction);
         }
 
         /// <summary>
@@ -298,9 +324,9 @@ namespace RedTheSettlers.GameSystem
         /// <summary>
         /// AI의 진행 상황을 담은 큐를 전달합니다.
         /// </summary>
-        public void SetGameLog()
+        public void SetGameLog(Queue<string> messageQueue)
         {
-            Queue<string> messageQueue = turnCtrl.SendGameLog();
+
             //UIManager.Instance.
         }
 
@@ -309,7 +335,7 @@ namespace RedTheSettlers.GameSystem
             turnCtrl.SetAIs(Players);
         }
 
-        //플레이어 무기, 방어구 레벨, 보스 카운터
+        //플레이어의 무기, 방어구 설정하는 메서드들-----
         public int GetPlayersAttackLevel(int playerNum)
         {
             return DataManager.Instance.GameData.PlayerData[playerNum].StatData.WeaponLevel;
@@ -320,9 +346,20 @@ namespace RedTheSettlers.GameSystem
             return DataManager.Instance.GameData.PlayerData[playerNum].StatData.ShieldLevel;
         }
 
+        public void SetPlayersAttackLevel(int playerNum, int level)
+        {
+            DataManager.Instance.GameData.PlayerData[playerNum].StatData.WeaponLevel = level;
+        }
+
+        public void SetPlayersDefenseLevel(int playerNum, int level)
+        {
+            DataManager.Instance.GameData.PlayerData[playerNum].StatData.ShieldLevel = level;
+        }
+
         public int GetPlayersBossKillCount(int playerNum)
         {
             return DataManager.Instance.GameData.PlayerData[playerNum].BossKillCount;
         }
+        //-----
     }
 }

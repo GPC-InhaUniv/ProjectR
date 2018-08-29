@@ -19,18 +19,17 @@ namespace RedTheSettlers.GameSystem
     {
         public override void ContinueGame(bool canLoadData)
         {
-            
+           
         }
 
         public override void Enter(StageType stageType)
         {
-            GameManager.Instance.ChangedCamera(StateType.BattleStageState); 
-
+            //SceneManager.LoadScene((int)(StageType.BattleStageState));
         }
 
         public override void Exit(StageType stageType)
         {
-          
+            StageManager.Instance.ChangeStage(StageType.BattleStageState);
         }
     }
 }

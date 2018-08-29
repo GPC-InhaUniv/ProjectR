@@ -20,7 +20,7 @@ namespace RedTheSettlers.GameSystem
     public enum StageType
     {
         TitleScene,
-        LoadingScene,
+        LoadingStageState,
         BoardScene,
         TutorialStageState,
         BattleStageState
@@ -34,6 +34,13 @@ namespace RedTheSettlers.GameSystem
         private StageStateMachine stageStateMachine;
         public StageStateMachine StageStateMachine { get { return stageStateMachine; } }
 
+        [SerializeField]
+        ObjectPoolManager ObjectPoolManager;
+
+        [SerializeField]
+
+
+        private float loadingProgress;
 
 
         private void Awake()
@@ -42,60 +49,46 @@ namespace RedTheSettlers.GameSystem
             DontDestroyOnLoad(gameObject);
         }
 
-        private void Update()
-        {
-
-        }
-
         public void JudgeLoadingData(bool canLoadData, StageType stageType)
         {
             StageStateMachine.ContinueGame(canLoadData);
-            //ChangeState(stageType);
             ChangeStage(stageType);
-
-        }
-
-        public void ChangeState(StageType stageType)
-        {
-            stageStateMachine.Enter(stageType);
         }
 
         public void ChangeStage(StageType stageType)
         {
+            stageStateMachine.Enter(stageType);
             StageStateMachine.Exit(stageType);
         }
 
-       
+        public void ChangeCamera(StageType stageType)
+        {
+            StageStateMachine.Enter(stageType);
+        }
+
+
         public IEnumerator ChangeStageLoad(StageType stageType)
         {
-            AsyncOperation asyncOperationLoad = SceneManager.LoadSceneAsync(stageType.ToString());
+            AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(stageType.ToString());
 
-            asyncOperationLoad.allowSceneActivation = false;
+            asyncOperation.allowSceneActivation = false;
 
-            while (!asyncOperationLoad.isDone)
+            while (!asyncOperation.isDone)
             {
-                yield return new WaitForSeconds(0.5f);
+                loadingProgress = Mathf.Clamp01(asyncOperation.progress / 0.9f) * 100;
 
-                if (asyncOperationLoad.progress >= 0.9f)
-                    asyncOperationLoad.allowSceneActivation = true;
+                yield return new WaitForSeconds(0.1f);
 
-                //yield return SceneManager.LoadSceneAsync(stageType.ToString());
+                if (asyncOperation.progress >= 0.9f)
+                {
+                    asyncOperation.allowSceneActivation = true;
+                }
+                yield return SceneManager.LoadSceneAsync(stageType.ToString());
 
             }
 
-            AsyncOperation asyncOperationMain = SceneManager.LoadSceneAsync(StageType.BoardScene.ToString());
-
-            asyncOperationMain.allowSceneActivation = false;
-
-            while (!asyncOperationMain.isDone)
-            {
-                yield return new WaitForSeconds(0.5f);
-
-                if (asyncOperationMain.progress >= 0.9f)
-                    asyncOperationMain.allowSceneActivation = true;
-            }
-
-            ChangeStage(StageType.BoardScene);
         }
+
+
     }
 }

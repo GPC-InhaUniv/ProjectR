@@ -22,19 +22,21 @@ namespace RedTheSettlers.GameSystem
             if (!canLoadData)
                 DataManager.Instance.ResetData();
             else
-                Debug.Log("현재 상태가 없습니다.");
+                Debug.Log("현재 상태가 없습니다."); 
 
         }
 
         public override void Enter(StageType stageType)
         {
-            SoundManager.Instance.ChangeBGM("BGM_Title", true); //클립이름,부드럽게 전환할 것인가
+            
         }
 
         public override void Exit(StageType stageType)
         {
-            StageManager.Instance.StartCoroutine(StageManager.Instance.ChangeStageLoad(StageType.LoadingScene));
+            StageManager.Instance.ChangeStage(StageType.LoadingStageState);
         }
+
     }
+
 }
 

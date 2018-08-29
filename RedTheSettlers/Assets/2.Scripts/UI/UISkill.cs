@@ -49,7 +49,7 @@ namespace RedTheSettlers.UI
             {
                 skillIcons[buttonIndex].SlotIcon.gameObject.SetActive(true);
                 skillIcons[buttonIndex].SkillIcon.interactable = false;
-                boardPlayer.SetSkillSlot((SkillType)buttonIndex, skillSlotNumber);
+                //boardPlayer.SetSkillSlot((SkillType)buttonIndex, skillSlotNumber);
                 Debug.Log("버튼인덱스"+ buttonIndex + "스킬슬롯넘버"+ skillSlotNumber);
                 skillSlotNumber++;
             }

@@ -1,11 +1,17 @@
 ﻿using UnityEngine;
 using RedTheSettlers.GameSystem;
+using System.Collections.Generic;
 
 namespace RedTheSettlers.UnitTest
 {
+    public delegate void BattleFinishCallback();
+    public delegate void EnemyDeadCallback();
+
     public class BattleControllerTest2 : MonoBehaviour
     {
-        float cattleResawnTime = 5; // test용
+        private float cattleResawnTime = 5; // test용
+        private List<GameObject> enemyList;
+        private GameObject player;
         //////   테스트용 변수 ////////////////
 
         private GameTimer cattlesTimer;
@@ -15,10 +21,27 @@ namespace RedTheSettlers.UnitTest
         public int AliveEnemyCount { set { aliveEnemyCount = value; } }
         //private float cattleResawnTime = 100; // second
 
+        private BattleFinishCallback _callback;
+        public BattleFinishCallback Callback
+        {
+            get { return _callback; }
+            set { _callback = value; }
+        }
+
+        private EnemyDeadCallback enemyDeadCallback;
+        public EnemyDeadCallback EnemyDeadCallback
+        {
+            get { return enemyDeadCallback; }
+            set { enemyDeadCallback = value; }
+        }
+
         private void Start()
         {
             // 나중에 삭제
             BattleFlow(ItemType.Cow);
+            //
+
+            EnemyDeadCallback = new EnemyDeadCallback(EnemyDead);
         }
 
         // tileType : GameMAnager에서 어떤 타일인지 받아옴 
@@ -71,24 +94,6 @@ namespace RedTheSettlers.UnitTest
             // 데이터매니저에 어떤 정보를 넘겨줘야??
         }
 
-        private void EnemyDead()
-        {
-            if (aliveEnemyCount > 0)
-            {
-                aliveEnemyCount--;
-                LogManager.Instance.UserDebug(LogColor.Orange, GetType().ToString(), "Enemy Dead! 남은 Enemy : " + aliveEnemyCount);
-            }
-            else // aliveEnemyCount == 0
-            {
-                LogManager.Instance.UserDebug(LogColor.Orange, GetType().ToString(), "전투 승리!");
-            }
-        }
-
-        private void PlayerDead()
-        {
-            LogManager.Instance.UserDebug(LogColor.Orange, GetType().ToString(), "플레이어 사망!");
-        }
-
         /// <summary>
         /// Test용 코드. SpawnHerdOfCattles()가 원본
         /// </summary>
@@ -100,6 +105,23 @@ namespace RedTheSettlers.UnitTest
             GameObject cowsTest = ObjectPoolManager.Instance.CowObject;
             cowsTest.transform.position = spawnPoint;
             cowsTest.transform.rotation = angle;
+        }
+
+        public void ReceiveEnemysAndPlayer(List<GameObject> enemys, GameObject player)
+        {
+            enemyList = enemys;
+            this.player = player;
+        }
+
+        private void EnemyDead()
+        {
+            if (aliveEnemyCount > 0)
+            {
+                aliveEnemyCount--;
+                LogManager.Instance.UserDebug(LogColor.Orange, GetType().ToString(), "Enemy Dead! 남은 Enemy : " + aliveEnemyCount);
+            }
+            else
+                LogManager.Instance.UserDebug(LogColor.Orange, GetType().ToString(), "남은 Enemy가 존재하지 않습니다.");
         }
     }
 }
