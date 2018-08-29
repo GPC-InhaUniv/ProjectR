@@ -209,6 +209,7 @@ namespace RedTheSettlers.GameSystem
                 }
                 yield return new WaitForSeconds(1f);
             }
+            ConsentToSwiching = false;
             cloudAnimator.SetTrigger("Opening");
             cloudAnimator.SetTrigger("Idle");
 
