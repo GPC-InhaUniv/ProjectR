@@ -21,15 +21,21 @@ namespace RedTheSettlers.Users
             SkillList = skillList;
         }
 
-        public void SetSkillSlot(int skillnum, int slotNum)
+        public void SetSkillSlot(SkillType skillType, int slotNum)
         {
-            switch(skillnum)
+            switch(skillType)
             {
-                case 0:
+                case SkillType.Melee:
+                    SkillList[slotNum] = new MeleeAttackSkill();
                     break;
-                case 1:
+                case SkillType.Range:
+                    SkillList[slotNum] = new RangeAttackSkill();
                     break;
-                case 2:
+                case SkillType.SpeedUpBuff:
+                    SkillList[slotNum] = new SpeedUpBuffSkill();
+                    break;
+                case SkillType.OverWhelmBuff:
+                    SkillList[slotNum] = new OverWhelmBuffSkill();
                     break;
             }
         }

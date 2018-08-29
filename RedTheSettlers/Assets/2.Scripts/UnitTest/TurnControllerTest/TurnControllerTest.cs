@@ -7,15 +7,19 @@ namespace RedTheSettlers.UnitTest
 {
     public enum GameState
     {
-        TurnController,
         EventController,
         ItemController,
+        PlayerTurn,
+        AI1Turn,
+        AI2Turn,
+        AI3Turn,
     }
 
     public delegate void TurnCallback();
 
     /// <summary>
     /// 작성자 : 박지용
+    /// 유저와 AI의 턴 흐름을 제어한다.
     /// 보드 게임에서 턴 흐름과 UI 로그 제어를 담당한다.
     /// </summary>
     public class TurnControllerTest : MonoBehaviour
@@ -37,7 +41,7 @@ namespace RedTheSettlers.UnitTest
         public IEnumerator TurnFlow()
         {
             GameManagerTest.Instance.state += 1;
-            PrintGameLog();
+            SendGameLog();
             Callback();
             yield return new WaitForSeconds(3);
         }
@@ -46,9 +50,11 @@ namespace RedTheSettlers.UnitTest
         /// 게임 화면에 게임 진행 상황을 표시하는 텍스트를 출력한다.
         /// UI매니저와 연동한다.
         /// </summary>
-        public void PrintGameLog()
+        public Queue<string> SendGameLog()
         {
-            
+            Queue<string> messages = new Queue<string>();
+
+            return messages;
         }
     }
 }

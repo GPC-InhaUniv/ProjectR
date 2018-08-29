@@ -54,25 +54,5 @@ namespace RedTheSettlers.GameSystem
         {
             animator.SetTrigger("Shake");
         }
-        //IEnumerator Shake(float duration, float magnitude)
-        //{
-        //    Vector3 origianlPos = cameraObject.transform.localPosition;
-
-        //    float elaspsed = 0.0f;
-
-        //    while (elaspsed < duration)
-        //    {
-        //        float x = UnityEngine.Random.Range(-1f, 1f) * magnitude;
-        //        float y = UnityEngine.Random.Range(-1f, 1f) * magnitude;
-
-        //        cameraObject.transform.localPosition = new Vector3(x, y, origianlPos.z);
-
-        //        elaspsed += Time.deltaTime;
-
-        //        yield return null;
-        //    }
-
-        //    cameraObject.transform.localPosition = origianlPos;
-        //}
     }
 }
