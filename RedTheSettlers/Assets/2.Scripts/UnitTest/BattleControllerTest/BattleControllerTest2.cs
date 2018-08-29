@@ -36,6 +36,9 @@ namespace RedTheSettlers.UnitTest
         {
             // 나중에 삭제
             BattleFlow(ItemType.Cow);
+            //
+
+            EnemyDeadCallback = new EnemyDeadCallback(EnemyDead);
         }
 
         // tileType : GameMAnager에서 어떤 타일인지 받아옴 
@@ -99,6 +102,17 @@ namespace RedTheSettlers.UnitTest
             GameObject cowsTest = ObjectPoolManager.Instance.CowObject;
             cowsTest.transform.position = spawnPoint;
             cowsTest.transform.rotation = angle;
+        }
+
+        private void EnemyDead()
+        {
+            if (aliveEnemyCount > 0)
+            {
+                aliveEnemyCount--;
+                LogManager.Instance.UserDebug(LogColor.Orange, GetType().ToString(), "Enemy Dead! 남은 Enemy : " + aliveEnemyCount);
+            }
+            else
+                LogManager.Instance.UserDebug(LogColor.Orange, GetType().ToString(), "남은 Enemy가 존재하지 않습니다.");
         }
     }
 }
