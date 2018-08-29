@@ -63,7 +63,7 @@ public class TemporaryGameManager : Singleton<TemporaryGameManager>
         }
         rigidbody.velocity = direction * 20f * Time.deltaTime;
 #endif
-
+        Vector3 targetPosition = direction + new Vector3(0, battlePlayer.transform.position.y, 0);
         if (coroutineMove == null)
         {
             coroutineMove = StartCoroutine(battlePlayer.MoveToTargetPostion(direction));

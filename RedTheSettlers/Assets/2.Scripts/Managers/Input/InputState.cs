@@ -8,7 +8,7 @@ public interface IInputState
     void EndStopDrag();
     void OnDropSlot();
     void TileInfo();
-    void MovingPlayer(Transform player);
+    void MovingPlayer();
     void BattleAttack();
     void UseSkill(int skillSlotNumber);
 }

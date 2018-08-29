@@ -42,7 +42,7 @@ public class BattleStageState : MonoBehaviour, IInputState
     }
 #endif
 
-    public void MovingPlayer(Transform player)
+    public void MovingPlayer()
     {
         if(battleCamera == null)
         {
@@ -56,9 +56,9 @@ public class BattleStageState : MonoBehaviour, IInputState
         {
             if (hit.collider.gameObject.name.Contains("Plane"))
             {
-                Vector3 targetPosition = hit.point + new Vector3(0, player.transform.position.y, 0);
-                //TemporaryGameManager.Instance.PlayerMove(targetPosition);
-                GameManager.Instance.PlayerMove(targetPosition);
+                Vector3 rayHitPosition = hit.point;
+                //TemporaryGameManager.Instance.PlayerMove(rayHitPosition);
+                GameManager.Instance.PlayerMove(rayHitPosition);
             }
         }
     }

@@ -29,7 +29,7 @@ public class MainStageState : MonoBehaviour, IInputState
         {
             boardCamera = GameObject.FindWithTag("BoardCamera").GetComponentInChildren<Camera>();
         }
-        if (Input.GetMouseButtonUp(1))
+        if (Input.GetMouseButtonUp(0))
         {
             Ray rayPoint = boardCamera.ScreenPointToRay(Input.mousePosition);
             RaycastHit hitPoint;
@@ -168,7 +168,7 @@ public class MainStageState : MonoBehaviour, IInputState
         throw new System.NotImplementedException();
     }
 
-    public void MovingPlayer(Transform player)
+    public void MovingPlayer()
     {
         throw new System.NotImplementedException();
     }

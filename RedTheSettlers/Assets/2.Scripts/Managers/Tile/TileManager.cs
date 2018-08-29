@@ -12,6 +12,7 @@ namespace RedTheSettlers.GameSystem
 
         private void Awake()
         {
+            DontDestroyOnLoad(this);
             BoardTileGrid = new GameObject[GlobalVariables.BoardTileGridSize, GlobalVariables.BoardTileGridSize];
             BattleTileGrid = new GameObject[GlobalVariables.BattleTileGridSize, GlobalVariables.BattleTileGridSize];
         }
