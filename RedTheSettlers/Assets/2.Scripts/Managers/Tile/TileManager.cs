@@ -35,7 +35,7 @@ namespace RedTheSettlers.GameSystem
                 TileData tileData = DataManager.Instance.GameData.InGameData.BoardTileList[i];
 
                 int x = tileData.LocationX;
-                int z = tileData.LocationY;
+                int z = tileData.LocationZ;
                 BoardTileGrid[x, z] = ObjectPoolManager.Instance.TileObjectPool.PopBoardTile(tileData.TileType);
                 BoardTileGrid[x, z].GetComponent<BoardTile>().TileLevel = tileData.TileLevel;
                 for(int j = 0; j < playerData.Length; j++)
