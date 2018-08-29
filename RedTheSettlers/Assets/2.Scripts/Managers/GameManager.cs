@@ -194,6 +194,10 @@ namespace RedTheSettlers.GameSystem
             cameraCtrl.LookingTile(boardTile);
         }
 
+        /// <summary>
+        /// 배틀스테이지의 타일을 배치합니다.
+        /// </summary>
+        /// <param name="tileinfo"></param>
         public void BulidBattleTile(BoardTile tileinfo)
         {
             StartCoroutine(difficultyController.EstablishBattleStage(tileinfo, Players[0].PossessingTile));
