@@ -18,31 +18,23 @@ using UnityEngine.UI;
 namespace RedTheSettlers.GameSystem
 {
     class LoadingState : State
-    { 
-                
-        //private StageType stageType;
-
-        //public LoadingState(StageType stageType)
-        //{
-        //    this.stageType = stageType;
-        //}
-
+    {
+        
         public override void ContinueGame(bool canLoadData)
         {
-            
+
         }
 
         public override void Enter(StageType stageType)
         {
-            
+            StageManager.Instance.ChangeStageLoad(stageType);
         }
 
         public override void Exit(StageType stageType)
         {
-            //StageManager.Instance.ChangeStage(StageType.MainStageState);
-            StageManager.Instance.StartCoroutine(StageManager.Instance.ChangeStageLoad(stageType));
+
         }
-        
+
     }
-        
+
 }

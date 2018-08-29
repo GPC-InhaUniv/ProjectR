@@ -7,13 +7,6 @@ namespace RedTheSettlers.GameSystem
         private EventWeathers weather;
         private Weather weatherEvnet = (Weather)GameManager.Instance.gameData.InGameData.Weather;
 
-        private FlowFinishCallback _callback;
-        public FlowFinishCallback Callback
-        {
-            get { return _callback; }
-            set { _callback = value; }
-        }
-
         public void ItemFlow()
         {
             ChangeWeather();

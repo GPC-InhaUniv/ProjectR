@@ -17,7 +17,7 @@ namespace RedTheSettlers.GameSystem
 
         public abstract CameraMoving CameraMoving(Vector3 vector3, CameraStateType cameraState);
         public abstract CameraZoomInOut CameraZoomInOut(float value);
-        public abstract CameraAngle CameraAngle(Vector3 target);
+        public abstract CameraAngle CameraAngle(Transform target);
 
         public void TurnOn()
         {
