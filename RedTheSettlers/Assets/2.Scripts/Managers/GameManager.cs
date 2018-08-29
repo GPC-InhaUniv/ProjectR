@@ -135,6 +135,7 @@ namespace RedTheSettlers.GameSystem
                 if (DataManager.Instance.GameData.InGameData.TurnCount == GlobalVariables.BossAppearTurn)
                     state = GameState.EventController;
                 DataManager.Instance.GameData.InGameData.TurnCount++;
+                UIManager.Instance.ShowAiTurnUI();
             }
             else
                 state++;
