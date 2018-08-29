@@ -26,8 +26,6 @@ namespace RedTheSettlers.GameSystem
         private IInputState inputState;
 
         private Vector3 ClickPointDistance;
-        [SerializeField]
-        private StateType stateType;
         [SerializeField, Range(1, 200)]
         private float moveSpeed;
         [SerializeField, Range(1, 100)]
@@ -47,8 +45,7 @@ namespace RedTheSettlers.GameSystem
 
         private void Start()
         {
-            //inputState = new MainStageState();
-            TypeState(stateType);
+            inputState = new MainStageState();
         }
 
         private void Update()
@@ -93,26 +90,7 @@ namespace RedTheSettlers.GameSystem
         private void PcInput()
         {
             if (enableInputBattleStage)
-            {
-                /*moveDirection = Vector3.zero;
-
-                if (Input.GetKey(KeyCode.UpArrow))
-                {
-                    moveDirection += Vector3.forward;
-                }
-                else if (Input.GetKey(KeyCode.DownArrow))
-                {
-                    moveDirection += Vector3.back;
-                }
-                if (Input.GetKey(KeyCode.LeftArrow))
-                {
-                    moveDirection += Vector3.left;
-                }
-                else if (Input.GetKey(KeyCode.RightArrow))
-                {
-                    moveDirection += Vector3.right;
-                }*/                
-
+            {       
                 // 좌클릭 캐릭터 이동
                 if (Input.GetMouseButton(0))
                 {
