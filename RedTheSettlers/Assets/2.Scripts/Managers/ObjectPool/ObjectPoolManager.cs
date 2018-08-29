@@ -56,7 +56,7 @@ namespace RedTheSettlers.GameSystem
                 SkillQueue.Enqueue(Instantiate(SkillObject));
             }
 
-            CowObject = Instantiate(CowPrefab);
+            //CowObject = Instantiate(CowPrefab);
         }
     }
 }

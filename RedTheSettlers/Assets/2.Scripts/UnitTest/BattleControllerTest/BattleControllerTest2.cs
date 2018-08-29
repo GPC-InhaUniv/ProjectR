@@ -91,6 +91,24 @@ namespace RedTheSettlers.UnitTest
             // 데이터매니저에 어떤 정보를 넘겨줘야??
         }
 
+        private void EnemyDead()
+        {
+            if (aliveEnemyCount > 0)
+            {
+                aliveEnemyCount--;
+                LogManager.Instance.UserDebug(LogColor.Orange, GetType().ToString(), "Enemy Dead! 남은 Enemy : " + aliveEnemyCount);
+            }
+            else // aliveEnemyCount == 0
+            {
+                LogManager.Instance.UserDebug(LogColor.Orange, GetType().ToString(), "전투 승리!");
+            }
+        }
+
+        private void PlayerDead()
+        {
+            LogManager.Instance.UserDebug(LogColor.Orange, GetType().ToString(), "플레이어 사망!");
+        }
+
         /// <summary>
         /// Test용 코드. SpawnHerdOfCattles()가 원본
         /// </summary>
@@ -102,17 +120,6 @@ namespace RedTheSettlers.UnitTest
             GameObject cowsTest = ObjectPoolManager.Instance.CowObject;
             cowsTest.transform.position = spawnPoint;
             cowsTest.transform.rotation = angle;
-        }
-
-        private void EnemyDead()
-        {
-            if (aliveEnemyCount > 0)
-            {
-                aliveEnemyCount--;
-                LogManager.Instance.UserDebug(LogColor.Orange, GetType().ToString(), "Enemy Dead! 남은 Enemy : " + aliveEnemyCount);
-            }
-            else
-                LogManager.Instance.UserDebug(LogColor.Orange, GetType().ToString(), "남은 Enemy가 존재하지 않습니다.");
         }
     }
 }
