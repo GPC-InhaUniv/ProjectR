@@ -33,27 +33,27 @@ namespace RedTheSettlers.GameSystem
 
         [SerializeField]
         GameCamera BoardGameCamera, BattleGameCamera, ActiveCamera;
+        Transform targetTransform;
 
-        CameraStateType newCameraState;
         CameraStateType cameraState;
+        CameraStateType nowCameraState;
 
         Animator cloudAnimator;
 
         [SerializeField]
-        Vector3 playerVector3;
         Transform playerTransform;
-        //float ZoomValue;
-        //Vector3 vector3; //배틀 카메라를 사용할때 비어있는 v3를 전달하기위해 선언함
+        float ZoomValue;
+        Vector3 vector3; //배틀 카메라를 사용할때 비어있는 v3를 전달하기위해 선언함
 
         private void Start()
         {
             cloudAnimator = GameObject.FindWithTag("UICamera").GetComponentInChildren<Animator>();
             BoardGameCamera = GameObject.FindWithTag("BoardCamera").GetComponent<GameCamera>();
             BattleGameCamera = GameObject.FindWithTag("BattleCamera").GetComponent<GameCamera>();
-            //playerTransform = GameObject.FindWithTag(GlobalVariables.TAG_PLAYER).transform;
+            playerTransform = GameObject.FindWithTag(GlobalVariables.TAG_PLAYER).transform;
             ActiveCamera = BoardGameCamera;
-            cameraState = CameraStateType.Idle;
-            //vector3 = new Vector3();
+            nowCameraState = CameraStateType.Idle;
+            vector3 = new Vector3();
         }
 
         private void Update()
@@ -61,27 +61,24 @@ namespace RedTheSettlers.GameSystem
             if (Input.GetKeyDown(KeyCode.X))
             {
                 Debug.Log("x");
-
-                if (ActiveCamera == BoardGameCamera)
-                {
-                    StartCoroutine(SwichingCamera(BattleGameCamera));
-                }
-                else
-                {
-                    StartCoroutine(SwichingCamera(BoardGameCamera));
-                }
+                //SwichingCamera(ActiveCamera);
+                StartCoroutine(SwichingCamera(ActiveCamera));
             }
-            //if (Input.GetKeyDown(KeyCode.C))
+            if (Input.GetKeyDown(KeyCode.C))
+            {
+                Debug.Log("c");
+                ZoomInOut(ZoomValue);//ActiveCamera,
+            }
+
+            //플레이어의 상태를 받아 카메라상태를 변경한다(임시)
+            //if(nowCameraState != cameraState)
             //{
-            //    Debug.Log("c");
-            //    ZoomInOut(ZoomValue);//ActiveCamera,
+            //    ChangeState(cameraState);
             //}
 
-            //새로운 상태가 있으면 바꿔준다
-            if (cameraState != newCameraState)
-            {
-                cameraState = newCameraState;
-            }
+            
+
+            //GameManager에게 현재 상태를 받아와서 카메라를 스위치 해준다(미구현)
         }
 
         /// <summary>
@@ -91,64 +88,23 @@ namespace RedTheSettlers.GameSystem
         {
             if (ActiveCamera == BattleGameCamera)
             {
-                Debug.Log(ActiveCamera + " " + playerVector3);
-                if(playerVector3 == Vector3.zero)
-                {
-                    GetPlayerVector3();
-                    return;
-                }
-                else
-                {
-                    ActiveCamera.MovingCamera(playerVector3, cameraState);
-                    ActiveCamera.Looking(playerVector3);
-                }
+                Debug.Log(ActiveCamera);
+                ActiveCamera.MovingCamera(vector3, nowCameraState);
             }
         }
 
+
+
+
         /// <summary>
-        /// Player에서 카메라의 상태를 변경함
+        /// 플레이어상태변환 (임시로 만들어놓음)
         /// </summary>
         /// <param name="cameraState"></param>
         public void ChangeState(CameraStateType cameraStateType)
         {
-            cameraState = cameraStateType;
+            nowCameraState = cameraStateType;
         }
 
-        /// <summary>
-        /// 카메라 피치 줌인아웃
-        /// </summary>
-        public void ZoomInOut(float ZoomValue)
-        {
-            if(ActiveCamera == BoardGameCamera)
-                ActiveCamera.ZoomInOutCamera(ZoomValue);
-        }
-
-        /// <summary>
-        /// 보드에서 드레그로 화면을 움직인다
-        /// InputManager에서 호출하게됨
-        /// </summary>
-        public void CameraDragMoving(Vector3 direction)
-        {
-            ActiveCamera.MovingCamera(direction, cameraState);
-        }
-
-        /// <summary>
-        /// 보드타일이 선택되었을때 해당 타일을 바라보며 줌
-        /// </summary>
-        public void LookingTile(BoardTile boardTile)
-        {
-            if(ActiveCamera==BoardGameCamera)
-                ActiveCamera.Looking(boardTile.gameObject.transform.position);
-        }
-        //타일선택 해제했을때 뭐로할지 이야기해야함!!!!!!!!!!!
-
-        /// <summary>
-        /// 플레이어위치를 찾아옴
-        /// </summary>
-        private void GetPlayerVector3()
-        {
-            playerVector3 = GameObject.FindWithTag(GlobalVariables.TAG_PLAYER).transform.position;
-        }
         /// <summary>
         /// 배틀/보드 카메라 전환
         /// </summary>
@@ -167,12 +123,45 @@ namespace RedTheSettlers.GameSystem
                     break;
             }
         }
+    
+
 
         /// <summary>
         /// 카메라 스위칭할때 애니메이션, 싱크
         /// StageManager와 연관
         /// </summary>
-        IEnumerator SwichingCamera(GameCamera Camera)
+        public void ZoomInOut(float ZoomValue)
+        {
+            if(ActiveCamera == BoardGameCamera)
+                ActiveCamera.ZoomInOutCamera(ZoomValue);
+        }
+
+        /// <summary>
+        /// 보드에서 드레그로 화면을 움직인다
+        /// InputManager에서 호출하게됨
+        /// </summary>
+        public void CameraDragMoving(Vector3 direction)
+        {
+            ActiveCamera.MovingCamera(direction, nowCameraState);
+        }
+
+        /// <summary>
+        /// 보드타일이 선택되었을때 해당 타일을 바라보며 줌
+        /// </summary>
+        public void LookingTile(BoardTile boardTile)
+        {
+            if(ActiveCamera==BoardGameCamera)
+                ActiveCamera.Looking(boardTile.gameObject.transform);
+        }
+        //타일선택 해제했을때 뭐로할지 이야기해야함!!!!!!!!!!!
+
+        
+
+        /// <summary>
+        /// 카메라 스위칭할때 애니메이션, 싱크
+        /// StageManager와 연관
+        /// </summary>
+        IEnumerator SwichingCamera(GameCamera Camera)//미완성
         {
             Debug.Log("SwichingCameraasdsa");
             cloudAnimator.SetTrigger("Closing");
@@ -182,25 +171,16 @@ namespace RedTheSettlers.GameSystem
             ActiveCamera.TrunOffCamera();
             if (Camera == BoardGameCamera)
             {
-                playerVector3 = new Vector3();
+                targetTransform = null;
                 ActiveCamera = BoardGameCamera;
             }
             else
             {
-                GetPlayerVector3();
-                //targetTransform = playerTransform;
+                targetTransform = playerTransform.transform;
                 ActiveCamera = BattleGameCamera;
             }
             ActiveCamera.TrunOnCamera();
 
-            //여기에서 배틀타일이 완성되었는지 판단하고 다음을 진행한다
-            while (true)
-            {
-                if (true)
-                {
-                    break;
-                }
-            }
             cloudAnimator.SetTrigger("Opening");
             cloudAnimator.SetTrigger("Idle");
 

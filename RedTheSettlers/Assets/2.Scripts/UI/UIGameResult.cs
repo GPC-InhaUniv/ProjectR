@@ -26,6 +26,12 @@ namespace RedTheSettlers.UI
 
         private int resultType;
 
+        private void Start()
+        {
+            resultType = 1; //유아이 매니저쪽에서 넘겨줘야 함.
+            ChangeResultText();
+        }
+
         public void ChangeResultText()
         {
             if (resultType == 0)
@@ -38,24 +44,14 @@ namespace RedTheSettlers.UI
             }
         }
 
-        public void OnEnterScene()
+        public void OnEnterMainScene()
         {
-            //스테이지 매니저 쪽에서 넘겨줘야 함.
+            //유아이 매니저에서 스테이지 매니저랑 연결해서 가져와야 하나
         }
 
         public void OnCloseScene()
         {
-            //스테이지 매니저 쪽에서 넘겨줘야 함.
-        }
-
-        private void Start()
-        {
-            resultType = 1; //유아이 매니저쪽에서 넘겨줘야 함.
-            ChangeResultText();
-        }
-
-        private void Update()
-        {
+            //유아이 매니저에서 스테이지 매니저랑 연결해서 가져와야 하나
         }
     }
 }

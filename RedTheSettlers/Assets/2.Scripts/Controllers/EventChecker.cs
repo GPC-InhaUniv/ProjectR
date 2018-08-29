@@ -4,13 +4,6 @@ namespace RedTheSettlers.GameSystem
 {
     public class EventChecker : MonoBehaviour
     {
-        private FlowFinishCallback _callback;
-        public FlowFinishCallback Callback
-        {
-            get { return _callback; }
-            set { _callback = value; }
-        }
-
         public void EventFlow()
         {
             int turnCount = GetTurnCount();
