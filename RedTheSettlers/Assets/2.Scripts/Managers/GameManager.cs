@@ -251,7 +251,7 @@ namespace RedTheSettlers.GameSystem
         /// </summary>
         public void ChangedCamera(StateType stateType)
         {
-            
+            cameraCtrl.ChangeCamera(stateType);
         }
 
         /// <summary>
@@ -291,9 +291,10 @@ namespace RedTheSettlers.GameSystem
         /// <summary>
         /// AI의 진행 상황을 담은 큐를 전달합니다.
         /// </summary>
-        public void SetGameLog()
+        public void SetGameLog(Queue<string> messageQueue)
         {
-            Queue<string> messageQueue = turnCtrl.SendGameLog();
+
+            //UIManager.Instance.
         }
 
         private void SendPlayers()
