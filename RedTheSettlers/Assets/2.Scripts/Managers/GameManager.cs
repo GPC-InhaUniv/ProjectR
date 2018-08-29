@@ -37,7 +37,7 @@ namespace RedTheSettlers.GameSystem
             //itemCtrl.Callback = new ItemCallback(ItemFinish);
             tradeCtrl.Callback = new TradeCallback(TradeFinish);
             battleCtrl.Callback = new BattleCallback(BattleFinish);
-
+            difficultyController.Callback = new BuildBattleTileCallback(BulidBattleStageFinish);
             cameraCtrl = new CameraController();
             //TileManager.Instance.InitializeTileSet();
             battlePlayer = GameObject.FindWithTag("Player").GetComponent<BattlePlayer>();
@@ -62,9 +62,9 @@ namespace RedTheSettlers.GameSystem
             //GameFlow(turnCtrl.TurnFlow());
         }
 
-        public void BulidBattleStage()
+        public void BulidBattleStageFinish()
         {
-            
+
         }
 
         private void BattleFinish()
@@ -252,6 +252,10 @@ namespace RedTheSettlers.GameSystem
             //cameraCtrl.
         }
 
+        /// <summary>
+        /// 플레이어를 이동시킵니다.
+        /// </summary>
+        /// <param name="direction"></param>
         public void PlayerMove(Vector3 direction)
         {
             if (coroutineMove == null)
@@ -265,11 +269,18 @@ namespace RedTheSettlers.GameSystem
             }
         }
 
+        /// <summary>
+        /// 플레이어의 공격을 실행합니다.
+        /// </summary>
         public void PlayerAttack()
         {
             battlePlayer.AttackEnemy(10);
         }
 
+        /// <summary>
+        /// 플레이어의 스킬을 실행합니다.
+        /// </summary>
+        /// <param name="skillNumber"></param>
         public void PlayerSkill(int skillNumber)
         {
             battlePlayer.UseSkill(skillNumber);
