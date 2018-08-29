@@ -22,17 +22,19 @@ namespace RedTheSettlers.GameSystem
         
         public override void ContinueGame(bool canLoadData)
         {
-
+            Debug.Log("로딩씬");
         }
 
         public override void Enter(StageType stageType)
         {
+            Debug.Log("로딩씬 엔터");
+            SoundManager.Instance.ChangeBGM("BGM_PlayerTurn", true);
             StageManager.Instance.ChangeStageLoad(stageType);
         }
 
         public override void Exit(StageType stageType)
         {
-
+            
         }
 
     }

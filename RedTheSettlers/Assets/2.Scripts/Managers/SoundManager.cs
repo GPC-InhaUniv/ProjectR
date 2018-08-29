@@ -16,6 +16,7 @@ namespace RedTheSettlers.GameSystem
     [SerializeField]
     public class SoundManager : Singleton<SoundManager>
     {
+        protected SoundManager() { }
         //[SerializeField]
         //public int BGMsClipSize;
         //public int SFXsClipSize;
@@ -46,8 +47,9 @@ namespace RedTheSettlers.GameSystem
 
         private void Awake()
         {
+            DontDestroyOnLoad(gameObject);
             //클립수 초기화
-            if(8 < BGMs.Length)
+            if (8 < BGMs.Length)
             {
                 AudioClip[] newBGMs = new AudioClip[8];
                 for (int i = 0; i < newBGMs.Length; i++)

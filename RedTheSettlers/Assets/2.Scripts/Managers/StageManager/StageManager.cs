@@ -42,21 +42,22 @@ namespace RedTheSettlers.GameSystem
             DontDestroyOnLoad(gameObject);
         }
 
-        private void Update()
+        private void Start()
         {
-
+            SoundManager.Instance.ChangeBGM("BGM_Title", true);
         }
+
 
         public void JudgeLoadingData(bool canLoadData, StageType stageType)
         {
             StageStateMachine.ContinueGame(canLoadData);
-            //ChangeState(stageType);
+            ChangeState(stageType);
             ChangeStage(stageType);
-
         }
 
         public void ChangeState(StageType stageType)
         {
+            Debug.Log("체인지드스테이트"+stageType);
             stageStateMachine.Enter(stageType);
         }
 
@@ -65,7 +66,7 @@ namespace RedTheSettlers.GameSystem
             StageStateMachine.Exit(stageType);
         }
 
-       
+
         public IEnumerator ChangeStageLoad(StageType stageType)
         {
             AsyncOperation asyncOperationLoad = SceneManager.LoadSceneAsync(stageType.ToString());
@@ -94,8 +95,9 @@ namespace RedTheSettlers.GameSystem
                 if (asyncOperationMain.progress >= 0.9f)
                     asyncOperationMain.allowSceneActivation = true;
             }
-
-            ChangeStage(StageType.BoardScene);
+            //* yield return SceneManager.LoadSceneAsync(StageType.BoardScene.ToString());
+            Debug.Log("boardScene진입하는 ChangeState(StageType.BoardScene);");
+            ChangeState(StageType.BoardScene);
         }
     }
 }
