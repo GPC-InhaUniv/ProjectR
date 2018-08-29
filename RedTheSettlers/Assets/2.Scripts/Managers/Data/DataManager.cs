@@ -41,6 +41,7 @@ namespace RedTheSettlers.GameSystem
         {
             gameData = new GameData(4);
             gameDataLoader = new GameDataLoader();
+            DontDestroyOnLoad(gameObject);
         }
 
         public void CreateNewAccount(string id, string password)

@@ -14,6 +14,10 @@ public struct UIPlayerSprite
 
 namespace RedTheSettlers.UI
 {
+    /// <summary>
+    /// 작성자 : 박준명, 강다희
+    /// AI들의 Turn 내용 표시.
+    /// </summary>
     public class UIAITurn : MonoBehaviour
     {
         [SerializeField]
