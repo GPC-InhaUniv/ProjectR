@@ -7,7 +7,7 @@ using RedTheSettlers.GameSystem;
 
 namespace RedTheSettlers.UI
 {
-    public class UITurnController : MonoBehaviour
+    public class UIPlayerTurn : MonoBehaviour
     {
         /// <summary>
         /// 작성자 : 강다희
@@ -25,11 +25,11 @@ namespace RedTheSettlers.UI
 
         private void changeTurn()
         {
-            currentTurn = 15;//test
+            PlayerData playerData = GameManager.Instance.gameData.PlayerData[0];
+
+            currentTurn = playerData.StatData.StaminaPoint;
             currentTurnText.text = currentTurn.ToString();
 
-            //currentTurn.text = gameData.cowcow.ToString();
-            //이런식으로 현재 Turn 정보를 gameData에서 가져와서 텍스트에 넣어줘야 함.
             LogManager.Instance.UserDebug(LogColor.Olive, GetType().Name, "현재 Turn : " + currentTurn);
         }
 
