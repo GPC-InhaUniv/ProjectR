@@ -28,7 +28,7 @@ namespace RedTheSettlers.GameSystem
 
         public override void Enter(StageType stageType)
         {
-           
+            Debug.Log("뭐하냐");
         }
 
         public override void Exit(StageType stageType)

@@ -23,7 +23,6 @@ namespace RedTheSettlers.GameSystem
         public StageStateMachine()
         {
             currentState = new TitleState();
-            
             Debug.Log("현재 상태" + currentState);
         }
 
@@ -58,13 +57,13 @@ namespace RedTheSettlers.GameSystem
             }
             if (currentState != null)
             {
-                Debug.Log("상태머신에서 엔터"+ stageType);
+                Debug.Log("상태머신에서 엔터" + stageType);
                 currentState.Enter(stageType);
             }
             else
-                LogManager.Instance.UserDebug(LogColor.Navy,"StageStateMachine", "현재 상태가 없습니다.");              
+                LogManager.Instance.UserDebug(LogColor.Navy, "StageStateMachine", "현재 상태가 없습니다.");
         }
-               
+
         public void Exit(StageType stageType)
         {
             if (currentState != null) currentState.Exit(stageType);
