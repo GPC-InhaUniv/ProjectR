@@ -16,8 +16,6 @@ namespace RedTheSettlers.UnitTest
         AI3Turn,
     }
 
-    public delegate void TurnCallback();
-
     /// <summary>
     /// 작성자 : 박지용
     /// 유저와 AI의 턴 흐름을 제어한다.
@@ -32,8 +30,8 @@ namespace RedTheSettlers.UnitTest
         [SerializeField]
         private BoardAI[] AIs;
 
-        private TurnCallback _callback;
-        public TurnCallback Callback
+        private FlowFinishCallback _callback;
+        public FlowFinishCallback Callback
         {
             get{ return _callback; }
             set { _callback = value; }

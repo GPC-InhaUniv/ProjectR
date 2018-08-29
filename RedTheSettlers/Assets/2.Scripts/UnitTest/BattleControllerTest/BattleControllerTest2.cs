@@ -3,6 +3,8 @@ using RedTheSettlers.GameSystem;
 
 namespace RedTheSettlers.UnitTest
 {
+    public delegate void BattleFinishCallback();
+
     public class BattleControllerTest2 : MonoBehaviour
     {
         float cattleResawnTime = 5; // test용
@@ -14,6 +16,13 @@ namespace RedTheSettlers.UnitTest
         private int aliveEnemyCount; // 어디에서 받아와야하지? 
         public int AliveEnemyCount { set { aliveEnemyCount = value; } }
         //private float cattleResawnTime = 100; // second
+
+        private BattleFinishCallback _callback;
+        public BattleFinishCallback Callback
+        {
+            get { return _callback; }
+            set { _callback = value; }
+        }
 
         private void Start()
         {

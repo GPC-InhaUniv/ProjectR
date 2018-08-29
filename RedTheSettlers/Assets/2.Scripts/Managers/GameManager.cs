@@ -9,6 +9,8 @@ using RedTheSettlers.Players;
 
 namespace RedTheSettlers.GameSystem
 {
+    public delegate void FlowFinishCallback();
+
     /// <summary>
     /// 각 컨트롤러를 관리하고 중재하는 매니저
     /// </summary>
@@ -39,11 +41,11 @@ namespace RedTheSettlers.GameSystem
 
         private void Start()
         {
-            turnCtrl.Callback = new TurnCallback(TurnFinish);
-            //eventCtrl.Callback = new EventCallback(EventFinish);
-            //itemCtrl.Callback = new ItemCallback(ItemFinish);
+            turnCtrl.Callback = new FlowFinishCallback(GameFlowFinish);
+            eventCtrl.Callback = new FlowFinishCallback(GameFlowFinish);;
+            itemCtrl.Callback = new FlowFinishCallback(GameFlowFinish);
             //tradeCtrl.Callback = new TradeCallback(TradeFinish);
-            //battleCtrl.Callback = new BattleCallback(BattleFinish);
+            battleCtrl.Callback = new BattleFinishCallback(BattleFinish);
             difficultyController.Callback = new BuildBattleTileCallback(BulidBattleStageFinish);
             cameraCtrl = new CameraController();
             //TileManager.Instance.InitializeTileSet();
@@ -65,28 +67,21 @@ namespace RedTheSettlers.GameSystem
                     turnCtrl.TurnFlow(state);
                     break;
             }
-
         }
 
-        
-
-        private void EventFinish()
+        public void GameFlowFinish()
         {
-            //아이템 컨트롤러를 호출
-            ChangeGameFlow();
             StartGameFlow();
-        }
-
-        private void ItemFinish()
-        {
-            //턴 컨트롤러를 호출
-            ChangeGameFlow();
-        }
-
-        private void TurnFinish()
-        {
-            //턴 종료 누르면 호출됨
-            ChangeGameFlow();
+            switch (state)
+            {
+                case GameState.EventController:
+                    break;
+                case GameState.ItemController:
+                    UIManager.Instance.ShowBoardUI();
+                    break;
+                default:
+                    break;
+            }
         }
 
         private void BulidBattleStageFinish()
@@ -109,19 +104,7 @@ namespace RedTheSettlers.GameSystem
                 state = GameState.EventController;
             }
             else
-                state += 1;
-        }
-
-        private void InsinstallationBoardTile()
-        {
-            TileManager.Instance.CreateBoardTileGrid();
-            TileManager.Instance.ShowBoardTile();
-        }
-
-        private void InsinstallationBattleTile(ItemType itemType, int difficulty)
-        {
-            TileManager.Instance.CreateBattleTileGrid(itemType, difficulty);
-            TileManager.Instance.ShowBattleTile();
+                state++;
         }
 
         /// <summary>
