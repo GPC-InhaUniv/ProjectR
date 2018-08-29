@@ -27,9 +27,9 @@ namespace RedTheSettlers.UI
         public const int DefenseUpgradeTwoIron = 10;
         public const int DefenseUpgradeTwoSoil = 10;
 
-        public int PlayerWood;
-        public int PlayerIron;
-        public int PlayerSoil;
+        private int PlayerWood;
+        private int PlayerIron;
+        private int PlayerSoil;
 
         [Flags]
         enum UpgradeItems
@@ -88,6 +88,10 @@ namespace RedTheSettlers.UI
 
         private void Start()
         {
+            PlayerWood = GameManager.Instance.GetPlayerItemCount(UserType.Player, ItemType.Wood);
+            PlayerIron = GameManager.Instance.GetPlayerItemCount(UserType.Player, ItemType.Iron);
+            PlayerSoil = GameManager.Instance.GetPlayerItemCount(UserType.Player, ItemType.Soil);
+
             secondAttackButton.interactable = false;
             secondShieldButton.interactable = false;
 

@@ -308,5 +308,21 @@ namespace RedTheSettlers.GameSystem
         {
             turnCtrl.SetAIs(Players);
         }
+
+        //플레이어 무기, 방어구 레벨, 보스 카운터
+        public int GetPlayersAttackLevel(int playerNum)
+        {
+            return DataManager.Instance.GameData.PlayerData[playerNum].StatData.WeaponLevel;
+        }
+
+        public int GetPlayersDefenseLevel(int playerNum)
+        {
+            return DataManager.Instance.GameData.PlayerData[playerNum].StatData.ShieldLevel;
+        }
+
+        public int GetPlayersBossKillCount(int playerNum)
+        {
+            return DataManager.Instance.GameData.PlayerData[playerNum].BossKillCount;
+        }
     }
 }
