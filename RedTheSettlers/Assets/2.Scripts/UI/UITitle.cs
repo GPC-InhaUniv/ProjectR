@@ -9,7 +9,7 @@ namespace RedTheSettlers
 {
     namespace UI
     {
-        public class UITitleScript : MonoBehaviour
+        public class UITitle : MonoBehaviour
         {
             public Text TitleText;
             private Color color;

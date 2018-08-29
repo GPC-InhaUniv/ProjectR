@@ -1,24 +1,25 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace RedTheSettlers.GameSystem
 {
     public class ItemDistributor : MonoBehaviour
     {
-        EventWeathers weather;
-        GameData datas = DataManager.Instance.GameData;
+        private EventWeathers weather;
+        private Weather weatherEvnet = (Weather)GameManager.Instance.gameData.InGameData.Weather;
 
-        public IEnumerator ItemFlow()
+        public void ItemFlow()
         {
             ChangeWeather();
-            weather.GetItems();
 
-            yield break;
+            LogManager.Instance.UserDebug(LogColor.Orange, GetType().ToString(), "자원 분배 시작");
+            weather.GetItems();
+            LogManager.Instance.UserDebug(LogColor.Orange, GetType().ToString(), "자원 분배 종료");
         }
 
-        public void ChangeWeather()
+        private void ChangeWeather()
         {
-            switch ((Weather)datas.InGameData.Weather)
+            LogManager.Instance.UserDebug(LogColor.Orange, GetType().ToString(), "날씨 이벤트 변경");
+            switch (weatherEvnet)
             {
                 case Weather.Rain:
                     weather = new Rain(); break;
