@@ -120,8 +120,15 @@ namespace RedTheSettlers.Players
 
             if(hp <= 0)
             {
-                animator.SetTrigger("Dead");
                 playerDeadCallBack();
+
+                animator.SetTrigger("Dead");
+
+                yield return new WaitForSeconds(2f);
+
+                gameObject.SetActive(false);
+
+                ObjectPoolManager.Instance.PlayerObjectPool.SetPlayerObject(gameObject);
             }
         }
 
