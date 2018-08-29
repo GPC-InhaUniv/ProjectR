@@ -16,7 +16,7 @@ public class MainStageState : MonoBehaviour, IInputState
     private Vector3 dragDirection;
     private Coordinate saveCoordinate;
     private BoardTile tileInformation;
-    private float cameraZoom;
+    private int cameraZoom;
     private float touchDistance;
     private float firstDistance;
     private float currentDistance;
@@ -91,13 +91,13 @@ public class MainStageState : MonoBehaviour, IInputState
         {
             cameraZoom = (Input.GetAxis("Mouse ScrollWheel") * speed) * reversValue;
             //TemporaryGameManager.Instance.CameraZoom(cameraZoom);
-            GameManager.Instance.CameraZoom(cameraZoom);
+            GameManager.Instance.CameraZoomInOut(cameraZoom);
         }
         else if (Input.GetAxis("Mouse ScrollWheel") * reversValue > 0)
         {
             cameraZoom = (Input.GetAxis("Mouse ScrollWheel") * speed) * reversValue;
             //TemporaryGameManager.Instance.CameraZoom(cameraZoom);
-            GameManager.Instance.CameraZoom(cameraZoom);
+            GameManager.Instance.CameraZoomInOut(cameraZoom);
         }
 #endif
 
