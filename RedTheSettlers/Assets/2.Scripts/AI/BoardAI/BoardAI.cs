@@ -12,9 +12,6 @@ namespace RedTheSettlers.Users
         private IAIStrategy myStrategy;
         public Queue<string> MessageQueue;
 
-        public delegate void AITurnEndDelegate();
-        public AITurnEndDelegate AITurnEndCallBack;
-
         private IEnumerator Start()
         {
             myStrategy = gameObject.AddComponent<SoftStrategy>();
@@ -45,8 +42,6 @@ namespace RedTheSettlers.Users
             MessageQueue.Enqueue("점령할 타일을 찾습니다...");
 
             PossessTile(targetTile);
-
-            AITurnEndCallBack();
         }
 
         public void PossessTile(BoardTile boardTile)

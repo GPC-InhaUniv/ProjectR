@@ -14,7 +14,6 @@ public class MainStageState : MonoBehaviour, IInputState
     private Vector3 firstClick;
     private Vector3 dragPosition;
     private Vector3 dragDirection;
-    private Coordinate saveCoordinate;
     private BoardTile tileInformation;
     private float cameraZoom;
     private float touchDistance;
@@ -23,31 +22,24 @@ public class MainStageState : MonoBehaviour, IInputState
     private const int reversValue = -1;
     private const int touchMaxCount = 2;
 
-    public void TileInfo()
+    /*public void TouchOrClickButton(InputButtonType inputButtonType)
     {
-        if (boardCamera == null)
+        switch (inputButtonType)
         {
-            boardCamera = GameObject.FindWithTag("BoardCamera").GetComponentInChildren<Camera>();
+            case InputButtonType.Battle:
+                break;
+            case InputButtonType.Trade:
+                break;
+            case InputButtonType.TurnEnd:
+                break;
+            case InputButtonType.Status:
+                break;
+            case InputButtonType.Map:
+                break;
+            case InputButtonType.EquipAndSkill:
+                break;
         }
-        if (Input.GetMouseButtonUp(1))
-        {
-            Ray rayPoint = boardCamera.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hitPoint;
-
-            if (Physics.Raycast(rayPoint, out hitPoint, Mathf.Infinity))
-            {
-                if(hitPoint.collider.CompareTag("Tile"))
-                {
-                    tileInformation = hitPoint.collider.gameObject.GetComponent<BoardTile>();
-                    GameManager.Instance.GetClickedTile(tileInformation);
-                }
-                else if(!hitPoint.collider.CompareTag("Tile"))
-                {
-                    LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, "타일 정보를 찾을 수 없습니다.");
-                }
-            }
-        }
-    }
+    }*/
 
     public void OnStartDrag()
     {
@@ -125,6 +117,30 @@ public class MainStageState : MonoBehaviour, IInputState
         #endif
     }
 
+    public void TileInfo()
+    {
+        if(boardCamera == null)
+        {
+            boardCamera = GameObject.FindWithTag("BoardCamera").GetComponentInChildren<Camera>();
+        }
+        if (Input.GetMouseButtonUp(1))
+        {
+            Ray rayPoint = boardCamera.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hitPoint;
+
+            if (Physics.Raycast(rayPoint, out hitPoint, Mathf.Infinity))
+            {
+                tileInformation = hitPoint.collider.gameObject.GetComponent<BoardTile>();
+                LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, "타일 정보 : " + tileInformation.TileType);
+                GameManager.Instance.GetClickedTile(tileInformation);
+            }
+            else if(tileInformation == null)
+            {
+                LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, "타일 정보를 찾을 수 없습니다.");
+            }
+        }
+    }
+
     // 이 밑으로 해당 클래스에서는 사용하지 않음.
     // 추후 구조 변경시 필요치 않은 메서드들은 해당 클래스에서 사라질 예정
 
@@ -153,17 +169,17 @@ public class MainStageState : MonoBehaviour, IInputState
         throw new System.NotImplementedException();
     }
 
+    public void MovingPlayer(Transform player)
+    {
+        throw new System.NotImplementedException();
+    }
+
     public void BattleAttack()
     {
         throw new System.NotImplementedException();
     }
 
     public void UseSkill(int skillSlotNumber)
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public void MovingPlayer(Transform player)
     {
         throw new System.NotImplementedException();
     }

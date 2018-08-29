@@ -78,7 +78,6 @@ namespace RedTheSettlers.Enemys
         public bool[] isAttackable;
 
         public GameTimer AITimer;
-        private EnemyDeadCallback enemyDeadCallback;
 
         private void Update()
         {
@@ -203,9 +202,8 @@ namespace RedTheSettlers.Enemys
         public void EndDead()
         {
             DeadTimer = null;
-            enemyDeadCallback();
             ObjectPoolManager.Instance.EnemyObjectPool.PushEnemyObject(gameObject);
-            gameObject.SetActive(false);
+            Debug.Log("enemy return to pool");
         }
 
         public BattleTile GetCurrentTile(Vector3 position)

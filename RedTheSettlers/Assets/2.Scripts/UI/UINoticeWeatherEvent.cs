@@ -26,6 +26,11 @@ namespace RedTheSettlers.UI
 
         private int whatEvent;
 
+        private void OnEnable()
+        {
+            ChangeWeatherEvent();
+        }
+
         private void ChangeWeatherEvent()
         {
             whatEvent = GameManager.Instance.gameData.InGameData.Weather;
@@ -125,15 +130,6 @@ namespace RedTheSettlers.UI
                     break;
             }
             LogManager.Instance.UserDebug(LogColor.Olive, GetType().Name, "현재 날씨 이벤트 : " + currentEventTitle.text + " / " + currentEventContent.text);
-        }
-
-        private void Start()
-        {
-            ChangeWeatherEvent();
-        }
-
-        private void Update()
-        {
         }
     }
 }
