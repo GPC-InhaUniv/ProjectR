@@ -61,7 +61,7 @@ namespace RedTheSettlers.GameSystem
             {
                 Queue<GameObject> tileQueue = new Queue<GameObject>(BattleTileQueueSize);
 
-                for (int index = 0; index < BoardTileQueueSize; index++)
+                for (int index = 0; index < BattleTileQueueSize; index++)
                 {
                     if(BattleObstacleTileObjects[i] != null)
                     tileQueue.Enqueue(Instantiate(BattleObstacleTileObjects[i], BattleObstacleTileCloneSet[i].transform));

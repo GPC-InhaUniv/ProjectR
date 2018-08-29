@@ -24,7 +24,6 @@ namespace RedTheSettlers.GameSystem
     public class InputManager : Singleton<InputManager>
     {
         private IInputState inputState;
-        private Transform player;
 
         private Vector3 ClickPointDistance;
         [SerializeField]
@@ -49,7 +48,6 @@ namespace RedTheSettlers.GameSystem
         private void Start()
         {
             //inputState = new MainStageState();
-            player = GameObject.FindWithTag("Player").GetComponent<Transform>();
             TypeState(stateType);
         }
 
@@ -118,10 +116,10 @@ namespace RedTheSettlers.GameSystem
                 // 좌클릭 캐릭터 이동
                 if (Input.GetMouseButton(0))
                 {
-                    inputState.MovingPlayer(player);
+                    inputState.MovingPlayer();
                 }
                 // 우클릭 기본 공격
-                if (Input.GetMouseButtonUp(1))
+                if (Input.GetKeyDown(KeyCode.Space))
                 {
                     inputState.BattleAttack();
                 }
@@ -143,6 +141,7 @@ namespace RedTheSettlers.GameSystem
             if (enableInputMainStage)
             {
                 // 좌클릭시 처음 눌렀을 때와 땠을 때의 거리가 같지 않으면 작동하지 않게...
+                // 테스트 필요.
                 if(Input.GetMouseButtonDown(0))
                 {
                     downClickPoint = Input.mousePosition;
@@ -152,13 +151,8 @@ namespace RedTheSettlers.GameSystem
                     upClickPoint = Input.mousePosition;
                     if(downClickPoint == upClickPoint)
                     {
-                        inputState.MovingPlayer(player);
+                        inputState.TileInfo();
                     }
-                }
-                // 우클릭시 타일 정보를 GameManager로 전달
-                if (Input.GetMouseButtonUp(1))
-                {
-                    inputState.TileInfo();
                 }
             }
         }

@@ -105,7 +105,7 @@ public class TradeInMainStageState : MonoBehaviour,IInputState
         throw new System.NotImplementedException();
     }
 
-    public void MovingPlayer(Transform player)
+    public void MovingPlayer()
     {
         throw new System.NotImplementedException();
     }
