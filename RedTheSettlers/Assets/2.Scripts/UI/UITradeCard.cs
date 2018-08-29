@@ -95,7 +95,7 @@ namespace RedTheSettlers.UI
 
         public void ShowItemPopup(int value)
         {
-            if (value == 1)    //함수화 하기
+            if (value == 1)    
             {
                 ItemPopup.SetActive(true);
                 GiveDescriptionText.gameObject.SetActive(true);
