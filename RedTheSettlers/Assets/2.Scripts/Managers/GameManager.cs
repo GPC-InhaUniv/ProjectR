@@ -191,6 +191,7 @@ namespace RedTheSettlers.GameSystem
         public void GetClickedTile(BoardTile boardTile)
         {
             UIManager.Instance.SendTileInfo(boardTile);
+            cameraCtrl.LookingTile(boardTile);
         }
 
         public void BulidBattleTile(BoardTile tileinfo)
