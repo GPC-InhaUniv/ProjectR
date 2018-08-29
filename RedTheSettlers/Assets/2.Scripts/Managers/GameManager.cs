@@ -42,7 +42,7 @@ namespace RedTheSettlers.GameSystem
             turnCtrl.Callback = new TurnCallback(TurnFinish);
             //eventCtrl.Callback = new EventCallback(EventFinish);
             //itemCtrl.Callback = new ItemCallback(ItemFinish);
-            tradeCtrl.Callback = new TradeCallback(TradeFinish);
+            //tradeCtrl.Callback = new TradeCallback(TradeFinish);
             //battleCtrl.Callback = new BattleCallback(BattleFinish);
             difficultyController.Callback = new BuildBattleTileCallback(BulidBattleStageFinish);
             cameraCtrl = new CameraController();
@@ -50,11 +50,9 @@ namespace RedTheSettlers.GameSystem
             battlePlayer = GameObject.FindWithTag("Player").GetComponent<BattlePlayer>();
         }
 
-        //게임 매니저가 타일 매니저를 통해 타일 배치(보드, 전투)을 지시해야 한다.
-
-        //어떻게 턴의 흐름을 제어 할 것인지 고민
-        public void GameFlow(IEnumerator Flow)
+        public void StartGameFlow()
         {
+            ChangeGameFlow();
             switch (state)
             {
                 case GameState.EventController:
@@ -64,40 +62,54 @@ namespace RedTheSettlers.GameSystem
                     itemCtrl.ItemFlow();
                     break;
                 default:
+                    turnCtrl.TurnFlow(state);
                     break;
             }
-            //GameFlow(turnCtrl.TurnFlow());
+
         }
+
+        
 
         private void EventFinish()
         {
-
+            //아이템 컨트롤러를 호출
+            ChangeGameFlow();
+            StartGameFlow();
         }
 
         private void ItemFinish()
         {
-
-        }
-
-        public void BulidBattleStageFinish()
-        {
-            battleCtrl.AliveEnemyCount = difficultyController.GetEnemyCount();
-
-        }
-
-        private void BattleFinish()
-        {
-            
-        }
-
-        private void TradeFinish()
-        {
-            
+            //턴 컨트롤러를 호출
+            ChangeGameFlow();
         }
 
         private void TurnFinish()
         {
-            
+            //턴 종료 누르면 호출됨
+            ChangeGameFlow();
+        }
+
+        private void BulidBattleStageFinish()
+        {
+            //전투 시작 전 세팅
+            battleCtrl.AliveEnemyCount = difficultyController.GetEnemyCount();
+            ChangeGameFlow();
+        }
+
+        private void BattleFinish()
+        {
+            //전투 끝(메인으로 돌아가야 함)   
+            ChangeGameFlow();
+        }
+
+        private void ChangeGameFlow()
+        {
+            if (state == GameState.AI3Turn)
+            {
+                state = GameState.EventController;
+            }
+            else
+                state += 1;
         }
 
         private void InsinstallationBoardTile()
@@ -258,7 +270,7 @@ namespace RedTheSettlers.GameSystem
         /// </summary>
         public void ChangedCamera(StateType stateType)
         {
-            //cameraCtrl.
+            
         }
 
         /// <summary>
@@ -301,7 +313,6 @@ namespace RedTheSettlers.GameSystem
         public void SetGameLog()
         {
             Queue<string> messageQueue = turnCtrl.SendGameLog();
-            //UIManager.Instance.
         }
 
         private void SendPlayers()
