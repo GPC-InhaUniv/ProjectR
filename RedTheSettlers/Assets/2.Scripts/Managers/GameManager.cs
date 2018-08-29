@@ -272,7 +272,7 @@ namespace RedTheSettlers.GameSystem
         /// 카메라 줌 인/아웃
         /// </summary>
         /// <param name="ZoomValue"></param>
-        public void CameraZoomInOut(int ZoomValue)
+        public void CameraZoomInOut(float ZoomValue)
         {
             cameraCtrl.ZoomInOut(ZoomValue);
         }
