@@ -16,20 +16,27 @@ namespace RedTheSettlers.Players
     public class BattlePlayer : MonoBehaviour
     {
         private GameTimer playerTimer;
-        private Animator animator;
         [SerializeField]
         private GameObject AttackBox;
 
+        [HideInInspector]
+        public Animator animator;
+
+        public bool IsOverWhelm;
         private int hp;
         private int mp;
         private float standardSpeed = 2.0f;
+        [SerializeField]
         private float moveSpeed = 2.0f;
 
-        private Skill[] skillSlot = new Skill[4];
+        private Skill[] skillSlot = new Skill[3];
 
         private void Awake()
         {
             animator = GetComponent<Animator>();
+            skillSlot[0] = new MeleeAttackSkill();
+            skillSlot[1] = new SpeedUpBuffSkill();
+            skillSlot[2] = new OverWhelmBuffSkill();
         }
 
         public IEnumerator MoveToTargetPostion(Vector3 targetPosition)
@@ -81,15 +88,18 @@ namespace RedTheSettlers.Players
         {
             animator.SetTrigger("Attack");
 
+            yield return new WaitForSeconds(0.5f);
+
             AttackBox.SetActive(true);
 
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(0.5f);
             
             AttackBox.SetActive(false);
         }
 
         public void HittedByEnemy(int damage)
         {
+            if(!IsOverWhelm)
             StartCoroutine(HittedByEnemyCoroutine(damage));
         }
 
@@ -102,7 +112,7 @@ namespace RedTheSettlers.Players
 
         public void UseSkill(int skillSlotNum)
         {
-            skillSlot[skillSlotNum].ActivateSkill(this);
+            StartCoroutine(skillSlot[skillSlotNum].ActivateSkill(this));
         }
 
         public void ChangeSpeed(float amount)

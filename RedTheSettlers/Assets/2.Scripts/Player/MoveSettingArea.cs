@@ -34,6 +34,21 @@ public class MoveSettingArea : MonoBehaviour {
                 MakePlayerAttack();
             }
 
+            if(Input.GetKeyDown(KeyCode.Q))
+            {
+                battlePlayer.UseSkill(0);
+            }
+
+            if (Input.GetKeyDown(KeyCode.W))
+            {
+                battlePlayer.UseSkill(1);
+            }
+
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                battlePlayer.UseSkill(2);
+            }
+
             yield return null;
         }
     }

@@ -2,18 +2,33 @@
 using System.Collections.Generic;
 using UnityEngine;
 using RedTheSettlers.Players;
+using RedTheSettlers.GameSystem;
 
 namespace RedTheSettlers.Skills
 {
     public class SpeedUpBuffSkill : Skill
     {
-        public override IEnumerator ActivateSkill(BattlePlayer User)
+        public override IEnumerator ActivateSkill(BattlePlayer battlePlayer)
         {
-            User.ChangeSpeed(0.5f);
+            float buffTime = 0;
 
-            yield return new WaitForSeconds(2f);
+            battlePlayer.ChangeSpeed(0.5f);
+            GameObject speedUpBuffParticle = ObjectPoolManager.Instance.SkillObjectPool.PopSkillParticle(SkillType.SpeedUpBuff);
+            speedUpBuffParticle.transform.position = battlePlayer.transform.position;
+            speedUpBuffParticle.SetActive(true);
 
-            User.ChangeSpeed(-0.5f);
+            while (!speedUpBuffParticle.GetComponent<ParticleSystem>().isStopped)
+            {
+                buffTime += Time.deltaTime;
+                yield return null;
+            }
+
+            speedUpBuffParticle.SetActive(false);
+            ObjectPoolManager.Instance.SkillObjectPool.PushSkillParticle(speedUpBuffParticle);
+
+            yield return new WaitForSeconds(2f - buffTime);
+
+            battlePlayer.ChangeSpeed(-0.5f);
 
             yield return null;
         }

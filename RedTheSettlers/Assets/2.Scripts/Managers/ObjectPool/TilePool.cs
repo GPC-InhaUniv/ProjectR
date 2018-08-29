@@ -71,11 +71,6 @@ namespace RedTheSettlers.GameSystem
 
         }
 
-        private void Start()
-        {
-            TileManager.Instance.InitializeTileSet();
-        }
-
         public void PushBattleTile(GameObject battleTile)
         {
             battleTile.SetActive(false);
