@@ -155,9 +155,12 @@ namespace RedTheSettlers.GameSystem
                 }
                 enemyList[i].SetActive(true);
             }
-
         }
 
+        public int GetEnemyCount()
+        {
+            return (int)battlelevel + 1;
+        }
         /*
         DifficultyController가 해야할 일.
         1. 소유 타일에 따라 정해진 난이도를 타일 매니저에 보내줌.

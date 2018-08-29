@@ -12,6 +12,7 @@ namespace RedTheSettlers.UnitTest
 
         [SerializeField]
         private int aliveEnemyCount; // 어디에서 받아와야하지? 
+        public int AliveEnemyCount { set { aliveEnemyCount = value; } }
         //private float cattleResawnTime = 100; // second
 
         private void Start()
