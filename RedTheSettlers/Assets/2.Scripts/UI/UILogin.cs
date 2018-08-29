@@ -63,14 +63,12 @@ namespace RedTheSettlers.UI
             }
         }
 
-        private void OnEnable()
+        public void OnClickedContinueGameButton(bool wouldContinue)
         {
-
-        }
-
-        public void OnClickedNewGameButton()
-        {
-            DataManager.Instance.ResetData();
+            if(wouldContinue)
+                StageManager.Instance.JudgeLoadingData(true, StageType.BoardScene);
+            else
+                StageManager.Instance.JudgeLoadingData(false, StageType.BoardScene);
         }
 
         public void ChangeLoginAlertText(string Text)

@@ -10,6 +10,7 @@ namespace RedTheSettlers.Tiles
         public TileOwner tileOwner;
         [HideInInspector]
         public int tileWeight;
+        public bool IsBossTile = false;
 
         public void CalculateTileWeight(ItemData[] itemData)
         {
@@ -23,6 +24,16 @@ namespace RedTheSettlers.Tiles
         public int CompareTo(BoardTile boardTile)
         {
             return tileWeight.CompareTo(boardTile.tileWeight);
+        }
+
+        public void SetBossTile()
+        {
+            IsBossTile = true;
+        }
+
+        public void SetNormalTile()
+        {
+            IsBossTile = false;
         }
     }
 }

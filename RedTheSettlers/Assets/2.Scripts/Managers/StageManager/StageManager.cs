@@ -19,9 +19,9 @@ namespace RedTheSettlers.GameSystem
 
     public enum StageType
     {
-        TitleStageState,
+        TitleScene,
         LoadingStageState,
-        MainStageState,
+        BoardScene,
         TutorialStageState,
         BattleStageState
 
@@ -34,6 +34,12 @@ namespace RedTheSettlers.GameSystem
         private StageStateMachine stageStateMachine;
         public StageStateMachine StageStateMachine { get { return stageStateMachine; } }
 
+        [SerializeField]
+        ObjectPoolManager ObjectPoolManager;
+
+        [SerializeField]
+
+
         private float loadingProgress;
 
 
@@ -43,23 +49,21 @@ namespace RedTheSettlers.GameSystem
             DontDestroyOnLoad(gameObject);
         }
 
-        public void JudgeLoadingData(bool canLoadData)
+        public void JudgeLoadingData(bool canLoadData, StageType stageType)
         {
-            //if (!canLoadData)
-            //    DataManager.Instance.ResetData();
-
             StageStateMachine.ContinueGame(canLoadData);
+            ChangeStage(stageType);
         }
 
         public void ChangeStage(StageType stageType)
         {
+            stageStateMachine.Enter(stageType);
             StageStateMachine.Exit(stageType);
-            // StageStateMachine.CurrentState = new LoadingState(stageType);
         }
 
-        public void ChangeState()
+        public void ChangeCamera(StageType stageType)
         {
-            StageStateMachine.Enter();
+            StageStateMachine.Enter(stageType);
         }
 
 
@@ -84,5 +88,7 @@ namespace RedTheSettlers.GameSystem
             }
 
         }
+
+
     }
 }

@@ -26,23 +26,25 @@ namespace RedTheSettlers.GameSystem
             Debug.Log("현재 상태" + currentState);
         }
 
-        public void Enter()
-        {
-            if (currentState != null) currentState.Enter();
-            else
-                Debug.Log("현재 상태가 없습니다.");
-        }
-
         public void ContinueGame(bool canLoadData)
         {
             if (currentState != null) currentState.ContinueGame(canLoadData);
+            else
+                LogManager.Instance.UserDebug(LogColor.Navy, "StageStateMachine", "현재 상태가 없습니다.");
         }
 
+        public void Enter(StageType stageType)
+        {
+            if (currentState != null) currentState.Enter(stageType);
+            else
+                LogManager.Instance.UserDebug(LogColor.Navy,"StageStateMachine", "현재 상태가 없습니다.");              
+        }
+               
         public void Exit(StageType stageType)
         {
             if (currentState != null) currentState.Exit(stageType);
             else
-                Debug.Log("현재 상태가 없습니다.");
+                LogManager.Instance.UserDebug(LogColor.Navy, "StageStateMachine", "현재 상태가 없습니다.");
         }
     }
 }
