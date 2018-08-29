@@ -28,7 +28,7 @@ namespace RedTheSettlers.UnitTest
         /// <summary>
         /// 현재 턴 진행중인 플레이어 번호(0 ~ 3)
         /// </summary>
-        public int CurrentPlayerTurn = 0;
+        private int CurrentPlayerTurn = 0;
         [SerializeField]
         private BoardAI[] AIs;
 
@@ -39,12 +39,13 @@ namespace RedTheSettlers.UnitTest
             set { _callback = value; }
         }
         
-        public IEnumerator TurnFlow()
+        public void TurnFlow(int gameState)
         {
-            GameManagerTest.Instance.state += 1;
+            CurrentPlayerTurn = gameState - (int)GameState.AI1Turn;
+            //GameManager.Instance.state += 1;
+
             SendGameLog();
-            Callback();
-            yield return new WaitForSeconds(3);
+
         }
 
         /// <summary>
@@ -53,8 +54,11 @@ namespace RedTheSettlers.UnitTest
         /// </summary>
         public Queue<string> SendGameLog()
         {
-            Queue<string> messages = new Queue<string>();
-
+            Queue<string> messages = null;
+            if (CurrentPlayerTurn >= 0) // ai 턴일때만 CurrentPlayerTurn 값이 0 이상
+            {
+                messages = AIs[CurrentPlayerTurn].MessageQueue;
+            }
             return messages;
         }
 
@@ -64,6 +68,11 @@ namespace RedTheSettlers.UnitTest
             {
                 AIs[i] = players[i + 1].GetComponent<BoardAI>();
             }
+        }
+
+        public void OnClickTurnFinish()
+        {
+            Callback();
         }
     }
 }
