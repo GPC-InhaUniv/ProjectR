@@ -20,7 +20,7 @@ namespace RedTheSettlers.GameSystem
         {
             CreateBoardTileGrid();
             ShowBoardTile();
-            CreateBattleTileGrid(ItemType.Cow, 1);
+            CreateBattleTileGrid(ItemType.Water, 3);
             ShowBattleTile();
         }
         
@@ -76,7 +76,14 @@ namespace RedTheSettlers.GameSystem
                     {
                         float xCoord = CalculateXcoord(x, z) + GlobalVariables.BattleAreaOriginCoord;
                         float zCoord = CalculateZcoord(z) + GlobalVariables.BattleAreaOriginCoord;
-                        BattleTileGrid[x, z] = ObjectPoolManager.Instance.TileObjectPool.PopBattleTile(itemType);
+                        if (Random.Range(difficulty, 5) < 4)
+                        {
+                            BattleTileGrid[x, z] = ObjectPoolManager.Instance.TileObjectPool.PopBattleTile(itemType);
+                        }
+                        else
+                        {
+                            BattleTileGrid[x, z] = ObjectPoolManager.Instance.TileObjectPool.PopBattleObstacleTile(itemType);
+                        }
                         BattleTileGrid[x, z].transform.position = new Vector3(xCoord, 0.05f, zCoord);
                         BattleTileGrid[x, z].GetComponent<BattleTile>().TileCoordinate = new Coordinate(x, z);
                     }

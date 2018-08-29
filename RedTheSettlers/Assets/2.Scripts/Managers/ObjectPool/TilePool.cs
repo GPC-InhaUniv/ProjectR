@@ -25,6 +25,7 @@ namespace RedTheSettlers.GameSystem
 
         public List<Queue<GameObject>> BoardTileQueueList;
         public List<Queue<GameObject>> BattleTileQueueList;
+        public List<Queue<GameObject>> BattleObstacleTileQueueList;
 
         private void Awake()
         {
@@ -52,6 +53,20 @@ namespace RedTheSettlers.GameSystem
                     tileQueue.Enqueue(Instantiate(BattleTileObjects[i], BattleTileCloneSet[i].transform));
                 }
                 BattleTileQueueList.Insert(i, tileQueue);
+            }
+
+            BattleObstacleTileQueueList = new List<Queue<GameObject>>(TileListSize);
+
+            for (int i = 0; i < TileListSize; i++)
+            {
+                Queue<GameObject> tileQueue = new Queue<GameObject>(BattleTileQueueSize);
+
+                for (int index = 0; index < BoardTileQueueSize; index++)
+                {
+                    if(BattleObstacleTileObjects[i] != null)
+                    tileQueue.Enqueue(Instantiate(BattleObstacleTileObjects[i], BattleObstacleTileCloneSet[i].transform));
+                }
+                BattleObstacleTileQueueList.Insert(i, tileQueue);
             }
 
         }
@@ -85,6 +100,19 @@ namespace RedTheSettlers.GameSystem
         public GameObject PopBoardTile(ItemType itemType)
         {
             return BoardTileQueueList[(int)itemType].Dequeue();
+        }
+
+        public void PushBattleObstacleTile(GameObject battleObstacleTile)
+        {
+            battleObstacleTile.SetActive(false);
+
+            int index = (int)(battleObstacleTile.GetComponent<Tile>().TileType);
+            BattleObstacleTileQueueList[index].Enqueue(battleObstacleTile);
+        }
+
+        public GameObject PopBattleObstacleTile(ItemType itemType)
+        {
+            return BattleObstacleTileQueueList[(int)itemType].Dequeue();
         }
     }
 }

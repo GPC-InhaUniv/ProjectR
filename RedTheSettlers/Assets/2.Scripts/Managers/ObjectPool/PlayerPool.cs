@@ -6,7 +6,6 @@ namespace RedTheSettlers.GameSystem
 {
     public class PlayerPool : MonoBehaviour
     {
-
         [SerializeField]
         private GameObject player;
 
