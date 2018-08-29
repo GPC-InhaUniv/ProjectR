@@ -58,7 +58,8 @@ public class MainStageState : MonoBehaviour, IInputState
     {
         dragPosition = Input.mousePosition;
         dragDirection = (((dragPosition - firstClick).normalized * speed) * reversValue) * Time.deltaTime;
-        TemporaryGameManager.Instance.CameraMove(dragDirection);
+        //TemporaryGameManager.Instance.CameraMove(dragDirection);
+        GameManager.Instance.CameraMoving(dragDirection);
     }
 
     public void EndStopDrag()
@@ -74,30 +75,34 @@ public class MainStageState : MonoBehaviour, IInputState
         if (Input.GetAxis("Mouse ScrollWheel") * reversValue < 0)
         {
             cameraZoom = (Input.GetAxis("Mouse ScrollWheel") * speed) * reversValue;
-            TemporaryGameManager.Instance.CameraZoom(cameraZoom);
+            //TemporaryGameManager.Instance.CameraZoom(cameraZoom);
+            GameManager.Instance.CameraZoomInOut(cameraZoom);
         }
         else if (Input.GetAxis("Mouse ScrollWheel") * reversValue > 0)
         {
             cameraZoom = (Input.GetAxis("Mouse ScrollWheel") * speed) * reversValue;
-            TemporaryGameManager.Instance.CameraZoom(cameraZoom);
+            //TemporaryGameManager.Instance.CameraZoom(cameraZoom);
+            GameManager.Instance.CameraZoomInOut(cameraZoom);
         }
-        #endif
+#endif
 
-        #if UNITY_STANDALONE_WIN
+#if UNITY_STANDALONE_WIN
         if (Input.GetAxis("Mouse ScrollWheel") * reversValue < 0)
         {
             cameraZoom = (Input.GetAxis("Mouse ScrollWheel") * speed) * reversValue;
-            TemporaryGameManager.Instance.CameraZoom(cameraZoom);
+            //TemporaryGameManager.Instance.CameraZoom(cameraZoom);
+            GameManager.Instance.CameraZoom(cameraZoom);
         }
         else if (Input.GetAxis("Mouse ScrollWheel") * reversValue > 0)
         {
             cameraZoom = (Input.GetAxis("Mouse ScrollWheel") * speed) * reversValue;
-            TemporaryGameManager.Instance.CameraZoom(cameraZoom);
+            //TemporaryGameManager.Instance.CameraZoom(cameraZoom);
+            GameManager.Instance.CameraZoom(cameraZoom);
         }
-        #endif
+#endif
 
         // 모바일 줌인,아웃 구현부 테스트 필요 미완성
-        #if UNITY_ANDROID
+#if UNITY_ANDROID
         if (Input.touchCount == touchMaxCount)
         {
             Touch firstTouchPoint = Input.GetTouch(0);
@@ -122,7 +127,7 @@ public class MainStageState : MonoBehaviour, IInputState
             TemporaryGameManager.Instance.CameraZoom(Length - prevLength);
             prevLength = Length;*/
         }
-        #endif
+#endif
     }
 
     // 이 밑으로 해당 클래스에서는 사용하지 않음.
