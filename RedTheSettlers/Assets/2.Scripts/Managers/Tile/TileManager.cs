@@ -133,6 +133,12 @@ namespace RedTheSettlers.GameSystem
         {
             return z * 1.5f + 0.1f;
         }
+
+        public void SetBossTileField()
+        {
+            int midPos = (int)(GlobalVariables.BoardTileGridSize * 0.5f);
+            BoardTileGrid[midPos, midPos].GetComponent<BoardTile>().SetBossTile();
+        }
     }
 }
 
