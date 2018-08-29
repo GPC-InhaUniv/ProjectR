@@ -17,6 +17,9 @@ namespace RedTheSettlers.UI
         private GameObject playerTurnUI;
 
         [SerializeField]
+        private GameObject aiTurnUI;
+
+        [SerializeField]
         private GameObject CommonPlayerItemUI;
 
         [SerializeField]
@@ -119,6 +122,10 @@ namespace RedTheSettlers.UI
             //GameManager.instan
         }
 
+        public void SendAiTurnContentQueue(Queue<string>  messageQueue)
+        {
+            aiTurnUI.GetComponentInChildren<UIAITurn>().ContentStringQueue = messageQueue;
+        }
         /// <summary>
         /// 플레이어 공격 레벨 전달
         /// </summary>

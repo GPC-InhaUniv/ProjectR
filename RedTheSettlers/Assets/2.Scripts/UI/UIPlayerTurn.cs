@@ -23,6 +23,11 @@ namespace RedTheSettlers.UI
 
         private int currentTurn;
 
+        private void OnEnable()
+        {
+            changeTurn();
+        }
+
         private void changeTurn()
         {
             PlayerData playerData = GameManager.Instance.gameData.PlayerData[0];
@@ -31,15 +36,6 @@ namespace RedTheSettlers.UI
             currentTurnText.text = currentTurn.ToString();
 
             LogManager.Instance.UserDebug(LogColor.Olive, GetType().Name, "현재 Turn : " + currentTurn);
-        }
-
-        private void Start()
-        {
-            changeTurn();
-        }
-
-        private void Update()
-        {
         }
     }
 }

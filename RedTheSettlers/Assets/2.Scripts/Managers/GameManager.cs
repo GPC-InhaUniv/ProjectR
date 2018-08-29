@@ -320,6 +320,13 @@ namespace RedTheSettlers.GameSystem
             battlePlayer.UseSkill(skillNumber);
         }
 
+        public void SetPlayerStat(int hp, int mp, int stamina)
+        {
+            DataManager.Instance.GameData.PlayerData[0].StatData.HealthPoint = hp;
+            DataManager.Instance.GameData.PlayerData[0].StatData.MagicPoint = mp;
+            DataManager.Instance.GameData.PlayerData[0].StatData.StaminaPoint = stamina;
+        }
+
         /// <summary>
         /// AI의 진행 상황을 담은 큐를 전달합니다.
         /// </summary>
