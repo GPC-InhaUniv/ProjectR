@@ -19,8 +19,11 @@ namespace RedTheSettlers.GameSystem
         bool isWark = false;
         Transform originalTransform;
         Transform tileCenter;
-        float smooth = 0.2f;
         Vector3 cameraOffset;
+
+        float smooth = 0.2f;
+        float hDist = 2f;
+        float vDist = 2f;
 
         public LookAtManual(GameObject gameObject)
         {
@@ -30,8 +33,16 @@ namespace RedTheSettlers.GameSystem
         private void Initialize()
         {
             originalTransform = cameraObject.transform;
-            tileCenter = TileManager.Instance.BoardTileGrid[GlobalVariables.BoardTileGridSize / 2, GlobalVariables.BoardTileGridSize / 2].transform;
-            cameraOffset = cameraObject.transform.position - tileCenter.position;
+            if (TileManager.Instance.BoardTileGrid[GlobalVariables.BoardTileGridSize / 2, GlobalVariables.BoardTileGridSize / 2].transform != null)
+            {
+                tileCenter = TileManager.Instance.BoardTileGrid[GlobalVariables.BoardTileGridSize / 2, GlobalVariables.BoardTileGridSize / 2].transform;
+                cameraOffset = cameraObject.transform.position - tileCenter.position;
+            }
+            else
+            {
+                cameraOffset = new Vector3(0.3f, vDist, hDist);
+            }
+            
         }
         public override void Looking(Vector3 target)
         {
