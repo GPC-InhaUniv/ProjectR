@@ -11,7 +11,8 @@ namespace RedTheSettlers.Skills
     {
         Melee = 0,
         Range = 1,
-        Buff = 2
+        SpeedUpBuff = 2,
+        OverWhelmBuff = 3
     }
 
     public abstract class Skill
