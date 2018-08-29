@@ -62,14 +62,14 @@ namespace RedTheSettlers.UI
             int scoreCount = 0;
             for (int i = 0; i < GlobalVariables.MaxEquipmentUpgradeLevel; i++)
             {
-              /*  if (scoreCount <= playerData.StatData.WeaponLevel)*/  //공격 레벨
+                if (scoreCount <= data.GetPlayersAttackLevel((int)UserType.Player))  //공격 레벨
                 {
                     scoreCount++;
                     infoTexts.AttackText.text = scoreCount.ToString("D2");
                     yield return new WaitForSeconds(scoreDelayTime);
                 }
 
-               /* if (scoreCount <= playerData.StatData.ShieldLevel)  *///방어 레벨
+                if (scoreCount <= data.GetPlayersDefenseLevel((int)UserType.Player))  //방어 레벨
                 {
                     scoreCount++;
                     infoTexts.DefenseText.text = scoreCount.ToString("D2");
@@ -87,7 +87,7 @@ namespace RedTheSettlers.UI
                     yield return new WaitForSeconds(scoreDelayTime);
                 }
 
-                /*if (scoreCount <= playerData.BossKillCount)*/ //보스 죽인 수
+                if (scoreCount <= data.GetPlayersBossKillCount((int)UserType.Player)) //보스 죽인 수
                 {
                     scoreCount++;
                     infoTexts.monsterKillText.text = scoreCount.ToString("D2");

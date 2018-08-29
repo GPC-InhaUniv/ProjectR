@@ -114,23 +114,23 @@ namespace RedTheSettlers.UI
         /// </summary>
         public void SendPlayerAttackLevel(int attackLevel)
         {
-            //게임 매니저에 넣을 수 있는 함수.
-            //setPlayerAttack
+            GameManager.Instance.SetPlayersAttackLevel(0, attackLevel);
         }
         /// <summary>
         /// 플레이어 방어 레벨 전달
         /// </summary>
         public void SendPlayerDefenseLevel(int defenseLevel)
         {
-            // 게임 매니저에 넣을 수 있는 함수
+            GameManager.Instance.SetPlayersDefenseLevel(0, defenseLevel);
         }
         /// <summary>
         /// 교환 후 : 플레이어 자원 게산결과 전달
         /// </summary>
-        public void SendPlayerItems(int wood, int iron, int soil)
+        public void SendPlayerItems(int woodCount, int ironCount, int soilCount)
         {
-            //게임 매니저에 넣을 수 있는 함수
-            //AddItemByType
+            GameManager.Instance.AddItemByType(0, ItemType.Wood, woodCount);
+            GameManager.Instance.AddItemByType(0, ItemType.Iron, ironCount);
+            GameManager.Instance.AddItemByType(0, ItemType.Soil, soilCount);
         }
     }
 }
