@@ -129,8 +129,11 @@ namespace RedTheSettlers.UI
         /// </summary>
         public void SendPlayerItems(int wood, int iron, int soil)
         {
-            //게임 매니저에 넣을 수 있는 함수
-            //AddItemByType
+            GameManager gameManager = GameManager.Instance;
+
+            gameManager.AddItemByType(0, ItemType.Wood, wood);
+            gameManager.AddItemByType(0, ItemType.Iron, iron);
+            gameManager.AddItemByType(0, ItemType.Soil, soil);
         }
     }
 }
