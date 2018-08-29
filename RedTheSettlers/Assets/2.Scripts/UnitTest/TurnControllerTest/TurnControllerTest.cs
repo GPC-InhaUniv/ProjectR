@@ -40,15 +40,12 @@ namespace RedTheSettlers.UnitTest
         public void TurnFlow(GameState gameState)
         {
             CurrentPlayerTurn = (gameState - GameState.AI1Turn + 1);
-            //GameManager.Instance.state += 1;
 
             SendGameLog();
-
         }
 
         /// <summary>
-        /// 게임 화면에 게임 진행 상황을 표시하는 텍스트를 출력한다.
-        /// UI매니저와 연동한다.
+        /// AI의 턴에서 게임 화면에 게임 진행 상황을 표시하는 텍스트를 전달한다.
         /// </summary>
         public Queue<string> SendGameLog()
         {

@@ -4,6 +4,7 @@ using RedTheSettlers.GameSystem;
 namespace RedTheSettlers.UnitTest
 {
     public delegate void BattleFinishCallback();
+    public delegate void EnemyDeadCallback();
 
     public class BattleControllerTest2 : MonoBehaviour
     {
@@ -22,6 +23,13 @@ namespace RedTheSettlers.UnitTest
         {
             get { return _callback; }
             set { _callback = value; }
+        }
+
+        private EnemyDeadCallback enemyDeadCallback;
+        public EnemyDeadCallback EnemyDeadCallback
+        {
+            get { return enemyDeadCallback; }
+            set { enemyDeadCallback = value; }
         }
 
         private void Start()
