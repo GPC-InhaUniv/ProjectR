@@ -1,4 +1,5 @@
 ﻿using RedTheSettlers.GameSystem;
+using RedTheSettlers.Players;
 using RedTheSettlers.Tiles;
 using UnityEngine;
 
@@ -8,6 +9,9 @@ public class TemporaryGameManager : Singleton<TemporaryGameManager>
     private CameraController cameraCtrl;
     private new Rigidbody rigidbody;
     private Transform player;
+    private BattlePlayer battlePlayer;
+    private Coroutine coroutineMove;
+    private Coroutine coroutineAttack;
     private Vector3 moveDirection;
     private float playerRotation;
     private float moveSpeed;
@@ -20,33 +24,35 @@ public class TemporaryGameManager : Singleton<TemporaryGameManager>
     {
         tempCameraController = GameObject.FindObjectOfType<TemporaryCameraController>();
         cameraCtrl = GameObject.FindObjectOfType<CameraController>();
-        player = GameObject.FindWithTag("Player").GetComponent<Transform>();
+        //player = GameObject.FindWithTag("Player").GetComponent<Transform>();
         rigidbody = GameObject.FindWithTag("Player").GetComponent<Rigidbody>();
+        battlePlayer = GameObject.FindWithTag("Player").GetComponent<BattlePlayer>();
     }
 
-    private void FixedUpdate()
+    /*private void FixedUpdate()
     {
         if(playerRotation > 0)
         {
             PlayerMove(moveDirection);
         }
-    }
+    }*/
 
     public void CameraMove(Vector3 direction)
     {
-        tempCameraController.CameraMove(direction);
-        //cameraCtrl.CameraDragMoving(direction);
+        //tempCameraController.CameraMove(direction);
+        cameraCtrl.CameraDragMoving(direction);
     }
 
     public void CameraZoom(float value)
     {
-        tempCameraController.CameraZoom(value);
-        //cameraCtrl.ZoomInOut(value);
+        //tempCameraController.CameraZoom(value);
+        cameraCtrl.ZoomInOut(value);
     }
 
     public void PlayerMove(Vector3 direction)
     {
-        /*moveDirection = direction;
+#if UNITY_ANDROID
+        moveDirection = direction;
         playerRotation = rotation;
         moveSpeed = speed;
         //Player.MovePosition(Player.position + (direction * 10) * Time.deltaTime);
@@ -54,13 +60,35 @@ public class TemporaryGameManager : Singleton<TemporaryGameManager>
         {
             rigidbody.rotation = Quaternion.Euler(0f, rotation, 0f);
             rigidbody.velocity = (direction * speed) * Time.deltaTime;
-        }*/
+        }
         rigidbody.velocity = direction * 20f * Time.deltaTime;
+#endif
+
+        if (coroutineMove == null)
+        {
+            coroutineMove = StartCoroutine(battlePlayer.MoveToTargetPostion(direction));
+        }
+        else
+        {
+            StopCoroutine(coroutineMove);
+            coroutineMove = StartCoroutine(battlePlayer.MoveToTargetPostion(direction));
+        }
     }
 
     public void PlayerRotate(float rotation)
     {
 
+    }
+
+    public void PlayerAttack()
+    {
+        battlePlayer.AttackEnemy(10);
+    }
+
+    public void PlayerSkill(int SkillNumber)
+    {
+        LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, SkillNumber + "번 스킬");
+        battlePlayer.UseSkill(SkillNumber);
     }
 
     public void TileInfo(BoardTile tileType)
