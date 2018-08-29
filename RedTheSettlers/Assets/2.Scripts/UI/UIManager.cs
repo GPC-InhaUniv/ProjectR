@@ -119,13 +119,14 @@ namespace RedTheSettlers.UI
 
         public void RequestSavePlayerStat(int hp, int mp, int stamina)
         {
-            //GameManager.instan
+            GameManager.Instance.SetPlayerStat(hp, mp, stamina);
         }
 
-        public void SendAiTurnContentQueue(Queue<string>  messageQueue)
+        public void SendAiTurnContentQueue(Queue<string> messageQueue)
         {
             aiTurnUI.GetComponentInChildren<UIAITurn>().ContentStringQueue = messageQueue;
         }
+
         /// <summary>
         /// 플레이어 공격 레벨 전달
         /// </summary>
