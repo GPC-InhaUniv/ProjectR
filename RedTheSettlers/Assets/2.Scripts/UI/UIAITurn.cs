@@ -33,7 +33,6 @@ namespace RedTheSettlers.UI
 
         IEnumerator ChangeSliderFillAmount()
         {
-
             ChangeAiPlayerNameText(aiTurnCount);
             turnCircleImage.fillAmount = 0;
             while (turnCircleImage.fillAmount < 1)
@@ -41,9 +40,9 @@ namespace RedTheSettlers.UI
                 //turnCircleImage.fillAmount += 0.002f; 기존
                 if (turnCircleImage.fillAmount == 0)
                     ChangeAiPlayerImage(aiTurnCount, 0);
-                else if (turnCircleImage.fillAmount > 0.2f && turnCircleImage.fillAmount < 0.8f)
+                else if (turnCircleImage.fillAmount > 0.3f && turnCircleImage.fillAmount < 0.6f)
                     ChangeAiPlayerImage(aiTurnCount, 1);
-                else if (turnCircleImage.fillAmount > 0.8f)
+                else if (turnCircleImage.fillAmount > 0.6f)
                     ChangeAiPlayerImage(aiTurnCount, 2);
 
                 turnCircleImage.fillAmount += 0.002f;
@@ -52,19 +51,33 @@ namespace RedTheSettlers.UI
             aiTurnCount++;
             Debug.Log("Exit");
             if (aiTurnCount < GlobalVariables.MaxPlayerNumber)
+            {         
                 StartCoroutine(ChangeSliderFillAmount());
+                StartCoroutine(ChangeAiTurnContentText());
+            }
+            else
+            {
+                aiTurnCount = 1;
+                UIManager.Instance.CoverAiTurnUI();
+            }
         }
 
         IEnumerator ChangeAiTurnContentText()
         {
-
-
-            yield return null;
+            int count = 0;
+            while(count < 3)
+            {
+                aiTurnContentText.text = ContentStringQueue.Dequeue();
+                count++;
+                yield return waitForSeconds;
+            }
         }
 
-        private void Start()
+        private void OnEnable()
         {
             StartCoroutine(ChangeSliderFillAmount());
+            waitForSeconds = new WaitForSeconds(2.7f);
+            StartCoroutine(ChangeAiTurnContentText());
         }
 
         private void ChangeAiPlayerNameText(int turnCount)

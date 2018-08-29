@@ -44,6 +44,16 @@ namespace RedTheSettlers.UI
             CommonPlayerItemUI.SetActive(true);
         }
 
+        public void ShowAiTurnUI()
+        {
+            aiTurnUI.SetActive(true);
+        }
+
+        public void CoverAiTurnUI()
+        {
+            aiTurnUI.SetActive(false);
+        }
+
         public void OnClickedEquipAndSkillButton()
         {
             equipmentAndSkillUI.SetActive(true);
@@ -124,7 +134,11 @@ namespace RedTheSettlers.UI
 
         public void SendAiTurnContentQueue(Queue<string> messageQueue)
         {
-            aiTurnUI.GetComponentInChildren<UIAITurn>().ContentStringQueue = messageQueue;
+            UIAITurn uiAiTurn = aiTurnUI.GetComponentInChildren<UIAITurn>();
+            while (messageQueue.Count == 0)
+            {
+                uiAiTurn.ContentStringQueue.Enqueue(messageQueue.Dequeue());
+            }
         }
 
         /// <summary>

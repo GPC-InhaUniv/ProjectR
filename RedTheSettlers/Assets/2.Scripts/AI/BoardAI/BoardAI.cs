@@ -75,7 +75,7 @@ namespace RedTheSettlers.Users
                     boardTile.TileBorder[i].SetActive(true);
                 }
             }
-
+            MessageQueue.Enqueue(boardTile.TileType.ToString() + "타일을 점령중 입니다.");
             MessageQueue.Enqueue(boardTile.TileType.ToString() + "타일을 점령했습니다");
         }
 
