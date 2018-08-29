@@ -34,12 +34,13 @@ namespace RedTheSettlers.GameSystem
 
         public override void Enter(StageType stageType)
         {
-            StageManager.Instance.StartCoroutine(StageManager.Instance.ChangeStageLoad(stageType));
+            
         }
 
         public override void Exit(StageType stageType)
         {
             //StageManager.Instance.ChangeStage(StageType.MainStageState);
+            StageManager.Instance.StartCoroutine(StageManager.Instance.ChangeStageLoad(stageType));
         }
         
     }
