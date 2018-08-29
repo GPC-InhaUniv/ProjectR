@@ -22,6 +22,9 @@ namespace RedTheSettlers.Players
         [HideInInspector]
         public Animator animator;
 
+        public delegate void PlayerDeadDelegate();
+        public PlayerDeadDelegate playerDeadCallBack; 
+
         public bool IsOverWhelm;
         private int hp;
         private int mp;
@@ -105,9 +108,21 @@ namespace RedTheSettlers.Players
 
         public IEnumerator HittedByEnemyCoroutine(int damage)
         {
+            hp -= damage;
+
             animator.SetBool("IsDamaged", true);
+            
+            yield return new WaitForSeconds(0.5f);
+
+            animator.SetBool("IsDamaged", false);
 
             yield return null;
+
+            if(hp <= 0)
+            {
+                animator.SetTrigger("Dead");
+                playerDeadCallBack();
+            }
         }
 
         public void UseSkill(int skillSlotNum)
