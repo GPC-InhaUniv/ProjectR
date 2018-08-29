@@ -141,6 +141,11 @@ namespace RedTheSettlers.UI
             }
         }
 
+        public void SendNonClickedTile()
+        {
+            GameManager.Instance.NonClickedTile();
+        }
+
         /// <summary>
         /// 플레이어 공격 레벨 전달
         /// </summary>

@@ -32,6 +32,7 @@ namespace RedTheSettlers.GameSystem
         private Coroutine coroutineAttack;
 
         private BoardTile tileType;
+
         public BoardTile TileType
         {
             get { return TileType; }
@@ -41,7 +42,7 @@ namespace RedTheSettlers.GameSystem
         private void Start()
         {
             turnCtrl.Callback = new FlowFinishCallback(GameFlowFinish);
-            eventCtrl.Callback = new FlowFinishCallback(GameFlowFinish);;
+            eventCtrl.Callback = new FlowFinishCallback(GameFlowFinish); ;
             itemCtrl.Callback = new FlowFinishCallback(GameFlowFinish);
             battleCtrl.Callback = new BattleFinishCallback(BattleFinish);
             difficultyController.Callback = new BuildBattleTileCallback(BulidBattleStageFinish);
@@ -51,7 +52,7 @@ namespace RedTheSettlers.GameSystem
         public void InitializeGame()
         {
             //처음시작일때
-            if(gameData.InGameData.TurnCount == 0)
+            if (gameData.InGameData.TurnCount == 0)
             {
                 TileManager.Instance.CreateBoardTileGrid();
             }
@@ -73,12 +74,14 @@ namespace RedTheSettlers.GameSystem
                 case GameState.EventController:
                     eventCtrl.EventFlow();
                     break;
+
                 case GameState.ItemController:
                     itemCtrl.ItemFlow();
                     break;
+
                 default:
                     turnCtrl.TurnFlow(state);
-                    
+
                     break;
             }
         }
@@ -90,9 +93,11 @@ namespace RedTheSettlers.GameSystem
                 case GameState.EventController:
 
                     break;
+
                 case GameState.ItemController:
                     UIManager.Instance.ShowBoardUI();
                     break;
+
                 default:
                     break;
             }
@@ -127,8 +132,8 @@ namespace RedTheSettlers.GameSystem
         {
             if (state == GameState.AI3Turn)
             {
-                if(DataManager.Instance.GameData.InGameData.TurnCount == GlobalVariables.BossAppearTurn)
-                state = GameState.EventController;
+                if (DataManager.Instance.GameData.InGameData.TurnCount == GlobalVariables.BossAppearTurn)
+                    state = GameState.EventController;
                 DataManager.Instance.GameData.InGameData.TurnCount++;
             }
             else
@@ -201,7 +206,7 @@ namespace RedTheSettlers.GameSystem
             int tileLevelCount = 0;
             for (int i = 0; i < GetPlayerTileCountAll(userType); i++)
             {
-                if(Players[(int)userType].PossessingTile[i].TileType == itemType)
+                if (Players[(int)userType].PossessingTile[i].TileType == itemType)
                 {
                     tileLevelCount += Players[(int)userType].PossessingTile[i].TileLevel;
                 }
@@ -228,6 +233,11 @@ namespace RedTheSettlers.GameSystem
         {
             UIManager.Instance.SendTileInfo(boardTile);
             cameraCtrl.LookingTile(boardTile);
+        }
+
+        public void NonClickedTile()
+        {
+            cameraCtrl.NoLookingTile();
         }
 
         /// <summary>
@@ -354,7 +364,6 @@ namespace RedTheSettlers.GameSystem
         /// </summary>
         public void SetGameLog(Queue<string> messageQueue)
         {
-
             //UIManager.Instance.
         }
 
@@ -388,6 +397,7 @@ namespace RedTheSettlers.GameSystem
         {
             return DataManager.Instance.GameData.PlayerData[playerNum].BossKillCount;
         }
+
         //-----
     }
 }

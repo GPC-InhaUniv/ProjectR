@@ -246,6 +246,7 @@ namespace RedTheSettlers.UI
 
         public void OnCloseButton()
         {
+            UIManager.Instance.SendNonClickedTile();
             //버튼 꺼졌다고 게임 매니저쪽에 전달해 줘야댐!! 왜냐면 카메라 뷰가 바뀌기 때무네!! 준명님 도와조
         }
     }

@@ -4,31 +4,31 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-
 namespace RedTheSettlers.GameSystem
 {
     public abstract class CameraAngle
     {
         public GameObject cameraObject;
+
         public abstract void Looking(Vector3 target);
     }
 
     public class LookAtManual : CameraAngle
     {
-        bool isWark = false;
-        Transform originalTransform;
-        Transform tileCenter;
-        Vector3 cameraOffset;
+        private bool isWark = false;
+        private Transform originalTransform;
+        private Transform tileCenter;
+        private Vector3 cameraOffset;
 
-        float smooth = 0.2f;
-        float hDist = 2f;
-        float vDist = 2f;
+        private float smooth = 0.2f;
+        private float hDist = 2f;
+        private float vDist = 2f;
 
         public LookAtManual(GameObject gameObject)
         {
             cameraObject = gameObject;
-            
         }
+
         private void Initialize()
         {
             originalTransform = cameraObject.transform;
@@ -41,15 +41,15 @@ namespace RedTheSettlers.GameSystem
             {
                 cameraOffset = new Vector3(0.3f, vDist, hDist);
             }
-            
         }
+
         public override void Looking(Vector3 target)
         {
             if (originalTransform == null)
             {
                 Initialize();
             }
-            if(isWark == false)
+            if (isWark == false && target != new Vector3())
             {
                 Vector3 newPos = target + cameraOffset;
                 cameraObject.transform.position = Vector3.Slerp(cameraObject.transform.position, newPos, smooth);
@@ -69,6 +69,7 @@ namespace RedTheSettlers.GameSystem
         {
             cameraObject = gameObject;
         }
+
         public override void Looking(Vector3 target)
         {
             if (target == null)
