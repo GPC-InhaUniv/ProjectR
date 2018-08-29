@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using RedTheSettlers.GameSystem;
 
 /// <summary>
 /// 담당자 : 박상원
