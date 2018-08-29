@@ -1,14 +1,15 @@
 ﻿using UnityEngine;
 using RedTheSettlers.GameSystem;
+using System.Collections.Generic;
 
 namespace RedTheSettlers.UnitTest
 {
-    public delegate void BattleFinishCallback();
-    public delegate void EnemyDeadCallback();
-
     public class BattleControllerTest2 : MonoBehaviour
     {
-        float cattleResawnTime = 5; // test용
+        private float cattleResawnTime = 5; // test용
+        private List<GameObject> enemyList;
+        private GameObject player;
+
         //////   테스트용 변수 ////////////////
 
         private GameTimer cattlesTimer;
@@ -18,27 +19,10 @@ namespace RedTheSettlers.UnitTest
         public int AliveEnemyCount { set { aliveEnemyCount = value; } }
         //private float cattleResawnTime = 100; // second
 
-        private BattleFinishCallback _callback;
-        public BattleFinishCallback Callback
-        {
-            get { return _callback; }
-            set { _callback = value; }
-        }
-
-        private EnemyDeadCallback enemyDeadCallback;
-        public EnemyDeadCallback EnemyDeadCallback
-        {
-            get { return enemyDeadCallback; }
-            set { enemyDeadCallback = value; }
-        }
-
         private void Start()
         {
             // 나중에 삭제
             BattleFlow(ItemType.Cow);
-            //
-
-            EnemyDeadCallback = new EnemyDeadCallback(EnemyDead);
         }
 
         // tileType : GameMAnager에서 어떤 타일인지 받아옴 
@@ -121,5 +105,12 @@ namespace RedTheSettlers.UnitTest
             cowsTest.transform.position = spawnPoint;
             cowsTest.transform.rotation = angle;
         }
+
+        public void ReceiveEnemysAndPlayer(List<GameObject> enemys, GameObject player)
+        {
+            enemyList = enemys;
+            this.player = player;
+        }
+
     }
 }

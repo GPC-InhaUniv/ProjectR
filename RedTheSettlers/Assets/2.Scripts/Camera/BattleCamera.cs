@@ -15,7 +15,7 @@ namespace RedTheSettlers.GameSystem
             cameraAngle = new LookAtTarget(cameraObject);
         }
 
-        public override CameraAngle CameraAngle(Vector3 target)
+        public override CameraAngle CameraAngle(Transform target)
         {
             cameraAngle.Looking(target);
             return cameraAngle;
