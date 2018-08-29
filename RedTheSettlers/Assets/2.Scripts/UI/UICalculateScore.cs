@@ -27,7 +27,7 @@ namespace RedTheSettlers.UI
         {
             public Text[] CardTexts;
             public Text AttackText;
-            public Text ShieldText;
+            public Text DefenseText;
             public Text TentText;
             public Text monsterKillText;
             public Text TotalText;
@@ -72,7 +72,7 @@ namespace RedTheSettlers.UI
                /* if (scoreCount <= playerData.StatData.ShieldLevel)  *///방어 레벨
                 {
                     scoreCount++;
-                    infoTexts.ShieldText.text = scoreCount.ToString("D2");
+                    infoTexts.DefenseText.text = scoreCount.ToString("D2");
                     yield return new WaitForSeconds(scoreDelayTime);
                 }
             }
