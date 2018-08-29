@@ -124,16 +124,20 @@ namespace RedTheSettlers.GameSystem
         {
             EnemyList = new List<GameObject>();
             EnemyList.Add(ObjectPoolManager.Instance.EnemyObjectPool.PopBossObject());
+            BossEnemy bossenemyScript = EnemyList[0].GetComponent<BossEnemy>();
             switch (BossCount)
             {
                 case 0:
-                    EnemyList[0].GetComponent<BossEnemy>().SetStatus(100, 10, false);
+                    bossenemyScript.SetStatus(100, 10, false);
+                    bossenemyScript.SetType(false);
                     break;
                 case 1:
-                    EnemyList[0].GetComponent<BossEnemy>().SetStatus(150, 15, false);
+                    bossenemyScript.SetStatus(150, 15, false);
+                    bossenemyScript.SetType(false);
                     break;
                 case 2:
-                    EnemyList[0].GetComponent<BossEnemy>().SetStatus(200, 25, true);
+                    bossenemyScript.SetStatus(200, 25, true);
+                    bossenemyScript.SetType(true);
                     break;
             }
             BossCount++;
@@ -165,6 +169,7 @@ namespace RedTheSettlers.GameSystem
                     EnemyList[i].transform.position = position;
                 }
                 EnemyList[i].SetActive(true);
+                EnemyList[i].GetComponent<NormalEnemy>().SetType(tileType);
             }
         }
 
