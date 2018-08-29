@@ -21,7 +21,7 @@ namespace RedTheSettlers.GameSystem
         public EventChecker eventCtrl;
         public ItemDistributor itemCtrl;
         public TradeController tradeCtrl;
-        public BattleControllerTest battleCtrl;
+        public BattleControllerTest2 battleCtrl;
         public CameraController cameraCtrl;
         public DifficultyController difficultyController;
         public BattlePlayer battlePlayer;
@@ -43,7 +43,7 @@ namespace RedTheSettlers.GameSystem
             //eventCtrl.Callback = new EventCallback(EventFinish);
             //itemCtrl.Callback = new ItemCallback(ItemFinish);
             tradeCtrl.Callback = new TradeCallback(TradeFinish);
-            battleCtrl.Callback = new BattleCallback(BattleFinish);
+            //battleCtrl.Callback = new BattleCallback(BattleFinish);
             difficultyController.Callback = new BuildBattleTileCallback(BulidBattleStageFinish);
             cameraCtrl = new CameraController();
             //TileManager.Instance.InitializeTileSet();
@@ -81,6 +81,7 @@ namespace RedTheSettlers.GameSystem
 
         public void BulidBattleStageFinish()
         {
+            battleCtrl.AliveEnemyCount = difficultyController.GetEnemyCount();
 
         }
 

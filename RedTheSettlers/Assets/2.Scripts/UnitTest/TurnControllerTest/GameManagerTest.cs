@@ -18,7 +18,7 @@ namespace RedTheSettlers.UnitTest
         public TradeControllerTest tradeCtrl;
         public BattleControllerTest battleCtrl;
 
-        public GameState state = GameState.TurnController;
+        public GameState state = GameState.EventController;
 
         private void Start()
         {
@@ -43,7 +43,7 @@ namespace RedTheSettlers.UnitTest
                 case GameState.ItemController:
                     itemCtrl.ItemFlow();
                     break;
-                default: state = GameState.TurnController; break;
+                default: state = GameState.EventController; break;
             }
             yield break;
         }
