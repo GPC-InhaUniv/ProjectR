@@ -33,9 +33,9 @@ namespace RedTheSettlers.UI
 
         [SerializeField]
         private GameObject selectTileUI;
- 
+
         public void ShowBoardUI()
- 
+
         {
             playerTurnUI.SetActive(true);
             CommonPlayerItemUI.SetActive(true);
@@ -86,7 +86,7 @@ namespace RedTheSettlers.UI
         {
             bossWarningUI.SetActive(true);
         }
-        
+
         public void ShowWheatherEvent(int[] weathers)
         {
             weatherEventSelectUI.SetActive(true);
@@ -109,6 +109,16 @@ namespace RedTheSettlers.UI
             GameManager.Instance.BulidBattleTile(tileInfo);
         }
 
+        public void RequestAddItemType(int playerNumber, ItemType itemType, int addItem)
+        {
+            GameManager.Instance.AddItemByType(playerNumber, itemType, addItem);
+        }
+
+        public void RequestSavePlayerStat(int hp, int mp, int stamina)
+        {
+            //GameManager.instan
+        }
+
         /// <summary>
         /// 플레이어 공격 레벨 전달
         /// </summary>
@@ -116,6 +126,7 @@ namespace RedTheSettlers.UI
         {
             GameManager.Instance.SetPlayersAttackLevel(0, attackLevel);
         }
+
         /// <summary>
         /// 플레이어 방어 레벨 전달
         /// </summary>
@@ -123,6 +134,7 @@ namespace RedTheSettlers.UI
         {
             GameManager.Instance.SetPlayersDefenseLevel(0, defenseLevel);
         }
+
         /// <summary>
         /// 교환 후 : 플레이어 자원 게산결과 전달
         /// </summary>

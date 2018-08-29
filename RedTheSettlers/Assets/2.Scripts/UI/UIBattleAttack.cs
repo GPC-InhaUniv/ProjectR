@@ -22,7 +22,7 @@ namespace RedTheSettlers.UI
             Skill03,
         }
 
-        [Header("Attack Button")]
+        [Header("Normal Attack Button")]
         [SerializeField]
         private Button AttackButton;
 
@@ -35,6 +35,10 @@ namespace RedTheSettlers.UI
 
         [SerializeField]
         private Button SkillSlot3Button;
+
+        public void PutPlayerAttack()
+        {
+        }
 
         public void OnAttackButtonClick(AttackType attackType)
         {
