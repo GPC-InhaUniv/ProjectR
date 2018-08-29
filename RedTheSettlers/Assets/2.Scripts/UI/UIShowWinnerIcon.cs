@@ -7,6 +7,10 @@ using System.Linq;
 
 namespace RedTheSettlers.UI
 {
+    /// <summary>
+    /// 작성자 : 김하정
+    /// 우승자한테 왕관 아이콘을 보여준다.
+    /// </summary>
     public class UIShowWinnerIcon : MonoBehaviour
     {
         [SerializeField]

@@ -4,10 +4,14 @@ using RedTheSettlers.GameSystem;
 using RedTheSettlers.Users;
 using RedTheSettlers.Skills;
 using System;
- 
+
 
 namespace RedTheSettlers.UI
 {
+    /// <summary>
+    /// 작성자 : 김하정
+    /// 스킬 UI 스크립트 : 스킬 인벤토리 창을 제작. 스킬을 장착, 제거할 수 있다.
+    /// </summary>
     public class UISkill : MonoBehaviour
     {
         [Serializable]
@@ -20,8 +24,14 @@ namespace RedTheSettlers.UI
         [SerializeField]
         private SkillIcons[] skillIcons;
 
+        [SerializeField]
+        private GameObject alertPopup;
+        [SerializeField]
+        private GameObject skillGroup;
+
+
         const int LIMITSLOT = 3;
-        private int limitCount = 0 ;
+        private int limitCount = 0;
 
         private void Start()
         {
@@ -32,18 +42,15 @@ namespace RedTheSettlers.UI
         }
 
         BoardPlayer boardPlayer;
-        Skill skill;
-        public void AddSkill( int buttonIndex)
+
+        public void AddSkill(int buttonIndex)
         {
             if (limitCount < LIMITSLOT)
             {
                 skillIcons[buttonIndex].SlotIcon.gameObject.SetActive(true);
                 skillIcons[buttonIndex].SkillIcon.interactable = false;
-           
-                boardPlayer.SkillList.Add(skill);
-               
-                //스킬리스트에서 add를 어떻게하지.ㅣ
-                 limitCount++;
+                boardPlayer.SetSkillSlot(buttonIndex, limitCount);
+                limitCount++;
             }
         }
 
@@ -53,5 +60,28 @@ namespace RedTheSettlers.UI
             skillIcons[buttonIndex].SkillIcon.interactable = true;
             limitCount--;
         }
+
+        public void CloseSkillSlot()
+        {
+            int slotCount = 0;
+            for (int i = 0; i < skillIcons.Length; i++)
+            {
+                if (skillIcons[i].SlotIcon.gameObject.activeSelf == true)
+                {
+                    slotCount++;
+                    if (slotCount < 3)
+                    {
+                        alertPopup.SetActive(true);
+                        
+                    }
+                    else
+                    {
+                        skillGroup.SetActive(false);
+                    }
+                }
+            }
+
+        }
+      
     }
 }
