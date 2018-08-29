@@ -70,17 +70,17 @@ namespace RedTheSettlers.UI
         UpgradeRequestItems ShieldLevelOne;
         UpgradeRequestItems ShieldLevelTwo;
 
-        [SerializeField, Space(20)]
+        [SerializeField]
         private Text attackOneWood, attackOneIron, attackOneSoil;
-        [SerializeField, Space(20)]
+        [SerializeField]
         private Text attackTwoWood, attackTwoIron, attackTwoSoil;
-        [SerializeField, Space(20)]
+        [SerializeField]
         private Text shieldOneWood, shieldOneIron, shieldOneSoil;
-        [SerializeField, Space(20)]
+        [SerializeField]
         private Text shieldTwoWood, shieldTwoIron, shieldTwoSoil;
-        [SerializeField, Space(20)]
+        [SerializeField]
         private Button firstAttackButton, secondAttackButton, firstShieldButton, secondShieldButton;
-        [SerializeField, Space(20)]
+        [SerializeField]
         private GameObject firstAttackGroup, secondAttackGroup, firstShieldGroup, secondShieldGroup;
 
         Color textColor = new Color(255, 0, 0, 255); // 빨간색
@@ -292,6 +292,8 @@ namespace RedTheSettlers.UI
                         secondAttackButton.interactable = false;
                         playerAtttackLevel++;
                     }
+                    SendPlayerAttackLevel();
+                    SendPlayerItems();
                 }
                 if (buttonValue == 1)
                 {
@@ -314,20 +316,24 @@ namespace RedTheSettlers.UI
                         secondShieldButton.interactable = false;
                         playerDefenseLevel++;
                     }
+                    SendPlayerDefenseLevel();
+                    SendPlayerItems();
                 }
             }
         }
-        public void SendPlayerAttackLevel()
+        
+        //유아이 매니저로 데이터 보내기
+        private void SendPlayerAttackLevel()
         {
             UIManager.Instance.SendPlayerAttackLevel(playerAtttackLevel);
         }
 
-        public void SendPlayerDefenseLevel()
+        private void SendPlayerDefenseLevel()
         {
             UIManager.Instance.SendPlayerAttackLevel(playerDefenseLevel);
         }
 
-        public void SendPlayerItems()
+        private void SendPlayerItems()
         {
             UIManager.Instance.SendPlayerItems(PlayerWood, PlayerIron, PlayerSoil);
         }
