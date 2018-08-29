@@ -42,7 +42,7 @@ namespace RedTheSettlers.GameSystem
                 {
                     for(int k = 0; k < playerData[j].TileList.Count; k++)
                     {
-
+                    
                     }
                 }
             }

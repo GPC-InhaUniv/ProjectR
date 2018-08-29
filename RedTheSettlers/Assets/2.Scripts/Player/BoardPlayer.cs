@@ -12,19 +12,26 @@ namespace RedTheSettlers.Users
     {
         private int weaponLevel;
         private int shieldLevel;
-        public List<Skill> SkillList;
+        public List<Skill> SkillList = new List<Skill>(3);
 
         public void InitializePlayerData(int weaponLevel, int shieldLevel, List<Skill> skillList)
         {
             this.weaponLevel = weaponLevel;
             this.shieldLevel = shieldLevel;
-            this.SkillList = skillList;
+            SkillList = skillList;
         }
 
-        public void SetSkillSlot(Skill skill)
+        public void SetSkillSlot(int skillnum, int slotNum)
         {
-            SkillList.Add(skill);
-            SkillList.Sort((Skill x, Skill y) => x.skillType.CompareTo(y.skillType));
+            switch(skillnum)
+            {
+                case 0:
+                    break;
+                case 1:
+                    break;
+                case 2:
+                    break;
+            }
         }
 
         public void MoveToTargetTile(BoardTile targetTile)
