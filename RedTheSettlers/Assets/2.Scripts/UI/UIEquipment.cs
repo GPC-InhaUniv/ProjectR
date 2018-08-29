@@ -62,8 +62,8 @@ namespace RedTheSettlers.UI
             }
         }
 
-        int playerWeaponLevel = 0;
-        int playerShieldLevel = 0;
+        int playerAtttackLevel;
+        int playerDefenseLevel;
 
         UpgradeRequestItems WeaponLevelOne;
         UpgradeRequestItems WeaponLevelTwo;
@@ -91,6 +91,9 @@ namespace RedTheSettlers.UI
             PlayerWood = GameManager.Instance.GetPlayerItemCount(UserType.Player, ItemType.Wood);
             PlayerIron = GameManager.Instance.GetPlayerItemCount(UserType.Player, ItemType.Iron);
             PlayerSoil = GameManager.Instance.GetPlayerItemCount(UserType.Player, ItemType.Soil);
+
+            playerAtttackLevel = GameManager.Instance.GetPlayersAttackLevel((int)UserType.Player);
+            playerDefenseLevel = GameManager.Instance.GetPlayersDefenseLevel((int)UserType.Player);
 
             secondAttackButton.interactable = false;
             secondShieldButton.interactable = false;
@@ -145,7 +148,7 @@ namespace RedTheSettlers.UI
 
             if (buttonValue == 0) //0일때는 무기 1일때는 방어구
             {
-                if (playerWeaponLevel == 0)
+                if (playerAtttackLevel == 0)
                 {
                     upgradeItems = WeaponLevelOne.CheckForItems(AttackUpgradeOneWood, AttackUpgradeOneIron, AttackUpgradeOneSoil);
                 }
@@ -153,11 +156,11 @@ namespace RedTheSettlers.UI
                 {
                     upgradeItems = WeaponLevelTwo.CheckForItems(AttackUpgradeTwoWood, AttackUpgradeTwoIron, AttackUpgradeTwoSoil);
                 }
-                EquipmentUpgrade(playerWeaponLevel, buttonValue, upgradeItems);
+                EquipmentUpgrade(playerAtttackLevel, buttonValue, upgradeItems);
             }
             else //0일때는 무기 1일때는 방어구
             {
-                if (playerShieldLevel == 0)
+                if (playerDefenseLevel == 0)
                 {
                     upgradeItems = ShieldLevelOne.CheckForItems(DefenseUpgradeOneWood, DefenseUpgradeOneIron, DefenseUpgradeOneSoil);
                 }
@@ -165,11 +168,11 @@ namespace RedTheSettlers.UI
                 {
                     upgradeItems = ShieldLevelTwo.CheckForItems(DefenseUpgradeTwoWood, DefenseUpgradeTwoIron, DefenseUpgradeTwoSoil);
                 }
-                EquipmentUpgrade(playerShieldLevel, buttonValue, upgradeItems);
+                EquipmentUpgrade(playerDefenseLevel, buttonValue, upgradeItems);
             }
             LogManager.Instance.UserDebug(LogColor.Green, GetType().Name, "플레이어가 소지한 나무=" + PlayerWood + "플레이어가 소지한 철=" +
                  PlayerIron + "플레이어가 소지한 흙=" + PlayerSoil);
-            LogManager.Instance.UserDebug(LogColor.Green, GetType().Name, "플레이어의 무기 레벨은" + playerWeaponLevel + "플레이어의 방어 레벨은" + playerShieldLevel);
+            LogManager.Instance.UserDebug(LogColor.Green, GetType().Name, "플레이어의 무기 레벨은" + playerAtttackLevel + "플레이어의 방어 레벨은" + playerDefenseLevel);
         }
 
         void EquipmentUpgrade(int level, int buttonValue, UpgradeItems upgradeItems)
@@ -278,7 +281,7 @@ namespace RedTheSettlers.UI
                         firstAttackGroup.SetActive(false);
                         firstAttackButton.interactable = false;
                         secondAttackButton.interactable = true;
-                        playerWeaponLevel++;
+                        playerAtttackLevel++;
                     }
                     else if (level == 1)
                     {
@@ -287,7 +290,7 @@ namespace RedTheSettlers.UI
                         PlayerSoil -= AttackUpgradeTwoSoil;
                         secondAttackGroup.SetActive(false);
                         secondAttackButton.interactable = false;
-                        playerWeaponLevel++;
+                        playerAtttackLevel++;
                     }
                 }
                 if (buttonValue == 1)
@@ -300,7 +303,7 @@ namespace RedTheSettlers.UI
                         secondShieldButton.interactable = true;
                         firstShieldGroup.SetActive(false);
                         firstShieldButton.interactable = false;
-                        playerShieldLevel++;
+                        playerDefenseLevel++;
                     }
                     else if (level == 1)
                     {
@@ -309,15 +312,29 @@ namespace RedTheSettlers.UI
                         PlayerSoil -= DefenseUpgradeTwoSoil;
                         secondShieldGroup.SetActive(false);
                         secondShieldButton.interactable = false;
-                        playerShieldLevel++;
+                        playerDefenseLevel++;
                     }
                 }
             }
         }
+        public void SendPlayerAttackLevel()
+        {
+            UIManager.Instance.SendPlayerAttackLevel(playerAtttackLevel);
+        }
+
+        public void SendPlayerDefenseLevel()
+        {
+            UIManager.Instance.SendPlayerAttackLevel(playerDefenseLevel);
+        }
+
+        public void SendPlayerItems()
+        {
+            UIManager.Instance.SendPlayerItems(PlayerWood, PlayerIron, PlayerSoil);
+        }
 
         public void ResetTextsAndButtons()
         {
-            if (playerWeaponLevel == 0)
+            if (playerAtttackLevel == 0)
             {
                 firstAttackButton.interactable = true;
                 attackOneIron.color = resetTextColor;
@@ -332,7 +349,7 @@ namespace RedTheSettlers.UI
                 attackTwoWood.color = resetTextColor;
             }
 
-            if (playerShieldLevel == 0)
+            if (playerDefenseLevel == 0)
             {
                 firstShieldButton.interactable = true;
                 shieldOneIron.color = resetTextColor;
