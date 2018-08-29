@@ -18,18 +18,17 @@ namespace RedTheSettlers.GameSystem
     {
         public override void ContinueGame(bool canLoadData)
         {
-            
+
         }
 
-        public override void Enter()
+        public override void Enter(StageType stageType)
         {
-          
-               
+
         }
 
         public override void Exit(StageType stageType)
         {
-
+            //StageManager.Instance.ChangeStage(StageType.MainStageState);
         }
 
     }
