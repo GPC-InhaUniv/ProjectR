@@ -84,7 +84,7 @@ namespace RedTheSettlers.GameSystem
                 SFXsource[i].volume = SFXvolume;
             }
 
-            ChangeBGM("bgm_game_field", true);
+            //ChangeBGM("bgm_game_field", true);
         }
 
         private void Update()
