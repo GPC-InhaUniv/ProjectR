@@ -1,7 +1,6 @@
 ﻿using RedTheSettlers.GameSystem;
-using UnityEngine.EventSystems;
-using UnityEngine;
 using RedTheSettlers.Players;
+using UnityEngine;
 
 /// <summary>
 /// 담당자 : 박상원
@@ -68,7 +67,7 @@ public class BattleStageState : MonoBehaviour, IInputState
     {
         //TemporaryGameManager.Instance.PlayerAttack();
         GameManager.Instance.PlayerAttack();
-        LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, "공격");
+        //LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, "공격");
     }
 
     public void UseSkill(int skillSlotNumber)

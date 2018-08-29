@@ -35,6 +35,8 @@ namespace RedTheSettlers.GameSystem
         private float zoomSpeed;
 
         private Vector3 moveDirection;
+        private Vector3 downClickPoint;
+        private Vector3 upClickPoint;
         private bool enableInputBattleStage = false;
         private bool enableInputMainStage = false;
         private bool enableInputCamera = false;
@@ -143,11 +145,15 @@ namespace RedTheSettlers.GameSystem
                 // 좌클릭시 처음 눌렀을 때와 땠을 때의 거리가 같지 않으면 작동하지 않게...
                 if(Input.GetMouseButtonDown(0))
                 {
-
+                    downClickPoint = Input.mousePosition;
                 }
                 else if(Input.GetMouseButtonUp(0))
                 {
-
+                    upClickPoint = Input.mousePosition;
+                    if(downClickPoint == upClickPoint)
+                    {
+                        inputState.MovingPlayer(player);
+                    }
                 }
                 // 우클릭시 타일 정보를 GameManager로 전달
                 if (Input.GetMouseButtonUp(1))

@@ -8,8 +8,8 @@ namespace RedTheSettlers.GameSystem
     /// <summary>
     /// 사운드매니저
     /// 담당자 : 정진영
-    /// ㅁ사용법
-    /// 1. BGM변경 SoundManager.Instance.ChangeBGM("bgm_board_field",true); //클립이름,루프설정
+    /// ++++++사용법++++++
+    /// 1. BGM변경 SoundManager.Instance.ChangeBGM("bgm_board_field",true); //클립이름,부드럽게 전환할것인가
     /// 2. SFX재생 SoundManager.Instance.PlaySFX("CampFire"); //클립이름
     /// 3. SFX정지 SoundManager.Instance.StopSFXByName("CampFire"); //클립이름
     /// </summary>
@@ -21,13 +21,13 @@ namespace RedTheSettlers.GameSystem
         //public int SFXsClipSize;
 
         //[SerializeField]
-        [Header("BGM clips-최대 2개(동작시 초기화)"), Tooltip("오디오 클립들")]
-        public AudioClip[] BGMs = new AudioClip[2];
+        [Header("BGM clips-최대 8개(동작시 초기화/수정시 상의)"), Tooltip("오디오 클립들")]
+        public AudioClip[] BGMs = new AudioClip[8];
         
-        [Header("SFX clips-최대 20개(동작시 초기화)"), Tooltip("오디오 클립들")]
+        [Header("SFX clips-최대 20개(동작시 초기화/수정시 상의)"), Tooltip("오디오 클립들")]
         public AudioClip[] SFXs = new AudioClip[20];
 
-        [Header("SFX clip을 재생시킬 AudioSource수_(기본 3개)"), Tooltip("오디오 소스들-효과음이 계속 씹히면 수를 늘려주면 됨")]
+        [Header("SFX clip을 재생시킬 AudioSource수_(기본 3개_늘려도됨)"), Tooltip("오디오 소스들-효과음이 계속 씹히면 수를 늘려주면 됨")]
         public int audioSouseCount=3;
 
 
@@ -40,20 +40,30 @@ namespace RedTheSettlers.GameSystem
         private AudioSource BGMsource;
         private AudioSource[] SFXsource;
 
-        public delegate void CallBack();
-        CallBack BGMendCallBack;
+        //public delegate void CallBack();
+        //CallBack BGMendCallBack;
 
 
         private void Awake()
         {
             //클립수 초기화
-            if(2 < BGMs.Length)
+            if(8 < BGMs.Length)
             {
-                BGMs = new AudioClip[2];
+                AudioClip[] newBGMs = new AudioClip[8];
+                for (int i = 0; i < newBGMs.Length; i++)
+                {
+                    newBGMs[i] = BGMs[i];
+                }
+                BGMs = newBGMs;
             }
             if (20 < SFXs.Length)
             {
-                SFXs = new AudioClip[20];
+                AudioClip[] newSFXs = new AudioClip[20];
+                for (int i = 0; i < newSFXs.Length; i++)
+                {
+                    newSFXs[i] = SFXs[i];
+                }
+                SFXs = newSFXs;
             }
 
             BGMsource = gameObject.AddComponent<AudioSource>();
@@ -64,9 +74,7 @@ namespace RedTheSettlers.GameSystem
 
             //SFX 소스 초기화
             SFXsource = new AudioSource[audioSouseCount];
-
-
-
+            
             for (int i = 0; i < SFXsource.Length; i++)
             {
                 SFXsource[i] = gameObject.AddComponent<AudioSource>();
@@ -81,6 +89,7 @@ namespace RedTheSettlers.GameSystem
         {
             //bgm 부분
             if (!isChanging) return;
+            
             //재생중인 오디오의 볼륨을 낮춤
             if(isEnd == false)
             {
@@ -115,9 +124,9 @@ namespace RedTheSettlers.GameSystem
         [Header("Changing speed-배경음 바꾸는 속도")]
         public float ChangingSpeed;
 
-        public void ChangeBGM(string name, bool isSmooth, CallBack callback = null)//브금 변경 (브금이름 , 부드럽게 바꾸기)
+        public void ChangeBGM(string name, bool isSmooth)//브금 변경 (브금이름 , 부드럽게 바꾸기), CallBack callback = null
         {
-            BGMendCallBack = callback;
+            //BGMendCallBack = callback;
 
             changeClip = null;
             for (int i = 0; i < BGMs.Length; i++)//배경음 클립 탐색
@@ -143,16 +152,14 @@ namespace RedTheSettlers.GameSystem
                 isChanging = true;
             }
         }
-
-
-
+        
         /// <summary>
         /// SFX 부분
         /// </summary>
         /// <param name="name"></param>
         /// <param name="loop"></param>
         /// <param name="volume"></param>
-        public void PlaySFX(string name, bool loop = false, float volume = 1)//효과음 재생 (필요한것_클립이름,루프할것인지,볼륨크기)
+        public void PlaySFX(string name, bool loop, float volume = 1)//효과음 재생 (필요한것_클립이름,루프할것인지,볼륨크기)
         {
             for (int i = 0; i < SFXs.Length; i++)
             {
@@ -167,6 +174,7 @@ namespace RedTheSettlers.GameSystem
                 }
             }
         }
+
         /// <summary>
         /// 멈추고 싶은 효과음 정지
         /// </summary>

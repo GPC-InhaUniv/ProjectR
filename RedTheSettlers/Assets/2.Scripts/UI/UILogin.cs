@@ -61,12 +61,6 @@ namespace RedTheSettlers.UI
             {
                 ContinueGameObject.SetActive(true);
             }
-            else
-            {
-                Debug.Log("DDDDDDDDDD");
-                StageManager.Instance.ChangeStage(StageType.BoardScene);
-                
-            }
         }
 
         public void OnClickedContinueGameButton(bool wouldContinue)
@@ -83,7 +77,6 @@ namespace RedTheSettlers.UI
             {
                 loginResultObject.SetActive(true);
                 loginAlertText.text = "";
-
             }
             else
                 loginAlertText.text = Text;

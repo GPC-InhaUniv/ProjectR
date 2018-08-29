@@ -33,9 +33,8 @@ namespace RedTheSettlers.UI
 
         [SerializeField]
         private GameObject selectTileUI;
- 
+
         public void ShowBoardUI()
- 
         {
             playerTurnUI.SetActive(true);
             CommonPlayerItemUI.SetActive(true);
@@ -86,7 +85,7 @@ namespace RedTheSettlers.UI
         {
             bossWarningUI.SetActive(true);
         }
-        
+
         public void ShowWheatherEvent(int[] weathers)
         {
             weatherEventSelectUI.SetActive(true);
@@ -107,33 +106,6 @@ namespace RedTheSettlers.UI
         public void SendBattleTileInfo(BoardTile tileInfo)
         {
             GameManager.Instance.BulidBattleTile(tileInfo);
-        }
-
-        /// <summary>
-        /// 플레이어 공격 레벨 전달
-        /// </summary>
-        public void SendPlayerAttackLevel(int attackLevel)
-        {
-            //게임 매니저에 넣을 수 있는 함수.
-            //setPlayerAttack
-        }
-        /// <summary>
-        /// 플레이어 방어 레벨 전달
-        /// </summary>
-        public void SendPlayerDefenseLevel(int defenseLevel)
-        {
-            // 게임 매니저에 넣을 수 있는 함수
-        }
-        /// <summary>
-        /// 교환 후 : 플레이어 자원 게산결과 전달
-        /// </summary>
-        public void SendPlayerItems(int wood, int iron, int soil)
-        {
-            GameManager gameManager = GameManager.Instance;
-
-            gameManager.AddItemByType(0, ItemType.Wood, wood);
-            gameManager.AddItemByType(0, ItemType.Iron, iron);
-            gameManager.AddItemByType(0, ItemType.Soil, soil);
         }
     }
 }

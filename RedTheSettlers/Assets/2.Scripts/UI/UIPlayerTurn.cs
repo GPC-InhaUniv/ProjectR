@@ -17,11 +17,6 @@ namespace RedTheSettlers.UI
         /// [중요] UI Manager 스크립트에서 각 상황에 맞게 처리 할 예정
         /// </summary>
 
-        private void OnEnable()
-        {
-            changeTurn();
-        }
-
         [Header("Player's Current Turn")]
         [SerializeField]
         private Text currentTurnText;
@@ -36,6 +31,15 @@ namespace RedTheSettlers.UI
             currentTurnText.text = currentTurn.ToString();
 
             LogManager.Instance.UserDebug(LogColor.Olive, GetType().Name, "현재 Turn : " + currentTurn);
+        }
+
+        private void Start()
+        {
+            changeTurn();
+        }
+
+        private void Update()
+        {
         }
     }
 }

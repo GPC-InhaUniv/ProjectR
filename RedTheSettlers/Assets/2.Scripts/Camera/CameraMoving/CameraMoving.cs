@@ -30,48 +30,48 @@ namespace RedTheSettlers.GameSystem
 
     public class FollowMoving : CameraMoving
     {
-        Transform targetTransform;
         Vector3 cameraOffset;
         float smooth = 0.2f;
+        float hDist = 2f;
+        float vDist = 2f;
 
 
         Animator animator;
         ICameraState currentState;
-        CameraStateType nowStateType;
+        CameraStateType cameraStateType;
 
         public FollowMoving(GameObject cameraObject)
         {
             animator = cameraObject.GetComponentInChildren<Animator>();
             this.cameraObject = cameraObject;
-            FindTarget();
-            cameraOffset = cameraObject.transform.position - targetTransform.position;
-
+            //cameraOffset = cameraObject.transform.position - targetTransform.position;
+            cameraOffset = new Vector3(0.3f, vDist, hDist);
 
             currentState = new CameraNomalState(animator);
         }
 
-        public override void Moving(Vector3 vector3, CameraStateType cameraState)
+        public override void Moving(Vector3 vector3, CameraStateType newCameraStateType)
         {
-            if (nowStateType != cameraState)
+            if (cameraStateType != newCameraStateType)
             {
-                ChangeState(cameraState);
+                ChangeState(newCameraStateType);
                 currentState.CameraBehavior();
             }
-            if (targetTransform == null)
+            if (vector3 == null)
             {
                 Debug.Log("타겟이 없어서 타겟을 찾는다");
-                FindTarget();
+                return;
             }
             else
             {
-                Vector3 newPos = targetTransform.position + cameraOffset;
+                Vector3 newPos = vector3 + cameraOffset;
                 cameraObject.transform.position = Vector3.Slerp(cameraObject.transform.position, newPos, smooth);
             }
         }
 
-        private void ChangeState(CameraStateType cameraState)
+        private void ChangeState(CameraStateType cameraStateType)
         {
-            switch (cameraState)
+            switch (cameraStateType)
             {
                 case CameraStateType.Idle:
                     currentState = new CameraNomalState(animator);
@@ -87,13 +87,9 @@ namespace RedTheSettlers.GameSystem
                     break;
 
                 default:
+                    currentState = new CameraNomalState(animator);
                     break;
             }
-        }
-        
-        private void FindTarget()
-        {
-            targetTransform = GameObject.FindGameObjectWithTag(GlobalVariables.TAG_PLAYER).transform;
         }
 
     }
