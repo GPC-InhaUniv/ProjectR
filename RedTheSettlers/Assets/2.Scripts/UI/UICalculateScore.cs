@@ -1,11 +1,8 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using RedTheSettlers.GameSystem;
-using RedTheSettlers.Tiles;
-using System.Linq;
-using System;
+
 
 
 namespace RedTheSettlers.UI
@@ -51,11 +48,11 @@ namespace RedTheSettlers.UI
 
         IEnumerator ShowCardScore()
         {
-            PlayerData playerData = gameData.PlayerData[playerIndex];
+            GameManager data = GameManager.Instance;
 
             for (int i = 0; i < infoTexts.CardTexts.Length; i++)
             {
-                for (int j = 0; j <= playerData.ItemList[i].Count; j++)
+                for (int j = 0; j <= data.GetPlayerItemCount((UserType)playerIndex,(ItemType)i); j++)
                 {
                     infoTexts.CardTexts[i].text = j.ToString("D2");
                     yield return new WaitForSeconds(scoreDelayTime);
@@ -65,14 +62,14 @@ namespace RedTheSettlers.UI
             int scoreCount = 0;
             for (int i = 0; i < GlobalVariables.MaxEquipmentUpgradeLevel; i++)
             {
-                if (scoreCount <= playerData.StatData.WeaponLevel)
+              /*  if (scoreCount <= playerData.StatData.WeaponLevel)*/  //공격 레벨
                 {
                     scoreCount++;
                     infoTexts.AttackText.text = scoreCount.ToString("D2");
                     yield return new WaitForSeconds(scoreDelayTime);
                 }
 
-                if (scoreCount <= playerData.StatData.ShieldLevel)
+               /* if (scoreCount <= playerData.StatData.ShieldLevel)  *///방어 레벨
                 {
                     scoreCount++;
                     infoTexts.ShieldText.text = scoreCount.ToString("D2");
@@ -83,14 +80,14 @@ namespace RedTheSettlers.UI
             scoreCount = 0;
             for (int i = 0; i <= GlobalVariables.MaxTileCount; i++)
             {
-                if (scoreCount <= playerData.TileList.Count)
+                if (scoreCount <= data.GetPlayerTileCountAll((UserType)playerIndex))
                 {
                     scoreCount++;
                     infoTexts.TentText.text = scoreCount.ToString("D2");
                     yield return new WaitForSeconds(scoreDelayTime);
                 }
 
-                if (scoreCount <= playerData.BossKillCount)
+                /*if (scoreCount <= playerData.BossKillCount)*/ //보스 죽인 수
                 {
                     scoreCount++;
                     infoTexts.monsterKillText.text = scoreCount.ToString("D2");
@@ -106,7 +103,7 @@ namespace RedTheSettlers.UI
             yield break;
         }
 
-        public void TotalScore()
+        private void TotalScore()
         {
             totalScore = GameManager.Instance.GetPlayerItemCountAll((UserType)playerIndex)
             * (GlobalVariables.CardWeightValue + GlobalVariables.EquipmentWeightValue + GlobalVariables.BonusWeightValue);

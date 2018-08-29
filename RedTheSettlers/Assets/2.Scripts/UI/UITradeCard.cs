@@ -57,12 +57,10 @@ namespace RedTheSettlers.UI
         private int playerNumber = 0;
         private int AiNumber = 0;
         private ItemData[] sendData;
-
-        GameData gameData;
         
         public void CheckCards(int cardNumber)
         {
-            PlayerData data = gameData.PlayerData[0];
+            GameManager data = GameManager.Instance;
             tradeCardNumber = cardNumber;
 
             if (cardInfo[cardNumber].ItemsCard.transform.parent.name == GIVEPANEL)
@@ -78,7 +76,7 @@ namespace RedTheSettlers.UI
             if (cardInfo[cardNumber].ItemsCard.transform.parent.name == giveGroup.name)
             {
                 ItemPopup.SetActive(true);
-                ItemSlider.maxValue = data.ItemList[cardNumber].Count;
+                ItemSlider.maxValue = data.GetPlayerItemCount(UserType.Player,(ItemType)cardNumber);
                 ItemSlider.value = 0;
             }
             else if (cardInfo[cardNumber].ItemsCard.transform.parent.name == takeGroup.name)    //MaxValue 때문에 나눔
