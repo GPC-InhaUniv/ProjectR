@@ -10,15 +10,12 @@ namespace RedTheSettlers.UnitTest
     public class BattleControllerTest2 : MonoBehaviour
     {
         private float cattleResawnTime = 5; // test용
-        private List<GameObject> enemyList;
-        private GameObject player;
         //////   테스트용 변수 ////////////////
 
+        private List<GameObject> enemyList;
+        private GameObject player;
         private GameTimer cattlesTimer;
 
-        [SerializeField]
-        private int aliveEnemyCount; // 어디에서 받아와야하지? 
-        public int AliveEnemyCount { set { aliveEnemyCount = value; } }
         //private float cattleResawnTime = 100; // second
 
         private BattleFinishCallback _callback;
@@ -39,9 +36,6 @@ namespace RedTheSettlers.UnitTest
         {
             // 나중에 삭제
             BattleFlow(ItemType.Cow);
-            //
-
-            EnemyDeadCallback = new EnemyDeadCallback(EnemyDead);
         }
 
         // tileType : GameMAnager에서 어떤 타일인지 받아옴 
@@ -61,7 +55,7 @@ namespace RedTheSettlers.UnitTest
                 cattlesTimer.StartTimer();
             }
 
-            if (aliveEnemyCount == 0) BattleClear();
+            if (enemyList.Count == 0) BattleClear();
         }
 
         // 일정 시간마다 소 떼가 등장한다.
@@ -94,6 +88,24 @@ namespace RedTheSettlers.UnitTest
             // 데이터매니저에 어떤 정보를 넘겨줘야??
         }
 
+        private void EnemyDead()
+        {
+            if (enemyList.Count > 0)
+            {
+                //aliveEnemyCount--;
+                //LogManager.Instance.UserDebug(LogColor.Orange, GetType().ToString(), "Enemy Dead! 남은 Enemy : " + aliveEnemyCount);
+            }
+            else // enemyList.Count == 0
+            {
+                LogManager.Instance.UserDebug(LogColor.Orange, GetType().ToString(), "전투 승리!");
+            }
+        }
+
+        private void PlayerDead()
+        {
+            LogManager.Instance.UserDebug(LogColor.Orange, GetType().ToString(), "플레이어 사망!");
+        }
+
         /// <summary>
         /// Test용 코드. SpawnHerdOfCattles()가 원본
         /// </summary>
@@ -113,15 +125,5 @@ namespace RedTheSettlers.UnitTest
             this.player = player;
         }
 
-        private void EnemyDead()
-        {
-            if (aliveEnemyCount > 0)
-            {
-                aliveEnemyCount--;
-                LogManager.Instance.UserDebug(LogColor.Orange, GetType().ToString(), "Enemy Dead! 남은 Enemy : " + aliveEnemyCount);
-            }
-            else
-                LogManager.Instance.UserDebug(LogColor.Orange, GetType().ToString(), "남은 Enemy가 존재하지 않습니다.");
-        }
     }
 }
