@@ -41,11 +41,6 @@ namespace RedTheSettlers.GameSystem
         {
             gameData = new GameData(4);
             gameDataLoader = new GameDataLoader();
-
-            string json = JsonUtility.ToJson(gameData);
-            Debug.Log(json);
-            bool cyheck = CheckedBundleVersion(AssetBundleNumbers.MiddleBoss1, "2f234a3s65d");
-            Debug.Log(cyheck);
         }
 
         public void CreateNewAccount(string id, string password)
