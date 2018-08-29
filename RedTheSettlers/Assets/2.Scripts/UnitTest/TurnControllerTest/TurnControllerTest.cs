@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using RedTheSettlers.GameSystem;
+using RedTheSettlers.Users;
 
 namespace RedTheSettlers.UnitTest
 {
@@ -28,6 +29,8 @@ namespace RedTheSettlers.UnitTest
         /// 현재 턴 진행중인 플레이어 번호(0 ~ 3)
         /// </summary>
         public int CurrentPlayerTurn = 0;
+        [SerializeField]
+        private BoardAI[] AIs;
 
         private TurnCallback _callback;
         public TurnCallback Callback
@@ -35,9 +38,7 @@ namespace RedTheSettlers.UnitTest
             get{ return _callback; }
             set { _callback = value; }
         }
-
-        GameData datas = DataManager.Instance.GameData;
-
+        
         public IEnumerator TurnFlow()
         {
             GameManagerTest.Instance.state += 1;
@@ -55,6 +56,14 @@ namespace RedTheSettlers.UnitTest
             Queue<string> messages = new Queue<string>();
 
             return messages;
+        }
+
+        public void SetAIs(User[] players)
+        {
+            for (int i = 0; i < AIs.Length; i++)
+            {
+                AIs[i] = players[i + 1].GetComponent<BoardAI>();
+            }
         }
     }
 }

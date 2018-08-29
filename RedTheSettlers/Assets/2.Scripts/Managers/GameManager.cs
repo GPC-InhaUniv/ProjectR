@@ -300,9 +300,29 @@ namespace RedTheSettlers.GameSystem
         /// </summary>
         public void SetGameLog()
         {
-            Queue<string> messages = turnCtrl.SendGameLog();
-            messages =  Players[(state - GameState.AI1Turn)].GetComponent<BoardAI>().MessageQueue;
+            Queue<string> messageQueue = turnCtrl.SendGameLog();
             //UIManager.Instance.
+        }
+
+        private void SendPlayers()
+        {
+            turnCtrl.SetAIs(Players);
+        }
+
+        //플레이어 무기, 방어구 레벨, 보스 카운터
+        public int GetPlayersAttackLevel(int playerNum)
+        {
+            return DataManager.Instance.GameData.PlayerData[playerNum].StatData.WeaponLevel;
+        }
+
+        public int GetPlayersDefenseLevel(int playerNum)
+        {
+            return DataManager.Instance.GameData.PlayerData[playerNum].StatData.ShieldLevel;
+        }
+
+        public int GetPlayersBossKillCount(int playerNum)
+        {
+            return DataManager.Instance.GameData.PlayerData[playerNum].BossKillCount;
         }
     }
 }
