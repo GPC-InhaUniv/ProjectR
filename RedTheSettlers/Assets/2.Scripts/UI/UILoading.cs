@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 /// <summary>
 /// 작성자 : 김하정
+/// 게임 로딩시 보여주는 씬을 위해 제작
 /// </summary>
 namespace RedTheSettlers.UI
 {

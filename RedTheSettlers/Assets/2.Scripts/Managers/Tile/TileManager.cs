@@ -20,7 +20,7 @@ namespace RedTheSettlers.GameSystem
         {
             CreateBoardTileGrid();
             ShowBoardTile();
-            CreateBattleTileGrid(ItemType.Cow, 1);
+            CreateBattleTileGrid(ItemType.Water, 3);
             ShowBattleTile();
         }
         
@@ -35,14 +35,14 @@ namespace RedTheSettlers.GameSystem
                 TileData tileData = DataManager.Instance.GameData.InGameData.BoardTileList[i];
 
                 int x = tileData.LocationX;
-                int z = tileData.LocationY;
+                int z = tileData.LocationZ;
                 BoardTileGrid[x, z] = ObjectPoolManager.Instance.TileObjectPool.PopBoardTile(tileData.TileType);
                 BoardTileGrid[x, z].GetComponent<BoardTile>().TileLevel = tileData.TileLevel;
                 for(int j = 0; j < playerData.Length; j++)
                 {
                     for(int k = 0; k < playerData[j].TileList.Count; k++)
                     {
-
+                    
                     }
                 }
             }
@@ -76,7 +76,14 @@ namespace RedTheSettlers.GameSystem
                     {
                         float xCoord = CalculateXcoord(x, z) + GlobalVariables.BattleAreaOriginCoord;
                         float zCoord = CalculateZcoord(z) + GlobalVariables.BattleAreaOriginCoord;
-                        BattleTileGrid[x, z] = ObjectPoolManager.Instance.TileObjectPool.PopBattleTile(itemType);
+                        if (Random.Range(difficulty, 5) < 4)
+                        {
+                            BattleTileGrid[x, z] = ObjectPoolManager.Instance.TileObjectPool.PopBattleTile(itemType);
+                        }
+                        else
+                        {
+                            BattleTileGrid[x, z] = ObjectPoolManager.Instance.TileObjectPool.PopBattleObstacleTile(itemType);
+                        }
                         BattleTileGrid[x, z].transform.position = new Vector3(xCoord, 0.05f, zCoord);
                         BattleTileGrid[x, z].GetComponent<BattleTile>().TileCoordinate = new Coordinate(x, z);
                     }
@@ -125,6 +132,12 @@ namespace RedTheSettlers.GameSystem
         public float CalculateZcoord(float z)
         {
             return z * 1.5f + 0.1f;
+        }
+
+        public void SetBossTileField()
+        {
+            int midPos = (int)(GlobalVariables.BoardTileGridSize * 0.5f);
+            BoardTileGrid[midPos, midPos].GetComponent<BoardTile>().SetBossTile();
         }
     }
 }

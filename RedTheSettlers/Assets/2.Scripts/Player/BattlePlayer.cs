@@ -22,6 +22,7 @@ namespace RedTheSettlers.Players
 
         private int hp;
         private int mp;
+        private float standardSpeed = 2.0f;
         private float moveSpeed = 2.0f;
 
         private Skill[] skillSlot = new Skill[4];
@@ -107,6 +108,16 @@ namespace RedTheSettlers.Players
         public void ChangeSpeed(float amount)
         {
             moveSpeed += amount;
+        }
+
+        public void SlowDownSpeedByWater()
+        {
+            moveSpeed = 1.0f;
+        }
+
+        public void RecoverySpeed()
+        {
+            moveSpeed = 2.0f;
         }
     }
 }

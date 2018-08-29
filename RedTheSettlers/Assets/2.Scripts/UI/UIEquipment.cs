@@ -5,6 +5,10 @@ using System;
 
 namespace RedTheSettlers.UI
 {
+    /// <summary>
+    /// 작성자 : 김하정
+    /// 장비UI 스크립트 : 장비 업그레이드에 대한 것을 보여준다.
+    /// </summary>
     public class UIEquipment : MonoBehaviour
     {
         public const int AttackUpgradeOneWood = 3;
@@ -30,16 +34,16 @@ namespace RedTheSettlers.UI
         [Flags]
         enum UpgradeItems
         {
-            Wood=1,
-            Iron=2,
-            Soil=4,
+            Wood = 1,
+            Iron = 2,
+            Soil = 4,
         }
 
         struct UpgradeRequestItems
         {
             public int Wood, Iron, Soil;
 
-            public UpgradeItems CheckForItems (int wood, int iron, int soil)
+            public UpgradeItems CheckForItems(int wood, int iron, int soil)
             {
                 UpgradeItems result = 0;
                 if (Wood >= wood)
@@ -112,7 +116,7 @@ namespace RedTheSettlers.UI
 
             WeaponLevelTwo = new UpgradeRequestItems
             {
-                Wood = PlayerWood, 
+                Wood = PlayerWood,
                 Iron = PlayerIron,
                 Soil = PlayerSoil,
             };
@@ -160,18 +164,18 @@ namespace RedTheSettlers.UI
                 EquipmentUpgrade(playerShieldLevel, buttonValue, upgradeItems);
             }
             LogManager.Instance.UserDebug(LogColor.Green, GetType().Name, "플레이어가 소지한 나무=" + PlayerWood + "플레이어가 소지한 철=" +
-                 PlayerIron + "플레이어가 소지한 흙=" +PlayerSoil);
+                 PlayerIron + "플레이어가 소지한 흙=" + PlayerSoil);
             LogManager.Instance.UserDebug(LogColor.Green, GetType().Name, "플레이어의 무기 레벨은" + playerWeaponLevel + "플레이어의 방어 레벨은" + playerShieldLevel);
         }
 
-        void EquipmentUpgrade(int level, int buttonValue, UpgradeItems upgradeItems )
+        void EquipmentUpgrade(int level, int buttonValue, UpgradeItems upgradeItems)
         {
             if (upgradeItems != (UpgradeItems.Wood | upgradeItems))
             {
                 //나무 부족
                 if (buttonValue == 0)
                 {
-                    if (level == 0 )
+                    if (level == 0)
                     {
                         attackOneWood.color = textColor; //빨간색!
                         firstAttackButton.interactable = false;
@@ -184,9 +188,9 @@ namespace RedTheSettlers.UI
                 }
                 if (buttonValue == 1)
                 {
-                    if (level == 0 )
+                    if (level == 0)
                     {
-                        shieldOneWood.color = textColor; 
+                        shieldOneWood.color = textColor;
                         firstShieldButton.interactable = false;
                     }
                     else/* if (level == 1)*/
@@ -246,7 +250,7 @@ namespace RedTheSettlers.UI
                 {
                     if (level == 0)
                     {
-                        shieldOneSoil.color = textColor; 
+                        shieldOneSoil.color = textColor;
                         firstShieldButton.interactable = false;
                     }
                     else  //level == 1
@@ -309,7 +313,7 @@ namespace RedTheSettlers.UI
 
         public void ResetTextsAndButtons()
         {
-            if (playerWeaponLevel==0)
+            if (playerWeaponLevel == 0)
             {
                 firstAttackButton.interactable = true;
                 attackOneIron.color = resetTextColor;

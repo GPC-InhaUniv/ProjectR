@@ -7,6 +7,10 @@ using UnityEngine.UI;
 
 namespace RedTheSettlers.UI
 {
+    /// <summary>
+    /// 작성자 : 강다희, 김하정
+    /// UI Manager
+    /// </summary>
     public class UIManager : Singleton<UIManager>
     {
         [SerializeField]

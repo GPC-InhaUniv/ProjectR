@@ -18,7 +18,7 @@ namespace RedTheSettlers.Enemys.Boss
 
         public Attack(Animator animator, int bossPhase, GameTimer fireballTimer, TimerCallback timerCallback, 
             BattlePlayer targetObject, Transform transform, float TimeToReturn, Queue<EnemyFireBall> fireballList, 
-            float FireBallSpeed, Queue<EnemyFireBall> LaunchedFireballList)
+            float FireBallSpeed, Queue<EnemyFireBall> LaunchedFireballList, int Power)
         {
             this.animator = animator;
             this.fireballTimer = fireballTimer;
@@ -30,6 +30,7 @@ namespace RedTheSettlers.Enemys.Boss
             this.FireballList = fireballList;
             this.fireballSpeed = FireBallSpeed;
             this.LaunchedFireballList = LaunchedFireballList;
+            this.Power = Power;
         }
 
         public override void DoAction()
@@ -37,8 +38,8 @@ namespace RedTheSettlers.Enemys.Boss
             animator.SetTrigger("Attack");
             
             Vector3 normalVector = (targetObject.transform.position - transform.position).normalized;
-            normalVector.y = 0f;
             transform.rotation = Quaternion.LookRotation(normalVector);
+            transform.rotation = new Quaternion(0f, transform.rotation.y, 0, transform.rotation.w);
 
             int ShotCount = (2 * bossPhase) + 1;
             float angle = ((ShotCount - 1) * 0.5f) * AngleOffset;
@@ -49,6 +50,7 @@ namespace RedTheSettlers.Enemys.Boss
                 LaunchedFireballList.Enqueue(enemyFireBall);
                 enemyFireBall.gameObject.SetActive(true);
                 SetFireball(enemyFireBall, normalVector, angle);
+                enemyFireBall.AttackArea.Power = (int)Power;
 
                 fireballTimer = GameTimeManager.Instance.PopTimer();
                 fireballTimer.SetTimer(timeToReturn, false);

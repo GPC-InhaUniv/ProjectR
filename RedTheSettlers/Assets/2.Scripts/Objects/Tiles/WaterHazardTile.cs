@@ -10,7 +10,7 @@ namespace RedTheSettlers.Tiles
         {
             if(collision.gameObject.CompareTag(GlobalVariables.TAG_PLAYER))
             {
-                collision.gameObject.GetComponent<BattlePlayer>().ChangeSpeed(-1.0f);
+                collision.gameObject.GetComponent<BattlePlayer>().SlowDownSpeedByWater();
             }
         }
 
@@ -18,7 +18,7 @@ namespace RedTheSettlers.Tiles
         {
             if (collision.gameObject.CompareTag(GlobalVariables.TAG_PLAYER))
             {
-                collision.gameObject.GetComponent<BattlePlayer>().ChangeSpeed(1.0f);
+                collision.gameObject.GetComponent<BattlePlayer>().RecoverySpeed();
             }
         }
     }

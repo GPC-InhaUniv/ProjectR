@@ -22,6 +22,9 @@ namespace RedTheSettlers.GameSystem
         public EnemyFireBall FireballPrefab;
         public Explode ExplodePrefab;
 
+        [Header("Cow Battle Event")]
+        public GameObject CowPrefab;
+
         [HideInInspector]
         public List<Queue<GameObject>> EnemyQueueList;
         public Queue<GameObject> SkillQueue;
@@ -50,7 +53,9 @@ namespace RedTheSettlers.GameSystem
             for (int i = 0; i < 6; i++)
             {
                 SkillQueue.Enqueue(SkillObject);
-            }            
+            }
+
+            CowObject = CowPrefab;
         }
     }
 }

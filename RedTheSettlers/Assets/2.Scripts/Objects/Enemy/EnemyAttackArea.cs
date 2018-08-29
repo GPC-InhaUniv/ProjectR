@@ -7,7 +7,6 @@ namespace RedTheSettlers.Enemys
     public class EnemyAttackArea : MonoBehaviour
     {
         public Collider AttackCollider;
-        public Enemy enemy;
         public int Power;
 
         private void Start()

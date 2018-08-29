@@ -32,6 +32,9 @@ namespace RedTheSettlers.UI
         [SerializeField]
         private Text itemAcquireInfomation;
 
+        [SerializeField]
+        private Text UpgradeItemCost;
+
         [Serializable]
         private struct TileOwnerImage
         {
@@ -43,7 +46,7 @@ namespace RedTheSettlers.UI
         }
 
         [SerializeField]
-        private TileOwnerImage[] tileOwnerImage;
+        private TileOwnerImage tileOwnerImage;
 
         [Serializable]
         private struct TileItemImage
@@ -57,21 +60,28 @@ namespace RedTheSettlers.UI
         }
 
         [SerializeField]
-        private TileItemImage[] tileItemImage;
+        private TileItemImage tileItemImage;
+
+        [Serializable]
+        private struct UpgradeItemImage
+        {
+            public string ImageName;
+            public GameObject image;
+        }
+
+        [SerializeField]
+        private UpgradeItemImage[] upgradeItemImages;
 
         [Header("Current Tile Event Button")]
         [SerializeField]
         private GameObject[] tileActionButton;
 
-        [Header("test")]
-        [SerializeField]
+        [Header("Player Information")]
         private int selectTileOwner;
 
-        [SerializeField]
         private int selectTileProperties;
-
-        [SerializeField]
         private int selectTileItemLevel;
+        private int playerUpgradeItemCost;
 
         private void Start()
         {
@@ -87,27 +97,41 @@ namespace RedTheSettlers.UI
         {
             if (selectTileOwner == 0) //플레이어 타일
             {
-                tileOwnerImage[0].tilePlayerImage.SetActive(true);
+                tileOwnerImage.tilePlayerImage.SetActive(true);
                 tileActionButton[0].SetActive(true);
+                for (int i = 0; i < upgradeItemImages.Length; i++)
+                {
+                    if (selectTileProperties < i)
+                        break;
+                    else if (selectTileProperties == i)
+                    {
+                        upgradeItemImages[i].image.SetActive(true);
+                        playerUpgradeItemCost = selectTileItemLevel * 3;
+                        UpgradeItemCost.text = playerUpgradeItemCost.ToString();
+                        break;
+                    }
+                }
+
+                tileItemExplain.text = "";
             }
             else if (selectTileOwner == 1) //AI1 타일
             {
-                tileOwnerImage[0].tileAIFirstImage.SetActive(true);
+                tileOwnerImage.tileAIFirstImage.SetActive(true);
                 tileActionButton[1].SetActive(true);
             }
             else if (selectTileOwner == 2) //AI2 타일
             {
-                tileOwnerImage[0].tileAISecondImage.SetActive(true);
+                tileOwnerImage.tileAISecondImage.SetActive(true);
                 tileActionButton[1].SetActive(true);
             }
             else if (selectTileOwner == 3) //AI3 타일
             {
-                tileOwnerImage[0].tileAIThirdImage.SetActive(true);
+                tileOwnerImage.tileAIThirdImage.SetActive(true);
                 tileActionButton[1].SetActive(true);
             }
             else //미개척 타일
             {
-                tileOwnerImage[0].tileUnexploredImage.SetActive(true);
+                tileOwnerImage.tileUnexploredImage.SetActive(true);
                 tileActionButton[2].SetActive(true);
             }
         }
@@ -120,7 +144,8 @@ namespace RedTheSettlers.UI
                     {
                         tileName.text = "목축지";
                         tileItemName.text = "소";
-                        tileItemImage[0].cowTileImage.SetActive(true);
+                        tileItemImage.cowTileImage.SetActive(true);
+                        tileItemExplain.text = "1턴마다 '소' 자원을" + selectTileItemLevel + "개 획득합니다.";
                         itemAcquireInfomation.text = "'소'는 배고픔(HP)를 채워줍니다.";
                     }
                     break;
@@ -129,7 +154,8 @@ namespace RedTheSettlers.UI
                     {
                         tileName.text = "오아시스";
                         tileItemName.text = "물";
-                        tileItemImage[0].waterTileImage.SetActive(true);
+                        tileItemImage.waterTileImage.SetActive(true);
+                        tileItemExplain.text = "1턴마다 '물' 자원을" + selectTileItemLevel + "개 획득합니다.";
                         itemAcquireInfomation.text = "'물'은 갈증(MP)를 채워줍니다.";
                     }
                     break;
@@ -138,7 +164,8 @@ namespace RedTheSettlers.UI
                     {
                         tileName.text = "밀밭";
                         tileItemName.text = "밀";
-                        tileItemImage[0].wheatTileImage.SetActive(true);
+                        tileItemImage.wheatTileImage.SetActive(true);
+                        tileItemExplain.text = "1턴마다 '밀' 자원을" + selectTileItemLevel + "개 획득합니다.";
                         itemAcquireInfomation.text = "'밀'은 스테미나(Move)를 채워줍니다.";
                     }
                     break;
@@ -147,7 +174,8 @@ namespace RedTheSettlers.UI
                     {
                         tileName.text = "숲";
                         tileItemName.text = "나무";
-                        tileItemImage[0].woodTileImage.SetActive(true);
+                        tileItemImage.woodTileImage.SetActive(true);
+                        tileItemExplain.text = "1턴마다 '물' 자원을" + selectTileItemLevel + "개 획득합니다.";
                         itemAcquireInfomation.text = "'나무'는 업그레이드에 필요합니다.";
                     }
                     break;
@@ -156,7 +184,8 @@ namespace RedTheSettlers.UI
                     {
                         tileName.text = "돌산";
                         tileItemName.text = "철";
-                        tileItemImage[0].ironTileImage.SetActive(true);
+                        tileItemImage.ironTileImage.SetActive(true);
+                        tileItemExplain.text = "1턴마다 '철' 자원을" + selectTileItemLevel + "개 획득합니다.";
                         itemAcquireInfomation.text = "'철'은 업그레이드에 필요합니다.";
                     }
                     break;
@@ -165,7 +194,8 @@ namespace RedTheSettlers.UI
                     {
                         tileName.text = "흙산";
                         tileItemName.text = "흙";
-                        tileItemImage[0].soilTileImage.SetActive(true);
+                        tileItemImage.soilTileImage.SetActive(true);
+                        tileItemExplain.text = "1턴마다 '흙' 자원을" + selectTileItemLevel + "개 획득합니다.";
                         itemAcquireInfomation.text = "'흙'은 업그레이드에 필요합니다.";
                     }
                     break;
@@ -187,8 +217,9 @@ namespace RedTheSettlers.UI
             tileItemLevel.text = "Lv." + selectTileItemLevel.ToString();
         }
 
-        private void OnButton() //버튼 배열 0플레이어 1AI 2미개척
+        public void OnUpgradeButton()
         {
+            //갖고 있는 카드 개수 차감해주고... 플레이어 소지 카드가 많거나 적을 때 if처리
         }
     }
 }
