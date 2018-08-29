@@ -15,11 +15,14 @@ namespace RedTheSettlers.GameSystem
         Level2 = 1,
         Level3 = 2,
     }
+
+    public delegate void BuildBattleTileCallback();
     /// <summary>
     /// 작성자 : 박준명
     /// </summary>
     public class DifficultyController : MonoBehaviour
     {
+        public BuildBattleTileCallback Callback;
         private BattleLevel battlelevel;
         private ItemType tileType;
         private int BossCount;
@@ -41,6 +44,7 @@ namespace RedTheSettlers.GameSystem
             judgeLevel(selectionTile, PossessingTileList);
             yield return StartCoroutine(SendBattleLevel());
             DisposePlayerAndEnemy(selectionTile.IsBossTile); //후에 타일클래스에 구분 bool타입 변수 생기면 변경 예정 true - > selectionTile.isBossTile
+            Callback();
         }
         
         private void judgeLevel(Tile selectionTile, List<Tile> PossessingTileList)
@@ -151,6 +155,7 @@ namespace RedTheSettlers.GameSystem
                 }
                 enemyList[i].SetActive(true);
             }
+
         }
 
         /*
