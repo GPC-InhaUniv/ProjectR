@@ -21,7 +21,6 @@ namespace RedTheSettlers.GameSystem
 
     abstract public class EventWeathers
     {
-        GameData datas = DataManager.Instance.GameData;
         abstract public void GetItems();
 
         /// <summary>

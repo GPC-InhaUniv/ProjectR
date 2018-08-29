@@ -32,9 +32,13 @@ namespace RedTheSettlers.GameSystem
         {
             OtherPlayerState ai = RandomAI();
 
-            if (ai == OtherPlayerState.Trade) { }
+            if (ai == OtherPlayerState.Trade)
+            {
+                LogManager.Instance.UserDebug(LogColor.Orange, GetType().ToString(), "재협상");
+            }
             else if (ai == OtherPlayerState.Yes)
             {
+                LogManager.Instance.UserDebug(LogColor.Orange, GetType().ToString(), "거래 성공");
                 trade.RequestSender.ChangeItemCount(trade.ItemsToTrade);
 
                 for (int i = 0; i < GlobalVariables.MaxItemNumber; i++)
@@ -44,10 +48,14 @@ namespace RedTheSettlers.GameSystem
 
                 trade.RequestReceiver.ChangeItemCount(trade.ItemsToTrade);
             }
-            else { } // ai == OtherPlayerState.No
+            else // ai == OtherPlayerState.No
+            {
+                LogManager.Instance.UserDebug(LogColor.Orange, GetType().ToString(), "거래 실패");
+            }
 
+            LogManager.Instance.UserDebug(LogColor.Orange, GetType().ToString(), "거래 종료");
             GameManager.Instance.SendTradeResult(ai);
-            Callback();
+            //Callback(); // 필요 없을듯?
         }
     }
 }
