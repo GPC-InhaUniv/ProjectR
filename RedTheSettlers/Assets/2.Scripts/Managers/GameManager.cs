@@ -297,9 +297,10 @@ namespace RedTheSettlers.GameSystem
         /// <summary>
         /// AI의 진행 상황을 담은 큐를 전달합니다.
         /// </summary>
-        public void SendGameLog()
+        public void SetGameLog()
         {
             Queue<string> messages = turnCtrl.SendGameLog();
+            messages =  Players[(state - GameState.AI1Turn)].GetComponent<BoardAI>().MessageQueue;
             //UIManager.Instance.
         }
     }
