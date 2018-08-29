@@ -71,7 +71,6 @@ namespace RedTheSettlers.GameSystem
 
         private void ChangeState(CameraStateType cameraState)
         {
-            //ChangeState((EnemyStateType)stateType);
             switch (cameraState)
             {
                 case CameraStateType.Idle:
