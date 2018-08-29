@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
-using RedTheSettlers.Tiles;
 
 
 namespace RedTheSettlers.GameSystem
@@ -50,8 +49,6 @@ namespace RedTheSettlers.GameSystem
             {
                 Initialize();
             }
-            //보드에서 타겟이 있으면 그쪽을 보면서 이동까지 해줘야함
-            Debug.Log("룩엣메뉴얼");
             if(isWark == false)
             {
                 Vector3 newPos = target + cameraOffset;

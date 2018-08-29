@@ -2,10 +2,10 @@
 using UnityEngine;
 using System.Collections;
 using RedTheSettlers.Tiles;
-using RedTheSettlers.UnitTest;
 using RedTheSettlers.UI;
 using RedTheSettlers.Users;
 using RedTheSettlers.Players;
+using RedTheSettlers.Enemys;
 
 namespace RedTheSettlers.GameSystem
 {
@@ -19,21 +19,20 @@ namespace RedTheSettlers.GameSystem
         public User[] Players;
         public GameData gameData = DataManager.Instance.GameData;
 
-        public TurnControllerTest turnCtrl;
+        public PlayerTurnController turnCtrl;
         public EventChecker eventCtrl;
         public ItemDistributor itemCtrl;
         public TradeController tradeCtrl;
-        public BattleControllerTest2 battleCtrl;
+        public BattleController battleCtrl;
         public CameraController cameraCtrl;
         public DifficultyController difficultyController;
-        public BattlePlayer battlePlayer;
 
         public GameState state = GameState.EventController;
         private Coroutine coroutineMove;
         private Coroutine coroutineAttack;
 
-        private ItemType tileType;
-        public ItemType TileType
+        private BoardTile tileType;
+        public BoardTile TileType
         {
             get { return TileType; }
             set { tileType = value; }
@@ -48,6 +47,7 @@ namespace RedTheSettlers.GameSystem
             battleCtrl.Callback = new BattleFinishCallback(BattleFinish);
             difficultyController.Callback = new BuildBattleTileCallback(BulidBattleStageFinish);
             cameraCtrl = new CameraController();
+
         }
 
         public void InitializeGame()
@@ -83,7 +83,7 @@ namespace RedTheSettlers.GameSystem
 
         public void GameFlowFinish()
         {
-            StartGameFlow();
+            
             switch (state)
             {
                 case GameState.EventController:
@@ -94,19 +94,31 @@ namespace RedTheSettlers.GameSystem
                 default:
                     break;
             }
+            StartGameFlow();
         }
 
         private void BulidBattleStageFinish()
         {
-            //전투 시작 전 세팅
-            battleCtrl.ReceiveEnemysAndPlayer(difficultyController.EnemyList, difficultyController.Player);
-            battleCtrl.BattleFlow(TileType);
+            BattlePlayer player = difficultyController.Player.GetComponent<BattlePlayer>();
+            List<Enemy> enemyList = new List<Enemy>();
+            List<GameObject> enemys = difficultyController.EnemyList;
+            for (int i = 0; i < enemys.Count; i++)
+            {
+                enemyList.Add(enemys[i].GetComponent<Enemy>());
+            }
+
+            StageManager.Instance.ChangeState(StageType.BattleStageState);
+            battleCtrl.ReceiveEnemysAndPlayer(enemyList, player);
+            battleCtrl.BattleFlow(tileType);
         }
 
-        private void BattleFinish()
+        private void BattleFinish(bool isWin)
         {
-            //전투 끝(메인으로 돌아가야 함)   
-
+            if (isWin)
+            {
+                tileType.tileOwner = TileOwner.Player;
+            }
+            StageManager.Instance.ChangeState(StageType.BoardScene);
         }
 
         private void ChangeGameFlow()
@@ -220,7 +232,7 @@ namespace RedTheSettlers.GameSystem
         /// <param name="tileinfo"></param>
         public void BulidBattleTile(BoardTile tileinfo)
         {
-            TileType = tileinfo.TileType;
+            TileType = tileinfo;
             StartCoroutine(difficultyController.EstablishBattleStage(tileinfo, Players[0].PossessingTile));
         }
 
@@ -294,12 +306,12 @@ namespace RedTheSettlers.GameSystem
         {
             if (coroutineMove == null)
             {
-                coroutineMove = StartCoroutine(battlePlayer.MoveToTargetPostion(direction));
+                coroutineMove = StartCoroutine(battleCtrl.Player.MoveToTargetPostion(direction));
             }
             else
             {
                 StopCoroutine(coroutineMove);
-                coroutineMove = StartCoroutine(battlePlayer.MoveToTargetPostion(direction));
+                coroutineMove = StartCoroutine(battleCtrl.Player.MoveToTargetPostion(direction));
             }
         }
 
@@ -308,7 +320,7 @@ namespace RedTheSettlers.GameSystem
         /// </summary>
         public void PlayerAttack()
         {
-            battlePlayer.AttackEnemy(10);
+            battleCtrl.Player.AttackEnemy(10);
         }
 
         /// <summary>
@@ -317,9 +329,15 @@ namespace RedTheSettlers.GameSystem
         /// <param name="skillNumber"></param>
         public void PlayerSkill(int skillNumber)
         {
-            battlePlayer.UseSkill(skillNumber);
+            battleCtrl.Player.UseSkill(skillNumber);
         }
 
+        /// <summary>
+        /// 플레이어의 스텟을 설정합니다.
+        /// </summary>
+        /// <param name="hp"></param>
+        /// <param name="mp"></param>
+        /// <param name="stamina"></param>
         public void SetPlayerStat(int hp, int mp, int stamina)
         {
             DataManager.Instance.GameData.PlayerData[0].StatData.HealthPoint = hp;
