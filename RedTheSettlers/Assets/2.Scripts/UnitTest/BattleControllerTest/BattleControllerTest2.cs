@@ -2,6 +2,7 @@
 using UnityEngine;
 using RedTheSettlers.GameSystem;
 using RedTheSettlers.Enemys;
+using RedTheSettlers.Users;
 
 namespace RedTheSettlers.UnitTest
 {
@@ -25,9 +26,9 @@ namespace RedTheSettlers.UnitTest
             set { _callback = value; }
         }
 
-        public void BattleFlow(ItemType tileType)
+        public void BattleFlow(TileData tileInfo)
         {
-            if (tileType == ItemType.Cow)
+            if (tileInfo.TileType == ItemType.Cow)
             {
                 LogManager.Instance.UserDebug(LogColor.Orange, GetType().ToString(), "Cow 타이머 시작");
 
@@ -93,6 +94,21 @@ namespace RedTheSettlers.UnitTest
         }
 
         /// <summary>
+        /// Player와 EnemyList에서 오브젝트를 받아온다.
+        /// </summary>
+        public void ReceiveEnemysAndPlayer(List<GameObject> enemys, GameObject player)
+        {
+            this.player = player;
+            enemyList = enemys;
+
+            this.player.GetComponent<BoardAI>().AITurnEndCallBack = PlayerDead;
+            for (int i = 0; i < enemyList.Count; i++)
+            {
+                enemyList[i].GetComponent<Enemy>().enemyDeadCallback = EnemyDead;
+            }
+        }
+
+        /// <summary>
         /// Test용 코드. SpawnHerdOfCattles()가 원본
         /// </summary>
         public void SpawnCattleTest()
@@ -103,18 +119,6 @@ namespace RedTheSettlers.UnitTest
             GameObject cowsTest = ObjectPoolManager.Instance.CowObject;
             cowsTest.transform.position = spawnPoint;
             cowsTest.transform.rotation = angle;
-        }
-
-        public void ReceiveEnemysAndPlayer(List<GameObject> enemys, GameObject player)
-        {
-            this.player = player;
-            enemyList = enemys;
-
-            //this.player.GetComponent<>() = new PlayerDeadCallback(PlayerDead);
-            for (int i = 0; i < enemyList.Count; i++)
-            {
-                enemyList[i].GetComponent<Enemy>().enemyDeadCallback = new EnemyDeadCallback(EnemyDead);
-            }
         }
     }
 }
