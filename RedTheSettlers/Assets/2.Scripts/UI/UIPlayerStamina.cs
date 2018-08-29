@@ -15,6 +15,11 @@ namespace RedTheSettlers.UI
         /// [중요] UI Manager 스크립트에서 각 상황에 맞게 처리 할 예정
         /// </summary>
 
+        private void OnEnable()
+        {
+            ChangeMove();
+        }
+
         [Header("Player's Current Move")]
         [SerializeField]
         private Text moveText;
@@ -29,15 +34,6 @@ namespace RedTheSettlers.UI
             moveText.text = currentMove.ToString();
 
             LogManager.Instance.UserDebug(LogColor.Olive, GetType().Name, "현재 Move : " + currentMove);
-        }
-
-        private void Start()
-        {
-            ChangeMove();
-        }
-
-        private void Update()
-        {
         }
     }
 }

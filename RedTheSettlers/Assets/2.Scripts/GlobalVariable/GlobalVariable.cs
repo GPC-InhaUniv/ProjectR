@@ -43,6 +43,16 @@ namespace RedTheSettlers.GameSystem
         Yes,
     }
 
+    public enum GameState
+    {
+        EventController,
+        ItemController,
+        PlayerTurn,
+        AI1Turn,
+        AI2Turn,
+        AI3Turn,
+    }
+
     public enum AssetBundleNumbers
     {
         Player,
