@@ -1,22 +1,23 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using RedTheSettlers.GameSystem;
-using System.Collections.Generic;
+using RedTheSettlers.Enemys;
+using RedTheSettlers.Users;
 
 namespace RedTheSettlers.UnitTest
 {
-    public delegate void BattleFinishCallback();
+    public delegate void BattleFinishCallback(bool isWin);
     public delegate void EnemyDeadCallback();
+    public delegate void PlayerDeadCallback();
 
     public class BattleControllerTest2 : MonoBehaviour
     {
-        private float cattleResawnTime = 5; // test용
-        //////   테스트용 변수 ////////////////
-
-        private List<GameObject> enemyList;
         private GameObject player;
+        private List<GameObject> enemyList;
         private GameTimer cattlesTimer;
 
-        //private float cattleResawnTime = 100; // second
+        private bool isWin;
+        private float cattleResawnTime = 20; // second
 
         private BattleFinishCallback _callback;
         public BattleFinishCallback Callback
@@ -25,37 +26,19 @@ namespace RedTheSettlers.UnitTest
             set { _callback = value; }
         }
 
-        private EnemyDeadCallback enemyDeadCallback;
-        public EnemyDeadCallback EnemyDeadCallback
+        public void BattleFlow(TileData tileInfo)
         {
-            get { return enemyDeadCallback; }
-            set { enemyDeadCallback = value; }
-        }
-
-        private void Start()
-        {
-            // 나중에 삭제
-            BattleFlow(ItemType.Cow);
-        }
-
-        // tileType : GameMAnager에서 어떤 타일인지 받아옴 
-        public void BattleFlow(ItemType tileType)
-        {
-            if (tileType == ItemType.Cow)
+            if (tileInfo.TileType == ItemType.Cow)
             {
                 LogManager.Instance.UserDebug(LogColor.Orange, GetType().ToString(), "Cow 타이머 시작");
 
                 cattlesTimer = GameTimeManager.Instance.PopTimer();
                 cattlesTimer.SetTimer(cattleResawnTime, true);
-                //cattlesTimer.Callback = new TimerCallback(SpawnHerdOfCattles);
-
-
-                cattlesTimer.Callback = new TimerCallback(SpawnCattleTest); // 테스트용
+                cattlesTimer.Callback = new TimerCallback(SpawnHerdOfCattles);
+                //cattlesTimer.Callback = new TimerCallback(SpawnCattleTest); // 테스트용
 
                 cattlesTimer.StartTimer();
             }
-
-            if (enemyList.Count == 0) BattleClear();
         }
 
         // 일정 시간마다 소 떼가 등장한다.
@@ -76,34 +59,53 @@ namespace RedTheSettlers.UnitTest
             cows.transform.rotation = angle;
         }
 
-        /// 적을 모두 쓰러트리면 전투가 종료된다. 
-        private void BattleClear()
+        private void ClearBattle()
         {
             LogManager.Instance.UserDebug(LogColor.Orange, GetType().ToString(), "전투 종료");
 
-            cattlesTimer.StopTimer();
-            GameTimeManager.Instance.PushTimer(cattlesTimer);
+            if (cattlesTimer != null)
+            {
+                cattlesTimer.StopTimer();
+                GameTimeManager.Instance.PushTimer(cattlesTimer);
+            }
 
-            // DataManager에 전투 결과 반영
-            // 데이터매니저에 어떤 정보를 넘겨줘야??
+            Callback(isWin);
         }
 
         private void EnemyDead()
         {
             if (enemyList.Count > 0)
             {
-                //aliveEnemyCount--;
-                //LogManager.Instance.UserDebug(LogColor.Orange, GetType().ToString(), "Enemy Dead! 남은 Enemy : " + aliveEnemyCount);
+                LogManager.Instance.UserDebug(LogColor.Orange, GetType().ToString(), "Enemy Dead!");
             }
             else // enemyList.Count == 0
             {
                 LogManager.Instance.UserDebug(LogColor.Orange, GetType().ToString(), "전투 승리!");
+                isWin = true;
+                ClearBattle();
             }
         }
 
         private void PlayerDead()
         {
             LogManager.Instance.UserDebug(LogColor.Orange, GetType().ToString(), "플레이어 사망!");
+            isWin = false;
+            ClearBattle();
+        }
+
+        /// <summary>
+        /// Player와 EnemyList에서 오브젝트를 받아온다.
+        /// </summary>
+        public void ReceiveEnemysAndPlayer(List<GameObject> enemys, GameObject player)
+        {
+            this.player = player;
+            enemyList = enemys;
+
+            this.player.GetComponent<BoardAI>().AITurnEndCallBack = PlayerDead;
+            for (int i = 0; i < enemyList.Count; i++)
+            {
+                enemyList[i].GetComponent<Enemy>().enemyDeadCallback = EnemyDead;
+            }
         }
 
         /// <summary>
@@ -118,12 +120,5 @@ namespace RedTheSettlers.UnitTest
             cowsTest.transform.position = spawnPoint;
             cowsTest.transform.rotation = angle;
         }
-
-        public void ReceiveEnemysAndPlayer(List<GameObject> enemys, GameObject player)
-        {
-            enemyList = enemys;
-            this.player = player;
-        }
-
     }
 }

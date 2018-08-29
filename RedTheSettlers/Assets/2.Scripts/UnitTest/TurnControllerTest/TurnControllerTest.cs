@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using RedTheSettlers.GameSystem;
 using RedTheSettlers.Users;
@@ -16,7 +15,7 @@ namespace RedTheSettlers.UnitTest
         /// <summary>
         /// 현재 턴 진행중인 플레이어 번호(0 ~ 3)
         /// </summary>
-        private int CurrentPlayerTurn = 0;
+        private int CurrentPlayerTurn;
         [SerializeField]
         private BoardAI[] AIs;
 
@@ -31,13 +30,14 @@ namespace RedTheSettlers.UnitTest
         {
             if (gameState == GameState.PlayerTurn)
             {
-                // 플레이어가 타일을 이동하고 전투를 시작하면 gameManager에서 battleFlow 호출
-                // 정확히는 diffcultyController가 끝나면 battleFlow 호출
+                CurrentPlayerTurn = 0;
+                // UI에서 플레이어가 타일을 이동하고 전투를 시작하면 gameManager에서 diffcultyController 호출
+                // diffcultyController가 끝나면 battleFlow 호출
             }
-            else
+            else // enum 3, 4, 5
             {
-                CurrentPlayerTurn = (gameState - GameState.AI1Turn + 1);
-                AIs[CurrentPlayerTurn].FindOptimizedPath();
+                CurrentPlayerTurn = (gameState - GameState.PlayerTurn);
+                AIs[CurrentPlayerTurn - 1].FindOptimizedPath();
                 Callback();
             }
         }
@@ -47,9 +47,9 @@ namespace RedTheSettlers.UnitTest
         /// </summary>
         public void SendGameLog()
         {
-            if (CurrentPlayerTurn >= 0) // ai 턴일때만 CurrentPlayerTurn 값이 0 이상
+            if (CurrentPlayerTurn >= 1) // ai 턴일때, CurrentPlayerTurn 값이 1 ~ 3
             {
-                Queue<string> messages = AIs[CurrentPlayerTurn].MessageQueue;
+                Queue<string> messages = AIs[CurrentPlayerTurn - 1].MessageQueue;
                 GameManager.Instance.SetGameLog(messages);
             }
         }
@@ -63,6 +63,9 @@ namespace RedTheSettlers.UnitTest
             }
         }
 
+        /// <summary>
+        /// UI에서 플레이어 턴을 종료할 때, Callback으로 게임 매니저에게 알리는 함수
+        /// </summary>
         public void OnClickTurnFinish()
         {
             Callback();
