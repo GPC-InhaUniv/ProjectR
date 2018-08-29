@@ -107,7 +107,7 @@ namespace RedTheSettlers.Enemys
             StopMovement();
         }
 
-        public abstract void SetStatus(int ItemNumber);
+        public abstract void SetStatus(int BattleLevel);
         public abstract void SetStatus(int HP, int Power, bool IsLastBoss);
 
         public virtual void ChangeState(EnemyStateType stateType)

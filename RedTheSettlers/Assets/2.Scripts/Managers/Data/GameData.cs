@@ -28,7 +28,7 @@ namespace RedTheSettlers.GameSystem
     {
         public ItemType TileType;
         public int LocationX;
-        public int LocationY;
+        public int LocationZ;
         public int TileLevel;
     }
 

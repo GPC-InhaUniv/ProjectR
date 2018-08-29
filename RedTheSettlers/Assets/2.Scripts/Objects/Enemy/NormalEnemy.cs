@@ -106,10 +106,10 @@ namespace RedTheSettlers.Enemys
         /// 일반 몹 전용 스텟 설정 메서드
         /// </summary>
         /// <param name="ItemNumber"></param>
-        public override void SetStatus(int ItemNumber)
+        public override void SetStatus(int BattleLevel)
         {
-            MaxHp = 10 + ItemNumber * 3;
-            Power = 2 + ItemNumber * 0.5f;
+            MaxHp = 10 + BattleLevel * 3;
+            Power = 2 + BattleLevel * 0.5f;
             CurrentHp = MaxHp;
         }
         public override void SetStatus(int HP, int Power, bool IsLastBoss) { }
