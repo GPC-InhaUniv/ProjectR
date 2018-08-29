@@ -59,7 +59,7 @@ namespace RedTheSettlers.GameSystem
 
         public void BulidBattleStage()
         {
-            StartCoroutine(difficultyController.EstablishBattleStage())
+            
         }
 
         private void BattleFinish()
