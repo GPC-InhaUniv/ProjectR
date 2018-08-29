@@ -17,19 +17,20 @@ namespace RedTheSettlers.GameSystem
         public GameData gameData = DataManager.Instance.GameData;
 
         public TurnControllerTest turnCtrl;
-        public EventControllerTest eventCtrl;
-        public ItemControllerTest itemCtrl;
+        public EventChecker eventCtrl;
+        public ItemDistributor itemCtrl;
         public TradeController tradeCtrl;
         public BattleControllerTest battleCtrl;
         public CameraController cameraCtrl;
+        public DifficultyController difficultyController;
         
         public GameState state = GameState.TurnController;
 
         private void Start()
         {
             turnCtrl.Callback = new TurnCallback(TurnFinish);
-            eventCtrl.Callback = new EventCallback(EventFinish);
-            itemCtrl.Callback = new ItemCallback(ItemFinish);
+            //eventCtrl.Callback = new EventCallback(EventFinish);
+            //itemCtrl.Callback = new ItemCallback(ItemFinish);
             tradeCtrl.Callback = new TradeCallback(TradeFinish);
             battleCtrl.Callback = new BattleCallback(BattleFinish);
 
@@ -54,6 +55,11 @@ namespace RedTheSettlers.GameSystem
                     break;
             }
             //GameFlow(turnCtrl.TurnFlow());
+        }
+
+        public void BulidBattleStage()
+        {
+            StartCoroutine(difficultyController.EstablishBattleStage())
         }
 
         private void BattleFinish()
@@ -184,7 +190,7 @@ namespace RedTheSettlers.GameSystem
         /// <returns></returns>
         public void GetClickedTile(BoardTile boardTile)
         {
-            UIManager.Instance.SendTileInfor(boardTile);
+            UIManager.Instance.SendTileInfo(boardTile);
         }
 
         /// <summary>
