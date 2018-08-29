@@ -9,7 +9,8 @@ namespace RedTheSettlers.UnitTest
         //////   테스트용 변수 ////////////////
 
         private GameTimer cattlesTimer;
- 
+
+        [SerializeField]
         private int aliveEnemyCount; // 어디에서 받아와야하지? 
         //private float cattleResawnTime = 100; // second
 
@@ -50,9 +51,7 @@ namespace RedTheSettlers.UnitTest
                 TileManager.Instance.BattleTileGrid[Random.Range(1, 14), Random.Range(1, 14)].transform.position.z + GlobalVariables.BattleAreaOriginCoord
             );
 
-            GameObject cattles = ObjectPoolManager.Instance.CowObject;
-            GameObject cows = Instantiate(cattles);
-
+            GameObject cows = ObjectPoolManager.Instance.CowObject;
             cows.transform.position = spawnPoint;
             cows.transform.rotation = angle;
         }
@@ -77,11 +76,9 @@ namespace RedTheSettlers.UnitTest
             Quaternion angle = Quaternion.Euler(0f, Random.Range(0, 360f), 0f);
             Vector3 spawnPoint = new Vector3(0, 0, 0);
 
-            GameObject cattles = ObjectPoolManager.Instance.CowObject;
-            GameObject cows = Instantiate(cattles);
-
-            cows.transform.position = spawnPoint;
-            cows.transform.rotation = angle;
+            GameObject cowsTest = ObjectPoolManager.Instance.CowObject;
+            cowsTest.transform.position = spawnPoint;
+            cowsTest.transform.rotation = angle;
         }
     }
 }
