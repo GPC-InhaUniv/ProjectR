@@ -78,7 +78,7 @@ namespace RedTheSettlers.Enemys
         public bool[] isAttackable;
 
         public GameTimer AITimer;
-        private EnemyDeadCallback enemyDeadCallback;
+        public EnemyDeadCallback enemyDeadCallback;
 
         private void Update()
         {
