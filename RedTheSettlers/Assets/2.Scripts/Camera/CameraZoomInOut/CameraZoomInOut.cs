@@ -10,7 +10,6 @@ namespace RedTheSettlers.GameSystem
     public abstract class CameraZoomInOut
     {
         public Camera camera;
-        public GameObject cameraObject;
         //public float zoomSpeed = 5.0f;
         //public float cameraFOV;
         
