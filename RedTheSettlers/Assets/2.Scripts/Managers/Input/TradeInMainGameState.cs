@@ -4,7 +4,7 @@
 /// 담당자 : 박상원
 /// 거래 화면 입력 부분
 /// </summary>
-public class TradeInMainStageState : MonoBehaviour,IInputState
+public class TradeInMainStageState : IInputState
 {
     private static GameObject[] tradeCards;
     private static GameObject[] cardAreas;

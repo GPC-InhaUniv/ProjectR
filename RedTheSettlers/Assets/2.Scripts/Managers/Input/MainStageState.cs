@@ -7,14 +7,13 @@ using UnityEngine;
 /// State 패턴 구현부
 /// Board Game 부분 버튼 기능 및 카메라 이동
 /// </summary>
-public class MainStageState : MonoBehaviour, IInputState
+public class MainStageState : IInputState
 {
     [SerializeField]
     private Camera boardCamera;
     private Vector3 firstClick;
     private Vector3 dragPosition;
     private Vector3 dragDirection;
-    private Coordinate saveCoordinate;
     private BoardTile tileInformation;
     private float cameraZoom;
     private float touchDistance;

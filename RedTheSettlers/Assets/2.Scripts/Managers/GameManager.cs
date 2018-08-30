@@ -29,7 +29,6 @@ namespace RedTheSettlers.GameSystem
 
         public GameState state = GameState.EventController;
         private Coroutine coroutineMove;
-        private Coroutine coroutineAttack;
 
         private BoardTile tileType;
 

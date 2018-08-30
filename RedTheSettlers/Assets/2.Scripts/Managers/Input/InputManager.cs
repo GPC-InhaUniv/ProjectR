@@ -25,13 +25,11 @@ namespace RedTheSettlers.GameSystem
     {
         private IInputState inputState;
 
-        private Vector3 ClickPointDistance;
         [SerializeField, Range(1, 200)]
         private float moveSpeed;
         [SerializeField, Range(1, 100)]
         private float zoomSpeed;
 
-        private Vector3 moveDirection;
         private Vector3 downClickPoint;
         private Vector3 upClickPoint;
         private bool enableInputBattleStage = false;
@@ -45,8 +43,7 @@ namespace RedTheSettlers.GameSystem
 
         private void Start()
         {
-            inputState = new MainStageState();//gameObject.AddComponent<MainStageState>();//MainStageState();
-            LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, "현재 상태 : " + inputState);
+            TypeState(StateType.MainStageState);
         }
 
         private void Update()
@@ -97,7 +94,7 @@ namespace RedTheSettlers.GameSystem
                 {
                     inputState.MovingPlayer();
                 }
-                // 우클릭 기본 공격
+                // 스페이스바 기본 공격
                 if (Input.GetKeyDown(KeyCode.Space))
                 {
                     inputState.BattleAttack();
