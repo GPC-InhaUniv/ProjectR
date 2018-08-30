@@ -20,12 +20,7 @@ namespace RedTheSettlers.GameSystem
         private State currentState;
         public State CurrentState { get { return currentState; } }
 
-        //public StageStateMachine()
-        //{
-        //    //currentState = new TitleState();
-        //    //Enter(StageType.TitleScene);
-        //    Debug.Log("현재 상태" + currentState);
-        //}
+       
 
         public void ContinueGame(bool canLoadData)
         {

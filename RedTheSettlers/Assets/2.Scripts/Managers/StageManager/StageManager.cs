@@ -9,7 +9,7 @@ using UnityEngine.SceneManagement;
 /// 수정시 간략 설명과 수정 날짜 
 /// {
 ///   Ex : 함수명 변경 18/07/15
-///   
+///   Client 부분 
 ///   
 /// }
 /// </summary>
@@ -45,7 +45,6 @@ namespace RedTheSettlers.GameSystem
         private void Start()
         {
             ChangeState(StageType.TitleScene);
-            //SoundManager.Instance.ChangeBGM("BGM_Title", true);
         }
 
 
@@ -58,22 +57,17 @@ namespace RedTheSettlers.GameSystem
 
         public void ChangeState(StageType stageType)
         {
-            Debug.Log("체인지드스테이트" + stageType);
             stageStateMachine.Enter(stageType);
         }
 
         public void ChangeStage(StageType stageType)
         {
-            Debug.Log("ChangeStage" + stageType);
             StageStateMachine.Exit(stageType);
         }
 
 
         public IEnumerator ChangeStageLoad(StageType stageType)
         {
-            Debug.Log("체인지스테이트로드" + stageType);
-
-          
             AsyncOperation asyncOperationLoad = SceneManager.LoadSceneAsync(stageType.ToString());
 
             asyncOperationLoad.allowSceneActivation = false;
@@ -98,7 +92,7 @@ namespace RedTheSettlers.GameSystem
                 if (asyncOperationMain.progress >= 0.9f)
                     asyncOperationMain.allowSceneActivation = true;
             }
-            
+
             Debug.Log("boardScene진입하는 ChangeState(StageType.BoardScene);");
             ChangeState(StageType.BoardScene);
         }

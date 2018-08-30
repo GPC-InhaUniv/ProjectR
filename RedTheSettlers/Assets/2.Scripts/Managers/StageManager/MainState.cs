@@ -19,7 +19,6 @@ namespace RedTheSettlers.GameSystem
     {
         public override void ContinueGame(bool canLoadData)
         {
-            //Debug.Log("MainState ContinueGame");
             //TileManager.Instance.LoadTileGrid();
         }
 

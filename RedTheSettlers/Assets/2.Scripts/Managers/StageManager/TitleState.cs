@@ -16,7 +16,6 @@ namespace RedTheSettlers.GameSystem
 {
     class TitleState : State
     {
-      
 
         public override void ContinueGame(bool canLoadData)
         {
@@ -36,7 +35,6 @@ namespace RedTheSettlers.GameSystem
 
         public override void Exit(StageType stageType)
         {
-            //Debug.Log("타이틀스테이트 Exit");
             //StageManager.Instance.StartCoroutine(StageManager.Instance.ChangeStageLoad(StageType.LoadingScene));
         }
     }
