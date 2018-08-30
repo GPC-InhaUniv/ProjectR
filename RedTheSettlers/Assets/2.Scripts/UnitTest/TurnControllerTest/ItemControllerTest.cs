@@ -19,7 +19,7 @@ namespace RedTheSettlers.UnitTest
             set { _callback = value; }
         }
 
-        public IEnumerator ItemFlow()
+        public IEnumerator ItemDistributeFlow()
         {
             Callback();
             yield return new WaitForSeconds(3);

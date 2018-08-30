@@ -14,7 +14,7 @@ namespace RedTheSettlers.GameSystem
             set { _callback = value; }
         }
 
-        public void ItemFlow()
+        public void ItemDistributeFlow()
         {
             ChangeWeather();
 

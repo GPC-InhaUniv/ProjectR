@@ -98,7 +98,7 @@ namespace RedTheSettlers.GameSystem
                     break;
 
                 case GameState.ItemController:
-                    itemCtrl.ItemFlow();
+                    itemCtrl.ItemDistributeFlow();
                     break;
 
                 default:

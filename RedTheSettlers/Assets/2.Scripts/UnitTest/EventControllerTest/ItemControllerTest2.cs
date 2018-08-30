@@ -14,7 +14,7 @@ namespace RedTheSettlers.UnitTest
         WeatherChange weather;
         GameData datas = DataManager.Instance.GameData;
 
-        public IEnumerator ItemFlow()
+        public IEnumerator ItemDistributeFlow()
         {
             ChangeWeather();
             weather.GetItems();
