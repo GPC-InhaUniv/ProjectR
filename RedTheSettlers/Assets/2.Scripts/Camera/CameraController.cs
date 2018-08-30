@@ -48,7 +48,7 @@ namespace RedTheSettlers.GameSystem
         //float ZoomValue;
         //Vector3 vector3; //배틀 카메라를 사용할때 비어있는 v3를 전달하기위해 선언함
 
-        private void Start()
+        public void InitializeCamera()
         {
             cloudAnimator = GameObject.FindWithTag("UICamera").GetComponentInChildren<Animator>();
             BoardGameCamera = GameObject.FindWithTag("BoardCamera").GetComponent<GameCamera>();
@@ -92,7 +92,7 @@ namespace RedTheSettlers.GameSystem
         /// </summary>
         private void FixedUpdate()
         {
-            if (ActiveCamera == BattleGameCamera)
+            if (ActiveCamera == BattleGameCamera && ActiveCamera != null && BattleGameCamera != null)
             {
                 Debug.Log(ActiveCamera + " " + playerVector3);
                 if (playerVector3 == Vector3.zero)

@@ -41,7 +41,7 @@ namespace RedTheSettlers.GameSystem
 
         private IEnumerator SendBattleLevel()
         {
-            TileManager.Instance.CreateBattleTileGrid(tileType, (int)battlelevel);
+            TileManager.Instance.InitializeBattleTileSet(tileType, (int)battlelevel);
             yield return null;
         }      
         

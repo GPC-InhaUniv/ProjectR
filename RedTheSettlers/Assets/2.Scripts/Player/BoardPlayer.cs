@@ -13,6 +13,7 @@ namespace RedTheSettlers.Users
         private int weaponLevel;
         private int shieldLevel;
         public List<Skill> SkillList = new List<Skill>(3);
+        public TileOwner tileOwner;
 
         public void InitializePlayerData(int weaponLevel, int shieldLevel, List<Skill> skillList)
         {
@@ -42,7 +43,37 @@ namespace RedTheSettlers.Users
 
         public void MoveToTargetTile(BoardTile targetTile)
         {
-            PossessTile(targetTile);
+            PossessingTile.Add(targetTile);
+
+            inventory[(int)(targetTile.TileType)].Count++;
+
+            transform.position = new Vector3(targetTile.transform.position.x, transform.position.y, targetTile.transform.position.z);
+
+            int[] coordX = { 1, 0, -1, -1, 0, 1 };
+            int[] coordZ = { 0, 1, 1, 0, -1, -1 };
+
+            for (int i = 0; i < 6; i++)
+            {
+                BoardTile targetBoardTile;
+                if (TileManager.Instance.BoardTileGrid[targetTile.TileCoordinate.x + coordX[i], targetTile.TileCoordinate.z + coordZ[i]] != null)
+                {
+                    targetBoardTile = TileManager.Instance.BoardTileGrid[targetTile.TileCoordinate.x + coordX[i], targetTile.TileCoordinate.z + coordZ[i]].GetComponent<BoardTile>();
+                }
+                else
+                {
+                    continue;
+                }
+
+                if (targetBoardTile.tileOwner == tileOwner)
+                {
+                    targetTile.TileBorder[i].SetActive(false);
+                    targetBoardTile.TileBorder[(i + 3) % 6].SetActive(false);
+                }
+                else
+                {
+                    targetTile.TileBorder[i].SetActive(true);
+                }
+            }
         }
 
         public void PossessTile(BoardTile targetTile)

@@ -45,7 +45,7 @@ namespace RedTheSettlers.GameSystem
 
         private void Start()
         {
-            inputState = new MainStageState();
+            inputState = gameObject.AddComponent<MainStageState>();//MainStageState();
         }
 
         private void Update()

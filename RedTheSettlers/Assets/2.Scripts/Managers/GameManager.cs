@@ -44,6 +44,11 @@ namespace RedTheSettlers.GameSystem
             DontDestroyOnLoad(gameObject);
         }
 
+        private void OnEnable()
+        {
+            cameraCtrl.InitializeCamera();
+        }
+
         private void Start()
         {
             turnCtrl.Callback = new FlowFinishCallback(GameFlowFinish);
@@ -51,7 +56,7 @@ namespace RedTheSettlers.GameSystem
             itemCtrl.Callback = new FlowFinishCallback(GameFlowFinish);
             battleCtrl.Callback = new BattleFinishCallback(BattleFinish);
             difficultyController.Callback = new BuildBattleTileCallback(BulidBattleStageFinish);
-            cameraCtrl = new CameraController();
+            InitializeGame();
         }
 
         public void InitializeGame()
@@ -59,12 +64,25 @@ namespace RedTheSettlers.GameSystem
             //처음시작일때
             if (gameData.InGameData.TurnCount == 0)
             {
-                TileManager.Instance.CreateBoardTileGrid();
+                TileManager.Instance.InitializeBoardTileSet();
             }
             //이어하기일때
             else
             {
                 TileManager.Instance.LoadTileGrid();
+            }
+            for(int i = 0; i < Players.Length; i++)
+            {
+                if (Players[i] is BoardPlayer)
+                {
+                    (Players[i] as BoardPlayer).MoveToTargetTile(TileManager.Instance.BoardTileGrid[3, 5].GetComponent<BoardTile>());
+                    Instantiate(Players[i], TileManager.Instance.BoardTileGrid[3, 5].transform.position + new Vector3(0, 1f, 0), Quaternion.identity);
+                }
+                else
+                {
+                    (Players[i] as BoardAI).PossessTile(TileManager.Instance.BoardTileGrid[i + 4, 4 - i].GetComponent<BoardTile>());
+                    Instantiate(Players[i], TileManager.Instance.BoardTileGrid[i + 4, 4 - i].transform.position + new Vector3(0, 1f, 0), Quaternion.identity);
+                }
             }
         }
 

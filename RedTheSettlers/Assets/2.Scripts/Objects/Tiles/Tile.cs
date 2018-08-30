@@ -31,7 +31,7 @@ namespace RedTheSettlers.Tiles
         [HideInInspector]
         public int TileLevel;
 
-        private void Start()
+        private void Awake()
         {
             for (int i = 0; i < tileTypeAmount; i++)
             {

@@ -10,18 +10,16 @@ namespace RedTheSettlers.Users
     {
         private PriorityQueue<BoardTile> tileQueue;
         private IAIStrategy myStrategy;
-        public Queue<string> MessageQueue;
+        public Queue<string> MessageQueue = new Queue<string>(20);
+        public TileOwner tileOwner;
 
         public delegate void AITurnEndDelegate();
         public AITurnEndDelegate AITurnEndCallBack;
 
-        private IEnumerator Start()
+        private void Awake()
         {
             myStrategy = gameObject.AddComponent<SoftStrategy>();
             tileQueue = new PriorityQueue<BoardTile>();
-            MessageQueue = new Queue<string>();
-
-            yield return null;
         }
         
         public void FindOptimizedPath()
@@ -51,7 +49,6 @@ namespace RedTheSettlers.Users
 
         public void PossessTile(BoardTile boardTile)
         {
-            boardTile.tileOwner = TileOwner.AI1;
             PossessingTile.Add(boardTile);
 
             inventory[(int)(boardTile.TileType)].Count++;
@@ -63,9 +60,17 @@ namespace RedTheSettlers.Users
 
             for (int i = 0; i < 6; i++)
             {
-                BoardTile targetBoardTile = TileManager.Instance.BoardTileGrid[boardTile.TileCoordinate.x + coordX[i], boardTile.TileCoordinate.z + coordZ[i]].GetComponent<BoardTile>();
+                BoardTile targetBoardTile;
+                if (TileManager.Instance.BoardTileGrid[boardTile.TileCoordinate.x + coordX[i], boardTile.TileCoordinate.z + coordZ[i]] != null)
+                {
+                    targetBoardTile = TileManager.Instance.BoardTileGrid[boardTile.TileCoordinate.x + coordX[i], boardTile.TileCoordinate.z + coordZ[i]].GetComponent<BoardTile>();
+                }
+                else
+                {
+                    continue;
+                }
 
-                if (targetBoardTile.tileOwner == TileOwner.AI1)
+                if (targetBoardTile.tileOwner == tileOwner)
                 {
                     boardTile.TileBorder[i].SetActive(false);
                     targetBoardTile.TileBorder[(i + 3) % 6].SetActive(false);

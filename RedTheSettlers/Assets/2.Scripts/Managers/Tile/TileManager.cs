@@ -17,10 +17,16 @@ namespace RedTheSettlers.GameSystem
             BattleTileGrid = new GameObject[GlobalVariables.BattleTileGridSize, GlobalVariables.BattleTileGridSize];
         }
 
-        public void InitializeTileSet()
+        public void InitializeBoardTileSet()
         {
             CreateBoardTileGrid();
             ShowBoardTile();
+        }
+
+        public void InitializeBattleTileSet(ItemType itemType, int difficulty)
+        {
+            CreateBattleTileGrid(itemType, difficulty);
+            ShowBattleTile();
         }
         
         public void LoadTileGrid()
@@ -80,6 +86,7 @@ namespace RedTheSettlers.GameSystem
                     }
                 }
             }
+            ShowBoardTile();
         }
 
         public void CreateBoardTileGrid()
