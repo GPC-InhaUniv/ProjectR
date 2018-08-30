@@ -5,13 +5,18 @@ namespace RedTheSettlers.GameSystem
     public class ItemDistributor : MonoBehaviour
     {
         private EventWeathers weather;
-        private Weather weatherEvnet = (Weather)GameManager.Instance.gameData.InGameData.Weather;
+        private Weather weatherEvnet;
 
         private FlowFinishCallback _callback;
         public FlowFinishCallback Callback
         {
             get { return _callback; }
             set { _callback = value; }
+        }
+
+        private void Start()
+        {
+            weatherEvnet = (Weather)GameManager.Instance.gameData.InGameData.Weather;
         }
 
         public void ItemDistributeFlow()
