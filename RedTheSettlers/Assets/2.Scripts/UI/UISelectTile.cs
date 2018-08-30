@@ -211,6 +211,7 @@ namespace RedTheSettlers.UI
 
         public void SetSelectTileInfo(BoardTile selectionTile)
         {
+            Debug.Log("line 216");
             boardTile = selectionTile;
             selectTileItemLevel = selectionTile.TileLevel;
         }

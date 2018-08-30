@@ -12,7 +12,13 @@ namespace RedTheSettlers.UnitTest
     /// </summary>
     public class EventControllerTest2 : MonoBehaviour
     {
-        GameData datas = DataManager.Instance.GameData;
+        GameData datas;
+
+        private void Start()
+        {
+            datas = DataManager.Instance.GameData;
+
+        }
 
         public void EventFlow()
         {
