@@ -45,7 +45,8 @@ namespace RedTheSettlers.GameSystem
 
         private void Start()
         {
-            inputState = gameObject.AddComponent<MainStageState>();//MainStageState();
+            inputState = new MainStageState();//gameObject.AddComponent<MainStageState>();//MainStageState();
+            LogManager.Instance.UserDebug(LogColor.Blue, GetType().Name, "현재 상태 : " + inputState);
         }
 
         private void Update()
