@@ -342,6 +342,7 @@ namespace RedTheSettlers.GameSystem
         /// <param name="direction"></param>
         public void PlayerMove(Vector3 direction)
         {
+            Vector3 targetPosition = direction + new Vector3(0, battleCtrl.Player.transform.position.y, 0);
             if (coroutineMove == null)
             {
                 coroutineMove = StartCoroutine(battleCtrl.Player.MoveToTargetPostion(direction));
