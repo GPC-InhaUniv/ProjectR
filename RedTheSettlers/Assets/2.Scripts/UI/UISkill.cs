@@ -15,14 +15,18 @@ namespace RedTheSettlers.UI
     public class UISkill : MonoBehaviour
     {
         [Serializable]
-        struct SkillIcons
+        struct Icons
         {
-            public String InspectorName;
-            public Button SlotIcon;
-            public Button SkillIcon;
+            public Sprite  SkillImage;
+            public Button SkillButton;
+           
+           
         }
         [SerializeField]
-        private SkillIcons[] skillIcons;
+        private Icons[] icons;
+
+        [SerializeField]
+        private Button[] SlotButton;
 
         [SerializeField]
         private GameObject alertPopup;
@@ -35,39 +39,33 @@ namespace RedTheSettlers.UI
 
         private void Start()
         {
-            if (skillIcons.Length > GlobalVariables.MaxSkillNumber)
+            if (icons.Length > GlobalVariables.MaxSkillNumber)
             {
                 LogManager.Instance.UserDebug(LogColor.Red, GetType().Name, "작업자님 인스펙터 창을 확인해주세요. 스킬 아이콘의 개수가 4개를 초과했습니다.");
             }
         }
 
-        BoardPlayer boardPlayer;
-
-        public void AddSkill(int buttonIndex)
+        
+        public void OnClickedSkillButton(int index)
         {
-            if (skillSlotNumber < LIMITSLOT)
-            {
-                skillIcons[buttonIndex].SlotIcon.gameObject.SetActive(true);
-                skillIcons[buttonIndex].SkillIcon.interactable = false;
-                //boardPlayer.SetSkillSlot((SkillType)buttonIndex, skillSlotNumber);
-                Debug.Log("버튼인덱스"+ buttonIndex + "스킬슬롯넘버"+ skillSlotNumber);
-                skillSlotNumber++;
-            }
+            SlotButton[skillSlotNumber].image.sprite = icons[index].SkillImage;
+            icons[index].SkillButton.interactable = false;
+            skillSlotNumber++;
         }
 
-        public void RemoveSkill(int buttonIndex)
+        public void OnClickedSlotButton(int index)
         {
-            skillIcons[buttonIndex].SlotIcon.gameObject.SetActive(false);
-            skillIcons[buttonIndex].SkillIcon.interactable = true;
+            SlotButton[index].image.sprite = null;
+            //어떻게 해야 2번 이후의 아이콘의 인터렉테이블을 트루 시킬 수 있을까?
             skillSlotNumber--;
         }
 
         public void CloseSkillSlot()
         {
             int slotCount = 0;
-            for (int i = 0; i < skillIcons.Length; i++)
+            for (int i = 0; i < icons.Length; i++)
             {
-                if (skillIcons[i].SlotIcon.gameObject.activeSelf == true)
+                if (SlotButton[i].gameObject.activeSelf == true)
                 {
                     slotCount++;
                     if (slotCount < 3)
