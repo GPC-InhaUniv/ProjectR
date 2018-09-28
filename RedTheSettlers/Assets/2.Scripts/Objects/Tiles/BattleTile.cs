@@ -16,5 +16,7 @@ namespace RedTheSettlers.Tiles
         public int g;
         [HideInInspector]
         public int h;
+        [HideInInspector]
+        public bool isWall;
     }
 }

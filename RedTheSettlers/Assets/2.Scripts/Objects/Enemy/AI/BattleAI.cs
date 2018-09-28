@@ -1,17 +1,14 @@
 ﻿using UnityEngine;
-using RedTheSettlers.Tiles;
-using System.Collections;
 using System.Collections.Generic;
+using RedTheSettlers.Tiles;
 using RedTheSettlers.GameSystem;
-using RedTheSettlers.Users;
 
 namespace RedTheSettlers.Enemys
 {
-    /// <summary>
-    /// enemy의 행동 규칙이 정의된 클래스
-    /// </summary>
     public class BattleAI
     {
+        public GameTimer pathFindTimer;
+
         private Enemy enemy;
         private BattleTile startTile;
         private BattleTile endTile;
@@ -19,7 +16,10 @@ namespace RedTheSettlers.Enemys
         private List<BattleTile> closedSet;
         private Stack<BattleTile> pathTile;
         private BattleTile currnetTile;
-        public GameTimer pathFindTimer;
+        private Vector3 targetPosition;
+        private Vector3 enemyPosition;
+        private float targetDistance;
+
         private const float pathFindTimerTick = 1.0f;
         private const float longAttackLength = 3.0f;
         private const float shortAttackLength = 1.0f;
@@ -30,8 +30,11 @@ namespace RedTheSettlers.Enemys
         public BattleAI(Enemy enemy)
         {
             this.enemy = enemy;
+            enemyPosition = enemy.transform.position;
+
             openSet = new List<BattleTile>();
             closedSet = new List<BattleTile>();
+
             pathFindTimer = GameTimeManager.Instance.PopTimer();
             pathFindTimer.SetTimer(pathFindTimerTick, true);
             pathFindTimer.Callback = new TimerCallback(FindTartget);
@@ -40,29 +43,39 @@ namespace RedTheSettlers.Enemys
 
         public void AIUpdate()
         {
-            if (enemy.TargetObject != null && Vector3.Distance(enemy.TargetObject.transform.position, enemy.transform.position) < shortAttackLength)
+            if(enemy.TargetObject != null)
             {
-                if (enemy is BossEnemy && enemy.isAttackable[1])
+                targetPosition = enemy.TargetObject.transform.position;
+                targetDistance = Vector3.Distance(targetPosition, enemyPosition);
+
+                if (targetDistance < longAttackLength)
                 {
-                    enemy.ChangeState(EnemyStateType.Attack2);
-                }
-                else if (enemy is NormalEnemy && enemy.isAttackable[0])
-                {
-                    enemy.ChangeState(EnemyStateType.Attack1);
-                }
-                pathTile = null;
-            }
-            else if (enemy.TargetObject != null && Vector3.Distance(enemy.TargetObject.transform.position, enemy.transform.position) < longAttackLength)
-            {
-                if (enemy is BossEnemy && enemy.isAttackable[0])
-                {
-                    enemy.ChangeState(EnemyStateType.Attack1);
-                }
-                else if (enemy is NormalEnemy && enemy.isAttackable[1])
-                {
-                    enemy.ChangeState(EnemyStateType.Attack2);
-                }
-                pathTile = null;
+                    pathTile = null;
+
+                    if (enemy is BossEnemy)
+                    {
+                        if (enemy.isAttackable[1])
+                        {
+                            enemy.ChangeState(EnemyStateType.Attack2);
+                        }
+                        else if (targetDistance < shortAttackLength && enemy.isAttackable[0])
+                        {
+                            enemy.ChangeState(EnemyStateType.Attack1);
+                        }
+                    }
+
+                    else if (enemy is NormalEnemy)
+                    {
+                        if (enemy.isAttackable[0])
+                        {
+                            enemy.ChangeState(EnemyStateType.Attack1);
+                        }
+                        else if (targetDistance < shortAttackLength && enemy.isAttackable[1])
+                        {
+                            enemy.ChangeState(EnemyStateType.Attack2);
+                        }
+                    }
+                } 
             }
         }
 
@@ -74,17 +87,16 @@ namespace RedTheSettlers.Enemys
 
         private void FindTartget()
         {
-            currnetTile = enemy.GetCurrentTile(enemy.transform.position);
+            currnetTile = enemy.GetCurrentTile(enemyPosition);
             if (currnetTile == null)
             {
                 return;
             }
 
-            //타겟은 있는데 경로가 없는 경우
             if (enemy.TargetObject != null && pathTile == null)
             {
-                BattleTile destinationTile = enemy.GetCurrentTile(enemy.TargetObject.transform.position);
-                if (Vector3.Distance(enemy.TargetObject.transform.position, enemy.transform.position) < longAttackLength * 2f)
+                BattleTile destinationTile = enemy.GetCurrentTile(targetPosition);
+                if (targetDistance < longAttackLength * 2f)
                 {
                     Debug.Log("타겟은 있는데 경로가 없는 경우의 이동");
                     MoveChar(destinationTile);
@@ -95,7 +107,6 @@ namespace RedTheSettlers.Enemys
                     PathFinder(destinationTile);
                 }
             }
-            //타겟이 있고, 경로도 있는 경우
             else if (enemy.TargetObject != null && pathTile != null)
             {
                 if (enemy.currentState is Idle && pathTile.Count > 0)
@@ -109,7 +120,6 @@ namespace RedTheSettlers.Enemys
                     pathTile = null;
                 }
             }
-            //타겟이 없으면 주변을 배회한다.
             else if (enemy.TargetObject == null)
             {
                 int randomCoord = Random.Range(0, coordX.Length);
@@ -127,7 +137,7 @@ namespace RedTheSettlers.Enemys
             openSet.Clear();
             closedSet.Clear();
 
-            currnetTile = enemy.GetCurrentTile(enemy.transform.position);
+            currnetTile = enemy.GetCurrentTile(enemyPosition);
             startTile = currnetTile;
             startTile.ParentTileXCoord = currnetTile.TileCoordinate.x;
             startTile.ParentTileZCoord = currnetTile.TileCoordinate.z;
@@ -143,8 +153,16 @@ namespace RedTheSettlers.Enemys
 
                     if (battleTile != null)
                     {
-                        battleTile.g = Mathf.Abs(startTile.TileCoordinate.x - battleTile.TileCoordinate.x) + Mathf.Abs(startTile.TileCoordinate.z - battleTile.TileCoordinate.z);
-                        battleTile.h = Mathf.Abs(battleTile.TileCoordinate.x - endTile.TileCoordinate.x) + Mathf.Abs(battleTile.TileCoordinate.z - endTile.TileCoordinate.z);
+                        if (battleTile.isWall)
+                        {
+                            closedSet.Add(battleTile);
+                            continue;
+                        }
+
+                        battleTile.g = Mathf.Abs(startTile.TileCoordinate.x - battleTile.TileCoordinate.x) 
+                            + Mathf.Abs(startTile.TileCoordinate.z - battleTile.TileCoordinate.z);
+                        battleTile.h = Mathf.Abs(battleTile.TileCoordinate.x - endTile.TileCoordinate.x) 
+                            + Mathf.Abs(battleTile.TileCoordinate.z - endTile.TileCoordinate.z);
 
                         int tempG = 0;
                         if (battleTile.g < currnetTile.g)
@@ -180,23 +198,24 @@ namespace RedTheSettlers.Enemys
                 else return;
             }
             while (currnetTile != endTile);
+
             pathTile = CreateParh(startTile);
-            return;
         } 
         
         private Stack<BattleTile> CreateParh(BattleTile startTile)
         {
             Stack<BattleTile> tempPathTile = new Stack<BattleTile>();
             tempPathTile.Push(currnetTile);
-            BattleTile parent = TileManager.Instance.BattleTileGrid[currnetTile.ParentTileXCoord, currnetTile.ParentTileZCoord].GetComponent<BattleTile>();
+            BattleTile parent = 
+                TileManager.Instance.BattleTileGrid[currnetTile.ParentTileXCoord, 
+                    currnetTile.ParentTileZCoord].GetComponent<BattleTile>();
 
             while (parent != startTile)
             {
                 tempPathTile.Push(parent);
-                parent = TileManager.Instance.BattleTileGrid[parent.ParentTileXCoord, parent.ParentTileZCoord].GetComponent<BattleTile>();
+                parent = TileManager.Instance.BattleTileGrid[parent.ParentTileXCoord, 
+                    parent.ParentTileZCoord].GetComponent<BattleTile>();
             }
-            //tempPathTile.Push(startTile);
-            //MoveChar(tempPathTile.Pop());
 
             return tempPathTile;
         }
@@ -204,11 +223,8 @@ namespace RedTheSettlers.Enemys
         /// <summary>
         /// 인접타일 검색(매개변수로 지정된 1개 타일만 반환)
         /// </summary>
-        /// <param name="coordNum"></param>
-        /// <returns></returns>
         private BattleTile SearchAdjacentTiles(int coordNum)
         {
-            BattleTile battleTile;
             int XPos = currnetTile.TileCoordinate.x + coordX[coordNum];
             int ZPos = currnetTile.TileCoordinate.z + coordZ[coordNum];
 
@@ -217,16 +233,14 @@ namespace RedTheSettlers.Enemys
             {
                 if (TileManager.Instance.BattleTileGrid[XPos, ZPos] != null)
                 {
-                    battleTile = TileManager.Instance.BattleTileGrid[XPos, ZPos].GetComponent<BattleTile>();
+                    return TileManager.Instance.BattleTileGrid[XPos, ZPos].GetComponent<BattleTile>();
                 }
                 else
                 {
-                    battleTile = null;
+                    return null;
                 }
             }
-            else battleTile = null;
-
-            return battleTile;
+            else return null;
         }
     }
 }
